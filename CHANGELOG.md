@@ -1,5 +1,11 @@
 # Changelog
 
+## [V1.1] - 2026-10-30 · DOI: 10.5281/zenodo.23823819
+
+- **Publicació oficial a Zenodo:** primera versió pública amb DOI permanent.
+- Repositori: https://github.com/jmonta23-okf/okf-starter-kit
+- 23 nodes OKF validats amb 0 errors · 26 commits de desenvolupament (historial complet al README).
+
 Tots els canvis notables d'aquest projecte es documenten en aquest fitxer.
 
 El format es basa en [Keep a Changelog](https://keepachangelog.com/ca/1.1.0/)

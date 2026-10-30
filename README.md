@@ -6,6 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-blue.svg)](LICENSE.md)
 [![Status: V1.1-Esborrany](https://img.shields.io/badge/Status-V1.1--Esborrany-yellow.svg)](CHANGELOG.md)
+[![DOI](https://zenodo.org/badge/1440306517.svg)](https://doi.org/10.5281/zenodo.23823818)
 [![Language: Català](https://img.shields.io/badge/Language-Catal%C3%A0-red.svg)](#)
 
 ---
@@ -170,6 +171,33 @@ Segueix el tutorial pas a pas a la [Guia d'inici ràpid](00-documentacio/04-inic
 El projecte és una aposta per la **sobirania professional docent**:
 - El codi de les eines i el validador té llicència **MIT** (fes-ne el que vulguis amb total llibertat).
 - Les plantilles, documentació i continguts curriculars tenen llicència **Creative Commons Reconeixement-CompartirIgual 4.0 (CC BY-SA 4.0)**.
+
+---
+
+## Com citar aquest projecte
+
+Si fas servir aquest kit en un treball acadèmic, una publicació o un article, pots citar-lo així:
+
+**APA (7a edició):**
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+
+**BibTeX:**
+```bibtex
+@software{montanya2026okf,
+  author       = {Montañà Piqué, Josep},
+  title        = {OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular},
+  year         = {2026},
+  version      = {V1.1},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.23823819},
+  url          = {https://doi.org/10.5281/zenodo.23823819}
+}
+```
+
+**Text pla (per a presentacions o documents informals):**
+> Montañà Piqué, Josep. *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular*. V1.1, 2026. Zenodo. https://doi.org/10.5281/zenodo.23823819
+
+**Per citar el projecte en general** (sense versió específica), fes servir el concept DOI: https://doi.org/10.5281/zenodo.23823818
 
 ---
 
