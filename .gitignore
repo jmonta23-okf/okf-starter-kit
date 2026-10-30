@@ -1,0 +1,49 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporals
+*.bak
+*.tmp
+*.log
+*.orig
+*.rej
+
+# Claus i secrets
+.env
+.env.*
+*.key
+*.pem
+*.p12
+
+# Informes de validació (artefactes de cada execució, no versionar)
+informe_validacio_*.md
+
+# Excepcions: els informes d'exemple sí que es versionen
+!05-exemples-minims/**/informe_validacio_*.md
+# Artefactes del validador (informes, scripts auxiliars)
+/EINES/
