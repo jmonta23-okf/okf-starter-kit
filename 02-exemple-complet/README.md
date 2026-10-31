@@ -1,9 +1,20 @@
+# `02-exemple-complet/README.md` — fitxer complet amb el DOI afegit
+
+**Instruccions:** substitueix **tot** el contingut actual de `02-exemple-complet/README.md` per aquest. Els canvis principals:
+- **DOI a la capçalera** (just després de la introducció).
+- **Actualització del validador** a la secció 4: `v1.0.1` → `v1.0.2` (és la versió actual).
+- **DOI a la secció 6** (Llicència).
+- **Nota menor:** he afegit una línia a la secció 4 explicant que el validador ara exclou `00-documentacio/` i `06-comunitat/`, per si algú es pregunta per què el recompte de nodes és diferent.
+
+```markdown
 # MP 1519 — Exemple Complet de Desplegament OKF
 
 > **Mòdul Professional 1519: Sistemes d'informació i classificació sanitaris**  
 > *Cicle Formatiu de Grau Superior en Documentació i Administració Sanitàries (SAD) — Marc LOE*
 
-Aquest directori conté el **vaixell insígnia d'OKF Starter Kit**: un mòdul professional complet de 99 hores lectives desenvolupat de manera exhaustiva en un graf de text pla i metadades YAML. 
+Aquest directori conté el **vaixell insígnia d'OKF Starter Kit**: un mòdul professional complet de 99 hores lectives desenvolupat de manera exhaustiva en un graf de text pla i metadades YAML.
+
+**DOI del projecte:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
 
 Lluny de ser una maqueta teòrica o un resum esquemàtic, aquest exemple recull el desplegament complet de la programació viva d'aula (les 5 de 5 AEAs), el model d'avaluació de tres portes, el blindatge anti-al·lucinació de la CIE-10-ES (6a edició, gener 2026), l'arquitectura de la IA Co-Docent i la integració pragmàtica amb l'ecosistema tecnològic de centre (Google Workspace for Education).
 
@@ -125,13 +136,13 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 ```text
 # Informe de Validació YAML — OKF Starter Kit
 **Ruta del vault:** 02-exemple-complet
-**Script:** validar_yaml.py v1.0.1
+**Script:** validar_yaml.py v1.0.2
 
 ## Resum Executiu
 
 | Mètrica | Valor |
 |:--------|:-----:|
-| Fitxers .md escanejats (nodes OKF) | 12 |
+| Fitxers .md escanejats (nodes OKF) | 11 |
 | Fitxers amb errors | 0 |
 | Errors crítics (🔴) | 0 |
 | Errors alts (🟠) | 0 |
@@ -140,6 +151,8 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 ## ✅ Resultat
 Tots els nodes OKF del vault han passat la validació sense errors.
 ```
+
+**Nota:** el validador v1.0.2 exclou les carpetes `00-documentacio/` i `06-comunitat/` de la validació (perquè són documents humans, no nodes OKF). Per això el recompte de nodes és lleugerament diferent de la versió anterior.
 
 ---
 
@@ -163,5 +176,5 @@ Depenent del teu perfil o interès, et recomanem seguir aquests camins de lectur
 Totes les dades d'aquest exemple han estat higienitzades i neutralitzades:
 * Els identificadors de pacients, números d'episodi mèdic i centres educatius són ficticis i d'ús estrictament docent.
 * Els marcs normatius legals (LOE) i clínics (CIE-10-ES 6a edició) són reals i oficials.
-* **Llicència:** Tot el contingut pedagògic d'aquest exemple es distribueix sota la llicència lliure **Creative Commons Reconeixement-CompartirIgual 4.0 (CC BY-SA 4.0)**.
+* **Llicència:** Tot el contingut pedagògic d'aquest exemple es distribueix sota la llicència lliure **Creative Commons Reconeixement-CompartirIgual 4.0 (CC BY-SA 4.0)**. El projecte complet té DOI permanent: [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819).
 ```
