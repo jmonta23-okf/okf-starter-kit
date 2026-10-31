@@ -2,6 +2,8 @@
 
 Aquesta carpeta conté els dos nuclis normatius del OKF Starter Kit. Un **core** (o nucli) és un document que fixa les regles mínimes que han de complir tots els vaults d'un mateix àmbit educatiu. Garanteixen que dos vaults diferents siguin **interoperables**.
 
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+
 ## Els dos Cores
 
 | Core | Àmbit | Marc legal |
@@ -35,4 +37,4 @@ Si féssim un sol Core, hauríem de triar una terminologia i forçar l'altra a a
 
 ## Llicència
 
-Els dos Cores es distribueixen sota **CC BY-SA 4.0**, com la resta de contingut del kit.
+Els dos Cores es distribueixen sota **CC BY-SA 4.0**, com la resta de contingut del kit. El projecte complet té DOI permanent: [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819).
