@@ -2,6 +2,8 @@
 
 Aquesta carpeta conté les plantilles de nodes del OKF Starter Kit. Una **plantilla** és un fitxer Markdown amb un frontmatter YAML vàlid i un cos amb seccions a omplir. Serveix per crear nodes consistents sense començar de zero.
 
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+
 ## Com es fan servir?
 
 1. **Copia** la plantilla al teu vault.
@@ -32,4 +34,4 @@ Totes les plantilles passen el validador tal com són, amb els valors d'exemple.
 
 ## Llicència
 
-Les plantilles es distribueixen sota **CC BY-SA 4.0**, com la resta de contingut del kit.
+Les plantilles es distribueixen sota **CC BY-SA 4.0**, com la resta de contingut del kit. El projecte complet té DOI permanent: [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819).
