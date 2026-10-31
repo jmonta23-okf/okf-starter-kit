@@ -4,6 +4,8 @@ Compartir el teu vault és un dels gestos més valuosos que pots fer com a docen
 cal fer-ho amb criteri: què comparteixes, amb qui, i en quines condicions. Aquesta guia
 et dona les opcions.
 
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+
 (Per a la versió més tècnica — git, remotes, passos de publicació — vegeu la
 [documentació central](../00-documentacio/07-com-compartir.md). Aquesta és la versió
 "comunitària": pensada per decidir amb seny, no per executar comandes.)
@@ -128,6 +130,10 @@ bé:
 Compartir no és una obligació. És una opció. Però si ho fas, fes-ho bé: amb privacitat,
 amb coherència, i amb la llicència adequada.
 
-El teu coneixement és teu; compartir-lo amb criteri és la millor manera que segueixi
+EEl teu coneixement és teu; compartir-lo amb criteri és la millor manera que segueixi
 sent teu i que, a més, serveixi a algú altre. Els tres docents dels casos d'ús ho van
 entendre així — i els seus vaults, avui, són exemples per a altres.
+
+---
+
+**DOI del projecte:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819)
