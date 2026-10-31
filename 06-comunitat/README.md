@@ -4,6 +4,8 @@ Aquesta carpeta és per a qui ja ha provat el kit i vol anar més enllà: veure 
 fet servir altres docents, aprendre a compartir el seu vault, i llegir l'article que
 explica el projecte a la comunitat educativa.
 
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+
 Si acabes d'arribar, aquesta és una bona segona parada: la primera hauria de ser el
 [README](../README.md) (què és el kit i per a qui), i la segona, aquesta carpeta (qui el
 fa servir i com).
@@ -77,3 +79,5 @@ carpeta, obre un *issue*: també volem que la comunitat segueixi el seu propi co
 
 Aquesta carpeta és **viva**. Si tens un cas d'ús, una guia o una idea, obre un *issue* o
 envia un *pull request*. El kit creix quan algú el fa servir i ho explica.
+
+**DOI del projecte:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819)
