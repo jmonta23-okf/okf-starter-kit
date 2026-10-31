@@ -6,7 +6,7 @@ subtitle: "[Descripció breu del que genera aquest paquet]"
 cycle: "[El teu cicle o àmbit]"
 center: "[El teu centre educatiu o àmbit]"
 academic_year: "2026-2027"
-version: "V1.0-Esborrany"
+version: "V1.1"
 data_ultima_actualitzacio: "2026-10-28"
 authors:
   - "[El teu nom]"

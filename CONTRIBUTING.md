@@ -1,13 +1,25 @@
+# `CONTRIBUTING.md` — fitxer complet amb el DOI afegit
+
+**Instruccions:** substitueix **tot** el contingut actual de `CONTRIBUTING.md` per aquest. Els canvis principals:
+- **DOI a la capçalera** (just després de la introducció).
+- **Secció nova "Com citar el projecte"** (abans de "Llicència de les contribucions").
+- **Correcció menor:** `06-comunitat/casos-d-us.md` → `06-comunitat/01-casos-us.md` (el nom real del fitxer).
+
+```markdown
 # Com contribuir
 
 Gràcies per l'interès a contribuir al OKF Starter Kit. Aquest document explica com fer-ho.
+
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+
+---
 
 ## Tipus de contribucions benvingudes
 
 - **Errors i bugs**: obre un *issue* explicant què passa i com reproduir-ho.
 - **Millores a la documentació**: obre un *issue* o envia un *pull request*.
 - **Plantilles noves**: obre un *issue* explicant quina plantilla proposes i per què.
-- **Exemples d'ús**: si has fet servir el kit, explica-ho a `06-comunitat/casos-d-us.md` o obre un *issue*.
+- **Exemples d'ús**: si has fet servir el kit, explica-ho a `06-comunitat/01-casos-us.md` o obre un *issue*.
 - **Traduccions**: al castellà, a l'anglès, o a qualsevol altra llengua.
 - **Millores al validador**: si trobes un bug o vols afegir una validació, obre un *issue* primer.
 
@@ -50,6 +62,14 @@ Gràcies per l'interès a contribuir al OKF Starter Kit. Aquest document explica
 - En imperatiu: "Afegeix...", "Corregeix...", "Millora...".
 - Primera línia curta (< 72 caràcters), després línia en blanc, després detalls si cal.
 
+## Com citar el projecte
+
+Si la teva contribució es publica en un treball acadèmic o una comunicació, pots citar el projecte així:
+
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+
+Per als detalls complets (APA, BibTeX, text pla), consulta la secció **[Com citar aquest projecte](README.md#com-citar-aquest-projecte)** del README principal.
+
 ## Llicència de les contribucions
 
 En enviar un *pull request*, acceptes que la teva contribució es distribueixi sota la mateixa doble llicència del projecte:
@@ -64,3 +84,4 @@ Aquest projecte segueix el [Contributor Covenant](https://www.contributor-covena
 ## Preguntes?
 
 Obre un *issue* o contacta amb l'autor original.
+```
