@@ -200,6 +200,17 @@ Si fas servir aquest kit en un treball acadèmic, una publicació o un article, 
 **Per citar el projecte en general** (sense versió específica), fes servir el concept DOI: https://doi.org/10.5281/zenodo.23823818
 
 ---
+## Declaració d'ús d'IA
+
+Aquest kit s'ha desenvolupat en **co-creació amb models de llenguatge**. No és un producte generat automàticament per una IA, ni un producte fet exclusivament per una persona: és el resultat d'un diàleg continu entre l'autor i diversos models (Claude, DeepSeek, Gemini), amb l'autor prenent sempre les decisions crítiques.
+
+**Nivell MIAE declarat: 4 (cocreació).** L'autor ha aportat la visió, la filosofia, el domini curricular, els casos reals (Montse G., Benet M., César G., Anna C.) i les decisions ètiques (MIAE, VCER). La IA ha generat esborranys, ha proposat estructures, ha comès errors (que l'autor ha detectat i corregit) i ha refinat el text. El resultat és una fusió estreta de les dues aportacions.
+
+Aquesta declaració és coherent amb el que el mateix kit exigeix als materials que genera: **cap material no amaga com s'ha fet**. Si el kit demana als seus usuaris que declarin el nivell MIAE dels seus materials, el kit també ho ha de fer.
+
+Per als detalls complets (metodologia, errors detectats, relació amb VCER), vegeu la secció **[Declaració d'ús d'IA](./00-documentacio/02-filosofia.md#declaració-dús-dia-en-aquest-kit)** a la filosofia.
+
+---
 
 ## Crèdits i agraïments
 

@@ -54,6 +54,21 @@ El taller, a més, no treballa amb qualsevol eina. Hi ha dos marcs ètics que en
 
 I una norma de sentit comú que ens posem: **dades personals de l'alumnat, ni al graf ni als *prompts*.** El graf guarda l'estructura i els models de treball, mai persones.
 
+### Declaració d'ús d'IA en aquest kit
+
+Aquest kit s'ha desenvolupat en **co-creació amb models de llenguatge**, i ho declara explícitament per coherència amb el que exigeix als materials que genera.
+
+**Nivell MIAE declarat: 4 (cocreació).** No és Nivell 3 (esborrany IA + reconstrucció) perquè el diàleg ha estat continu i bidireccional: l'autor ha posat la visió, la filosofia, el domini, els casos reals i les decisions ètiques; la IA ha generat esborranys, ha proposat estructures i ha comès errors que l'autor ha detectat i corregit. No és Nivell 5 (autonomia de la IA) perquè les decisions crítiques sempre han estat humanes: què s'inclou, què s'exclou, quin to, quins casos, quins límits.
+
+**Exemples d'aquesta co-creació:**
+- La IA va proposar una primera versió del `01-casos-us.md` que era massa "de màrqueting". L'autor la va reescriure en primera persona, amb "Què en trec" i amb límits honestos. Aquesta versió és millor, i és la que hi ha al repo.
+- La IA va cometre errors recurrents en els enllaços relatius (`../../` en lloc de `../`). L'autor els va detectar amb un `grep` i els va corregir.
+- La IA va proposar canviar les versions `V1.0-Esborrany` dels nodes d'exemple. L'autor va detectar que era un error (són els valors per defecte que l'usuari ha de canviar) i ho va aturar.
+
+**Relació amb VCER:** els materials generats amb IA en aquest kit compleixen els quatre pilars del *Vibe Coding Educatiu Responsable* (privacitat, offline, accessibilitat, llicència lliure). La declaració MIAE és el costat del procés; VCER és el costat de l'artefacte.
+
+**Aquesta declaració és viva:** si en el futur es fa servir IA d'una manera diferent (per exemple, per generar nodes sencers de manera autònoma), el nivell MIAE s'actualitzarà i es documentarà aquí.
+
 ---
 
 ## 4 · Una proposta de sistema operatiu: l'ordre que fa lliure la ment
