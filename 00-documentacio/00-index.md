@@ -1,7 +1,9 @@
 # Índex de la Documentació d'OKF Starter Kit
 
 > **Benvingut a la base de coneixement d'OKF Starter Kit.**  
-> Aquesta carpeta conté tota la documentació conceptual, filosòfica, tècnica i pràctica del sistema.
+> Una proposta de sistema operatiu per al coneixement docent. Menys burocràcia dispersa, més artesania pedagògica.
+
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
 
 ---
 
@@ -34,29 +36,63 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 
 ---
 
+## Comunitat i difusió
+
+A més de la documentació central, la carpeta **[06-comunitat/](../06-comunitat/)** conté:
+
+- **[01-casos-us.md](../06-comunitat/01-casos-us.md)** — Els tres casos reals (Benet M. a Química, César G. a Sanitat, Anna C. a Pedagogia Terapèutica), amb el detall de com es va fer cada pas.
+- **[02-com-compartir.md](../06-comunitat/02-com-compartir.md)** — Guia pràctica per compartir el kit o el vault (GitHub, Classroom, zip) amb privacitat i coherència.
+- **[03-article-edigital.md](../06-comunitat/03-article-edigital.md)** — L'article de difusió per a `comunitat.edigital.cat`: "Del laboratori a la sala de mestres".
+
+---
+
 ## Casos reals i projectes de referència
 
-El disseny d'aquest kit s'ha nodrit directament d'implementacions i proves de càrrega reals a la Formació Professional pública catalana:
+El disseny d'aquest kit s'ha nodrit directament d'implementacions i proves de càrrega reals a la Formació Professional i a l'educació primària públiques catalanes:
 
 1. **La prova de foc en Química (MP 1257 – Emmagatzematge i distribució en el laboratori):**  
    Desplegament complet des de zero per al debut docent d'en **Benet M.** a partir exclusivament del decret oficial. Demostra que el sistema permet estar **operatiu en menys d'una setmana** amb una programació d'aula completa, sessions minutades i presentacions interactives que superen l'avaluació VCER.
+
 2. **El curs de capacitació en Sanitat (MP 1523 – Gestió de la documentació sanitària):**  
    Disseny i transferència metodològica per a en **César G.**, culminant en un vault autònom de **59 nodes interconnectats i validats amb 0 errors**.
-3. **Els orígens (TCAI-OKF i SAD-GRAF):**  
-   Els dos projectes germans desenvolupats entre 2025 i 2027 a les famílies de Sanitat i Serveis a la Comunitat d'on s'han destil·lat els Cores i les eines d'aquest kit.
+
+3. **L'adaptació a l'educació especial (PTE – Pedagogia Terapèutica):**  
+   Col·laboració amb l'**Anna C.**, mestra de PT a primària, per estructurar Plans Individuals (PI) i adaptacions curriculars amb privacitat reforçada per a dades de menors. El resultat és un vault de **62 fitxers** amb 4 tipus de node propis de la família PTE (`PlaSuportIndividualitzat`, `AdaptacioCurricular`, `SequenciaDidactica`, `InformeAvaluacio`).
+
+4. **Els orígens (tres projectes germans):**  
+   - **TCAI-OKF** (2025-2026): el graf del cicle de Cures Auxiliars d'Infermeria. On va néixer el Paquet LLM i el "factor Montse".
+   - **SAD-GRAF** (2026-2027): el graf del cicle de Documentació Sanitària. On es van conceptualitzar els Cores, les FitxaAEA i els Protocols.
+   - **PTE-OKF** (2026-2027): el graf de Pedagogia Terapèutica a primària. On es va reforçar la privacitat per a dades de menors.
+
+De la fricció entre els tres en va sortir el que realment importa: **un esquelet mínim, genèric i obert**.
 
 ---
 
 ## Memòria històrica del projecte (Handoffs)
 
-Aquesta carpeta conté també els documents de traspàs de context (*Handoffs*), que funcionen com a registres immutables del desenvolupament del kit:
+Els documents de traspàs de context (*Handoffs*) són **fora del repositori públic** (a `~/Documents/OKF-CATALA/okf-handoffs/`). Són registres immutables del desenvolupament del kit, i no es modifiquen per preservar la traçabilitat de les decisions preses.
 
-* **`HANDOFF-00.md`** (25/10/2026): Estructura fundacional, primers 6 commits, Cores i validador inicial.
-* **`HANDOFF-01.md`** (26/10/2026): Desplegament de les 6 plantilles canòniques i de l'exemple complet MP1519.
-* **`HANDOFF-02.md`** (27/10/2026): Integració del marc MIAE al PaquetLLM i primer push al repositori privat.
-* **`HANDOFF-03.md`** (28/10/2026): Consolidació del concepte de taller, la proposta de sistema operatiu i la genealogia del projecte.
+| Handoff | Data | Fita |
+|:---|:---|:---|
+| **HANDOFF-00** | 25/10/2026 | Estructura fundacional, primers 6 commits, Cores i validador inicial. |
+| **HANDOFF-01** | 26/10/2026 | Desplegament de les 6 plantilles canòniques i de l'exemple complet MP1519. |
+| **HANDOFF-02** | 27/10/2026 | Integració del marc MIAE al PaquetLLM i primer push al repositori privat. |
+| **HANDOFF-03** | 28/10/2026 | Consolidació del concepte de taller, la proposta de sistema operatiu i la genealogia del projecte. |
+| **HANDOFF-04** | 29/10/2026 | Humanització del to, MIAE + VCER, ontologies i "programació didàctica viva". |
+| **HANDOFF-05** | 29/10/2026 | Consolidació V1.1: exemple complet de 11 nodes, privacitat amb inicials. |
+| **HANDOFF-06** | 31/10/2026 | Publicació oficial a GitHub i Zenodo. DOI `10.5281/zenodo.23823819`. |
 
-> *Nota: Els documents de Handoff són fotografies històriques congelades en el temps; no es modifiquen per preservar la traçabilitat de les decisions preses.*
+> *Nota: Aquests documents no formen part del repositori públic. Es conserven localment per a ús intern i per a qui hereti el projecte en el futur.*
+
+---
+
+## Com citar aquest projecte
+
+Si fas servir aquest kit en un treball acadèmic, una publicació o un article:
+
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+
+Per als detalls complets (APA, BibTeX, text pla), consulta la secció **[Com citar aquest projecte](../README.md#com-citar-aquest-projecte)** del README principal.
 
 ---
 
