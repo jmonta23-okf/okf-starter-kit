@@ -1,6 +1,6 @@
 # OKF Starter Kit
 
-> **Una proposta de sistema operatiu per al coneixement docent.**  
+> **Una proposta de sistema operatiu per al coneixement curricular docent.**  
 > El currículum com un graf de text pla: llegible, versionable i teu.  
 > I una invitació oberta a construir, entre tots, un estàndard per al currículum.
 
@@ -28,7 +28,11 @@ Soc del 74, biòleg de formació i professor de FP a l'escola pública catalana 
 
 El 2015, sent interí, em va tocar el mòdul de Codificació Sanitària, el «marró» que ningú volia per la seva complexitat. Me'l vaig agafar com un repte, i treballant amb ontologies i classificacions mèdiques (SNOMED-CT, CIM-10) em va caure la fitxa: **el currículum funciona com una xarxa viva**. Té resultats d'aprenentatge, criteris d'avaluació, continguts, activitats i protocols que depenen els uns dels altres. I tanmateix el gestionem amb documents de Word lineals de 80 pàgines que es trenquen i es desfasen cada trimestre.
 
-OKF no neix d'una teoria abstracta: és un intent de portar aquest rigor a la feina real de l'institut. Hi ha més context a [`02-filosofia.md`](00-documentacio/02-filosofia.md).
+**El juny de 2026, Google Cloud va publicar l'especificació Open Knowledge Format (OKF):** un format obert per estructurar coneixement en fitxers Markdown amb frontmatter YAML, pensat perquè els agents d'IA el puguin llegir i compartir. L'especificació era minimalista (només exigia un camp `type`), i estava pensada per al coneixement empresarial.
+
+Quan la vaig llegir, em va caure la fitxa: **allò que Google proposava per al coneixement corporatiu es podia aplicar al currículum.** Un graf de nodes interconnectats, amb metadades validables, era exactament el que necessitava el sistema educatiu. No calia inventar un format nou: n'hi havia prou d'adaptar-ne un d'existent i afegir-hi la capa curricular (Cores, plantilles, Paquets LLM).
+
+Aquest kit és, per tant, un **perfil de l'especificació OKF de Google**, adaptat a l'educació catalana. Respecta el nucli (el camp `type`) i afegeix 9 tipus i 8 camps universals per a la governança del currículum. Si vols el detall tècnic, és a [`02-filosofia.md`](00-documentacio/02-filosofia.md).
 
 ---
 
@@ -203,13 +207,13 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
 ## Com citar aquest projecte
 
 **APA (7a edició):**
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
 
 **BibTeX:**
 ```bibtex
 @software{montanya2026okf,
   author       = {Montañà Piqué, Josep},
-  title        = {OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular},
+  title        = {OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent},
   year         = {2026},
   version      = {V1.1},
   publisher    = {Zenodo},

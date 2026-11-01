@@ -16,6 +16,8 @@ El 2015, sent interí, em va tocar el «marró» del mòdul de Codificació Sani
 
 I llavors em va caure la fitxa: **el currículum educatiu funciona d'una manera molt semblant.** No és una llista lineal de Word. És una xarxa viva de conceptes (activitats, criteris d'avaluació, rúbriques) que es relacionen entre ells. És una analogia i no una identitat, però és prou bona per canviar la manera de treballar.
 
+L'especificació **Open Knowledge Format (OKF)** de Google Cloud, publicada el juny de 2026, va ser el punt de partida formal. La seva idea —un format obert perquè els agents d'IA compressin coneixement estructurat en Markdown + YAML— em va fer veure que el currículum es podia governar amb la mateixa arquitectura. Aquest kit és un **perfil** d'aquella especificació, adaptat a l'educació: respecta el nucli (el camp `type`) i afegeix 9 tipus i 8 camps universals per a la governança curricular. No calia inventar un format nou: n'hi havia prou d'adaptar-ne un d'existent i afegir-hi la capa educativa.
+
 Per això convé distingir dues coses que sovint es barregen:
 
 | | Què és | Com és |
