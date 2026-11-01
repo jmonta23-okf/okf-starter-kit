@@ -1,11 +1,3 @@
-# `CONTRIBUTING.md` — fitxer complet amb el DOI afegit
-
-**Instruccions:** substitueix **tot** el contingut actual de `CONTRIBUTING.md` per aquest. Els canvis principals:
-- **DOI a la capçalera** (just després de la introducció).
-- **Secció nova "Com citar el projecte"** (abans de "Llicència de les contribucions").
-- **Correcció menor:** `06-comunitat/casos-d-us.md` → `06-comunitat/01-casos-us.md` (el nom real del fitxer).
-
-```markdown
 # Com contribuir
 
 Gràcies per l'interès a contribuir al OKF Starter Kit. Aquest document explica com fer-ho.
