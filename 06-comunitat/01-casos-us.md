@@ -1,18 +1,18 @@
 # Casos d'ús
 
-Tres docents, dues etapes, dos marcs legals i una co-docent sense la qual res d'això seria com és. Tots han fet servir OKF per resoldre un problema real, i aquí els explico tal com van anar.
+Quatre casos: una co-docent sense la qual res d'això seria com és i tres docents, de dues etapes i dos marcs legals. Tots han fet servir OKF per resoldre un problema real, i aquí els explico tal com van anar.
 
-No són un estudi d'impacte ni una vitrina: són proves artesanals fetes amb companys, entre hores o sopant. M'interessa més el que hi ha grinyolat que el que ha sortit bé.
+No són un estudi d'impacte ni una vitrina: són proves artesanals fetes amb els pocs companys que s'han interessat pel sistema. M'interessa més el que hi ha grinyolat que el que ha sortit bé.
 
 **DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
 
-> **Nota de privacitat.** Faig servir inicials i no esmento cap centre. Això redueix la possibilitat d'identificar ningú, però no l'elimina, i per això he deixat fora tot el que no calia per entendre cada cas.
+> **Nota de privacitat.** Faig servir pseudònims i inicials, i no esmento cap centre. Això redueix la possibilitat d'identificar ningú, però no l'elimina, i per això he deixat fora tot el que no calia per entendre cada cas.
 
 ---
 
 ## El factor Montse: l'origen del Paquet LLM
 
-Abans dels tres casos hi ha una persona que no va crear cap vault i sense la qual el kit no seria el que és: la **Montse G.**
+Abans dels altres tres casos hi ha una persona que no va muntar cap vault des de zero i sense la qual el kit no seria el que és: la **Montse G.**
 
 L'agost de 2026 vaig muntar el graf del cicle TCAI (Cures Auxiliars d'Infermeria) i el vaig començar a operar amb IA. Feia bateries de *prompts*, les polia i les hi passava a ella, la meva co-docent del torn de tarda. I la Montse s'atabalava. Era perfectament normal: jo li passava una enginyeria que tenia sentit al meu cap tecno-friqui, i ella només volia preparar una bona classe.
 
@@ -86,7 +86,7 @@ Ella és la veritable usuària del sistema. El fa servir perquè funciona, i ens
 
 | | Etapa | Marc legal | Repte | Com va anar |
 |:---|:---|:---|:---|:---|
-| **Montse G.** (TCAI) | FP | LOE | Treballar amb IA sense ser perfil tècnic | Va fer néixer el Paquet LLM |
+| **Montse G.** (TCAI) | FP | LOE | Treballar amb IA sense ser tecno-friqui | Va fer néixer el Paquet LLM |
 | **Benet M.** (Química) | FP | LOE | Un mòdul sencer des de zero en menys d'una setmana | 10 activitats minutades, mòdul operatiu |
 | **César G.** (Sanitat) | FP | LOE | Aprendre OKF i crear un vault propi | 59 nodes que passen el validador |
 | **Ariadna C.** (PT) | Primària | LOMLOE | Adaptacions i PI amb privacitat de menors | 62 fitxers amb governança |
