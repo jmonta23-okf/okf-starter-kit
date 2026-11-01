@@ -136,7 +136,7 @@ Allibero el codi amb **doble llicència (MIT / CC BY-SA 4.0)** per trobar altres
 
 ## 7 · Els orígens del sistema (Genealogia i ecosistema)
 
-L'OKF Starter Kit no ha nascut de zero. És la síntesi de dos projectes reals, treballats a l'aula, que formen part d'un ecosistema més ampli: **OKF-CATALA**.
+L'OKF Starter Kit no ha nascut de zero. És la síntesi de dos projectes reals (TCAI-OKF i SAD-GRAF), treballats a l'aula, que formen part d'un ecosistema més ampli: **OKF-CATALA**.
 
 ### L'ecosistema OKF-CATALA
 
@@ -180,13 +180,18 @@ flowchart TD
 
 De la fricció entre tots dos en va sortir el que realment importa: **un esquelet mínim, genèric i obert**.
 
-### Els projectes derivats de CURS-OKF
+### El curs formatiu i les seves adaptacions
 
-- **CURS-OKF** és el curs formatiu de 9 mòduls (M0-M8) que vaig dissenyar per ensenyar el sistema a altres docents. És el que va fer servir en César G. per crear el seu propi vault.
-- **PTE-OKF** és un producte derivat de CURS-OKF: el vault de Pedagogia Terapèutica de l'Ariadna C., que va adaptar el curs al seu context (primària, educació especial, privacitat de menors).
-- **OKF-CURS-MP1523** és un altre derivat de CURS-OKF: el curs específic per al mòdul MP1523, amb 59 nodes validats.
+- **OKF-CURS-FP** és el curs formatiu de 9 mòduls (M0-M8) que vaig dissenyar per ensenyar el sistema a altres docents. És el que va fer servir en César G. per crear el seu propi vault (adaptat al MP1523), i el que va fer servir l'Ariadna C. per adaptar-lo a Pedagogia Terapèutica.
+- **PTE-OKF** és una **adaptació d'OKF-CURS-FP** per a l'Ariadna C.: un vault de Pedagogia Terapèutica amb privacitat reforçada per a dades de menors. No és un origen del kit: és un producte de l'ecosistema.
+- **OKF-CURS-MP1523** és una altra **adaptació d'OKF-CURS-FP**, en aquest cas per al mòdul MP1523 (Sanitat), feta amb en César G.
+- (Hi ha una tercera adaptació d'OKF-CURS-FP per a un docent d'ESO, que no apareix al diagrama per respectar la seva privacitat.)
 
-Aquests tres projectes (CURS-OKF, PTE-OKF, OKF-CURS-MP1523) no són orígens del kit, sinó **productes de l'ecosistema** que fan servir les eines del kit per a contextos concrets.
+### Els Cores: components del kit, aplicats a tots els projectes
+
+Els Cores (`OKF-CORE-CATALA-00`, `OKF-CORE-FP-00`) **no són projectes de l'ecosistema**: són **components del kit** que fixen les regles mínimes (tipus universals, camps universals, enums, sintaxi d'enllaç) per a cada marc legal. Els vaig desenvolupar **per al kit**, però després els he aplicat a tots els projectes (TCAI-OKF, SAD-GRAF, OKF-CURS-FP, PTE-OKF, OKF-CURS-MP1523) per fer-los **interoperables**.
+
+Així, un vault de TCAI pot heretar el Core Català o el Core FP, i un vault de PTE també. Tots parlen el mateix idioma estructural, encara que tinguin marcs legals diferents.
 
 ### El kit com a síntesi
 

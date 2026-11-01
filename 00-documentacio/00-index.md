@@ -53,10 +53,10 @@ El disseny d'aquest kit s'ha nodrit directament d'implementacions i proves de c�
 1. **La prova de foc en Química (MP 1257 – Emmagatzematge i distribució en el laboratori):**  
    Desplegament complet des de zero per al debut docent d'en **Benet M.** a partir exclusivament del decret oficial. Demostra que el sistema permet estar **operatiu en menys d'una setmana** amb una programació d'aula completa, sessions minutades i presentacions interactives que superen l'avaluació VCER.
 
-2. **El curs de capacitació en Sanitat (MP 1523 – Gestió de la documentació sanitària):**  
-   Disseny i transferència metodològica per a en **César G.**, a partir del curs formatiu **OKF-CURS-FP** adaptat al seu mòdul. El resultat: un vault autònom de **59 nodes interconnectats i validats amb 0 errors**.
+2. **El curs de capacitació en Sanitat (OKF-CURS-MP1523, per al MP 1523 – Gestió de la documentació sanitària):**  
+   Disseny i transferència metodològica per a en **César G.**, a partir del curs formatiu **OKF-CURS-FP** adaptat al seu mòdul. El resultat és **OKF-CURS-MP1523**: un vault autònom de **59 nodes interconnectats i validats amb 0 errors**.
 
-3. **L'adaptació a l'educació especial (PTE – Pedagogia Terapèutica):**  
+3. **L'adaptació a l'educació especial (PTE-OKF, per a Pedagogia Terapèutica):**  
    Col·laboració amb l'**Ariadna C.**, mestra de PT a primària, per estructurar Plans Individuals (PI) i adaptacions curriculars amb privacitat reforçada per a dades de menors. El resultat és **PTE-OKF**, una adaptació de **OKF-CURS-FP** al context de primària i educació especial: **62 fitxers** amb 4 tipus de node propis de la família PTE (`PlaSuportIndividualitzat`, `AdaptacioCurricular`, `SequenciaDidactica`, `InformeAvaluacio`).
 
 4. **L'ecosistema OKF-CATALA:**  
@@ -64,10 +64,10 @@ El disseny d'aquest kit s'ha nodrit directament d'implementacions i proves de c�
    - **TCAI-OKF** (2025-2026): el graf del cicle de Cures Auxiliars d'Infermeria. On va néixer el Paquet LLM i el "factor Montse". **Origen directe del kit.**
    - **SAD-GRAF** (2026-2027): el graf del cicle de Documentació Sanitària. On es van conceptualitzar els Cores, les FitxaAEA i els Protocols. **Origen directe del kit.**
    - **OKF-CURS-FP** (2026-2027): el curs formatiu de 9 mòduls (M0-M8) que ensenya el sistema. **Origen de les adaptacions personalitzades.**
-   - **PTE-OKF** (2026-2027): el vault de Pedagogia Terapèutica (adaptació de CURS-FP per a l'Ariadna C.). Privacitat reforçada per a dades de menors.
-   - **OKF-CURS-MP1523** (2026-2027): el curs específic per al mòdul MP1523 (adaptació de CURS-FP per a en César G.).
+   - **PTE-OKF** (2026-2027): el vault de Pedagogia Terapèutica (adaptació de **OKF-CURS-FP** per a l'Ariadna C.). Privacitat reforçada per a dades de menors.
+   - **OKF-CURS-MP1523** (2026-2027): el vault específic per al mòdul MP1523 (adaptació de **OKF-CURS-FP** per a en César G.).
 
-   Els **Cores** (`OKF-CORE-CATALA-00`, `OKF-CORE-FP-00`) no són projectes de l'ecosistema: són **components del kit** que fixen les regles mínimes per a cada marc legal. S'han aplicat a tots els projectes (TCAI, SAD, CURS-FP, PTE, MP1523) per fer-los **interoperables**.
+   Els **Cores** (`OKF-CORE-CATALA-00`, `OKF-CORE-FP-00`) no són projectes de l'ecosistema: són **components del kit** que fixen les regles mínimes per a cada marc legal. S'han aplicat a tots els projectes (TCAI, SAD, OKF-CURS-FP, PTE-OKF, OKF-CURS-MP1523) per fer-los **interoperables**.
 
 De la fricció entre els dos orígens en va sortir el que realment importa: **un esquelet mínim, genèric i obert**.
 
