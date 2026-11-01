@@ -4,6 +4,8 @@
 
 Aquest document explica el per què d'OKF abans del com. Si només vols posar-te a treballar, salta a [`04-inici-rapid.md`](04-inici-rapid.md). Però si t'interessa entendre d'on surt cada decisió, aquí hi ha la història completa, explicada en primera persona i sense maquillatge.
 
+**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+
 ---
 
 ## 1 · La programació didàctica és un organisme viu, no un fòssil administratiu
@@ -47,20 +49,22 @@ Era perfectament normal. El meu sistema fallava, i fallava per culpa meva: havia
 
 D'aquí va néixer el **Paquet LLM**, pensat per cuidar la Montse. Vaig encapsular les instruccions en una recepta oberta, transparent i en text pla. Ella la pot llegir, entendre què li demanem a la IA a cada pas i adaptar-la: si una línia no li serveix, la retalla; si en falta una, l'afegeix. Ella és la veritable usuària del sistema, i de moment anem harmonitzats matí i tarda sense angoixa tecnològica.
 
-El taller, a més, no treballa amb qualsevol eina. Hi ha dos marcs ètics que ens guien:
+El taller, a més, no treballa amb qualsevol eina. Hi ha dos marcs de referència que ens guien:
 
-- **MIAE (Nivell 3).** Estableix que la supervisió humana no és opcional: l'esborrany que genera la IA és això, un esborrany, i el docent és qui el revisa i el signa.
+- **MIAE (Nivell 3).** Marc de Juan José de Haro que descriu com es reparteix el treball entre la persona i la IA. Al nivell 3, la IA proposa un esborrany i el docent el reconstrueix significativament: l'esborrany és això, un esborrany, i el docent és qui el decideix i el signa.
 - **VCER** (*Vibe Coding Educatiu Responsable*). Aposta per artefactes d'aula 100% offline, privats i lliures. Parlo dels materials que en resulten: allò que arriba a l'aula funciona sense dependre de cap servei extern.
 
 I una norma de sentit comú que ens posem: **dades personals de l'alumnat, ni al graf ni als *prompts*.** El graf guarda l'estructura i els models de treball, mai persones.
 
 ### Declaració d'ús d'IA en aquest kit
 
-Aquest kit s'ha desenvolupat en **co-creació amb models de llenguatge**, i ho declara explícitament per coherència amb el que exigeix als materials que genera.
+Aquest kit s'ha desenvolupat en **cocreació amb models de llenguatge**, i ho declara explícitament per coherència amb el que exigeix als materials que genera.
 
 **Nivell MIAE declarat: 4 (cocreació).** No és Nivell 3 (esborrany IA + reconstrucció) perquè el diàleg ha estat continu i bidireccional: l'autor ha posat la visió, la filosofia, el domini, els casos reals i les decisions ètiques; la IA ha generat esborranys, ha proposat estructures i ha comès errors que l'autor ha detectat i corregit. No és Nivell 5 (autonomia de la IA) perquè les decisions crítiques sempre han estat humanes: què s'inclou, què s'exclou, quin to, quins casos, quins límits.
 
-**Exemples d'aquesta co-creació:**
+**La distinció és important:** el nivell 3 és el que proposem per als materials d'aula (la IA fa l'esborrany, el docent el reconstrueix). El nivell 4 és el que té el kit mateix com a obra (la IA i l'autor han cocreat el text, amb l'autor prenent les decisions finals).
+
+**Exemples d'aquesta cocreació:**
 - La IA va proposar una primera versió del `01-casos-us.md` que era massa "de màrqueting". L'autor la va reescriure en primera persona, amb "Què en trec" i amb límits honestos. Aquesta versió és millor, i és la que hi ha al repo.
 - La IA va cometre errors recurrents en els enllaços relatius (`../../` en lloc de `../`). L'autor els va detectar amb un `grep` i els va corregir.
 - La IA va proposar canviar les versions `V1.0-Esborrany` dels nodes d'exemple. L'autor va detectar que era un error (són els valors per defecte que l'usuari ha de canviar) i ho va aturar.
@@ -106,7 +110,7 @@ Per això cal separar dues coses.
 
 1. **Instruccions explícites i versionables.** Si el resultat canvia, pots comparar què li havies demanat.
 2. **Validació de l'estructura.** Quan el resultat no compleix la forma que toca, el validador t'assenyala **on** és l'error i **per què**, no et diu simplement «alguna cosa ha fallat».
-3. **Supervisió humana (MIAE).** L'última paraula és sempre d'una persona que coneix la matèria.
+3. **Supervisió humana.** L'última paraula és sempre d'una persona que coneix la matèria.
 
 I cal dir també què no pot fer el validador: **comprova la forma, no la veritat.** Un codi CIE-10 pot tenir un format perfecte i no existir. Aquesta darrera verificació només la pot fer algú que domina l'àmbit, i per això el docent no és prescindible.
 
@@ -116,7 +120,7 @@ La transparència d'OKF és la de la recepta i la de l'ofici. La del model no la
 
 ## 6 · La solidaritat del gremi i l'antídot a la sobreenginyeria
 
-OKF no es prova en un laboratori; es prova amb companys reals, entre hores o sopant, i amb calma. No és una mostra estadística ni pretén ser-ho: són proves artesanals que ens diuen on grinyola.
+OKF s'ha fet sobretot en solitari, al meu despatx, en caps de setmana i vacances. Els companys coneixen els vaults, però la majoria els mira com qui mira jeroglífics, i ho entenc. Només amb qui ha mostrat interès he fet proves, i amb calma. No és una mostra estadística ni pretén ser-ho: són proves artesanals que ens diuen on grinyola.
 
 - **Benet M.**, un amic novell a la docència. Li vaig muntar un mòdul sencer de Química, una matèria que jo no domino, per veure si l'estructura aguantava fora de la meva zona de confort.
 - **Ariadna C.**, mestra d'educació especial. Mirem amb ella com el graf pot ajudar a estructurar Plans Individuals i adaptacions (el model de treball, no les dades de l'alumnat).
@@ -126,24 +130,67 @@ I ara, la confessió clau: **els meus propis vaults de TCAI i SAD pateixen de so
 
 L'**OKF Starter Kit** neix justament d'aquesta autocrítica. És una operació de neteja: ho he reduït tot a l'os, a la mínima expressió que aguanta el sistema, perquè sigui compartible. El que no hi ha, ho afegirà cada docent a mida.
 
-Allibero el codi amb **doble llicència (MIT / CC BY-SA 4.0)** per avançar conjuntament, fer sinergies i crear tribu. La lentitud del prova-error individual és un luxe que no ens podem permetre: cada docent que redescobreix pel seu compte el que un altre ja ha descobert perd un temps que no li sobra, i el coneixement acaba perdut cada setembre.
+Allibero el codi amb **doble llicència (MIT / CC BY-SA 4.0)** per trobar altres docents amb la mateixa mania i valorar plegats si això mereix continuar. Qui redescobreix pel seu compte el que un altre ja ha descobert perd un temps que no li sobra: compartir-ho és estalviar-se camí, i que el coneixement no es perdi cada setembre.
 
 ---
 
-## 7 · Els orígens del sistema (Genealogia)
+## 7 · Els orígens del sistema (Genealogia i ecosistema)
 
-L'OKF Starter Kit no ha nascut de zero. És la síntesi de dos projectes reals, treballats a l'aula:
+L'OKF Starter Kit no ha nascut de zero. És la síntesi de dos projectes reals, treballats a l'aula, que formen part d'un ecosistema més ampli: **OKF-CATALA**.
+
+### L'ecosistema OKF-CATALA
+
+OKF-CATALA és el conjunt de projectes que comparteixen la mateixa filosofia i les mateixes eines (Cores, plantilles, validador, Paquets LLM). No és un producte únic: és una **família de projectes** que creixen en paral·lel, cadascun amb el seu abast i el seu públic.
 
 ```mermaid
 flowchart TD
-    A["TCAI-OKF"] --> C["OKF Starter Kit<br/>(Síntesi genèrica i comunitària)"]
-    B["SAD-GRAF"] --> C
+    ECOSISTEMA["🌐 OKF-CATALA<br/><i>Ecosistema de projectes</i>"]
+
+    TCAI["TCAI-OKF<br/><i>Graf de Cures Auxiliars d'Infermeria</i>"]
+    SAD["SAD-GRAF<br/><i>Graf de Documentació Sanitària</i>"]
+    KIT["OKF Starter Kit<br/><i>Síntesi genèrica i comunitària<br/>(+ Cores, plantilles, validador)</i>"]
+    CURS["OKF-CURS-FP<br/><i>Curs formatiu (9 mòduls M0-M8)</i>"]
+    PTE["PTE-OKF<br/><i>Adaptació per a Ariadna C. (Primària/PT)</i>"]
+    MP1523["OKF-CURS-MP1523<br/><i>Adaptació per a César G. (Sanitat MP1523)</i>"]
+
+    ECOSISTEMA --> TCAI
+    ECOSISTEMA --> SAD
+    ECOSISTEMA --> KIT
+    ECOSISTEMA --> CURS
+
+    TCAI -->|"origen"| KIT
+    SAD -->|"origen"| KIT
+
+    CURS -->|"deriva"| PTE
+    CURS -->|"deriva"| MP1523
+
+    style ECOSISTEMA fill:#1F4E79,color:#fff,stroke:#16212e,stroke-width:3px
+    style TCAI fill:#2E75B6,color:#fff
+    style SAD fill:#2E75B6,color:#fff
+    style KIT fill:#16a34a,color:#fff
+    style CURS fill:#F2C200,color:#16212e
+    style PTE fill:#DEEBF7,color:#16212e
+    style MP1523 fill:#DEEBF7,color:#16212e
 ```
 
-- **TCAI-OKF** és el graf del cicle TCAI. És on va néixer el Paquet LLM i on vaig aprendre el factor Montse.
-- **SAD-GRAF** és l'altre graf d'origen. Com el de TCAI, va acabar patint de sobreenginyeria.
+### Els dos orígens directes del kit
 
-De la fricció entre tots dos en va sortir el que realment importa: un esquelet mínim, genèric i obert.
+- **TCAI-OKF** és el graf del cicle TCAI (Cures Auxiliars d'Infermeria). És on va néixer el Paquet LLM i on vaig aprendre el factor Montse. És el projecte que comparteixo amb la Montse G.
+- **SAD-GRAF** és l'altre graf d'origen (Documentació Sanitària). Com el de TCAI, va acabar patint de sobreenginyeria, i és el que em va fer veure la necessitat de simplificar.
+
+De la fricció entre tots dos en va sortir el que realment importa: **un esquelet mínim, genèric i obert**.
+
+### Els projectes derivats de CURS-OKF
+
+- **CURS-OKF** és el curs formatiu de 9 mòduls (M0-M8) que vaig dissenyar per ensenyar el sistema a altres docents. És el que va fer servir en César G. per crear el seu propi vault.
+- **PTE-OKF** és un producte derivat de CURS-OKF: el vault de Pedagogia Terapèutica de l'Ariadna C., que va adaptar el curs al seu context (primària, educació especial, privacitat de menors).
+- **OKF-CURS-MP1523** és un altre derivat de CURS-OKF: el curs específic per al mòdul MP1523, amb 59 nodes validats.
+
+Aquests tres projectes (CURS-OKF, PTE-OKF, OKF-CURS-MP1523) no són orígens del kit, sinó **productes de l'ecosistema** que fan servir les eines del kit per a contextos concrets.
+
+### El kit com a síntesi
+
+L'**OKF Starter Kit** és la **síntesi genèrica** de TCAI-OKF i SAD-GRAF: agafa les idees fonamentals dels dos, les neutralitza (sense dades personals, sense marca de centre), i les publica perquè qualsevol docent les pugui fer servir. És el que tens a les mans.
 
 ---
 
@@ -153,7 +200,7 @@ De la fricció entre tots dos en va sortir el que realment importa: un esquelet 
 |---|---|---|
 | 1 | **Programació viva** | El graf és l'organisme; el document d'Inspecció és una fotografia que es revisa abans de lliurar-la. |
 | 2 | **Sobirania** | El coneixement és teu, viu a casa teva i en text pla; els models són intercanviables. |
-| 3 | **Taller responsable** | MIAE (supervisió humana) i VCER (materials offline, privats i lliures). |
+| 3 | **Taller responsable** | MIAE (nivell 3: la IA fa l'esborrany, el docent el reconstrueix) i VCER (materials offline, privats i lliures). |
 | 4 | **Sistema operatiu** | Una capa d'abstracció, no un programa: Cores, validador, plantilles i Paquets LLM. |
 | 5 | **Transparència i verificació** | Receptes, graf i validador són llegibles; el model no ho és, i per això validem i supervisem. |
 | 6 | **Solidaritat** | Prova amb companys reals, neteja de sobreenginyeria i llicència oberta. |
@@ -164,4 +211,5 @@ De la fricció entre tots dos en va sortir el que realment importa: un esquelet 
 
 - [`01-que-es-okf.md`](01-que-es-okf.md): una visió general de què és OKF.
 - [`03-arquitectura.md`](03-arquitectura.md): com està organitzat el sistema per dins.
-- [`04-inici-rapid.md`](04-inici-rapid.md): posa't a treballar en deu minuts.
+- [`04-inici-rapid.md`](04-inici-rapid.md): posa't a treballar en uns 30 minuts.
+```
