@@ -123,7 +123,7 @@ RESPOSTA ESPERADA:
 
 * **Revisió humana indelegable:** Els models de llenguatge poden cometre errors de càlcul, inventar xifres o proposar procediments no homologats. Cap material s'ha de portar a l'aula sense que el docent l'hagi llegit i validat prèviament.
 * **Seguretat física i química:** Si el paquet genera materials per a tallers o laboratoris (riscos, EPI, pictogrames, gestió de residus), la revisió ha de ser d'alta intensitat abans de projectar o repartir la fitxa.
-* **Protecció de dades (RGPD):** Mai s'han d'introduir noms d'alumnes, dades de salut, qualificacions reals o situacions personals als prompts de generació.
+- **Protecció de dades (RGPD):** Mai s'han d'introduir noms d'alumnes, dades de salut, qualificacions reals o situacions personals als prompts de generació. **Què s'envia al model:** el contingut del graf (currículum, activitats, criteris d'avaluació), mai dades personals. Si el material inclou adaptacions individuals (PI, mesures DUA), anonimitzar-les abans de passar-les al model.
 * **Calibratge del model:** Cada família de models (Claude, ChatGPT, Gemini, models locals) respon de manera diferent a les mateixes instruccions. Si canvies de model, comprova que l'estructura HTML o les taules es mantinguin intactes.
 
 ---

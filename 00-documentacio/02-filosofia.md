@@ -58,6 +58,8 @@ El taller, a més, no treballa amb qualsevol eina. Hi ha dos marcs de referènci
 
 I una norma de sentit comú que ens posem: **dades personals de l'alumnat, ni al graf ni als *prompts*.** El graf guarda l'estructura i els models de treball, mai persones.
 
+**Què s'envia al model, exactament?** El text que s'envia al model és el contingut del graf: currículum, activitats, criteris d'avaluació. **Mai dades personals de l'alumnat.** Si el graf conté adaptacions individuals (per exemple, un Pla de Suport Individualitzat), cal anonimitzar-les abans de passar-les al model. El VCER garanteix que els materials generats són 100% offline, però el procés de generació sí que passa per un model al núvol (o local, si es tria un model d'execució local). Els detalls complets són a [Relació amb estàndards](./08-relacio-amb-estandards.md) i a la [Plantilla PaquetLLM](../04-plantilles/PLANTILLA-PaquetLLM.md).
+
 ### Declaració d'ús d'IA en aquest kit
 
 Aquest kit s'ha desenvolupat en **cocreació amb models de llenguatge**, i ho declara explícitament per coherència amb el que exigeix als materials que genera.

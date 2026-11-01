@@ -235,6 +235,8 @@ Aquest kit s'ha desenvolupat en **cocreació amb models de llenguatge** (Claude,
 
 Aquesta declaració és coherent amb el que el kit demana als materials que genera: cap material no amaga com s'ha fet. Els detalls complets (metodologia, errors detectats, relació amb VCER) són a la [filosofia](00-documentacio/02-filosofia.md#declaració-dús-dia-en-aquest-kit).
 
+**Què s'envia als models d'IA?** Quan es fa servir un Paquet LLM, el text que s'envia al model és el **contingut del graf** (currículum, activitats, criteris d'avaluació). **Mai dades personals de l'alumnat.** Si el graf conté adaptacions individuals (per exemple, un Pla de Suport Individualitzat), cal anonimitzar-les abans de passar-les al model. El VCER garanteix que els materials generats són 100% offline, però el procés de generació sí que passa per un model al núvol (o local, si es tria un model d'execució local com Ollama o LM Studio). Els detalls complets són a [`08-relacio-amb-estandards.md`](00-documentacio/08-relacio-amb-estandards.md).
+
 ---
 
 ## Crèdits i agraïments
