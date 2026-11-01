@@ -1,30 +1,50 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-validador_yaml.py — Validador YAML de vaults OKF (OKF Starter Kit)
+validar_yaml.py — Validador YAML de vaults OKF (OKF Starter Kit) v1.1.0
 
-Versió genèrica i reutilitzable del validador del projecte TCAI-OKF,
-adaptada per a qualsevol vault creat amb la plantilla de Convenció
-d'aquest kit (`04-plantilles/PLANTILLA-ConvencioNomenclatura.md`).
+Validador genèric i reutilitzable per a qualsevol vault creat amb el
+OKF Starter Kit. Sincronitzat amb els Cores del kit (V1.1.1 / V1.0.1):
 
-Diferències respecte al validador TCAI (v1.4.2):
-  - Tipus vàlids: només els recomanats a la plantilla (15 tipus, §2).
-  - `PaquetLLM` afegit a V1.0.1 (és un tipus de crèdit: requereix `credit`).
-  - `MOC` és transversal: no exigeix el camp `credit` (el `credit` només
-    és obligatori per a `UnitatDidactica` i `FitxaAEA`).
-  - Patró d'ID genèric `{CODI}-{ÀMBIT}-{NN}` (ampliable per tipus).
-  - Prefix de tags configurable (`PREFIX_TAG`, per defecte `okf/`).
-  - `legal_framework`: llista configurable; buida = no es valida.
-  - Terminologia LOMLOE: llista configurable; buida = no es valida
-    (aquest kit no imposa cap marc legal; cada vault defineix el seu).
-  - Sense regles específiques de nodes `Skill` d'Hermes.
-  - V1.0.1: `00-documentacio/` exclosa (és documentació del repositori, no vault).
-  - V1.0.2: `06-comunitat/` exclosa (conté documents humans — casos d'ús, guies —, no nodes OKF).
+  - 8 camps universals obligatoris (id, type, title, version,
+    data_ultima_actualitzacio, authors, llicencia, tags), segons els
+    Cores §3. Ni més ni menys: els antics camps obligatoris
+    (subtitle, cycle, center, academic_year, legal_framework) ara són
+    opcionals (camps de família o d'informació).
+  - 9 tipus universals (MOC, Guia, Glossari, Protocol, PaquetLLM,
+    ConvencioNomenclatura, Llicencia, Plantilla, DocumentHandoff),
+    segons els Cores §2. `Llicencia` i `Plantilla` són universals.
+  - Els tipus de família NO estan fixos al codi: es llegeixen de la
+    Convenció de Nomenclatura del vault (nodes tipus
+    `ConvencioNomenclatura`), de les taules de tipus vàlids (§2) i de
+    les taules de tipus de família per perfil (§8). El validador
+    accepta els 9 universals + els tipus declarats a la Convenció.
+  - `credit` només es pot exigir a tipus de família la Convenció dels
+    quals ho declari (descripció amb "requereix credit"). Un tipus
+    universal NO pot dur `credit` (error Y017).
+
+Comprovacions de graf (el README del kit les promet des del principi):
+  - Enllaços relatius: tots han d'apuntar a un fitxer existent.
+  - Wikilinks `[[...]]` prohibits (sintaxi del Core §6: markdown relatiu).
+  - Enums `visibilitat` i `estat` tancats (valors del Core §4).
+  - MOC arrel, DocumentHandoff i ConvencioNomenclatura presents quan
+    l'arrel validada és un vault (té nodes directes). Els repos amb
+    subvaults (com el kit sencer) no es consideren un vault únic.
+
+Robustesa:
+  - `type` no hashable (llista/diccionari) -> error Y025, sense crash.
+  - Ja no hi ha l'heuristica Hermes (`name:` sense `id:`): un node amb
+    l'`id` mal escrit dona error, no desapareix.
+  - Valors buits (`title: ""`, `tags: []`) -> error Y002.
+  - `authors` / `tags` han de ser llistes -> error Y026.
+  - BOM UTF-8 -> error Y023 amb avís d'eliminació.
+  - Claus YAML duplicades -> error Y024 (abans guanyava l'última).
 
 Ús:
     python3 validar_yaml.py [--ruta RUTA] [--output FITXER]
 
-Per defecte l'informe es desa a `RUTA/EINES/Scripts/informe_validacio_*.md`.
+Codi de sortida: 0 = tot valid; 1 = hi ha errors; 2 = error d'ús.
+Determinista: el mateix vault produeix sempre els mateixos errors.
 """
 
 import os
@@ -33,7 +53,6 @@ import re
 import datetime
 import argparse
 from pathlib import Path
-from collections import defaultdict
 
 try:
     import yaml
@@ -46,15 +65,124 @@ except ImportError:
 # CONSTANTS
 # =============================================================================
 
-VERSIO_SCRIPT = "1.0.2"
+VERSIO_SCRIPT = "1.1.0"
 
 # Prefix que ha de tenir com a mínim un dels tags de cada node.
 PREFIX_TAG = "okf/"
 
+# ---------------------------------------------------------------- Cores (§3) -
+# Els 8 camps universals obligatoris. Són els únics camps exigits per a tots
+# els nodes; qualsevol altre camp (subtitle, cycle, center, academic_year,
+# legal_framework, estat, visibilitat, credit, ...) és opcional.
+CAMPS_UNIVERSALS = [
+    "id", "type", "title", "version",
+    "data_ultima_actualitzacio", "authors", "llicencia", "tags",
+]
+
+# Camps universals que han de ser llistes de cadenes.
+CAMPS_ARRAY = {"authors", "tags"}
+
+# ---------------------------------------------------------------- Cores (§2) -
+# Els 9 tipus universals. Tancats i compartits per tots els vaults OKF.
+TIPUS_UNIVERSALS = [
+    "MOC", "Guia", "Glossari", "Protocol", "PaquetLLM",
+    "ConvencioNomenclatura", "Llicencia", "Plantilla", "DocumentHandoff",
+]
+
+# Tipus considerats "Convenció de Nomenclatura" (font dels tipus de família).
+TIPUS_CONVENCIO = {"ConvencioNomenclatura"}
+
+# ---------------------------------------------------------------- Cores (§4) -
+# Enums comuns. Opcionals: si no es declaren, s'assumeix el valor per defecte.
+ENUM_VISIBILITAT = {"publica", "interna", "restringida", "personal", "externa"}
+VISIBILITAT_DEFECTE = "interna"
+ENUM_ESTAT = {"vigent", "esborrany", "obsolet", "arxivat"}
+ESTAT_DEFECTE = "vigent"
+
+# ---------------------------------------------------------------- Config ----
+CARPETES_EXCLUIRE = {
+    ".git", ".obsidian", ".trash", "EINES", "__pycache__", "_font",
+    "_materials", "_staging", "00-documentacio", "06-comunitat",
+    ".github", "tests",
+}
+
+# Fitxers que NO són nodes OKF i s'exclouen de la validació.
+FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md"}
+
+# Patró genèric d'ID segons la Convenció: {CODI}-{ÀMBIT}-{NN}.
+PATRO_ID = r"^[A-Z0-9]+(-[A-Z0-9]+)+-\d{2}$"
+
+# Terminologia LOMLOE (configurable). Llista buida = comprovació inactiva.
+TERMES_LOMLOE = []
+
+# Marcs legals vàlids (configurable). Llista buida = comprovació inactiva.
+MARCS_LEGAL_VALID = []
+
+PATRO_VERSION = r"^V\d+\.\d+(\.\d+)?(-[A-Za-zÀ-ÿ]+)?$"
+
+CODIS_ERROR = {
+    "Y001": ("YAML absent o mal format", "🔴 Crític"),
+    "Y002": ("Camp universal absent o buit", "🔴 Crític"),
+    "Y003": ("Camp 'credit' absent en tipus de família que el requereix", "🔴 Crític"),
+    "Y004": ("Tipus no vàlid (no universal ni declarat a la Convenció)", "🔴 Crític"),
+    "Y005": ("ID no segueix el patró de la Convenció", "🟠 Alta"),
+    "Y006": ("ID duplicat", "🔴 Crític"),
+    "Y007": (f"Tags sense prefix '{PREFIX_TAG}' o mal formats", "🟡 Mitjana"),
+    "Y008": ("Data amb format incorrecte", "🟡 Mitjana"),
+    "Y009": ("Versió amb format incorrecte", "🟡 Mitjana"),
+    # Y010 / Y011: reservats per a nodes Skill d'Hermes (no aplicables al kit).
+    "Y012": ("Terminologia LOMLOE detectada", "🔴 Crític"),
+    "Y013": ("Marc legal incorrecte", "🔴 Crític"),
+    "Y014": ("Vault sense MOC a l'arrel", "🔴 Crític"),
+    "Y015": ("Vault sense DocumentHandoff", "🔴 Crític"),
+    "Y016": ("Vault sense ConvencioNomenclatura", "🔴 Crític"),
+    "Y017": ("Camp 'credit' en un tipus universal", "🔴 Crític"),
+    "Y018": ("Enllaç intern relatiu trencat", "🟠 Alta"),
+    "Y019": ("Wikilink [[...]] prohibit", "🟠 Alta"),
+    "Y020": ("Valor de 'visibilitat' fora de l'enum del Core", "🟠 Alta"),
+    "Y021": ("Valor de 'estat' fora de l'enum del Core", "🟠 Alta"),
+    "Y022": ("Privacitat: dades personals amb visibilitat 'publica'", "🔴 Crític"),
+    "Y023": ("Fitxer amb BOM UTF-8", "🟡 Mitjana"),
+    "Y024": ("Claus YAML duplicades", "🔴 Crític"),
+    "Y025": ("El camp 'type' no és una cadena", "🔴 Crític"),
+    "Y026": ("Camp array (authors/tags) amb tipus incorrecte", "🔴 Crític"),
+}
+
+
+# =============================================================================
+# CÀRREGA YAML AMB DETECCIÓ DE CLAUS DUPLICADES
+# =============================================================================
+
+class ClausDuplicades(Exception):
+    """Es llança quan el YAML té una clau repetida."""
+
+
+class CarregadorYaml(yaml.SafeLoader):
+    """SafeLoader que detecta claus duplicades al frontmatter."""
+
+
+def _constructor_mapping(loader, node, deep=False):
+    """Constructor de mapes que fa fallar el YAML si una clau es repeteix."""
+    mapping = {}
+    for key_node, value_node in node.value:
+        clau = loader.construct_object(key_node, deep=deep)
+        if clau in mapping:
+            raise ClausDuplicades(f"Clau duplicada: '{clau}'")
+        mapping[clau] = loader.construct_object(value_node, deep=deep)
+    return mapping
+
+
+CarregadorYaml.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG, _constructor_mapping
+)
+
+
+# =============================================================================
+# FUNCIONS DE DETECCIÓ I EXTRACCIÓ
+# =============================================================================
 
 def detectar_ruta_vault():
-    """Retorna la ruta per defecte: l'exemple mínim del kit si existeix;
-    en cas contrari, el directori de treball actual."""
+    """Ruta per defecte: l'exemple mínim del kit si existeix; si no, el cwd."""
     candidats = [
         Path(__file__).resolve().parent.parent / "05-exemples-minims" / "vault-de-3-nodes",
         Path.cwd(),
@@ -67,89 +195,38 @@ def detectar_ruta_vault():
 
 RUTA_DEFAULT = detectar_ruta_vault()
 
-CARPETES_EXCLUIRE = {".git", ".obsidian", ".trash", "EINES", "__pycache__", "_font", "_materials", "_staging", "00-documentacio", "06-comunitat"}
 
-# Fitxers que NO són nodes OKF i s'exclouen de la validació.
-# README.md, LICENSE.md, etc.: documents del repositori, no nodes OKF.
-FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md"}
-
-# Skills funcionals d'Hermes que viuen al vault però NO són nodes OKF.
-# El kit no n'inclou cap; es manté la lògica per si algú l'amplia.
-SKILLS_FUNCIONALS_EXCLOSES = set()
-
-CAMPS_OBLIGATORIS_GLOBALS = [
-    "id", "type", "title", "subtitle", "cycle", "center",
-    "academic_year", "version", "data_ultima_actualitzacio",
-    "authors", "legal_framework", "tags",
-]
-
-# Tipus que pertanyen a un crèdit: exigeixen el camp 'credit'.
-# Amplia aquesta llista si la teva Convenció afegeix tipus curriculars.
-TIPUS_CREDIT = [
-    "UnitatDidactica", "FitxaAEA", "PaquetLLM",
-]
-
-# Tipus transversals (agnòstics al domini): no exigeixen 'credit'.
-TIPUS_TRANSVERSAL = [
-    "MOC", "ConvencioNomenclatura", "Guia", "Protocol", "Glossari",
-    "DocumentHandoff", "CatalegCurricular", "CoordinacioCurricular",
-    "PlaEstrategic", "EinaTecnica", "NotaDecisions", "Estàndard",
-]
-
-TIPUS_VALID = TIPUS_CREDIT + TIPUS_TRANSVERSAL
-TOTAL_TIPUS = len(TIPUS_VALID)
-
-# Patró genèric d'ID segons la plantilla: {CODI}-{ÀMBIT}-{NN}.
-# Exemples: EX-MOC-00, C1-UD1-00, C1-AEA-01, PLANTILLA-CONVENCIO-00.
-# Es pot endurir per tipus substituint l'entrada corresponent.
-PATRO_ID = r"^[A-Z0-9]+(-[A-Z0-9]+)+-\d{2}$"
-PATRONS_ID = {t: PATRO_ID for t in TIPUS_VALID}
-
-# Terminologia LOMLOE (configurable). Si la llista és buida, no es valida.
-# Qui treballi amb marcs anteriors (p. ex. LOGSE) pot omplir-la, per exemple:
-# TERMES_LOMLOE = ["Criteris d'Avaluació", "Sabers Bàsics", "Competències Específiques",
-#                  "Situacions d'Aprenentatge", "Resultats d'Aprenentatge"]
-TERMES_LOMLOE = []
-
-# Marcs legals vàlids (configurable). Si la llista és buida, no es valida.
-# Per tancar la llista: MARCS_LEGAL_VALID = ["Decret 203/1997 (DOGC núm. 2464)"]
-MARCS_LEGAL_VALID = []
-
-PATRO_VERSION = r"^V\d+\.\d+(\.\d+)?(-[A-Za-zÀ-ÿ]+)?$"
-
-CODIS_ERROR = {
-    "Y001": ("YAML absent o mal format", "🔴 Crític"),
-    "Y002": ("Camp obligatori absent", "🔴 Crític"),
-    "Y003": ("Camp 'credit' absent en node de crèdit", "🔴 Crític"),
-    "Y004": ("Tipus no vàlid", "🔴 Crític"),
-    "Y005": ("ID no segueix el patró del seu tipus", "🟠 Alta"),
-    "Y006": ("ID duplicat", "🔴 Crític"),
-    "Y007": (f"Tags sense prefix '{PREFIX_TAG}'", "🟡 Mitjana"),
-    "Y008": ("Data amb format incorrecte", "🟡 Mitjana"),
-    "Y009": ("Versió amb format incorrecte", "🟡 Mitjana"),
-    # Y010/Y011: reservats per a nodes Skill d'Hermes (no aplicables al kit)
-    "Y012": ("Terminologia LOMLOE detectada", "🔴 Crític"),
-    "Y013": ("Marc legal incorrecte", "🔴 Crític"),
-}
-
-
-# =============================================================================
-# FUNCIONS DE DETECCIÓ
-# =============================================================================
-
-def es_format_hermes(ruta_fitxer):
+def extreure_yaml(ruta_fitxer):
     """
-    Detecta si un fitxer té format Hermes (name: en lloc de id:).
+    Extreu el frontmatter YAML d'un fitxer .md.
+
+    Retorna (data, errors): data és el diccionari YAML o None; errors és una
+    llista de tuples (codi, descripció, acció) acumulades (BOM, YAML mal
+    format, claus duplicades, ...).
     """
+    errors = []
+
     try:
-        with open(ruta_fitxer, "r", encoding="utf-8") as f:
-            contingut = f.read()
-    except Exception:
-        return False
+        with open(ruta_fitxer, "rb") as f:
+            bytes_cont = f.read()
+    except Exception as e:
+        return None, [("Y001", f"No es pot llegir el fitxer: {e}", "Comprovar permisos i ruta")]
+
+    if bytes_cont.startswith(b"\xef\xbb\xbf"):
+        errors.append((
+            "Y023",
+            "El fitxer comença amb un BOM UTF-8 (\\ufeff)",
+            "Eliminar el BOM (p. ex. reobrir en UTF-8 sense BOM) abans de validar",
+        ))
+        contingut = bytes_cont.decode("utf-8-sig", errors="replace")
+    else:
+        contingut = bytes_cont.decode("utf-8", errors="replace")
 
     linies = contingut.split("\n")
     if not linies or linies[0].strip() != "---":
-        return False
+        return None, errors + [
+            ("Y001", "El fitxer no comença amb '---' (o té un BOM sense eliminar)", "Afegir el bloc YAML amb delimitadors '---'")
+        ]
 
     final = -1
     for i in range(1, len(linies)):
@@ -158,39 +235,36 @@ def es_format_hermes(ruta_fitxer):
             break
 
     if final == -1:
-        return False
+        return None, errors + [
+            ("Y001", "No es troba el '---' de tancament del YAML", "Tancar el bloc YAML amb '---'")
+        ]
 
     bloc_yaml = "\n".join(linies[1:final])
     try:
-        data = yaml.safe_load(bloc_yaml)
-        if isinstance(data, dict):
-            return "name" in data and "id" not in data
-    except yaml.YAMLError:
-        return False
-
-    return False
+        data = yaml.load(bloc_yaml, Loader=CarregadorYaml)
+        if not isinstance(data, dict):
+            return None, errors + [
+                ("Y001", "El YAML no és un diccionari (és un escalar o una llista)", "El frontmatter ha de ser un mapa de claus: valor")
+            ]
+        return data, errors
+    except ClausDuplicades as e:
+        return None, errors + [
+            ("Y024", f"Claus YAML duplicades al frontmatter ({e})", "Deixar una sola aparició de cada clau")
+        ]
+    except yaml.YAMLError as e:
+        return None, errors + [
+            ("Y001", f"YAML mal format: {e}", "Corregir la sintaxi YAML del frontmatter")
+        ]
 
 
 def es_node_okf(ruta_fitxer):
-    """
-    Determina si un fitxer és un node OKF que s'ha de validar.
-    """
+    """Un fitxer és node OKF si no és cap dels fitxers exclosos per nom."""
     nom_fitxer = os.path.basename(ruta_fitxer)
-
-    if nom_fitxer in FITXERS_EXCLUIRE:
-        return False
-
-    if nom_fitxer in SKILLS_FUNCIONALS_EXCLOSES:
-        return False
-
-    if es_format_hermes(ruta_fitxer):
-        return False
-
-    return True
+    return nom_fitxer not in FITXERS_EXCLUIRE
 
 
 def trobar_fitxers_md(ruta_vault):
-    """Recorre el vault i retorna només els fitxers que són nodes OKF."""
+    """Recorre el vault i retorna els fitxers .md que són nodes OKF."""
     fitxers = []
     for root, dirs, files in os.walk(ruta_vault):
         dirs[:] = [d for d in dirs if d not in CARPETES_EXCLUIRE]
@@ -203,38 +277,156 @@ def trobar_fitxers_md(ruta_vault):
 
 
 # =============================================================================
-# FUNCIONS DE VALIDACIÓ
+# CONVENCIÓ DE NOMENCLATURA: TIPUS DE FAMÍLIA
 # =============================================================================
 
-def extreure_yaml(ruta_fitxer):
+def extreure_cos_md(ruta_fitxer):
+    """Retorna el cos del .md (tot el que no és frontmatter)."""
     try:
-        with open(ruta_fitxer, "r", encoding="utf-8") as f:
-            contingut = f.read()
-    except Exception as e:
-        return None, f"No es pot llegir el fitxer: {e}"
-
+        with open(ruta_fitxer, "rb") as f:
+            contingut = f.read().decode("utf-8-sig", errors="replace")
+    except Exception:
+        return ""
     linies = contingut.split("\n")
     if not linies or linies[0].strip() != "---":
-        return None, "El fitxer no comença amb '---'"
-
+        return contingut
     final = -1
     for i in range(1, len(linies)):
         if linies[i].strip() == "---":
             final = i
             break
-
     if final == -1:
-        return None, "No es troba el '---' de tancament del YAML"
+        return ""
+    return "\n".join(linies[final + 1:])
 
-    bloc_yaml = "\n".join(linies[1:final])
-    try:
-        data = yaml.safe_load(bloc_yaml)
+
+def extreure_tipus_convencio(contingut):
+    """
+    Extreu els tipus declarats per una Convenció de Nomenclatura.
+
+    Només es miren les taules sota seccions el títol de les quals conté
+    "tipus" (per exemple "## 2 · 9 tipus universals", "## 2 · Tipus de node
+    vàlids" o "### 8.3 · Tipus de família del perfil ..."). Cada fila
+
+        | `Tipus` | Descripció breu ... |
+
+    declara un tipus. La descripció es guarda per detectar exigències de
+    `credit` (fila amb "requereix" i "credit").
+    """
+    tipus = {}
+    seccio_actual = ""
+    dins_taula_validada = False
+
+    for line in contingut.splitlines():
+        m_cap = re.match(r"^(#{1,6})\s+(.*)", line)
+        if m_cap:
+            seccio_actual = m_cap.group(2).lower()
+            dins_taula_validada = "tipus" in seccio_actual
+            continue
+
+        if not dins_taula_validada:
+            continue
+
+        if line.strip().startswith("|"):
+            m = re.match(r"^\|\s*`([^`]+)`\s*\|(.*)$", line)
+            if m:
+                tipus[m.group(1).strip()] = m.group(2).lower()
+
+    return tipus
+
+
+def llegir_tipus_de_les_convencions(fitxers, yaml_per_ruta):
+    """
+    Recull els tipus declarats per totes les Convencions del vault.
+
+    Retorna ({tipus: descripcio}, convencions_trobades).
+    Els tipus universals hi són declarats pels Cores; els tipus de família
+    ho poden estar per qualsevol Convenció del vault (plantilla, perfil...).
+    """
+    declarats = {}
+    convencions = []
+    for ruta in fitxers:
+        data = yaml_per_ruta.get(ruta, {}).get("data")
         if not isinstance(data, dict):
-            return None, "El YAML no és un diccionari"
-        return data, None
-    except yaml.YAMLError as e:
-        return None, f"YAML mal format: {e}"
+            continue
+        tipus_node = data.get("type")
+        if isinstance(tipus_node, str) and tipus_node in TIPUS_CONVENCIO:
+            convencions.append(ruta)
+            cos = extreure_cos_md(ruta)
+            for t, desc in extreure_tipus_convencio(cos).items():
+                declarats[t] = desc
+    return declarats, convencions
 
+
+def construir_tipus_valid(declarats_convencio):
+    """
+    Tipus vàlids = 9 universals + tipus de família declarats a la Convenció.
+
+    Retorna (tipus_valid, tipus_familia, tipus_credit).
+    - tipus_familia: els declarats que no són universals.
+    - tipus_credit: els de família la Convenció dels quals declara que
+      requereixen `credit` (descripció amb "requereix" i "credit").
+      Els universals MAI exigeixen `credit`.
+    """
+    tipus_familia = {
+        t: desc for t, desc in declarats_convencio.items()
+        if t not in TIPUS_UNIVERSALS
+    }
+    tipus_credit = {
+        t for t, desc in tipus_familia.items()
+        if "requereix" in desc and "credit" in desc
+    }
+    tipus_valid = set(TIPUS_UNIVERSALS) | set(tipus_familia)
+    return sorted(tipus_valid), tipus_familia, tipus_credit
+
+
+# =============================================================================
+# ANÀLISI DEL COS: ENLLAÇOS I WIKILINKS
+# =============================================================================
+
+def analitzar_enllacos(ruta_fitxer):
+    """
+    Comprova els enllaços del cos (fora de blocs de codi ```).
+
+    Retorna (enllacos_trencats, wikilinks): llistes de (destí, línia) que
+    no compleixen la sintaxi del Core §6.
+    """
+    cos = extreure_cos_md(ruta_fitxer)
+    directori = os.path.dirname(ruta_fitxer)
+    trencats = []
+    wikilinks = []
+    in_fence = False
+
+    for num, line in enumerate(cos.split("\n"), 1):
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+
+        # Wikilinks [[...]]: prohibits a tot el cos (fora de blocs de codi).
+        for m in re.finditer(r"\[\[([^\]]+)\]\]", line):
+            wikilinks.append((m.group(0), num))
+
+        # Enllaços markdown [text](destí)
+        for m in re.finditer(r"\[[^\]]*\]\(([^)\s]+)\)", line):
+            desti = m.group(1)
+            if desti.startswith(("http://", "https://", "mailto:", "#")):
+                continue
+            # Un fragment '#...' no forma part de la ruta del fitxer.
+            ruta_desti = desti.split("#", 1)[0]
+            if not ruta_desti:
+                continue
+            p_resolt = os.path.normpath(os.path.join(directori, ruta_desti))
+            if not os.path.exists(p_resolt):
+                trencats.append((desti, num))
+
+    return trencats, wikilinks
+
+
+# =============================================================================
+# VALIDACIÓ DE NODE
+# =============================================================================
 
 def validar_data(data_str):
     if not isinstance(data_str, str):
@@ -246,85 +438,265 @@ def validar_data(data_str):
         return False
 
 
-def validar_node(ruta_fitxer, yaml_data, ids_vists):
+def es_buit(v):
+    """Un valor compta com a buit si és None, cadena en blanc o llista buida."""
+    if v is None:
+        return True
+    if isinstance(v, str):
+        return not v.strip()
+    if isinstance(v, list):
+        return len(v) == 0
+    return False
+
+
+def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos):
+    """
+    Valida un node. Retorna la llista d'errors (codi, descripció, acció).
+    """
     errors = []
     if yaml_data is None:
         return errors
 
-    for camp in CAMPS_OBLIGATORIS_GLOBALS:
-        if camp not in yaml_data or yaml_data[camp] is None:
-            errors.append(("Y002", f"Camp obligatori '{camp}' absent", f"Afegir el camp '{camp}' al YAML"))
-
-    tipus = yaml_data.get("type", "")
-    node_id = yaml_data.get("id", "")
-
-    if tipus in TIPUS_CREDIT:
-        if "credit" not in yaml_data or yaml_data["credit"] is None:
-            errors.append(("Y003", "Camp 'credit' absent en node de crèdit", "Afegir el camp 'credit'"))
-
-    if tipus and tipus not in TIPUS_VALID:
-        errors.append((
-            "Y004",
-            f"Tipus '{tipus}' no és un dels {TOTAL_TIPUS} tipus vàlids",
-            "Canviar a un tipus de la llista tancada de la teva Convenció"
-        ))
-
-    if node_id and tipus in PATRONS_ID:
-        patro = PATRONS_ID[tipus]
-        if not re.match(patro, str(node_id)):
+    # ---- 8 camps universals (Cores §3) -------------------------------
+    for camp in CAMPS_UNIVERSALS:
+        valor = yaml_data.get(camp)
+        if es_buit(valor):
             errors.append((
-                "Y005",
-                f"ID '{node_id}' no segueix el patró '{patro}' del tipus '{tipus}'",
-                "Corregir l'ID segons el patró {CODI}-{ÀMBIT}-{NN} de la teva Convenció"
+                "Y002",
+                f"Camp universal '{camp}' absent o buit",
+                f"Afegir el camp '{camp}' amb un valor no buit al YAML",
             ))
 
-    if node_id:
+    # ---- Tipus d'array (Cores §3: authors i tags són arrays) ---------
+    for camp in CAMPS_ARRAY:
+        valor = yaml_data.get(camp)
+        if valor is not None and not es_buit(valor) and not isinstance(valor, list):
+            errors.append((
+                "Y026",
+                f"El camp '{camp}' ha de ser una llista de cadenes (ara és {type(valor).__name__})",
+                f"Convertir '{camp}' a llista YAML, ex: - \"valor\"",
+            ))
+
+    # ---- Camp type: ha de ser cadena (mai llista/diccionari) ---------
+    tipus = yaml_data.get("type")
+    if not isinstance(tipus, str):
+        if not es_buit(tipus):
+            errors.append((
+                "Y025",
+                f"El camp 'type' ha de ser una cadena (ara és {type(tipus).__name__})",
+                "Corregir 'type' a una cadena, ex: 'Guia'",
+            ))
+        tipus = ""
+
+    node_id = yaml_data.get("id")
+
+    # ---- Tipus vàlid: universal o declarat a la Convenció ------------
+    if tipus and tipus not in tipus_valid:
+        errors.append((
+            "Y004",
+            f"Tipus '{tipus}' no és un dels {len(tipus_valid)} tipus vàlids "
+            f"(9 universals del Core + tipus de família de la Convenció)",
+            "Usar un tipus universal o declarar-lo a la Convenció de Nomenclatura",
+        ))
+
+    # ---- credit: mai a universals; obligatori només si la Convenció ho declara
+    if tipus:
+        if "credit" in yaml_data and tipus in TIPUS_UNIVERSALS:
+            errors.append((
+                "Y017",
+                f"El camp 'credit' no es pot usar en el tipus universal '{tipus}' "
+                "(el Core el reserva per a tipus de família de marcs amb crèdits)",
+                "Treure el camp 'credit' del node o canviar-ne el tipus",
+            ))
+        elif tipus in tipus_credit and es_buit(yaml_data.get("credit")):
+            errors.append((
+                "Y003",
+                f"Camp 'credit' absent en el tipus de família '{tipus}', que la "
+                "Convenció declara com a tipus de crèdit",
+                "Afegir el camp 'credit'",
+            ))
+
+    # ---- ID: patró i duplicats ----------------------------------------
+    if node_id is not None:
+        if not isinstance(node_id, str):
+            node_id = str(node_id)
+        if not re.match(PATRO_ID, node_id):
+            errors.append((
+                "Y005",
+                f"ID '{node_id}' no segueix el patró '{{CODI}}-{{ÀMBIT}}-{{NN}}' de la Convenció",
+                "Corregir l'ID (ex: 'EX-MOC-00')",
+            ))
         if node_id in ids_vists:
-            errors.append(("Y006", f"ID '{node_id}' duplicat (també a {ids_vists[node_id]})", "Renombrar un dels dos IDs"))
+            errors.append((
+                "Y006",
+                f"ID '{node_id}' duplicat (també a {ids_vists[node_id]})",
+                "Renombrar un dels dos IDs",
+            ))
         else:
             ids_vists[node_id] = ruta_fitxer
 
-    tags = yaml_data.get("tags", [])
-    if tags:
-        if isinstance(tags, list):
-            te_prefix = any(str(t).startswith(PREFIX_TAG) for t in tags)
-            if not te_prefix:
-                errors.append(("Y007", f"Cap tag comença amb '{PREFIX_TAG}'", f"Afegir com a mínim un tag amb prefix '{PREFIX_TAG}<categoria>'"))
-        else:
-            errors.append(("Y007", "El camp 'tags' no és una llista", "Convertir 'tags' a una llista YAML"))
+    # ---- Tags: amb prefix okf/ i llista ---------------------------------
+    tags = yaml_data.get("tags")
+    if isinstance(tags, list) and tags:
+        te_prefix = any(isinstance(t, str) and t.startswith(PREFIX_TAG) for t in tags)
+        if not te_prefix:
+            errors.append((
+                "Y007",
+                f"Cap tag comença amb '{PREFIX_TAG}'",
+                f"Afegir com a mínim un tag amb prefix '{PREFIX_TAG}<categoria>'",
+            ))
 
-    data_act = yaml_data.get("data_ultima_actualitzacio", "")
-    if data_act and not validar_data(str(data_act)):
+    # ---- Data i versió ---------------------------------------------------
+    data_act = yaml_data.get("data_ultima_actualitzacio")
+    if isinstance(data_act, str) and data_act and not validar_data(data_act):
         errors.append(("Y008", f"Data '{data_act}' no té format ISO 8601", "Corregir la data al format 'YYYY-MM-DD'"))
 
-    versio = yaml_data.get("version", "")
-    if versio and not re.match(PATRO_VERSION, str(versio)):
+    versio = yaml_data.get("version")
+    if isinstance(versio, str) and versio and not re.match(PATRO_VERSION, versio):
         errors.append((
             "Y009",
             f"Versió '{versio}' no segueix el patró 'V<maj>.<min>[.<patch>][-<estat>]'",
-            "Corregir la versió (ex: 'V1.0-Esborrany' o 'V1.0')"
+            "Corregir la versió (ex: 'V1.0-Esborrany' o 'V1.0')",
         ))
 
+    # ---- Enums del Core §4 (opcionals; si es declaren, tancats) ----------
+    visibilitat = yaml_data.get("visibilitat")
+    if visibilitat is not None and visibilitat not in ENUM_VISIBILITAT:
+        errors.append((
+            "Y020",
+            f"Valor de 'visibilitat' '{visibilitat}' no és dels permesos "
+            f"({', '.join(sorted(ENUM_VISIBILITAT))})",
+            f"Usar un valor de l'enum del Core (per defecte: '{VISIBILITAT_DEFECTE}')",
+        ))
+
+    estat = yaml_data.get("estat")
+    if estat is not None and estat not in ENUM_ESTAT:
+        errors.append((
+            "Y021",
+            f"Valor de 'estat' '{estat}' no és dels permesos "
+            f"({', '.join(sorted(ENUM_ESTAT))})",
+            f"Usar un valor de l'enum del Core (per defecte: '{ESTAT_DEFECTE}')",
+        ))
+
+    # ---- Privacitat (Cores §4.1) -----------------------------------------
+    dades_personals = yaml_data.get("dades_personals")
+    anonimitzat = yaml_data.get("anonimitzat")
+    te_dades_sensibles = (
+        dades_personals is True
+        or (anonimitzat is not None and anonimitzat is False)
+    )
+    if te_dades_sensibles and visibilitat == "publica":
+        errors.append((
+            "Y022",
+            "Node amb dades personals/de menors (dades_personals: true o "
+            "anonimitzat: false) amb visibilitat 'publica'",
+            "Canviar 'visibilitat' a 'interna' o 'restringida' (o anonimitzar les dades)",
+        ))
+
+    # ---- Terminologia LOMLOE / marc legal (configurables) ----------------
     if TERMES_LOMLOE:
         valors_a_cercar = []
-        for camp in ["title", "subtitle", "tags"]:
+        for camp in ("title", "subtitle", "tags"):
             val = yaml_data.get(camp, "")
             if isinstance(val, str):
                 valors_a_cercar.append(val)
             elif isinstance(val, list):
-                valors_a_cercar.extend([str(v) for v in val])
-
+                valors_a_cercar.extend(str(v) for v in val)
         text_concatenat = " ".join(valors_a_cercar)
         for terme in TERMES_LOMLOE:
             if terme.lower() in text_concatenat.lower():
-                errors.append(("Y012", f"Terminologia LOMLOE detectada: '{terme}'", "Substituir per la terminologia del teu marc legal"))
+                errors.append((
+                    "Y012", f"Terminologia LOMLOE detectada: '{terme}'",
+                    "Substituir per la terminologia del teu marc legal",
+                ))
 
-    marc_legal = yaml_data.get("legal_framework", "")
-    if MARCS_LEGAL_VALID and marc_legal and str(marc_legal) not in MARCS_LEGAL_VALID:
-        errors.append(("Y013", f"Marc legal '{marc_legal}' incorrecte", f"Corregir a un dels valors vàlids: {MARCS_LEGAL_VALID}"))
+    marc_legal = yaml_data.get("legal_framework")
+    if MARCS_LEGAL_VALID and isinstance(marc_legal, str) and marc_legal not in MARCS_LEGAL_VALID:
+        errors.append((
+            "Y013", f"Marc legal '{marc_legal}' incorrecte",
+            f"Corregir a un dels valors vàlids: {MARCS_LEGAL_VALID}",
+        ))
+
+    # ---- Graf: enllaços i wikilinks --------------------------------------
+    trencats, wikilinks = errors_enllacos if errors_enllacos else ([], [])
+    for desti, num in trencats:
+        errors.append((
+            "Y018",
+            f"Enllaç intern relatiu trencat: '{desti}' (línia {num})",
+            "Corregir la ruta relativa o eliminar l'enllaç",
+        ))
+    for wl, num in wikilinks:
+        errors.append((
+            "Y019",
+            f"Wikilink prohibit: {wl} (línia {num})",
+            "Substituir per un enllaç markdown relatiu: [text](./ruta.md)",
+        ))
 
     return errors
 
+
+# =============================================================================
+# COMPROVACIONS ESTRUCTURALS (MOC ARREL, HANDOFF, CONVENCIÓ)
+# =============================================================================
+
+def comprovacions_estructurals(ruta_vault, fitxers, yaml_per_ruta):
+    """
+    Comprova l'estructura mínima d'un vault (Cores §7.1-7.3).
+
+    Només s'apliquen quan l'arrel validada ÉS un vault: conté com a mínim
+    un node directament a la seva arrel. Si l'arrel no té cap node directe
+    (és una carpeta repositori amb subvaults, com el kit sencer), les
+    comprovacions no s'emeten: cada subvault es validarà individualment.
+    """
+    ruta_vault_abs = os.path.abspath(ruta_vault)
+    directes = [
+        r for r in fitxers
+        if os.path.abspath(os.path.dirname(r)) == ruta_vault_abs
+    ]
+    if not directes:
+        return []
+
+    tipus_a_l_arbre = set()
+    tipus_a_l_arrel = set()
+    for r in fitxers:
+        data = yaml_per_ruta.get(r, {}).get("data")
+        if isinstance(data, dict) and isinstance(data.get("type"), str):
+            tipus_a_l_arbre.add(data["type"])
+            if os.path.abspath(os.path.dirname(r)) == ruta_vault_abs:
+                tipus_a_l_arrel.add(data["type"])
+
+    # Sense cap MOC a tot l'arbre no és un vault: és una carpeta de fragments
+    # (ex: 01-cores/ amb només les convencions). Les comprovacions estructurals
+    # només apliquen a arrels que s'assemblin a un vault.
+    if "MOC" not in tipus_a_l_arbre:
+        return []
+
+    errors = []
+    if "MOC" not in tipus_a_l_arrel:
+        errors.append((
+            "Y014",
+            "El vault no té cap node de tipus 'MOC' a l'arrel",
+            "Crear un MOC arrel que indexi el vault (ex: 'EX-MOC-00')",
+        ))
+    if "DocumentHandoff" not in tipus_a_l_arbre:
+        errors.append((
+            "Y015",
+            "El vault no té cap node de tipus 'DocumentHandoff'",
+            "Afegir un node de transferència de context (Cores §7.3)",
+        ))
+    if not (tipus_a_l_arbre & TIPUS_CONVENCIO):
+        errors.append((
+            "Y016",
+            "El vault no té cap node de tipus 'ConvencioNomenclatura'",
+            "Afegir la Convenció de Nomenclatura del vault (Cores §7.2)",
+        ))
+
+    return errors
+
+
+# =============================================================================
+# INFORME
+# =============================================================================
 
 def generar_informe(resultats, ruta_vault, ruta_sortida):
     total_fitxers = resultats["total_fitxers"]
@@ -334,6 +706,8 @@ def generar_informe(resultats, ruta_vault, ruta_sortida):
     ids_duplicats = resultats["ids_duplicats"]
     termes_lomloe = resultats["termes_lomloe"]
     fitxers_excloso = resultats["fitxers_excloso"]
+    convencions = resultats["convencions"]
+    tipus_familia = resultats["tipus_familia"]
 
     criticos = sum(1 for e in errors_totals if CODIS_ERROR.get(e[1], ("", "🔴 Crític"))[1] == "🔴 Crític")
     alts = sum(1 for e in errors_totals if CODIS_ERROR.get(e[1], ("", "🟠 Alta"))[1] == "🟠 Alta")
@@ -359,7 +733,18 @@ def generar_informe(resultats, ruta_vault, ruta_sortida):
     informe.append(f"| Advertències (🟡) | {mitjans} |")
     informe.append(f"| IDs duplicats detectats | {len(ids_duplicats)} |")
     informe.append(f"| Terminologia LOMLOE | {termes_lomloe} |")
+    informe.append(f"| Convencions llegides | {len(convencions)} |")
+    informe.append(f"| Tipus de família declarats | {len(tipus_familia)} |")
     informe.append("")
+
+    if tipus_familia:
+        informe.append("## Tipus de família declarats a la Convenció")
+        informe.append("")
+        informe.append("| Tipus | Font |")
+        informe.append("|:------|:-----|")
+        for t in sorted(tipus_familia):
+            informe.append(f"| `{t}` | Convenció del vault |")
+        informe.append("")
 
     if errors_totals:
         informe.append("## Errors Detectats")
@@ -436,34 +821,53 @@ def main():
         print(f"ERROR: No s'han trobat nodes OKF a '{ruta_vault}'.")
         sys.exit(2)
 
-    ids_vists = {}
+    # ---- 1a passada: llegir YAML de tots els fitxers ------------------
+    yaml_per_ruta = {}
     errors_totals = []
-    fitxers_valids = 0
     fitxers_amb_errors = 0
-    ids_duplicats = defaultdict(list)
+
+    for ruta in fitxers:
+        data, errors_yaml = extreure_yaml(ruta)
+        yaml_per_ruta[ruta] = {"data": data, "errors": errors_yaml}
+        if errors_yaml:
+            fitxers_amb_errors += 1
+            for codi, desc, accio in errors_yaml:
+                errors_totals.append((ruta, codi, desc, accio))
+
+    # ---- 2a passada: llegir les Convencions per descobrir tipus de família
+    declarats_convencio, convencions = llegir_tipus_de_les_convencions(fitxers, yaml_per_ruta)
+    tipus_valid, tipus_familia, tipus_credit = construir_tipus_valid(declarats_convencio)
+
+    # ---- 3a passada: anàlisi d'enllaços i validació per node ----------
+    ids_vists = {}
+    fitxers_valids = 0
+    ids_duplicats = dict()
     termes_lomloe_count = 0
 
     for ruta in fitxers:
-        yaml_data, error_yaml = extreure_yaml(ruta)
-        if yaml_data is None:
-            errors_totals.append((ruta, "Y001", error_yaml or "YAML no llegit", "Corregir o afegir el bloc YAML"))
-            fitxers_amb_errors += 1
-            continue
+        data = yaml_per_ruta[ruta]["data"]
+        if data is None:
+            continue  # ja s'ha reportat a la 1a passada
 
-        errors_node = validar_node(ruta, yaml_data, ids_vists)
-        if errors_node:
-            fitxers_amb_errors += 1
-            for codi, desc, accio in errors_node:
-                errors_totals.append((ruta, codi, desc, accio))
-                if codi == "Y006":
-                    node_id = yaml_data.get("id", "")
-                    if node_id not in ids_duplicats:
-                        ids_duplicats[node_id].append(ids_vists.get(node_id, ruta))
-                    ids_duplicats[node_id].append(ruta)
-                if codi == "Y012":
-                    termes_lomloe_count += 1
-        else:
-            fitxers_valids += 1
+        errors_enllacos = analitzar_enllacos(ruta)
+        errors_node = validar_node(
+            ruta, data, ids_vists, tipus_valid, tipus_credit, errors_enllacos
+        )
+        fitxers_amb_errors += 1 if errors_node else 0
+        fitxers_valids += 1 if not errors_node else 0
+        for codi, desc, accio in errors_node:
+            errors_totals.append((ruta, codi, desc, accio))
+            if codi == "Y006":
+                node_id = str(data.get("id", ""))
+                if node_id not in ids_duplicats:
+                    ids_duplicats[node_id] = [ids_vists.get(node_id, ruta)]
+                ids_duplicats[node_id].append(ruta)
+            if codi == "Y012":
+                termes_lomloe_count += 1
+
+    # ---- 4a passada: comprovacions estructurals -----------------------
+    for codi, desc, accio in comprovacions_estructurals(ruta_vault, fitxers, yaml_per_ruta):
+        errors_totals.append((ruta_vault, codi, desc, accio))
 
     data_avui = datetime.datetime.now().strftime("%Y-%m-%d")
     if args.output:
@@ -482,6 +886,8 @@ def main():
         "ids_duplicats": ids_duplicats,
         "termes_lomloe": termes_lomloe_count,
         "fitxers_excloso": fitxers_excloso,
+        "convencions": convencions,
+        "tipus_familia": tipus_familia,
     }
 
     contingut_informe = generar_informe(resultats, ruta_vault, ruta_sortida)

@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instal·la dependències
+        run: pip install -r tests/requirements-test.txt
+
+      - name: Executa pytest
+        run: pytest tests/ -v
+
+      - name: Valida el kit sencer
+        run: python3 03-eines/validar_yaml.py --ruta . --output /tmp/informe_ci.md
