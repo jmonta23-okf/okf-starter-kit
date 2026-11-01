@@ -35,6 +35,7 @@ Quan la vaig llegir, em va caure la fitxa: **allò que Google proposava per al c
 Aquest kit és, per tant, un **perfil de l'especificació OKF de Google**, adaptat a l'educació catalana. Respecta el nucli (el camp `type`) i afegeix 9 tipus i 8 camps universals per a la governança del currículum. Si vols el detall tècnic, és a [`02-filosofia.md`](00-documentacio/02-filosofia.md).
 
 **Relació amb altres estàndards educatius.** El kit no implementa CASE (intercanvi de competències), LRMI (descripció de recursos) ni Schema.org (dades estructurades a la web), però hi dialoga conceptualment. Tampoc no pretén substituir els sistemes administratius com Esfer@ o SAGA: la via pràctica per connectar-s'hi és generar fitxers d'importació massiva a partir dels nodes del vault (mitjançant un Paquet LLM), eliminant la introducció manual de notes alumne per alumne. Els detalls complets són a [`08-relacio-amb-estandards.md`](00-documentacio/08-relacio-amb-estandards.md).
+
 ---
 
 ## El setembre que coneixem tots
@@ -113,7 +114,7 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 ```
 
 ```text
-✅ Resultat: 11 nodes escanejats, 0 errors. Graf curricular íntegre i traçable.
+✅ Resultat: 14 nodes escanejats, 0 errors. Tots els nodes OKF del vault han passat la validació sense errors.
 ```
 
 «0 errors» vol dir que el graf compleix les regles de forma. No vol dir que el contingut sigui correcte.
