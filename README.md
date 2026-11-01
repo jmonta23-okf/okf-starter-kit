@@ -71,7 +71,7 @@ La trinxera ha estat el meu despatx, a casa. Els vaults de TCAI i SAD són fruit
 3. **Paquets LLM i dos marcs de referència.** La IA s'opera amb **Paquets LLM**: instruccions en text pla que pots llegir i modificar. El seu ús es descriu amb dos marcs de Juan José de Haro:
    - **[MIAE](https://jjdeharo.github.io/miae/es/)** descriu com es reparteix el treball entre la persona i la IA. Per als materials d'aula treballem al **nivell 3**: la IA proposa un esborrany i el docent el reconstrueix i en pren la decisió final.
    - **[VCER](https://vibe-coding-educativo.github.io/vibe-responsable/ca/)** (*Vibe Coding Educatiu Responsable*) posa condicions als materials que es generen: els artefactes (com presentacions HTML interactives) funcionen 100% offline, no envien dades ni telemetria, es poden fer servir amb teclat i s'alliberen amb llicència lliure.
-4. **Un validador que et cuida l'esquena.** Un petit script en Python que en dos segons revisa enllaços trencats, nomenclatures inconsistents o criteris d'avaluació extraviats. Comprova la forma, no la veritat: que el contingut sigui correcte continua sent feina teva.
+4. **Un validador que et cuida l'esquena (en construcció).** Un petit script en Python que comprova els camps obligatoris del frontmatter i detecta errors de nomenclatura i tipus. **Encara no comprova enllaços trencats, enums de visibilitat/estat ni la regla de privacitat de menors**: és una feina pendent, documentada a la secció “Límits coneguts” i a [`08-relacio-amb-estandards.md`](00-documentacio/08-relacio-amb-estandards.md). Comprova la forma, no la veritat: que el contingut sigui correcte continua sent feina teva.
 
 ---
 
@@ -127,7 +127,7 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 | **`00-documentacio/`** | Filosofia, arquitectura, FAQ i manuals d'acollida | Per entendre com estructurar el teu pensament docent en xarxa. |
 | **`01-cores/`** | Nuclis curriculars oficials (LOMLOE i FP) | L'esquelet legal predefinit, perquè no hagis de picar decrets a mà. |
 | **`02-exemple-complet/`** | Un mòdul complet desplegat (MP1519, 11 nodes) | Un mirall de referència real: 5 AEAs, protocol de 3 portes, Paquet LLM i validador determinista. |
-| **`03-eines/`** | Validador en Python (`validar_yaml.py`) | El guardià que t'avisa si hi ha incoherències al graf. |
+| **`03-eines/`** | Validador en Python (`validar_yaml.py`) | Un linter de frontmatter: comprova camps obligatoris, nomenclatura i tipus. Encara no valida enllaços ni enums (feina pendent). |
 | **`04-plantilles/`** | 6 plantilles preparades (MOC, UD, PaquetLLM…) | Duplica-les per crear els teus primers nodes en pocs minuts. |
 | **`05-exemples-minims/`** | Un vault funcional de 3 nodes | El laboratori més petit possible per provar-ho en 30 minuts. |
 | **`06-comunitat/`** | Espai de difusió i l'article d'*eDigital* | Per compartir grafs i experiències entre docents. |
@@ -191,6 +191,7 @@ Un vault de 60 nodes demana disciplina. Quan arriba un pic de feina (avaluacions
 - **No és encara un estàndard.** Li falta comunitat, governança i adopció externa.
 - **No és una eina per a tothom.** És per a qui vol sobirania digital i està disposat a aprendre eines tècniques. Si busques botons, hi ha eines comercials que ho fan millor.
 - **No és un producte acabat.** És un prototip amb DOI, provat per quatre persones, sense comunitat externa ni validació independent. El que veus és el que hi ha.
+- **El validador no és encara un validador de graf complet.** És un linter de frontmatter: comprova camps, nomenclatura i tipus, però encara no comprova enllaços, enums, MOC arrel, Handoff ni la regla de privacitat de menors. Aquesta és la distància principal entre l’especificació dels Cores i la implementació de referència.
 - **No substitueix les eines oficials.** El graf és la teva font de veritat interna; el document per a Inspecció és una vista derivada. Mentre no hi hagi exportació automàtica, caldrà fer el pas a mà (o amb un Paquet LLM que t'ho generi).
 - **No és una solució per a la cultura escolar actual.** La cultura escolar demana Word, Drive i plataformes oficials. El kit ofereix una capa de sobirania per al docent, no una substitució de les eines del centre.
 
