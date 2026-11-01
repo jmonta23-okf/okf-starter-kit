@@ -27,7 +27,7 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 | Fitxer | Nom del document | Què hi trobaràs? | Temps estimat |
 |:---|:---|:---|:---:|
 | **`01-que-es-okf.md`** | **[Què és OKF?](./01-que-es-okf.md)** | La doble lectura de les sigles, la tirania de les carpetes convencionals i l'anatomia bàsica d'un node. | 10 min |
-| **`02-filosofia.md`** | **[Filosofia](./02-filosofia.md)** | La programació viva, la sobirania docent en text pla, el concepte del taller artesanal (MIAE + VCER) i la proposta de SO. | 15 min |
+| **`02-filosofia.md`** | **[Filosofia](./02-filosofia.md)** | La programació viva, la sobirania docent en text pla, el concepte del taller artesanal (MIAE + VCER), la declaració d'ús d'IA del kit i la genealogia de l'ecosistema. | 20 min |
 | **`03-arquitectura.md`** | **[Arquitectura](./03-arquitectura.md)** | El model de 4 capes, la topologia del graf, la convenció YAML mixta (EN/CA), els 15 tipus de nodes i el validador estàtic. | 20 min |
 | **`04-inici-rapid.md`** | **[Inici ràpid](./04-inici-rapid.md)** | Tutorial pas a pas de 30 minuts per instal·lar les eines, crear el teu primer node i passar la validació a 0 errors. | 30 min |
 | **`05-glossari.md`** | **[Glossari](./05-glossari.md)** | Definicions canòniques de la terminologia del kit (Node, MOC, Core, Frontmatter, Graf, Taller, MIAE, VCER...). | 8 min |
@@ -40,7 +40,7 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 
 A més de la documentació central, la carpeta **[06-comunitat/](../06-comunitat/)** conté:
 
-- **[01-casos-us.md](../06-comunitat/01-casos-us.md)** — Els tres casos reals (Benet M. a Química, César G. a Sanitat, Ariadna C. a Pedagogia Terapèutica), amb el detall de com es va fer cada pas.
+- **[01-casos-us.md](../06-comunitat/01-casos-us.md)** — Els quatre casos reals (Montse G. a TCAI, Benet M. a Química, César G. a Sanitat, Ariadna C. a Pedagogia Terapèutica), amb el detall de com es va fer cada pas.
 - **[02-com-compartir.md](../06-comunitat/02-com-compartir.md)** — Guia pràctica per compartir el kit o el vault (GitHub, Classroom, zip) amb privacitat i coherència.
 - **[03-article-edigital.md](../06-comunitat/03-article-edigital.md)** — L'article de difusió per a `comunitat.edigital.cat`: "Del laboratori a la sala de mestres".
 
@@ -54,17 +54,22 @@ El disseny d'aquest kit s'ha nodrit directament d'implementacions i proves de c�
    Desplegament complet des de zero per al debut docent d'en **Benet M.** a partir exclusivament del decret oficial. Demostra que el sistema permet estar **operatiu en menys d'una setmana** amb una programació d'aula completa, sessions minutades i presentacions interactives que superen l'avaluació VCER.
 
 2. **El curs de capacitació en Sanitat (MP 1523 – Gestió de la documentació sanitària):**  
-   Disseny i transferència metodològica per a en **César G.**, culminant en un vault autònom de **59 nodes interconnectats i validats amb 0 errors**.
+   Disseny i transferència metodològica per a en **César G.**, a partir del curs formatiu **OKF-CURS-FP** adaptat al seu mòdul. El resultat: un vault autònom de **59 nodes interconnectats i validats amb 0 errors**.
 
 3. **L'adaptació a l'educació especial (PTE – Pedagogia Terapèutica):**  
-   Col·laboració amb l'**Ariadna C.**, mestra de PT a primària, per estructurar Plans Individuals (PI) i adaptacions curriculars amb privacitat reforçada per a dades de menors. El resultat és un vault de **62 fitxers** amb 4 tipus de node propis de la família PTE (`PlaSuportIndividualitzat`, `AdaptacioCurricular`, `SequenciaDidactica`, `InformeAvaluacio`).
+   Col·laboració amb l'**Ariadna C.**, mestra de PT a primària, per estructurar Plans Individuals (PI) i adaptacions curriculars amb privacitat reforçada per a dades de menors. El resultat és **PTE-OKF**, una adaptació de **OKF-CURS-FP** al context de primària i educació especial: **62 fitxers** amb 4 tipus de node propis de la família PTE (`PlaSuportIndividualitzat`, `AdaptacioCurricular`, `SequenciaDidactica`, `InformeAvaluacio`).
 
-4. **Els orígens (tres projectes germans):**  
-   - **TCAI-OKF** (2025-2026): el graf del cicle de Cures Auxiliars d'Infermeria. On va néixer el Paquet LLM i el "factor Montse".
-   - **SAD-GRAF** (2026-2027): el graf del cicle de Documentació Sanitària. On es van conceptualitzar els Cores, les FitxaAEA i els Protocols.
-   - **PTE-OKF** (2026-2027): el graf de Pedagogia Terapèutica a primària. On es va reforçar la privacitat per a dades de menors.
+4. **L'ecosistema OKF-CATALA:**  
+   El kit és la síntesi genèrica de dos projectes reals, i forma part d'un ecosistema més ampli que comparteix eines i filosofia:
+   - **TCAI-OKF** (2025-2026): el graf del cicle de Cures Auxiliars d'Infermeria. On va néixer el Paquet LLM i el "factor Montse". **Origen directe del kit.**
+   - **SAD-GRAF** (2026-2027): el graf del cicle de Documentació Sanitària. On es van conceptualitzar els Cores, les FitxaAEA i els Protocols. **Origen directe del kit.**
+   - **OKF-CURS-FP** (2026-2027): el curs formatiu de 9 mòduls (M0-M8) que ensenya el sistema. **Origen de les adaptacions personalitzades.**
+   - **PTE-OKF** (2026-2027): el vault de Pedagogia Terapèutica (adaptació de CURS-FP per a l'Ariadna C.). Privacitat reforçada per a dades de menors.
+   - **OKF-CURS-MP1523** (2026-2027): el curs específic per al mòdul MP1523 (adaptació de CURS-FP per a en César G.).
 
-De la fricció entre els tres en va sortir el que realment importa: **un esquelet mínim, genèric i obert**.
+   Els **Cores** (`OKF-CORE-CATALA-00`, `OKF-CORE-FP-00`) no són projectes de l'ecosistema: són **components del kit** que fixen les regles mínimes per a cada marc legal. S'han aplicat a tots els projectes (TCAI, SAD, CURS-FP, PTE, MP1523) per fer-los **interoperables**.
+
+De la fricció entre els dos orígens en va sortir el que realment importa: **un esquelet mínim, genèric i obert**.
 
 ---
 
@@ -79,8 +84,8 @@ Els documents de traspàs de context (*Handoffs*) són **fora del repositori pú
 | **HANDOFF-02** | 27/10/2026 | Integració del marc MIAE al PaquetLLM i primer push al repositori privat. |
 | **HANDOFF-03** | 28/10/2026 | Consolidació del concepte de taller, la proposta de sistema operatiu i la genealogia del projecte. |
 | **HANDOFF-04** | 29/10/2026 | Humanització del to, MIAE + VCER, ontologies i "programació didàctica viva". |
-| **HANDOFF-05** | 29/10/2026 | Consolidació V1.1: exemple complet de 11 nodes, privacitat amb inicials. |
-| **HANDOFF-06** | 31/10/2026 | Publicació oficial a GitHub i Zenodo. DOI `10.5281/zenodo.23823819`. |
+| **HANDOFF-05** | 29/10/2026 | Consolidació V1.1: exemple complet d'11 nodes, privacitat amb inicials. |
+| **HANDOFF-06** | 31/10/2026 | Publicació oficial a GitHub i Zenodo. DOI `10.5281/zenodo.23823819`. Refinaments posteriors (DOI a tots els fitxers, Montse G. al `01-casos-us.md`, declaració MIAE). |
 
 > *Nota: Aquests documents no formen part del repositori públic. Es conserven localment per a ús intern i per a qui hereti el projecte en el futur.*
 
