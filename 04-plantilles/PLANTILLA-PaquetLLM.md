@@ -8,10 +8,10 @@ center: "[El teu centre educatiu o àmbit]"
 academic_year: "2026-2027"
 version: "V1.1"
 data_ultima_actualitzacio: "2026-10-28"
+llicencia: "CC BY-SA 4.0"
 authors:
   - "[El teu nom]"
 legal_framework: "[El marc legal del teu cicle: LOE / LOMLOE]"
-credit: "[Codi del mòdul o crèdit, p. ex. MP1519 o C1]"
 model_objectiu: "[Model al qual es dirigeix el paquet, p. ex. Claude 3.7 Sonnet / ChatGPT-4o]"
 context: "[Context d'ús: per a quin crèdit, quines unitats i quin tipus de material genera]"
 miai_nivell_esperat: 3

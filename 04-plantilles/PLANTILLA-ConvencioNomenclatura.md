@@ -8,6 +8,7 @@ center: "El teu centre educatiu"
 academic_year: "2026-2027"
 version: "V1.0.1-Esborrany"
 data_ultima_actualitzacio: "2026-10-25"  # Canvia per la data d'avui
+llicencia: "CC BY-SA 4.0"
 authors:
   - "El teu nom"
 legal_framework: "[El marc legal del teu cicle]"
@@ -44,7 +45,7 @@ visibilitat: publica
 | `Glossari` | Recull terminològic amb definicions acordades. |
 | `UnitatDidactica` | Unitat Didàctica amb continguts, activitats i avaluació. |
 | `FitxaAEA` | Fitxa d'una activitat d'ensenyament-aprenentatge concreta. |
-| `PaquetLLM` | Document autocontingut per generar materials d'un crèdit. Requereix `credit`. |
+| `PaquetLLM` | Document autocontingut per generar materials amb un LLM. Tipus universal: no pot dur el camp `credit` (reservat als tipus de família). |
 
 **Regla.** La llista de tipus és **tancada**: cap node no pot declarar un `type:` que no hi sigui. Si cal un tipus nou, s'amplia aquesta Convenció (vegeu §7).
 
@@ -110,7 +111,7 @@ El-teu-vault/
 
 ## 6 · Enllaços interns
 
-[Sintaxi: [text](./ruta.md)]
+[Sintaxi: els enllaços interns es fan amb ruta relativa des del fitxer origen; vegeu l'exemple següent]
 
 Els enllaços interns es fan amb **ruta relativa** des del fitxer origen:
 

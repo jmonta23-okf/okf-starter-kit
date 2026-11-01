@@ -4,12 +4,11 @@ type: ConvencioNomenclatura
 title: "OKF Core Català"
 subtitle: "Nucli comú d'interoperabilitat per als vaults OKF de l'educació bàsica a Catalunya"
 cycle: "Educació bàsica (infantil, primària, ESO i CFGB)"
-ambit: "LOMLOE · Decret 175/2022 · Decret 480/2024"
 legal_framework: "LOMLOE · Decret 175/2022 · Decret 480/2024"
 center: "Centre educatiu (Catalunya)"
 academic_year: "2026-2027"
-version: "V1.1.1-Esborrany"
-data_ultima_actualitzacio: "2026-10-25"
+version: "V1.1.2-Esborrany"
+data_ultima_actualitzacio: "2026-10-31"
 authors:
   - "Josep Montañà Piqué"
 llicencia: "CC BY-SA 4.0"
@@ -28,7 +27,7 @@ tags:
 
 > **Abast.** Aquest document és la **font de veritat del nucli**. No conté tipus ni camps de cap etapa concreta: això correspon als **perfils de família** (infantil, primària, ESO, CFGB, PTE, etc.).
 
-> **Relació amb altres convencions.** Els perfils de família hereten aquest core i només hi afegeixen el que és propi del seu domini. Les convencions de SAD, TCAI, FP i PTE han de convergir cap a aquest nucli o declarar-se **cores germans** si el marc legal és diferent.
+> **Relació amb altres convencions.** Els perfils de família hereten aquest core i només hi afegeixen el que és propi del seu domini. Qualsevol convenció de perfil ha de convergir cap a aquest nucli o declarar-se **core germà** si el marc legal és diferent.
 
 ```mermaid
 flowchart LR
@@ -37,7 +36,7 @@ flowchart LR
     CORE --> P3["Perfil ESO"]
     CORE --> P4["Perfil CFGB"]
     CORE --> P5["Perfil PTE"]
-    CORE --> G["Cores germans<br/>FP, TCAI..."]
+    CORE --> G["Cores germans"]
 
     style CORE fill:#fef3c7,stroke:#b45309,stroke-width:4px
     style P1 fill:#d1fae5,stroke:#047857,stroke-width:1px
@@ -172,11 +171,11 @@ Qualsevol node que avaluï competències (per exemple, un `InformeAvaluacio` o u
 | `NN` | Número seqüencial de dues xifres (`00`, `01`, `02`, ...). |
 
 **Exemples vàlids:**
-- `ESO-MOC-00`
-- `ESO-M2-L02`
-- `PTE-CONV-00`
-- `SAD-MP1520-MOC-00`
-- `TCAI-CONVENCIO-NOMENCLATURA-00`
+- `EX-MOC-00`
+- `EX-UD1-00`
+- `EX-CONV-00`
+- `MP1519-MOC-00`
+- `EX-CONVENCIO-NOMENCLATURA-00`
 
 **Nota:** els identificadors amb més de dues xifres o amb sufixos lletres (`L01`) són acceptables si el perfil ho documenta, però el core **recomana** el patró `NN` de dues xifres per facilitar la validació automàtica.
 
@@ -211,7 +210,7 @@ El core fixa **una única sintaxi d'enllaç intern** per garantir la interoperab
 1. **Sempre ruta relativa** des del fitxer origen.
 2. **Sempre extensió `.md`** inclosa.
 3. **Sempre text visible** (no enllaços buits).
-4. **Prohibit wiki links** (`[[...]]`) al core. Si un vault els usa (SAD), ha de declarar un **conversor documentat** o migrar a Markdown relativament.
+4. **Prohibit wiki links** (enllaços amb dobles claudàtors, estil Obsidian) al core. Si un vault els usa, ha de declarar un **conversor documentat** o migrar a Markdown relatiu.
 
 **Exemples:**
 ```markdown
@@ -263,7 +262,7 @@ Els perfils poden afegir camps com:
 - `etapa`, `cicle`, `area`, `materia`.
 - `dades_personals`, `anonimitzat` (perfil PTE i qualsevol node amb menors).
 - `desenvolupa` (per a protocols i paquets LLM).
-- `module` (per a SAD, si es declara com a core germà).
+- `module` (per a perfils que treballin per mòduls, si es declaren com a cores germans).
 
 **Regla:** un camp de família **no pot** tenir el mateix nom que un camp universal amb un significat diferent.
 
@@ -280,7 +279,8 @@ Els vaults amb marc legal diferent **no hereten aquest core**, però en comparte
 | Core germà | Marc legal | Relació |
 |:---|:---|:---|
 | **OKF Core FP** | LOE · LO 3/2022 | Comparteix els 9 universals i els 8 camps; té família pròpia. |
-| **OKF Core TCAI** | LOGSE · Decret 203/1997 | Comparteix els 9 universals i els 8 camps; té família pròpia i terminologia LOGSE. |
+
+Altres cores germans es poden declarar si comparteixen els 9 universals i els 8 camps (per exemple, un futur core amb marc LOGSE i terminologia pròpia).
 
 ---
 
@@ -290,7 +290,7 @@ Per afegir un tipus universal o modificar un enum:
 1. **Detectar la necessitat** en almenys dos perfils de família.
 2. **Documentar el cas** i demostrar que no es pot resoldre amb un tipus de família.
 3. **Proposar l'ampliació** incrementant la versió (`V1.0 → V1.1`).
-4. **Registrar el canvi** a §12.
+4. **Registrar el canvi** a la taula de versionatge (final del document).
 5. **Verificar dependències** als perfils i als cores germans.
 6. **Segellar** la nova versió i actualitzar la data.
 
@@ -320,6 +320,7 @@ Abans de desar un node en un vault OKF de l'educació bàsica catalana:
 | V1.0-Esborrany | 2026-10-24 | Creació inicial del nucli OKF Core Català. 9 tipus universals, 8 camps universals, enums de `visibilitat` i `estat`, sintaxi d'enllaç Markdown relatiu, declaració d'interoperabilitat de 7 punts, perfils de família previstos i cores germans (FP, TCAI). |
 | **V1.1-Esborrany** | **2026-10-24** | **Alineació amb el Decret 480/2024 i els annexos del Decret 175/2022:**<br>**1. Marc legal:** afegit el Decret 480/2024.<br>**2. Estructura:** documentada l'estructura de cicles de Primària, ESO i CFGB.<br>**3. Competències:** afegida la referència a les 4 competències transversals (Annex 4) i a l'aprenentatge basat en situacions (Annex 5).<br>**4. Perfils:** afegit el perfil de família per a CFGB.<br>**5. Horaris:** afegida la nota sobre la modificació horària (Annex 7) introduïda pel Decret 480/2024. |
 | V1.1.1-Esborrany | 2026-10-25 | Adaptació per al OKF Starter Kit: marca neutralitzada (`center`), referències externes eliminades (només enllaç creuat amb el Core FP), `legal_framework` afegit (abans `ambit`), salt de línia final. |
+| **V1.1.2-Esborrany** | **2026-10-31** | **Sincronització amb el validador v1.1.0 del kit:** eliminat el camp duplicat `ambit` (es conserva `legal_framework`); corregides les referències fantasma (exemples d'ID neutres, eliminada la fila de l'inexistent "OKF Core TCAI" de §9 amb nota genèrica sobre cores germans); el punt 4 del procediment ja no remet al §12 inexistent (taula de versionatge); prohibició de wiki links reformulada sense literals de doble claudàtor; enllaços d'exemple alineats amb la sintaxi del Core. |
 
 ---
 

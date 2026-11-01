@@ -8,6 +8,7 @@ center: "El teu centre educatiu"
 academic_year: "2026-2027"
 version: "V1.0-Esborrany"
 data_ultima_actualitzacio: "2026-10-25"  # Canvia per la data d'avui
+llicencia: "CC BY-SA 4.0"
 authors:
   - "El teu nom"
 legal_framework: "[El marc legal del teu cicle]"
@@ -55,9 +56,11 @@ visibilitat: publica
 
 Cada activitat viu en un node `FitxaAEA` separat. Aquesta secció només les enllaça, en ordre:
 
+```markdown
 - [Activitat 1: Introducció al concepte](02_C1_AEA_01.md) — 1 hora
 - [Activitat 2: Pràctica guiada](02_C1_AEA_02.md) — 2 hores
 - [Activitat 3: Cas pràctic](02_C1_AEA_03.md) — 2 hores
+```
 
 ## 5 · Avaluació
 

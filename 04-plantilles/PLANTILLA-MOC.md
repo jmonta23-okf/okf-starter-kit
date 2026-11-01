@@ -8,6 +8,7 @@ center: "El teu centre educatiu"
 academic_year: "2026-2027"
 version: "V1.0-Esborrany"
 data_ultima_actualitzacio: "2026-10-25"  # Canvia per la data d'avui
+llicencia: "CC BY-SA 4.0"
 authors:
   - "El teu nom"
 legal_framework: "[El marc legal del teu cicle]"
@@ -36,13 +37,17 @@ Organitza els enllaços per categories. Cada entrada segueix el format:
 
 ### Aprenentatge
 
+```markdown
 - [Unitat 1: Introducció](01_C1_Unitat_Didactica.md) — primera unitat del curs
 - [Unitat 2: [Títol]](01_C2_Unitat_Didactica.md) — [descripció breu]
+```
 
 ### Avaluació
 
+```markdown
 - [Prova pràctica 1](02_C1_Prova_Practica.md) — prova sumativa del bloc 1
 - [Rúbrica del cas clínic](02_C1_Rubrica_Cas.md) — instrument d'avaluació
+```
 
 ### Govern del vault
 

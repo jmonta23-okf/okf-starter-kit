@@ -8,10 +8,10 @@ center: "Centre educatiu de referència"
 academic_year: "2026-2027"
 version: "V2.0-Complet"
 data_ultima_actualitzacio: "2026-10-29"
+llicencia: "CC BY-SA 4.0"
 authors:
   - "Josep Montañà Piqué"
 legal_framework: "Ordre EDU/10/2020 i RD 768/2014 (LOE)"
-credit: "MP1519"
 model_objectiu: "Claude 3.7 Sonnet / ChatGPT-4o / DeepSeek V3"
 miai_nivell_esperat: 3
 miai_justificacio_breu: "El paquet genera instruments summatius (PE1-PE4), materials de seguretat clínica (codificació diagnòstica i quirúrgica) i presentacions HTML d'aula. La supervisió humana és preceptiva abans de la publicació."
@@ -310,6 +310,6 @@ Petició específica:
 - **[06_MP1519_Fitxa_AEA_4.md](./06_MP1519_Fitxa_AEA_4.md)** — Unitat d'aplicació: Procediments PCS i Causes Externes.
 - **[07_MP1519_Fitxa_AEA_5.md](./07_MP1519_Fitxa_AEA_5.md)** — Unitat d'aplicació: Projecte Integrador d'Auditoria d'Expedients.
 - **[09_MP1519_Arquitectura_DualUser.md](./09_MP1519_Arquitectura_DualUser.md)** — Manual operatiu del Co-Docent i protocol NotebookLM.
-- **[10_MP1519_Ecosistema_Automatitzacio.md](./10_MP1519_Ecosistema_Automatitzacio.md)** — Infraestructura de Google Sheets Mestre i Motor IA.
+- **[10_MP1519_Ecosistema_Automatitzacio.md](./11_MP1519_Ecosistema_Automatitzacio.md)** — Infraestructura de Google Sheets Mestre i Motor IA.
 ```
 

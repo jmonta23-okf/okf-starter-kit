@@ -8,6 +8,7 @@ center: "Centre educatiu de referència"
 academic_year: "2026-2027"
 version: "V2.0-Complet"
 data_ultima_actualitzacio: "2026-10-29"
+llicencia: "CC BY-SA 4.0"
 authors:
   - "Josep Montañà Piqué"
 legal_framework: "Ordre EDU/10/2020 i RD 768/2014 (LOE)"
@@ -174,6 +175,6 @@ Determinades infraccions professionals tenen caràcter d'incompatibilitat absolu
 - **[05_MP1519_Fitxa_AEA_3.md](./05_MP1519_Fitxa_AEA_3.md)** — Aplicació a la Fita 3 (RA5, RA6).
 - **[06_MP1519_Fitxa_AEA_4.md](./06_MP1519_Fitxa_AEA_4.md)** — Aplicació a la Fita 4 (RA7, RA8).
 - **[07_MP1519_Fitxa_AEA_5.md](./07_MP1519_Fitxa_AEA_5.md)** — Aplicació a la Fita 5 (Projecte Integrador).
-- **[10_MP1519_Ecosistema_Automatitzacio.md](./10_MP1519_Ecosistema_Automatitzacio.md)** — Implementació tècnica de les fórmules a Google Sheets.
+- **[10_MP1519_Ecosistema_Automatitzacio.md](./11_MP1519_Ecosistema_Automatitzacio.md)** — Implementació tècnica de les fórmules a Google Sheets.
 ```
 

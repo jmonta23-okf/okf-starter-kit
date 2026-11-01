@@ -8,6 +8,7 @@ center: "Centre educatiu de referència"
 academic_year: "2026-2027"
 version: "V2.0-Complet"
 data_ultima_actualitzacio: "2026-10-29"
+llicencia: "CC BY-SA 4.0"
 authors:
   - "Josep Montañà Piqué"
 legal_framework: "Ordre EDU/10/2020 i RD 768/2014 (LOE)"

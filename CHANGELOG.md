@@ -7,6 +7,31 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [V1.2-Esborrany] - 2026-10-31
+
+### Afegit
+- **Validador v1.1.0 sincronitzat amb els Cores:** comprova exactament els **8 camps universals** (id, type, title, version, data_ultima_actualitzacio, authors, llicencia, tags) i els **9 tipus universals** (MOC, Guia, Glossari, Protocol, PaquetLLM, ConvencioNomenclatura, Llicencia, Plantilla, DocumentHandoff), com fixen els Cores §2 i §3. `Llicencia` i `Plantilla` ara són acceptats.
+- **Tipus de família declarats a la Convenció, no al codi:** el validador llegeix les taules de tipus de les Convencions del vault (inclosa la nova §8.3 del Core FP amb els tipus del perfil CURS-OKF) i accepta els universals + els declarats. `credit` només s'exigeix si la Convenció ho declara, i és **prohibit** en tipus universals (Y017).
+- **Comprovacions de graf:** enllaços interns relatius (cap trencat, Y018), prohibició de wikilinks `[[...]]` (Y019), enums de `visibilitat` (5 valors) i `estat` (4 valors) del Core (Y020/Y021), MOC arrel (Y014), DocumentHandoff (Y015), ConvencioNomenclatura (Y016) i regla de privacitat de menors (Y022).
+- **Robustesa:** `type` no hashable (Y025) sense crash; valors buits `title: ""`/`tags: []` (Y002); `authors`/`tags` com a llistes (Y026); BOM UTF-8 amb avís clar (Y023); claus YAML duplicades (Y024); suprimida l'heurística Hermes: un node amb `name:` i sense `id:` ara dóna error en lloc de desaparèixer.
+- **Proves automàtiques (pytest):** carpeta `tests/` nova amb 24 casos (node vàlid, type llista, ID mal escrit, títol buit, tags buits, authors cadena, BOM, claus duplicades, enllaç trencat, wikilink dins i fora de fence, enums, privacitat, credit en universal, tipus de família declarats/no declarats, estructura del vault). Tot verd.
+- **GitHub Action** `.github/workflows/test.yml`: executa pytest i valida el kit complet a cada push i pull request.
+- **Estructura completa de vault als exemples:** nous `03_C1_Convencio.md` + `04_C1_Handoff.md` al mini-vault (5 nodes) i `12_MP1519_Convencio.md` + `13_MP1519_Handoff.md` a l'exemple complet (14 nodes), perquè cada exemple sigui un vault interoperable amb Convenció i handoff propis.
+
+### Modificat
+- **Cores v1.1.2 (Català) / v1.0.2 (FP):** eliminades les referències fantasma (exemples d'ID amb ESO/SAD/TCAI/PTE, files de cores germans inexistents, remissió al §12 inexistent), eliminat el camp duplicat `ambit` (es conserva `legal_framework`), prohibició de wikilinks reformulada sense literals `[[...]]`, nova §8.3 al Core FP amb els tipus de família del perfil CURS-OKF.
+- **Kit alineat amb els 8 camps universals:** `llicencia: "CC BY-SA 4.0"` afegit a tots els nodes d'exemple i plantilles (21 fitxers); `credit` eliminat dels nodes de tipus universal; enllaços interns d'`02-exemple-complet` corregits (`10_` → `11_`); placeholders de les plantilles tancats en blocs de codi per no comptar com a enllaços.
+- **README:** el validador ja no és "en construcció"; es descriu el que fa de debò i cau la nota de "feina pendent" d'enllaços i enums.
+
+### Estat
+- **27 nodes OKF** validats amb **0 errors** (validador v1.1.0).
+- **Mòdul MP1519** completament desplegat a `02-exemple-complet/` (14 nodes, ara amb Convenció i handoff propis).
+- **5 nodes** a `05-exemples-minims/` (LOGSE/C1, ara amb Convenció i handoff).
+- **6 plantilles** a `04-plantilles/`.
+- **2 Cores** a `01-cores/`.
+
+---
+
 ## [V1.1-publicació] - 2026-10-31 · DOI: [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819)
 
 ### Afegit

@@ -4,12 +4,11 @@ type: ConvencioNomenclatura
 title: "OKF Core FP"
 subtitle: "Nucli comú d'interoperabilitat per als vaults OKF de la Formació Professional"
 cycle: "Formació Professional (Grau Bàsic, Mitjà i Superior)"
-ambit: "LOE · LO 3/2022 · RD 659/2023 · LOGSE (origen històric)"
 legal_framework: "LOE · LO 3/2022 · RD 659/2023 · LOGSE (origen històric)"
 center: "Centre educatiu (Catalunya)"
 academic_year: "2026-2027"
-version: "V1.0.1-Esborrany"
-data_ultima_actualitzacio: "2026-10-25"
+version: "V1.0.2-Esborrany"
+data_ultima_actualitzacio: "2026-10-31"
 authors:
   - "Josep Montañà Piqué"
 llicencia: "CC BY-SA 4.0"
@@ -142,8 +141,8 @@ Camp **universal opcional** (si no es declara, s'assumeix `vigent`). L'enum és 
 
 **Exemples vàlids:**
 - `CURS-MOC-00` (CURS-OKF)
-- `SAD-MP1520-MOC-00` (SAD-GRAF)
-- `TCAI-CONVENCIO-00` (TCAI-GRAF)
+- `MP1519-MOC-00` (mòdul de l'exemple complet del kit)
+- `CURS-CONV-00` (convenció del perfil CURS-OKF)
 
 ### 5.2 · Nom del fitxer
 El nom del fitxer `.md` ha de ser **estable i únic** dins del vault. Es recomana:
@@ -162,7 +161,7 @@ El core fixa **una única sintaxi d'enllaç intern**: Markdown relatiu amb exten
 [text visible](../ruta/relativa/al/fitxer.md)
 ```
 
-**Regles:** ruta relativa, extensió `.md` inclosa, text visible, prohibit wiki links (`[[...]]`).
+**Regles:** ruta relativa, extensió `.md` inclosa, text visible, prohibits els wiki links (enllaços amb dobles claudàtors, estil Obsidian).
 
 ---
 
@@ -212,6 +211,20 @@ Els perfils de FP poden afegir aquests camps (a més dels 8 universals):
 
 ---
 
+### 8.3 · Tipus de família declarats del perfil CURS-OKF
+
+El perfil CURS-OKF (el que desplega l'exemple complet del kit, `02-exemple-complet/`)
+declara aquests tipus de família, a més dels 9 universals:
+
+| Tipus | Descripció breu |
+|:---|:---|
+| `CatalegCurricular` | Catàleg de resultats d'aprenentatge i criteris d'avaluació d'un mòdul. |
+| `EinaTecnica` | Eina, script o utilitat tècnica del vault. |
+| `FitxaAEA` | Fitxa d'una activitat d'ensenyament-aprenentatge concreta. |
+| `UnitatDidactica` | Unitat didàctica amb continguts, activitats i avaluació. |
+
+---
+
 ## 9 · Cores germans
 
 Aquest core és germà de l'OKF Core Català. Comparteixen els 9 universals i els 8 camps. Es declaren germans perquè el marc legal és diferent.
@@ -219,7 +232,8 @@ Aquest core és germà de l'OKF Core Català. Comparteixen els 9 universals i el
 | Core germà | Marc legal | Relació |
 |:---|:---|:---|
 | **OKF Core Català** | LOMLOE (Decret 175/2022) | Educació bàsica (Infantil, Primària, ESO, CFGB). |
-| **OKF Core PTE** | LOMLOE (Decret 175/2022) | Pedagogia Terapèutica (si es desenvolupa com a core propi). |
+
+Altres cores germans es poden declarar si comparteixen els 9 universals i els 8 camps (per exemple, un futur core de Pedagogia Terapèutica amb marc LOMLOE).
 
 ---
 
@@ -229,7 +243,7 @@ Per afegir un tipus universal o modificar un enum:
 1. **Detectar la necessitat** en almenys dos perfils de família (ex: TCAI i SAD).
 2. **Documentar el cas** i demostrar que no es pot resoldre amb un tipus de família.
 3. **Proposar l'ampliació** incrementant la versió (`V1.0 → V1.1`).
-4. **Registrar el canvi** a §12.
+4. **Registrar el canvi** a la taula de versionatge (final del document).
 5. **Verificar dependències** als perfils i als cores germans (Core Català).
 6. **Segellar** la nova versió.
 
@@ -257,6 +271,7 @@ Abans de desar un node en un vault OKF de FP:
 |:------:|:----:|:-----------|
 | V1.0-Esborrany | 2026-10-24 | Creació inicial del nucli OKF Core FP. 9 tipus universals, 8 camps universals, enums, sintaxi d'enllaç, declaració d'interoperabilitat i cores germans (Core Català). |
 | V1.0.1-Esborrany | 2026-10-25 | Adaptació per al OKF Starter Kit: marca neutralitzada (`center`), referències externes eliminades (només enllaç creuat amb el Core Català), `legal_framework` afegit (abans `ambit`), enllaç trencat al cos corregit, salt de línia final. |
+| **V1.0.2-Esborrany** | **2026-10-31** | **Sincronització amb el validador v1.1.0 del kit:** eliminat el camp duplicat `ambit` (es conserva `legal_framework`); nova §8.3 amb els tipus de família declarats del perfil CURS-OKF (`CatalegCurricular`, `EinaTecnica`, `FitxaAEA`, `UnitatDidactica`) com a font per al validador; exemples d'ID neutres (sense SAD/TCAI); fila de §9 reformulada en nota genèrica (sense l'inexistent "OKF Core PTE"); el punt 4 del procediment ja no remet al §12 inexistent; prohibició de wiki links reformulada sense literals de doble claudàtor. |
 
 ---
 
