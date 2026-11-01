@@ -61,8 +61,8 @@ Per resoldre-ho vaig inventar el **Paquet LLM**: una **recepta oberta, transpare
 ### 2 · La prova de càrrega a Química (El cas d'en Benet M.)
 Per comprovar si el graf aguantava fora de la meva especialitat, vaig voler fer una prova extrema: bastir des de zero el mòdul MP 1257 (*Emmagatzematge i distribució en el laboratori*, Química), una matèria que jo no domino. L'objectiu era ajudar en **Benet M.**, un company novell que debutava a la docència amb materials heretats que eren runa. A partir del decret oficial i l'estructura OKF, en menys d'una setmana el mòdul estava complet, validat i a punt per fer classe amb seguretat.
 
-### 3 · El banc de proves humà (Anna C. i César G.)
-L'adopció real no es mesura en clics d'Internet, sinó en temps, motivació i acompanyament reposat. Com el sopar d'aquest divendres a casa de l'**Anna C.** per mirar-nos amb calma com adaptar el graf a la gestió dels seus Plans Individuals (PI) i mesures DUA a l'educació especial; o la col·laboració amb en **César G.** perquè estructurés el seu propi mòdul sanitari (MP 1523) en un vault autònom de 59 nodes.
+### 3 · El banc de proves humà (Ariadna C. i César G.)
+L'adopció real no es mesura en clics d'Internet, sinó en temps, motivació i acompanyament reposat. Com el sopar d'aquest divendres a casa de l'**Ariadna C.** per mirar-nos amb calma com adaptar el graf a la gestió dels seus Plans Individuals (PI) i mesures DUA a l'educació especial; o la col·laboració amb en **César G.** perquè estructurés el seu propi mòdul sanitari (MP 1523) en un vault autònom de 59 nodes.
 
 ### 4 · L'autocrítica: per què neix l'OKF Starter Kit?
 Ho dic amb total honestedat: els meus vaults personals de TCAI i SAD patien de **sobreenginyeria**. M'hi havia passat de frenada. 
@@ -204,7 +204,7 @@ Si fas servir aquest kit en un treball acadèmic, una publicació o un article, 
 
 Aquest kit s'ha desenvolupat en **co-creació amb models de llenguatge**. No és un producte generat automàticament per una IA, ni un producte fet exclusivament per una persona: és el resultat d'un diàleg continu entre l'autor i diversos models (Claude, DeepSeek, Gemini), amb l'autor prenent sempre les decisions crítiques.
 
-**Nivell MIAE declarat: 4 (cocreació).** L'autor ha aportat la visió, la filosofia, el domini curricular, els casos reals (Montse G., Benet M., César G., Anna C.) i les decisions ètiques (MIAE, VCER). La IA ha generat esborranys, ha proposat estructures, ha comès errors (que l'autor ha detectat i corregit) i ha refinat el text. El resultat és una fusió estreta de les dues aportacions.
+**Nivell MIAE declarat: 4 (cocreació).** L'autor ha aportat la visió, la filosofia, el domini curricular, els casos reals (Montse G., Benet M., César G., Ariadna C.) i les decisions ètiques (MIAE, VCER). La IA ha generat esborranys, ha proposat estructures, ha comès errors (que l'autor ha detectat i corregit) i ha refinat el text. El resultat és una fusió estreta de les dues aportacions.
 
 Aquesta declaració és coherent amb el que el mateix kit exigeix als materials que genera: **cap material no amaga com s'ha fet**. Si el kit demana als seus usuaris que declarin el nivell MIAE dels seus materials, el kit també ho ha de fer.
 
@@ -219,7 +219,7 @@ Aquest kit és fruit del treball compartit i de la complicitat docent a la Forma
 * **Arquitectura i mètode original:** Josep Montañà Piqué.
 * **A la Montse G. (co-docent de TCAI):** La seva sinceritat a l'aula davant la complexitat va fer néixer el concepte del Paquet LLM com a recepta oberta per anar harmonitzats.
 * **A en Benet M. (Química MP1257):** Per confiar en el mètode per al seu debut docent i demostrar que l'estructura funciona en qualsevol família professional.
-* **A l'Anna C. (Educació Especial / Suport):** Per ser la millor aliada en l'exploració de grafs per a Plans Individuals (PI) i adaptacions DUA.
+* **A l'Ariadna C. (Educació Especial / Suport):** Per ser la millor aliada en l'exploració de grafs per a Plans Individuals (PI) i adaptacions DUA.
 * **A en César G. (Sanitat MP1523):** Per la complicitat en la creació del seu propi graf docent autònom.
 * **Inspiració ètica:** Als marcs **MIAE** i **VCER** de Juanjo de Haro, que guien el nostre taller digital.
 

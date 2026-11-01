@@ -25,7 +25,7 @@ docents reals. I el més important: **no és la història d'un sol docent**.
 
 - **Benet M.** — professor de Química a FP. Va muntar el mòdul sencer des de zero, amb només el currículum oficial i l'arquitectura OKF, i va estar a l'aula amb rigor en **menys d'una setmana**.
 - **César G.** — professor de Sanitat a FP. Va aprendre OKF amb un curs formatiu i va acabar amb un **vault autònom de 59 nodes interconnectats i validats amb 0 errors**.
-- **Anna C.** — mestra de Pedagogia Terapèutica a primària. Necessitava un vault amb adaptacions curriculars i plans de suport individualitzats, amb la privacitat de l'alumnat com a condició de disseny. El va aconseguir amb **62 fitxers alineats amb el core català i visibilitat restringida per a les dades sensibles**.
+- **Ariadna C.** — mestra de Pedagogia Terapèutica a primària. Necessitava un vault amb adaptacions curriculars i plans de suport individualitzats, amb la privacitat de l'alumnat com a condició de disseny. El va aconseguir amb **62 fitxers alineats amb el core català i visibilitat restringida per a les dades sensibles**.
 
 Junts demostren la transversalitat del kit: **FP i Primària, LOE i LOMLOE, Química,
 Sanitat i Pedagogia Terapèutica**. Un professor de laboratori, un professor de cicles
@@ -58,7 +58,7 @@ carpeta, obre un *issue*: també volem que la comunitat segueixi el seu propi co
 
 **"He de saber programar?"** No. Els tres casos ho demostren: cap dels tres docents era programador. Escriure nodes és escriure fitxers de text.
 
-**"I si no tinc temps?"** El cas d'en Benet és la resposta: una setmana per a un mòdul sencer. El cas de l'Anna, la segona resposta: la privacitat no suma temps, la dissenya.
+**"I si no tinc temps?"** El cas d'en Benet és la resposta: una setmana per a un mòdul sencer. El cas de l'Ariadna, la segona resposta: la privacitat no suma temps, la dissenya.
 
 **"Puc fer servir aquests casos en una formació o en un claustre?"** Sí, amb una condició: respecta la regla de les inicials i no afegeixis detalls que identifiquin les persones o els centres. Els casos són reals i ho han de continuar sent.
 

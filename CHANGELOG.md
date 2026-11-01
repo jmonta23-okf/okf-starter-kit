@@ -35,7 +35,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 ### Afegit
 - **Bloc 8 — Comunitat (`06-comunitat/`):** 4 documents humans:
   - `README.md` — presentació de la carpeta.
-  - `01-casos-us.md` — els tres casos reals (Benet M. a Química, César G. a Sanitat, Anna C. a Pedagogia Terapèutica).
+  - `01-casos-us.md` — els tres casos reals (Benet M. a Química, César G. a Sanitat, Ariadna C. a Pedagogia Terapèutica).
   - `02-com-compartir.md` — guia pràctica per compartir el kit o el vault amb privacitat.
   - `03-article-edigital.md` — article de difusió per a `comunitat.edigital.cat`.
 - **Validador v1.0.2:** exclou `06-comunitat/` de la validació (com `00-documentacio/`).
@@ -50,7 +50,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ### Modificat
 - **Documentació central humanitzada** (`00-documentacio/`): to "de docent a docent", mirada ontològica i biològica, distinció entre *currículum oficial* i *programació didàctica viva*, i superació de la "tirania de les carpetes".
-- **Privacitat:** ús d'inicials (**Benet M.**, **César G.**, **Anna C.**, **Montse G.**) i supressió de noms de centres educatius.
+- **Privacitat:** ús d'inicials (**Benet M.**, **César G.**, **Ariadna C.**, **Montse G.**) i supressió de noms de centres educatius.
 - **README:** reescrit amb la metàfora del sistema operatiu, el taller, la genealogia dels tres projectes germans i la secció "Amb qui he après".
 - **02-filosofia.md:** reescrit com a manifest (7 principis, transparència honesta, factor Montse, sobreenginyeria).
 - **PLANTILLA-PaquetLLM.md:** afegit el contracte VCER i el checklist d'aula.

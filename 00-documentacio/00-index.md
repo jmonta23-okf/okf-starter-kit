@@ -40,7 +40,7 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 
 A més de la documentació central, la carpeta **[06-comunitat/](../06-comunitat/)** conté:
 
-- **[01-casos-us.md](../06-comunitat/01-casos-us.md)** — Els tres casos reals (Benet M. a Química, César G. a Sanitat, Anna C. a Pedagogia Terapèutica), amb el detall de com es va fer cada pas.
+- **[01-casos-us.md](../06-comunitat/01-casos-us.md)** — Els tres casos reals (Benet M. a Química, César G. a Sanitat, Ariadna C. a Pedagogia Terapèutica), amb el detall de com es va fer cada pas.
 - **[02-com-compartir.md](../06-comunitat/02-com-compartir.md)** — Guia pràctica per compartir el kit o el vault (GitHub, Classroom, zip) amb privacitat i coherència.
 - **[03-article-edigital.md](../06-comunitat/03-article-edigital.md)** — L'article de difusió per a `comunitat.edigital.cat`: "Del laboratori a la sala de mestres".
 
@@ -57,7 +57,7 @@ El disseny d'aquest kit s'ha nodrit directament d'implementacions i proves de c�
    Disseny i transferència metodològica per a en **César G.**, culminant en un vault autònom de **59 nodes interconnectats i validats amb 0 errors**.
 
 3. **L'adaptació a l'educació especial (PTE – Pedagogia Terapèutica):**  
-   Col·laboració amb l'**Anna C.**, mestra de PT a primària, per estructurar Plans Individuals (PI) i adaptacions curriculars amb privacitat reforçada per a dades de menors. El resultat és un vault de **62 fitxers** amb 4 tipus de node propis de la família PTE (`PlaSuportIndividualitzat`, `AdaptacioCurricular`, `SequenciaDidactica`, `InformeAvaluacio`).
+   Col·laboració amb l'**Ariadna C.**, mestra de PT a primària, per estructurar Plans Individuals (PI) i adaptacions curriculars amb privacitat reforçada per a dades de menors. El resultat és un vault de **62 fitxers** amb 4 tipus de node propis de la família PTE (`PlaSuportIndividualitzat`, `AdaptacioCurricular`, `SequenciaDidactica`, `InformeAvaluacio`).
 
 4. **Els orígens (tres projectes germans):**  
    - **TCAI-OKF** (2025-2026): el graf del cicle de Cures Auxiliars d'Infermeria. On va néixer el Paquet LLM i el "factor Montse".

@@ -34,7 +34,7 @@ Fora del meu institut també faig proves, però no amb una «cartera de clients�
 
 Pel Benet, un amic novell a la docència, vaig construir un mòdul sencer de Química. És una matèria que jo no domino, i justament per això ho vaig fer: per comprovar que el graf aguanta fora de la meva zona de confort. Funciona perquè l'estructura no depèn de qui l'omple.
 
-I demà vaig a sopar a casa l'Anna. Ens mirarem amb calma com el graf pot ajudar-la a gestionar Plans Individuals i adaptacions. Es tracta d'una feina delicada, plena de matisos i de persones concretes, on una xarxa de coneixement ben lligada pot treure molta feina de sobre.
+I demà vaig a sopar a casa l'Ariadna. Ens mirarem amb calma com el graf pot ajudar-la a gestionar Plans Individuals i adaptacions. Es tracta d'una feina delicada, plena de matisos i de persones concretes, on una xarxa de coneixement ben lligada pot treure molta feina de sobre.
 
 Potser algun dia caldrà una acreditació de competència OKF per garantir una adopció sòlida. Però avui som a la trinxera, entre companys, i això ja em sembla molt.
 

@@ -119,7 +119,7 @@ La transparència d'OKF és la de la recepta i la de l'ofici. La del model no la
 OKF no es prova en un laboratori; es prova amb companys reals, entre hores o sopant, i amb calma. No és una mostra estadística ni pretén ser-ho: són proves artesanals que ens diuen on grinyola.
 
 - **Benet M.**, un amic novell a la docència. Li vaig muntar un mòdul sencer de Química, una matèria que jo no domino, per veure si l'estructura aguantava fora de la meva zona de confort.
-- **Anna C.**, mestra d'educació especial. Mirem amb ella com el graf pot ajudar a estructurar Plans Individuals i adaptacions (el model de treball, no les dades de l'alumnat).
+- **Ariadna C.**, mestra d'educació especial. Mirem amb ella com el graf pot ajudar a estructurar Plans Individuals i adaptacions (el model de treball, no les dades de l'alumnat).
 - **César G.**, company de Sanitat.
 
 I ara, la confessió clau: **els meus propis vaults de TCAI i SAD pateixen de sobreenginyeria.** Em vaig obsessionar. Quan tens la tendència de voler millorar contínuament, arriba un moment en què el sistema pesa més que la feina que hauria d'alleugerir.

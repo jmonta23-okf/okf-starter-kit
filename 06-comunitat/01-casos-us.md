@@ -61,7 +61,7 @@ Ella és la veritable usuària del sistema. El fa servir perquè funciona, i ens
 
 ---
 
-## Anna C.: Pedagogia Terapèutica i privacitat de menors (Primària)
+## Ariadna C.: Pedagogia Terapèutica i privacitat de menors (Primària)
 
 **Context.** Mestra de Pedagogia Terapèutica a primària (1r-6è, tres cicles), amb les àrees de Matemàtiques i Llengua Catalana. La seva feina és de les més denses del sistema: adaptacions curriculars, plans de suport individualitzat (PI), informes d'avaluació i coordinació amb tutors i famílies.
 
@@ -74,7 +74,7 @@ Ella és la veritable usuària del sistema. El fa servir perquè funciona, i ens
 - **Regles de privacitat explícites**: els nodes públics declaren `dades_personals: false`, els que tenen dades sensibles porten `anonimitzat: true`, i els PI i els informes tenen visibilitat `restringida`.
 - Un `04_Protocol_Governanca.md` que fixa qui pot veure què i com es tracten les dades, inspirat en el que un centre tindria en un pla de protecció de dades.
 
-**Com va anar.** Un vault complet amb governança formal, on la privacitat va ser una condició de disseny des del primer dia i no una cosa afegida al final. L'Anna no va haver de triar entre organitzar i protegir.
+**Com va anar.** Un vault complet amb governança formal, on la privacitat va ser una condició de disseny des del primer dia i no una cosa afegida al final. L'Ariadna no va haver de triar entre organitzar i protegir.
 
 **Què en trec.** El sistema serveix també fora de la FP, amb un altre marc legal (LOMLOE) i amb un alumnat molt més vulnerable. Les regles del vault no substitueixen la política de protecció de dades del centre ni el criteri de la mestra: són una barrera addicional, no l'única.
 
@@ -89,7 +89,7 @@ Ella és la veritable usuària del sistema. El fa servir perquè funciona, i ens
 | **Montse G.** (TCAI) | FP | LOE | Treballar amb IA sense ser perfil tècnic | Va fer néixer el Paquet LLM |
 | **Benet M.** (Química) | FP | LOE | Un mòdul sencer des de zero en menys d'una setmana | 10 activitats minutades, mòdul operatiu |
 | **César G.** (Sanitat) | FP | LOE | Aprendre OKF i crear un vault propi | 59 nodes que passen el validador |
-| **Anna C.** (PT) | Primària | LOMLOE | Adaptacions i PI amb privacitat de menors | 62 fitxers amb governança |
+| **Ariadna C.** (PT) | Primària | LOMLOE | Adaptacions i PI amb privacitat de menors | 62 fitxers amb governança |
 
 ## Quatre idees que se'n desprenen
 
@@ -116,6 +116,6 @@ Són els d'un sol observador, jo, i cal llegir-los amb aquest límit al cap:
 
 ## I tu?
 
-Cap dels quatre va esperar que algú els resolgués el problema. La Montse va dir «això no funciona» i em va fer repensar el sistema. En Benet va agafar el currículum i una setmana de feina. En César va fer els 9 mòduls. L'Anna va dissenyar la privacitat des del primer dia.
+Cap dels quatre va esperar que algú els resolgués el problema. La Montse va dir «això no funciona» i em va fer repensar el sistema. En Benet va agafar el currículum i una setmana de feina. En César va fer els 9 mòduls. L'Ariadna va dissenyar la privacitat des del primer dia.
 
 El cas de la teva matèria, la teva etapa i el teu alumnat encara no hi és, i és el pròxim que s'hi pot afegir. Si vols explicar-lo, obre un issue al [repositori](https://github.com/jmonta23-okf/okf-starter-kit/issues) o escriu-me. El taller és obert.

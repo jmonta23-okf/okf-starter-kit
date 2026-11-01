@@ -23,7 +23,7 @@ Abans de tocar cap botó, respon aquestes preguntes:
 - [ ] Els PI i informes individuals tenen visibilitat **`restringida`**.
 - [ ] Els materials amb dades sensibles estan **anonimitzats** (`anonimitzat: true`).
 
-Si tens dubtes, fes servir la **regla de les inicials**: Benet M., César G., Anna C. El
+Si tens dubtes, fes servir la **regla de les inicials**: Benet M., César G., Ariadna C. El
 lector hi guanya en claredat i tu hi guanyes en seguretat. Un cas d'ús amb inicials és
 tan convincent com un amb nom complet — i molt més prudent.
 
@@ -93,7 +93,7 @@ casos](./01-casos-us.md):
 
 - **Benet M.** (Química, mòdul sencer des de zero): el seu vault seria un excel·lent **GitHub públic** — materials generals de laboratori, sense dades identificables, útils per a qualsevol professor de la família química.
 - **César G.** (Sanitat, 59 nodes): **GitHub privat** amb els companys del seu departament — el treball es comparteix dins del centre, i la col·laboració (comentaris, suggeriments) fa millor el vault.
-- **Anna C.** (PTE, dades de menors): **res no surt del centre**. Ni zip, ni públic, ni privat amb persones alienes. El seu vault és restringit per disseny, i la governança del seu `04_Protocol_Governanca.md` ho garanteix.
+- **Ariadna C.** (PTE, dades de menors): **res no surt del centre**. Ni zip, ni públic, ni privat amb persones alienes. El seu vault és restringit per disseny, i la governança del seu `04_Protocol_Governanca.md` ho garanteix.
 
 Tres docents, tres decisions, cap d'elles errònia: la resposta correcta depèn sempre del
 contingut, no de la plataforma.
