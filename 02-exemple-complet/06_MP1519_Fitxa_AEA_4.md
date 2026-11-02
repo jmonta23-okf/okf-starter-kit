@@ -12,26 +12,28 @@ llicencia: "CC BY-SA 4.0"
 authors:
   - "Josep Montañà Piqué"
 legal_framework: "Ordre EDU/10/2020 i RD 768/2014 (LOE)"
-credit: "MP1519"
+modul: "MP1519"
+cataleg_referencia: "./01_MP1519_Cataleg_Curricular.md"
+cataleg_versio: "V2.0-Complet"
+naturalesa: analitica
 durada: "12 h"
 resultats_aprenentatge:
   - "RA7"
   - "RA8"
 criteris_avaluacio:
-  - "7a"
-  - "7b"
-  - "7c"
-  - "7d"
-  - "7e"
-  - "7f"
-  - "7e*"
-  - "8a"
-  - "8b"
-  - "8c"
-  - "8d"
-  - "8e"
-  - "8f"
-  - "8g"
+  - "7.1"
+  - "7.2"
+  - "7.3"
+  - "7.4"
+  - "7.5"
+  - "7.6"
+  - "8.1"
+  - "8.2"
+  - "8.3"
+  - "8.4"
+  - "8.5"
+  - "8.6"
+  - "8.7"
 tags:
   - okf/aea
   - okf/sanitat
@@ -69,9 +71,8 @@ Aquesta AEA mobilitza 14 Criteris d'Avaluació oficials del [Catàleg Curricular
   * 🔴 **7.2 (7b):** Aplicació estricta de la Regla de la Mateixa Fila a les taules PCS.
   * 🔴 **7.3 (7c):** Distinció entre operacions arrel: Escissió (B) vs. Resecció (T) vs. Extracció (D).
   * 🔴 **7.4 (7d):** Aplicació de la norma B3.1b: prohibició de codificar tècniques implícites (accessos, sutures).
-  * 🟡 **7.5 (7e):** Codificació de procediments convertits (laparoscòpia a obert) amb doble codi.
+  * 🟡 **7.5 (7e):** Codificació de procediments convertits (laparoscòpia a obert) amb doble codi. Consulta de denominacions d'operacions arrel en llengua anglesa instrumental.
   * 🟡 **7.6 (7f):** Codificació de biòpsies diagnòstiques mitjançant el qualificador X.
-  * 🟢 **7e\***: Consulta de denominacions d'operacions arrel en llengua anglesa instrumental(\*).
 * **RA8 (12 % · 7 h):**
   * 🔴 **8.1 (8a):** Assignació del 7è caràcter temporal en fractures i lesions (A inicial, D subsegüent, S seqüela).
   * 🟡 **8.2 (8b):** Codificació de TCE vinculant la pèrdua de consciència i l'escala de Glasgow (`R40.24-`).

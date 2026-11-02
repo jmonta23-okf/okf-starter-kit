@@ -12,25 +12,28 @@ llicencia: "CC BY-SA 4.0"
 authors:
   - "Josep Montañà Piqué"
 legal_framework: "Ordre EDU/10/2020 i RD 768/2014 (LOE)"
-credit: "MP1519"
+modul: "MP1519"
+cataleg_referencia: "./01_MP1519_Cataleg_Curricular.md"
+cataleg_versio: "V2.0-Complet"
+naturalesa: analitica
 durada: "10 h"
 resultats_aprenentatge:
   - "RA3"
   - "RA4"
 criteris_avaluacio:
-  - "3a"
-  - "3b"
-  - "3c"
-  - "3d"
-  - "3e"
-  - "3f"
-  - "4a"
-  - "4b"
-  - "4c"
-  - "4d"
-  - "4e"
-  - "4f"
-  - "4g*"
+  - "3.1"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "4.1"
+  - "4.2"
+  - "4.3"
+  - "4.4"
+  - "4.5"
+  - "4.6"
+  - "4.7"
 tags:
   - okf/aea
   - okf/sanitat
@@ -75,7 +78,7 @@ Aquesta AEA desplega tots els CAs dels RAs 3 i 4 del [Catàleg Curricular](./01_
   * 🟡 **4.4 (4d):** Navegació matricial per la Taula de Neoplàsies (topografia $\times$ morfologia).
   * 🔴 **4.5 (4e):** Identificació de codis parcials amb guionet (-) i tancament fins a l'últim dígit.
   * 🔴 **4.6 (4f):** Construcció de codis de 7 caràcters utilitzant la `X` (*dummy character*).
-  * 🟢 **4g\***: Consulta de recursos i terminologia en llengua anglesa instrumental(\*).
+  * 🟢 **4.7 (4g):** Consulta de recursos i terminologia en llengua anglesa instrumental.
 
 ---
 

@@ -1,27 +1,26 @@
 ---
-id: PLANTILLA-AEA-00
+id: "MP0000-AEA-00"
 type: FitxaAEA
-title: "Activitat [N]: [Títol de l'activitat]"
-subtitle: "[Descripció breu de l'activitat]"
-cycle: "[El teu cicle o àmbit]"
-center: "El teu centre educatiu"
+title: "Títol de l'activitat"
+subtitle: "Subtítol opcional"
+cycle: "CFGS ..."
+center: "Centre"
 academic_year: "2026-2027"
 version: "V1.0-Esborrany"
-data_ultima_actualitzacio: "2026-10-25"  # Canvia per la data d'avui
+data_ultima_actualitzacio: "2026-11-02"
 llicencia: "CC BY-SA 4.0"
 authors:
-  - "El teu nom"
-legal_framework: "[El marc legal del teu cicle]"
-credit: "C[n]"
-unitat: "[ID de la unitat didàctica a la qual pertany]"
-sessio: "[Número de sessió dins la unitat]"
-durada: "[X hores]"
-agrupament: "[Individual / Parelles / Grups petits / Gran grup]"
-tags:
-  - okf/plantilla
-  - okf/aea
-estat: esborrany
-visibilitat: publica
+  - "Nom del docent"
+legal_framework: "Ordre ... / Reial Decret ..."
+modul: "MP0000"
+cataleg_referencia: "./01_MP0000_Cataleg_Curricular.md"
+cataleg_versio: "V1.0"
+durada: "8 h"
+resultats_aprenentatge: ["RA1", "RA2"]
+criteris_avaluacio: ["1.1", "1.2", "2.1"]
+naturalesa: analitica
+tags: ["fp", "aea", "okf/aea"]
+estat: vigent
 ---
 
 # Activitat [N]: [Títol de l'activitat]

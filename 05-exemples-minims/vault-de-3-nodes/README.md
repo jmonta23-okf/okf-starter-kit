@@ -1,0 +1,1 @@
+> **Nota:** aquest vault és un exemple **LOGSE** (CFGM TCAI, Decret 203/1997). Per a currículums **LOE**, vegeu \02-exemple-complet/`.`

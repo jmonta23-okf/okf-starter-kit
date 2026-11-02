@@ -199,7 +199,10 @@ Aquest core **no conté** tipus ni camps d'un cicle concret. Cada perfil de fam�
 
 Els perfils de FP poden afegir aquests camps (a més dels 8 universals):
 - `modul` (per a LOE)
-- `resultats_aprenentatge` (RA)
+- `cataleg_referencia` (referència relativa al node `CatalegCurricular`)
+- `cataleg_versio` (versió del catàleg referenciat)
+- `naturalesa` (valors: `analitica` | `sintesi`; per defecte `analitica`)
+- `resultats_aprenentatge` (llista de RAs; ja existia, sense canvi)
 - `criteris_avaluacio` (CA)
 - `continguts`
 - `fct` / `fp_dual`
