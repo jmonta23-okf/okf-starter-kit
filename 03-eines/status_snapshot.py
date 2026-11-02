@@ -294,7 +294,7 @@ def curriculum_block(repo):
             aeas[md.resolve()] = {
                 "cataleg_referencia": str(data.get("cataleg_referencia", "")),
                 "cataleg_versio": str(data.get("cataleg_versio", "")),
-                "criteris_avaluats": [str(c) for c in (data.get("criteris_avaluats") or [])],
+                "criteris_avaluats": [str(c) for c in (data.get("criteris_avaluacio") or data.get("criteris_avaluats") or [])],
             }
 
     if not catalogs:
