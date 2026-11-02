@@ -290,19 +290,21 @@ def curriculum_block(repo):
         return sum(int(x) for x in re.findall(pat, combined))
 
     pat_catalogs = r'Catàlegs analitzats:\s*(\d+)'
-    pat_total = r'Total CAs al decret:\s*(\d+)'
-    pat_avaluats = r'CAs avaluats \(analítics\):\s*(\d+)'
+    pat_unic_decret = r'CAs únics al decret:\s*(\d+)'
+    pat_unic_coberts = r'CAs únics coberts:\s*(\d+)'
+    pat_per_cataleg = r'Total CAs al decret:\s*(\d+)'
     pat_orfes = r'CAs orfes:\s*(\d+)'
     pat_inexistents = r'CAs inexistents:\s*(\d+)'
     pat_mismatch = r'Mismatch de versió:\s*(\d+)'
 
     return (
         f"catalogs: {suma(pat_catalogs)}\n"
-        f"total_cas_decret: {suma(pat_total)}\n"
-        f"cas_avaluats: {suma(pat_avaluats)}\n"
+        f"total_cas_decret: {suma(pat_unic_decret)}\n"
+        f"cas_avaluats: {suma(pat_unic_coberts)}\n"
         f"cas_orfes: {suma(pat_orfes)}\n"
         f"cas_inexistents: {suma(pat_inexistents)}\n"
-        f"version_mismatch: {suma(pat_mismatch)}"
+        f"version_mismatch: {suma(pat_mismatch)}\n"
+        f"total_per_cataleg: {suma(pat_per_cataleg)}"
     )
 
 

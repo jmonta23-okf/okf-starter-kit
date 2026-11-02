@@ -1005,6 +1005,8 @@ def audit_curricular(vault_path, strict_versio=False):
     sortida = 0
     coberts = 0
     incomplets = 0
+    tots_cas_decret = set()
+    tots_cas_coberts = set()
 
     for ruta_cat, info in sorted(catalegs.items()):
         codis_decret = set()
@@ -1012,6 +1014,7 @@ def audit_curricular(vault_path, strict_versio=False):
             if isinstance(llista, list):
                 codis_decret |= {str(c) for c in llista}
         total_decret = len(codis_decret)
+        tots_cas_decret |= codis_decret
 
         analitics = set()
         sintesi = set()
@@ -1026,6 +1029,7 @@ def audit_curricular(vault_path, strict_versio=False):
             if v_fitxa and info["version"] and v_fitxa != info["version"]:
                 mismatch += 1
 
+        tots_cas_coberts |= analitics
         nomes_sintesi = (sintesi & codis_decret) - analitics
         orfes = codis_decret - analitics
         inexistents = analitics - codis_decret
@@ -1072,6 +1076,8 @@ def audit_curricular(vault_path, strict_versio=False):
     linies.append(f"Catàlegs analitzats: {len(catalegs)}")
     linies.append(f"Catàlegs coberts: {coberts}")
     linies.append(f"Catàlegs incomplets: {incomplets}")
+    linies.append(f"CAs únics al decret: {len(tots_cas_decret)}")
+    linies.append(f"CAs únics coberts: {len(tots_cas_coberts)}")
 
     return linies, sortida
 
