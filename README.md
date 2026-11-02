@@ -6,8 +6,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-blue.svg)](LICENSE.md)
-[![Status: V1.1-Esborrany](https://img.shields.io/badge/Status-V1.1--Esborrany-yellow.svg)](CHANGELOG.md)
-[![DOI](https://zenodo.org/badge/23823819.svg)](https://doi.org/10.5281/zenodo.23823819)
+[![Status: V1.2](https://img.shields.io/badge/Status-V1.2-yellow.svg)](CHANGELOG.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23823818.svg)](https://doi.org/10.5281/zenodo.23823818)
 [![Language: Català](https://img.shields.io/badge/Language-Catal%C3%A0-red.svg)](#)
 
 ---
@@ -197,7 +197,7 @@ Però un estàndard necessita també:
 - **Comunitat externa**: persones que facin servir els Cores sense que jo les acompanyi. Avui no n'hi ha (factor autobús = 1).
 - **Governança**: un procés per decidir canvis. Avui les decisions les prenc jo.
 - **Adopció per part d'altres projectes**: que altres centres o eines facin servir els Cores. Avui no passa.
-- **Versionat formal de l'especificació**: els Cores ja tenen versió (V1.1.1, V1.0.1), però cal separar-lo del versionat del kit.
+- **Versionat formal de l'especificació**: els Cores ja tenen versió (V1.1.2, V1.0.2), però cal separar-lo del versionat del kit.
 
 Això no es pot decretar: s'ha de guanyar, i és feina de mesos o anys. Mentrestant, allibero els Cores amb DOI i llicència oberta, amb una invitació explícita a adoptar-los o a proposar-ne canvis. Si ningú ho fa, el kit serà una bona eina personal; si algú ho fa, podrà esdevenir un estàndard. No puc decidir per la comunitat: només puc posar les condicions perquè passi.
 
@@ -228,7 +228,7 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
 ## Com citar aquest projecte
 
 **APA (7a edició):**
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.2) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
 
 **BibTeX:**
 ```bibtex
@@ -236,7 +236,7 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
   author       = {Montañà Piqué, Josep},
   title        = {OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent},
   year         = {2026},
-  version      = {V1.1},
+  version      = {V1.2},
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.23823819},
   url          = {https://doi.org/10.5281/zenodo.23823819}
