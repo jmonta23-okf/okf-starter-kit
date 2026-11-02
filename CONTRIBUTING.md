@@ -55,6 +55,37 @@ La sortida és **text pla**, delimitada per `=== OKF SNAPSHOT v1 ===` i `=== END
 
 L'eina és **de només lectura**: no modifica fitxers, no fa `git add`, no fa `git commit`.
 
+## Auditoria curricular
+
+Si el teu vault té un catàleg curricular (`type: CatalegCurricular`) i fitxes d'activitat (`type: FitxaAEA`), pots auditar la cobertura dels criteris d'avaluació:
+
+```bash
+python3 03-eines/validar_yaml.py --ruta . --audit
+```
+
+L'informe mostra, per a cada catàleg:
+
+- **Total CAs al decret:** quants criteris té el decret.
+- **CAs avaluats (analítics):** quants cobreixen les fitxes amb `naturalesa: analitica`.
+- **CAs orfes:** criteris del decret que cap fitxa avalua.
+- **CAs inexistents:** criteris que una fitxa declara però que no són al catàleg.
+- **Mismatch de versió:** fitxes que apunten a una versió del catàleg diferent de la vigent.
+
+### Codis de sortida
+
+| Codi | Significat |
+|:---:|:---|
+| 0 | Tots els catàlegs coberts. |
+| 1 | Algun catàleg amb orfes, inexistents o errors estructurals. |
+| 2 | Només warnings (mismatch de versió sense `--strict-versio`, o cap catàleg per auditar). |
+
+### Opcions
+
+- `--strict-versio`: tracta el mismatch de versió com a error (codi 1) en lloc de warning (codi 2).
+- `--output <fitxer>`: desa l'informe a un fitxer en lloc de mostrar-lo per stdout.
+
+La guia completa de l'arquitectura de dues capes és a [`00-documentacio/09-graf-curricular.md`](./00-documentacio/09-graf-curricular.md).
+
 ## Convencions
 
 ### Nomenclatura de fitxers

@@ -151,6 +151,18 @@ python3 03-eines/status_snapshot.py --full
 
 És especialment útil quan treballes amb un assistent d'IA: el snapshot és un bloc de text pla que es pot enganxar a la conversa perquè l'assistent vegi l'estat real del repo sense necessitat de fer servir la terminal. Modes disponibles: `--quick`, `--full` (per defecte), `--audit` i `--since <ref>`.
 
+### L'auditoria curricular
+
+El kit inclou una **arquitectura de dues capes** per al currículum de Formació Professional: un catàleg normatiu (el decret) i fitxes d'activitat que hi apunten. El validador pot auditar la cobertura:
+
+```bash
+python3 03-eines/validar_yaml.py --ruta . --audit
+```
+
+L'informe mostra, per a cada catàleg, quants criteris d'avaluació cobreix, quants queden orfes i si hi ha incoherències. El codi de sortida és 0 (cobert), 1 (incomplert) o 2 (warning).
+
+Si vols veure un exemple complet, mira [`07-exemple-mp1519/`](./07-exemple-mp1519/). La guia completa de l'arquitectura és a [`00-documentacio/09-graf-curricular.md`](./00-documentacio/09-graf-curricular.md).
+
 ---
 
 ## Inici ràpid (30 minuts)
