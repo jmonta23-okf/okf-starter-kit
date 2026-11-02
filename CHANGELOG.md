@@ -61,6 +61,32 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [Validador v1.2.0] - 2026-11-03
+
+**Versió del validador** (no del kit). Acompanya el kit V1.2 amb la funcionalitat d'auditoria curricular.
+
+### Afegit
+
+- **`--audit`**: auditoria de cobertura curricular per catàleg. Llegeix els catàlegs, les fitxes AEA, i calcula orfes/inexistents/mismatch de versió.
+- **`--strict-versio`**: tracta el mismatch de versió com a error (per defecte és warning).
+- **Codis Y030 i Y031**: coherència YAML↔àncores (criteri al frontmatter sense àncora al cos, i viceversa).
+- **Codis Y035 i Y036**: àlies de tipus duplicats i `naturalesa` invàlida.
+
+### Modificat
+
+- **Àlies de tipus**: el validador llegeix la secció `## X · Àlies de tipus` de les Convencions i normalitza `Activitat` → `FitxaAEA`, `Cataleg` → `CatalegCurricular`.
+- **`naturalesa`**: el camp s'accepta a qualsevol node amb `type` de família, amb valors `analitica` o `sintesi` (per defecte `analitica`).
+
+### Codis de sortida
+
+- **`--audit`**: 0 (tots els catàlegs coberts), 1 (algun catàleg amb orfes o inexistents), 2 (només warnings o sense catàlegs).
+
+### Tests
+
+- **40 passed, 1 skipped** (24 originals + 2 d'àlies/naturalesa + 2 de coherència + 6 d'auditoria + 1 skip per `instruments_per_criteri`).
+
+---
+
 ## [V1.1-publicació] - 2026-10-31 · DOI: [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819)
 
 ### Afegit

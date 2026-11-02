@@ -255,81 +255,47 @@ def files_summary(repo):
 
 
 def curriculum_block(repo):
+    """Delega l'auditoria al validador (--audit) i n'agrega les mètriques.
+
+    Manté el format de sortida històric (catalogs, total_cas_decret,
+    cas_avaluats, cas_orfes, cas_inexistents, version_mismatch) sumant els
+    valors per catàleg que emet el validador.
+    """
+    script = repo / "03-eines" / "validar_yaml.py"
+    if not script.exists():
+        return (
+            "catalogs: 0\n"
+            "total_cas_decret: 0\n"
+            "cas_avaluats: 0\n"
+            "cas_orfes: 0\n"
+            "cas_inexistents: 0\n"
+            "version_mismatch: 0"
+        )
+
+    fd, tmp_report = tempfile.mkstemp(prefix="okf_snap_", suffix=".md")
+    os.close(fd)
     try:
-        import yaml
-    except ImportError:
-        return "exit: 2\n(skipped: PyYAML not installed)"
-
-    catalogs = {}
-    aeas = {}
-
-    for md in iter_md(repo):
-        if "04-plantilles" in md.parts:
-            continue
+        rc, out, err = run(
+            [sys.executable, str(script), "--ruta", str(repo), "--audit", "--output", tmp_report],
+            cwd=repo,
+        )
+    finally:
         try:
-            text = md.read_text(encoding="utf-8", errors="replace")
-        except Exception:
-            continue
-        fm = parse_frontmatter(text)
-        if fm is None:
-            continue
-        try:
-            data = yaml.safe_load(fm)
-        except Exception:
-            continue
-        if not isinstance(data, dict):
-            continue
+            os.unlink(tmp_report)
+        except OSError:
+            pass
+    combined = out + "\n" + err
 
-        t = data.get("type")
-        if t == "CatalegCurricular":
-            crits = set()
-            cd = data.get("criteris") or {}
-            if isinstance(cd, dict):
-                for _ra, cas in cd.items():
-                    if isinstance(cas, list):
-                        crits |= {str(c) for c in cas}
-            catalogs[md.resolve()] = {
-                "version": str(data.get("version", "")),
-                "criteris": crits,
-            }
-        elif t == "FitxaAEA":
-            aeas[md.resolve()] = {
-                "cataleg_referencia": str(data.get("cataleg_referencia", "")),
-                "cataleg_versio": str(data.get("cataleg_versio", "")),
-                "criteris_avaluats": [str(c) for c in (data.get("criteris_avaluacio") or data.get("criteris_avaluats") or [])],
-            }
-
-    if not catalogs:
-        return "catalogs: 0\n(no CatalegCurricular nodes found)"
-
-    all_cas = set()
-    for info in catalogs.values():
-        all_cas |= info["criteris"]
-
-    avaluats = set()
-    version_mismatch = 0
-    for aea_path, aea in aeas.items():
-        avaluats |= set(aea["criteris_avaluats"])
-        ref = aea["cataleg_referencia"]
-        if not ref:
-            continue
-        ref_path = (aea_path.parent / ref).resolve()
-        for cat_path, cat in catalogs.items():
-            if cat_path == ref_path:
-                if aea["cataleg_versio"] and cat["version"] and aea["cataleg_versio"] != cat["version"]:
-                    version_mismatch += 1
-                break
-
-    orfes = all_cas - avaluats
-    inexistents = avaluats - all_cas
+    def suma(pat):
+        return sum(int(x) for x in re.findall(pat, combined))
 
     return (
-        f"catalogs: {len(catalogs)}\n"
-        f"total_cas_decret: {len(all_cas)}\n"
-        f"cas_avaluats: {len(avaluats)}\n"
-        f"cas_orfes: {len(orfes)}\n"
-        f"cas_inexistents: {len(inexistents)}\n"
-        f"version_mismatch: {version_mismatch}"
+        f"catalogs: {suma(r'Catàlegs analitzats:\s*(\d+)')}\n"
+        f"total_cas_decret: {suma(r'Total CAs al decret:\s*(\d+)')}\n"
+        f"cas_avaluats: {suma(r'CAs avaluats \(analítics\):\s*(\d+)')}\n"
+        f"cas_orfes: {suma(r'CAs orfes:\s*(\d+)')}\n"
+        f"cas_inexistents: {suma(r'CAs inexistents:\s*(\d+)')}\n"
+        f"version_mismatch: {suma(r'Mismatch de versió:\s*(\d+)')}"
     )
 
 

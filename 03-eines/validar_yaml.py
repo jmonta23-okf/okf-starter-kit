@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-validar_yaml.py — Validador YAML de vaults OKF (OKF Starter Kit) v1.1.0
+validar_yaml.py — Validador YAML de vaults OKF (OKF Starter Kit) v1.2.0
 
 Validador genèric i reutilitzable per a qualsevol vault creat amb el
 OKF Starter Kit. Sincronitzat amb els Cores del kit (V1.1.1 / V1.0.1):
@@ -65,7 +65,7 @@ except ImportError:
 # CONSTANTS
 # =============================================================================
 
-VERSIO_SCRIPT = "1.1.0"
+VERSIO_SCRIPT = "1.2.0"
 
 # Prefix que ha de tenir com a mínim un dels tags de cada node.
 PREFIX_TAG = "okf/"
@@ -1066,7 +1066,7 @@ def audit_curricular(vault_path, strict_versio=False):
         linies.append("")
 
     if not catalegs:
-        sortida = 1
+        sortida = 2
 
     linies.append("=== Resum ===")
     linies.append(f"Catàlegs analitzats: {len(catalegs)}")
