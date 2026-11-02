@@ -108,7 +108,7 @@ Per això cal separar dues coses.
 
 - Els Paquets LLM són receptes obertes, transparents i en text pla. El docent les llegeix, les entén i les modifica retallant o afegint una línia.
 - Els nodes del graf són text pla.
-- El validador és un script de Python d'unes 400 línies que qualsevol persona amb curiositat pot llegir.
+- El validador és un script de Python d'unes 900 línies que qualsevol persona amb curiositat pot llegir.
 
 **El que no és transparent és el model que executa la recepta, i d'això ens protegim, no ho dissimulem.** Vinc del control microbiològic, i allà tampoc no obries la incubadora per saber si funcionava: la qualificaves, hi posaves controls i ho registraves tot. Aplico el mateix criteri:
 

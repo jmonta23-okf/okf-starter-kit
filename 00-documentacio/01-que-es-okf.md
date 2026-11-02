@@ -139,4 +139,3 @@ La barrera d'entrada és deliberadament mínima:
 * Per conèixer les conviccions docents, l'origen en les ontologies clíniques i la visió de l'ofici, llegeix **[Filosofia](./02-filosofia.md)**.
 * Per veure com s'articulen les 4 capes del sistema, els identificadors i la convenció mixta de metadades, consulta **[Arquitectura](./03-arquitectura.md)**.
 * Per crear el teu primer node i validar-lo en menys de mitja hora, vés directe a l'**[Inici ràpid](./04-inici-rapid.md)**.
-```

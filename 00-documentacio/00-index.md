@@ -28,7 +28,7 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 |:---|:---|:---|:---:|
 | **`01-que-es-okf.md`** | **[Què és OKF?](./01-que-es-okf.md)** | La doble lectura de les sigles, la tirania de les carpetes convencionals i l'anatomia bàsica d'un node. | 10 min |
 | **`02-filosofia.md`** | **[Filosofia](./02-filosofia.md)** | La programació viva, la sobirania docent en text pla, el concepte del taller artesanal (MIAE + VCER), la declaració d'ús d'IA del kit i la genealogia de l'ecosistema. | 20 min |
-| **`03-arquitectura.md`** | **[Arquitectura](./03-arquitectura.md)** | El model de 4 capes, la topologia del graf, la convenció YAML mixta (EN/CA), els 15 tipus de nodes i el validador estàtic. | 20 min |
+| **`03-arquitectura.md`** | **[Arquitectura](./03-arquitectura.md)** | El model de 4 capes, la topologia del graf, la convenció YAML mixta (EN/CA), els 9 tipus universals i els tipus de família declarats a la Convenció i el validador estàtic. | 20 min |
 | **`04-inici-rapid.md`** | **[Inici ràpid](./04-inici-rapid.md)** | Tutorial pas a pas de 30 minuts per instal·lar les eines, crear el teu primer node i passar la validació a 0 errors. | 30 min |
 | **`05-glossari.md`** | **[Glossari](./05-glossari.md)** | Definicions canòniques de la terminologia del kit (Node, MOC, Core, Frontmatter, Graf, Taller, MIAE, VCER...). | 8 min |
 | **`06-faq.md`** | **[Preguntes freqüents](./06-faq.md)** | Respostes a dubtes comuns sobre formats, canvis de centre, relació amb la IA, protecció de dades i inspecció. | 10 min |

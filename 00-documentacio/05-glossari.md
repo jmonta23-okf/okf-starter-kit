@@ -11,13 +11,13 @@
 
 **Agnòstic de model** — Propietat d'un sistema que no depèn de cap proveïdor ni model d'Intel·ligència Artificial concret. OKF és agnòstic: funciona amb Claude, ChatGPT, Gemini, models d'execució local (com Ollama o LM Studio), o sense cap mena d'IA (únicament amb text pla i criteri docent).
 
-**Auditabilitat** — Propietat que permet que qualsevol persona pugui llegir, entendre, verificar i modificar el funcionament intern d'un sistema sense trobar caixes negres. A OKF tot és auditable: les dades són text pla transparent i el validador és un script obert en Python de 400 línies.
+**Auditabilitat** — Propietat que permet que qualsevol persona pugui llegir, entendre, verificar i modificar el funcionament intern d'un sistema sense trobar caixes negres. A OKF tot és auditable: les dades són text pla transparent i el validador és un script obert en Python de 901 línies.
 
 ---
 
 ## C
 
-**Camp obligatori** — Camp del frontmatter YAML que ha d'estar present a la capçalera de tots els nodes perquè el validador el doni per bo (per exemple: `id`, `type`, `title`, `version`, `academic_year`, `legal_framework`, `tags`). Si el node és de tipus curricular, també requereix obligatòriament el camp `credit`.
+**Camp universal obligatori** — Camp del frontmatter YAML que ha d'estar present a la capçalera de tots els nodes perquè el validador el doni per bo: `id`, `type`, `title`, `version`, `data_ultima_actualitzacio`, `authors`, `llicencia`, `tags` (8 camps). A més, els tipus de família que la Convenció declara com a «requereix credit» (al kit: `UnitatDidactica`, `FitxaAEA`) han de portar el camp `credit`; els tipus universals no en poden portar mai.
 
 **Convenció de Nomenclatura** — Document formal que fixa les regles internes d'un vault: quins tipus de nodes s'admeten, quins camps són requerits, quin patró segueixen els identificadors i on s'ubica cada fitxer. És la "constitució" de governança del vault. Vegeu `04-plantilles/PLANTILLA-ConvencioNomenclatura.md`.
 
@@ -129,9 +129,9 @@
 
 **Taller docent** — El model mental que oposa la creació activa a la simple acumulació d'arxius en carpetes. En el taller, el graf és la fusta seleccionada, els Paquets LLM són les eines d'alta precisió i el docent és l'artesà que dissenya els recursos amb criteri propi. El taller no té sostre: creix a mesura que avança l'experiència docent i la tecnologia.
 
-**Tipus de node** — Valor canònic del camp `type` al frontmatter YAML. El Starter Kit admet exactament 15 tipus:
-* *Curriculars (requereixen `credit`):* `UnitatDidactica`, `FitxaAEA`, `PaquetLLM`.
-* *Transversals:* `MOC`, `ConvencioNomenclatura`, `Guia`, `Protocol`, `Glossari`, `DocumentHandoff`, `CatalegCurricular`, `CoordinacioCurricular`, `PlaEstrategic`, `EinaTecnica`, `NotaDecisions`, `Estàndard`.
+**Tipus de node** — Valor canònic del camp `type` al frontmatter YAML. El Starter Kit té 9 tipus universals i, a més, els tipus de família que cada vault declara a la seva Convenció de Nomenclatura:
+* *Universals (mai porten `credit`):* `MOC`, `Guia`, `Glossari`, `Protocol`, `PaquetLLM`, `ConvencioNomenclatura`, `Llicencia`, `Plantilla`, `DocumentHandoff`.
+* *De família (declarats a la Convenció del kit):* `CatalegCurricular`, `EinaTecnica`, `FitxaAEA`, `UnitatDidactica`. La Convenció del kit declara que `FitxaAEA` i `UnitatDidactica` requereixen `credit`; `CatalegCurricular` i `EinaTecnica`, no.
 
 ---
 

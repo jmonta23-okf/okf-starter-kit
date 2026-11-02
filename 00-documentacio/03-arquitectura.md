@@ -163,7 +163,7 @@ Una decisió clau d'enginyeria d'OKF és la **convenció de nomenclatura mixta**
 
 | Àmbit | Idioma | Camps d'exemple | Justificació tècnica |
 |:---|:---:|:---|:---|
-| **Framework i Identitat** | 🇬🇧 EN | `id`, `type`, `title`, `version`, `authors`, `academic_year`, `legal_framework`, `tags`, `cycle` | Camps universals i interoperables, alineats amb estàndards internacionals de metadades (Dublin Core, GitHub, agents LLM). |
+| **Framework i Identitat** | 🇬🇧 EN | `id`, `type`, `title`, `version`, `data_ultima_actualitzacio`, `authors`, `llicencia`, `tags` | 8 camps universals i interoperables, alineats amb estàndards internacionals de metadades (Dublin Core, GitHub, agents LLM). |
 | **Domini Pedagògic** | 🇨🇦 CA | `data_ultima_actualitzacio`, `estat`, `visibilitat`, `credit`, `durada`, `resultats_aprenentatge`, `criteris_avaluacio` | Llenguatge natural de la comunitat docent catalana. Traduir `resultats_aprenentatge` a `learning_outcomes` crearia una barrera artificial per al professorat. |
 
 ### Criteri per incorporar camps nous:
@@ -190,25 +190,26 @@ $$\mathbf{\{CODI\}-\{ÀMBIT\}-\{NN\}}$$
 
 ## 6 · Catàleg canònic de tipus de node
 
-El Starter Kit admet **15 tipus de node** organitzats segons el seu nivell de dependència curricular:
+El Starter Kit té **9 tipus universals** i, a més, els **tipus de família** que cada vault declara a la seva Convenció de Nomenclatura (al kit n'hi ha 4: `CatalegCurricular`, `EinaTecnica`, `FitxaAEA` i `UnitatDidactica`):
 
 ### 6.1 · Nodes Curriculars (Requereixen el camp `credit`)
 Tenen un impacte directe en la qualificació i en el seguiment acadèmic:
 * **`UnitatDidactica`:** El disseny global d'un bloc temàtic o situació d'aprenentatge.
 * **`FitxaAEA`:** Fitxa d'Activitat d'Ensenyament-Aprenentatge (la seqüència d'aula detallada).
-* **`PaquetLLM`:** Operador que conté el contracte de prompts per generar materials derivats.
+
+> *Nota:* `PaquetLLM` és un **tipus universal**, no de família. El validador prohibeix el camp `credit` en els universals (Y017).
 
 ### 6.2 · Nodes Transversals i de Governança (Sense requeriment de `credit`)
 Estructuren i protegeixen el funcionament del vault:
-* **Estructura i Navegació:** `MOC`, `CatalegCurricular`, `CoordinacioCurricular`.
+* **Estructura i Navegació:** `MOC` (universal), `CatalegCurricular` (família).
 * **Regulació i Procediment:** `ConvencioNomenclatura`, `Protocol`, `Guia`, `Glossari`.
-* **Qualitat i Gestió del Canvi:** `DocumentHandoff`, `NotaDecisions`, `PlaEstrategic`, `EinaTecnica`, `Estàndard`.
+* **Qualitat i Gestió del Canvi:** `DocumentHandoff` (universal), `EinaTecnica` (família).
 
 ---
 
 ## 7 · El Validador estàtic (`validar_yaml.py`)
 
-El validador és el cor de la Capa 2. És un script en Python 3 de 400 línies, sense dependències externes feixugues (només requereix `pyyaml`), dissenyat per ser auditat per qualsevol persona.
+El validador és el cor de la Capa 2. És un script en Python 3 de 901 línies, sense dependències externes feixugues (només requereix `pyyaml`), dissenyat per ser auditat per qualsevol persona.
 
 ```
        ┌───────────────────────────────┐
@@ -239,15 +240,16 @@ El validador és el cor de la Capa 2. És un script en Python 3 de 400 línies, 
 |:---:|:---:|:---|:---|
 | **Y001** | 🔴 Crític | YAML inexistent, mal tancat o sintàctiament invàlid | Revisar la sintaxi de guions i espais |
 | **Y002** | 🔴 Crític | Manca un camp obligatori del framework | Afegir el camp requerit a la capçalera |
-| **Y003** | 🔴 Crític | Node de crèdit (`UnitatDidactica`, `FitxaAEA`...) sense camp `credit` | Indicar el codi de mòdul corresponent |
-| **Y004** | 🔴 Crític | El camp `type` no és cap dels 15 tipus permesos | Assignar un tipus canònic de la Convenció |
+| **Y003** | 🔴 Crític | Tipus de família que la Convenció declara com a «requereix credit» (al kit: `UnitatDidactica`, `FitxaAEA`) sense el camp `credit` | Indicar el codi de mòdul corresponent |
+| **Y004** | 🔴 Crític | El camp `type` no és cap dels 9 tipus universals ni dels tipus de família declarats a la Convenció | Assignar un tipus canònic de la Convenció |
 | **Y005** | 🟠 Alt | L'`id` no respecta el patró `{CODI}-{ÀMBIT}-{NN}` | Normalitzar el format de l'identificador |
 | **Y006** | 🔴 Crític | S'ha detectat un `id` duplicat en un altre fitxer | Assignar un identificador únic al node |
 | **Y007** | 🟡 Avís | Les etiquetes no comencen amb el prefix `okf/` | Afegir el prefix de control semàntic |
 | **Y008** | 🟡 Avís | La data no segueix el format estàndard ISO 8601 (`YYYY-MM-DD`) | Corregir la data de modificació |
-| **Y009** | 🟡 Avís | La versió no segueix el patró `V<major>.<minor>` | Fixar la versió (ex: `V1.0`) |
-| **Y012** | 🔴 Crític | Presència de terminologia prohibida segons el marc | Depurar termes incompatibles |
-| **Y013** | 🔴 Crític | Incoherència amb el marc legal declarat (`legal_framework`) | Adequar el marc (LOE / LOMLOE) |
+| **Y009** | 🟡 Avís | La versió no segueix el patró `V<maj>.<min>[.<patch>][-<estat>]` | Fixar la versió (ex: `V1.0`) |
+| **Y012** | 🔴 Crític | Terminologia LOMLOE detectada | Depurar termes incompatibles |
+| **Y013** | 🔴 Crític | Marc legal incorrecte | Adequar el marc (LOE / LOMLOE) |
+*Nota:* La matriu mostra els codis Y001-Y009, Y012 i Y013. Per a la llista completa dels codis actuals del validador v1.1.0 (Y001-Y009, Y012-Y026; Y010 i Y011 no existeixen), vegeu el diccionari `CODIS_ERROR` a `03-eines/validar_yaml.py`.
 
 El validador s'executa localment i retorna codis de sortida estàndard per a pipelines d'integració contínua (`0` = net, `1` = errors de validació, `2` = fallada d'execució).
 
@@ -332,7 +334,7 @@ Un node d'OKF no és un arxiu estàtic; té un cicle de vida auditable a través
 |:---|:---|:---|
 | **Emmagatzematge** | Text pla (Markdown + YAML) | Sobirania total, sense obsolescència ni dependència de servidors. |
 | **Connexió** | Graf de nodes amb enllaços relatius | Traçabilitat curricular completa: RA $\rightarrow$ CA $\rightarrow$ AEA $\rightarrow$ Rúbrica. |
-| **Integritat** | Validador estàtic en Python (`Y001-Y013`) | Pau mental: zero enllaços trencats o programacions incoherents. |
+| **Integritat** | Validador estàtic en Python (`Y001-Y026`) | Pau mental: zero enllaços trencats o programacions incoherents. |
 | **Procés IA** | Marc MIAE (Nivell 3) | Supervisió humana garantida en avaluació i seguretat. |
 | **Producte IA** | Avaluació VCER | Materials accessibles, privats, 100% offline i duradors. |
 | **Nomenclatura** | Convenció mixta (EN Framework / CA Domini) | Interoperabilitat tècnica internacional i claredat docent local. |
@@ -345,4 +347,3 @@ Un node d'OKF no és un arxiu estàtic; té un cicle de vida auditable a través
 - [Filosofia](./02-filosofia.md) — Els fonaments ètics i la mirada biològica/ontològica
 - [Inici ràpid](./04-inici-rapid.md) — Tutorial pràctic per crear el teu primer node
 - [Guia VCER](https://vibe-coding-educativo.github.io/vibe-responsable/ca/) — Marc de Vibe Coding Educatiu Responsable
-```
