@@ -31,6 +31,28 @@ Gràcies per l'interès a contribuir al OKF Starter Kit. Aquest document explica
    ```
 6. Envia el *pull request* explicant què has canviat i per què.
 
+## Snapshot de l'estat del repositori
+
+Per obtenir un resum estandarditzat de l'estat del repositori (branca, commits recents, validador, tests, recompte de nodes), executa:
+
+```bash
+python3 03-eines/status_snapshot.py --full
+```
+
+Modes disponibles:
+
+| Flag | Contingut |
+|:---|:---|
+| `--quick` | Només git: branca, HEAD, working tree, últims 5 commits. |
+| `--full` (per defecte) | Git + validador + tests + recompte de nodes per tipus. |
+| `--audit` | Afegeix auditoria curricular (cobertura de criteris d'avaluació). Requereix PyYAML. |
+| `--since <ref>` | Afegeix els commits des de `<ref>`. |
+| `--ruta <path>` | Ruta del repositori (per defecte `.`). |
+
+La sortida és **text pla**, delimitada per `=== OKF SNAPSHOT v1 ===` i `=== END SNAPSHOT ===`, pensada per ser enganxada en briefs, reports o converses amb assistents.
+
+L'eina és **de només lectura**: no modifica fitxers, no fa `git add`, no fa `git commit`.
+
 ## Convencions
 
 ### Nomenclatura de fitxers
@@ -76,4 +98,4 @@ Aquest projecte segueix el [Contributor Covenant](https://www.contributor-covena
 ## Preguntes?
 
 Obre un *issue* o contacta amb l'autor original.
-```
+

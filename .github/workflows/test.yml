@@ -22,3 +22,6 @@ jobs:
 
       - name: Valida el kit sencer
         run: python3 03-eines/validar_yaml.py --ruta . --output /tmp/informe_ci.md
+
+      - name: Snapshot (quick)
+        run: python3 03-eines/status_snapshot.py --quick --ruta .

@@ -47,3 +47,8 @@ informe_validacio_*.md
 !05-exemples-minims/**/informe_validacio_*.md
 # Artefactes del validador (informes, scripts auxiliars)
 /EINES/
+
+# Python caches
+.pytest_cache/
+__pycache__/
+*.pyc
