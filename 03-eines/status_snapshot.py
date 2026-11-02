@@ -289,13 +289,20 @@ def curriculum_block(repo):
     def suma(pat):
         return sum(int(x) for x in re.findall(pat, combined))
 
+    pat_catalogs = r'Catàlegs analitzats:\s*(\d+)'
+    pat_total = r'Total CAs al decret:\s*(\d+)'
+    pat_avaluats = r'CAs avaluats \(analítics\):\s*(\d+)'
+    pat_orfes = r'CAs orfes:\s*(\d+)'
+    pat_inexistents = r'CAs inexistents:\s*(\d+)'
+    pat_mismatch = r'Mismatch de versió:\s*(\d+)'
+
     return (
-        f"catalogs: {suma(r'Catàlegs analitzats:\s*(\d+)')}\n"
-        f"total_cas_decret: {suma(r'Total CAs al decret:\s*(\d+)')}\n"
-        f"cas_avaluats: {suma(r'CAs avaluats \(analítics\):\s*(\d+)')}\n"
-        f"cas_orfes: {suma(r'CAs orfes:\s*(\d+)')}\n"
-        f"cas_inexistents: {suma(r'CAs inexistents:\s*(\d+)')}\n"
-        f"version_mismatch: {suma(r'Mismatch de versió:\s*(\d+)')}"
+        f"catalogs: {suma(pat_catalogs)}\n"
+        f"total_cas_decret: {suma(pat_total)}\n"
+        f"cas_avaluats: {suma(pat_avaluats)}\n"
+        f"cas_orfes: {suma(pat_orfes)}\n"
+        f"cas_inexistents: {suma(pat_inexistents)}\n"
+        f"version_mismatch: {suma(pat_mismatch)}"
     )
 
 
