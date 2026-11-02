@@ -114,7 +114,15 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 ```
 
 ```text
-✅ Resultat: 14 nodes escanejats, 0 errors. Tots els nodes OKF del vault han passat la validació sense errors.
+| Mètrica | Valor |
+|:--------|:-----:|
+| Fitxers .md escanejats (nodes OKF) | 14 |
+| Fitxers amb errors | 0 |
+| Advertències (🟡) | 0 |
+
+## ✅ Resultat
+
+Tots els nodes OKF del vault han passat la validació sense errors.
 ```
 
 «0 errors» vol dir que el graf compleix les regles de forma. No vol dir que el contingut sigui correcte.
@@ -128,10 +136,20 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 | **`00-documentacio/`** | Filosofia, arquitectura, FAQ i manuals d'acollida | Per entendre com estructurar el teu pensament docent en xarxa. |
 | **`01-cores/`** | Nuclis curriculars oficials (LOMLOE i FP) | L'esquelet legal predefinit, perquè no hagis de picar decrets a mà. |
 | **`02-exemple-complet/`** | Un mòdul complet desplegat (MP1519, 14 nodes) | Un mirall de referència real: 5 AEAs, protocol de 3 portes, Paquet LLM i validador determinista. |
-| **`03-eines/`** | Validador en Python (`validar_yaml.py`) | Comprova el compliment dels Cores: 8 camps universals, 9 tipus universals, tipus de família de la Convenció, enllaços, enums i privacitat. |
+| **`03-eines/`** | Validador (`validar_yaml.py`) i snapshot d'estat (`status_snapshot.py`) | El validador comprova el compliment dels Cores: 8 camps universals, 9 tipus universals, tipus de família de la Convenció, enllaços, enums i privacitat. L'snapshot genera un resum de l'estat del repo (branca, commits, validador, tests, nodes) en text pla. |
 | **`04-plantilles/`** | 6 plantilles preparades (MOC, UD, PaquetLLM…) | Duplica-les per crear els teus primers nodes en pocs minuts. |
 | **`05-exemples-minims/`** | Un vault funcional de 5 nodes (MOC, UD, AEA, Convenció i handoff) | El laboratori més petit possible per provar-ho en 30 minuts. |
 | **`06-comunitat/`** | Espai de difusió i l'article d'*eDigital* | Per compartir grafs i experiències entre docents. |
+
+### L'eina d'snapshot
+
+A més del validador, el kit inclou **`status_snapshot.py`**, una eina de només lectura que genera un resum estandarditzat de l'estat del repositori: branca, commits recents, resultat del validador, resultat dels tests i recompte de nodes per tipus.
+
+```bash
+python3 03-eines/status_snapshot.py --full
+```
+
+És especialment útil quan treballes amb un assistent d'IA: el snapshot és un bloc de text pla que es pot enganxar a la conversa perquè l'assistent vegi l'estat real del repo sense necessitat de fer servir la terminal. Modes disponibles: `--quick`, `--full` (per defecte), `--audit` i `--since <ref>`.
 
 ---
 

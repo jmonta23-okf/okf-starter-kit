@@ -25,6 +25,8 @@ Gràcies per l'interès a contribuir al OKF Starter Kit. Aquest document explica
    python3 03-eines/validar_yaml.py --ruta 05-exemples-minims/vault-de-3-nodes
    ```
    Ha de retornar 0 errors.
+
+   > **Consell:** quan executis el validador manualment, fes servir `--output /tmp/informe.md`. Sense aquest flag, el validador escriu l'informe a `EINES/Scripts/informe_validacio_<data>.md` dins del repo (gitignored, però embruta el working tree). L'snapshot ja ho fa automàticament.
 5. Fes *commit* amb un missatge clar. **Sense accents** (per evitar problemes d'encoding al shell):
    ```bash
    git commit -m "Afegeix plantilla per a Protocol"
