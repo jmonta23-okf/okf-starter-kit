@@ -332,3 +332,59 @@ def test_naturalesa_validation(tmp_path, codis_error):
     (tmp_path / "b").mkdir()
     ruta_bad = crear_vault(tmp_path / "b", {"03_AEA.md": bad, "01_Convencio.md": ALIAS_CONVENCIO})
     assert "Y036" in codis_error(validar_vault(ruta_bad))
+
+
+# ---------------------------------------------------------------------------
+# Coherència catàleg: frontmatter ↔ àncores (RFC-OKF-02, Fase 3)
+# ---------------------------------------------------------------------------
+
+CONV_AMB_CATALEG = CONVENCIO.replace(
+    "| `Guia` | Guia d'ús o tutorial. |",
+    "| `Guia` | Guia d'ús o tutorial. |\n| `CatalegCurricular` | Catàleg de RAs i CAs d'un mòdul. |",
+)
+
+
+def _cataleg_test_node(nid, codis_fm, ancres_cos):
+    """Node CatalegCurricular mínim amb criteris al frontmatter i àncores al cos."""
+    llista = ", ".join(f'"{c}"' for c in codis_fm)
+    files = "\n".join(
+        f'| {c.replace("-", ".")} | Xa | <a id="ca-{c}"></a>Descripció | A | AEA |'
+        for c in ancres_cos
+    )
+    return (
+        "---\n"
+        f"id: {nid}\n"
+        "type: CatalegCurricular\n"
+        'title: "Catàleg de test"\n'
+        'version: "V1.0-Esborrany"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        "estat: vigent\n"
+        "criteris:\n"
+        f"  RA5: [{llista}]\n"
+        "---\n"
+        "# Catàleg de test\n"
+        "## 5 · Desglossament de CAs per RA\n"
+        f"{files}\n"
+    )
+
+
+def test_y030_criteri_sense_ancora(tmp_path, codis_error):
+    """Un CA del frontmatter sense àncora al cos dona Y030."""
+    node = _cataleg_test_node("EX-CAT-01", ["5.1", "5.2"], ["5-1"])
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y030" in codis_error(errors)
+
+
+def test_y031_ancora_sense_criteri(tmp_path, codis_error):
+    """Una àncora al cos sense criteri al frontmatter dona Y031."""
+    node = _cataleg_test_node("EX-CAT-02", ["5.1", "5.2"], ["5-1", "5-2", "5-3"])
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y031" in codis_error(errors)
+    assert "Y030" not in codis_error(errors)

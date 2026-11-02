@@ -37,15 +37,16 @@ criteris:
 
 | Oficial | Guia | Descripció | Prioritat | AEA |
 |:---|:---|:---|:---:|:---:|
-| 1.1 | 1a | ... | A | AEA1 |
-| 1.2 | 1b | ... | B | AEA1 |
+| <a id="ca-1-1"></a>1.1 | 1a | ... | A | AEA1 |
+| <a id="ca-1-2"></a>1.2 | 1b | ... | B | AEA1 |
+| <a id="ca-1-3"></a>1.3 | 1c | ... | A | AEA1 |
 
 ### RA2
 
 | Oficial | Guia | Descripció | Prioritat | AEA |
 |:---|:---|:---|:---:|:---:|
-| 2.1 | 2a | ... | A | AEA2 |
-| 2.2 | 2b | ... | B | AEA2 |
+| <a id="ca-2-1"></a>2.1 | 2a | ... | A | AEA2 |
+| <a id="ca-2-2"></a>2.2 | 2b | ... | B | AEA2 |
 
 ---
 

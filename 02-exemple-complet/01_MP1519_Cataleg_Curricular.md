@@ -90,12 +90,12 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **1.1** | **1a** | Reconeix la utilitat del SIS per als diferents agents implicats (ciutadania, professionals, administració). | 🔴 A | AEA 1 |
-| **1.2** | **1b** | Diferencia les dades clíniques, administratives i econòmiques que integren el sistema hospitalari. | 🔴 A | AEA 1 |
-| **1.3** | **1c** | Descriu els circuits d'informació clínica i els fluxos de dades entre atenció primària i especialitzada. | 🟡 B | AEA 1 |
-| **1.4** | **1d** | Identifica l'estructura, contingut i finalitat del Conjunt Mínim Bàsic de Dades (RAE-CMBD). | 🔴 A | AEA 1 |
-| **1.5** | **1e** | Relaciona el procés de codificació d'altes amb l'agrupació per GRD i el finançament dels centres sanitaris. | 🟡 B | AEA 1 |
-| **1.6** | **1f** | Aplica la jerarquia de la dada a la informació i al coneixement (piràmide DIKW) en registres mèdics. | 🔴 A | AEA 1 |
+| <a id="ca-1-1"></a>**1.1** | **1a** | Reconeix la utilitat del SIS per als diferents agents implicats (ciutadania, professionals, administració). | 🔴 A | AEA 1 |
+| <a id="ca-1-2"></a>**1.2** | **1b** | Diferencia les dades clíniques, administratives i econòmiques que integren el sistema hospitalari. | 🔴 A | AEA 1 |
+| <a id="ca-1-3"></a>**1.3** | **1c** | Descriu els circuits d'informació clínica i els fluxos de dades entre atenció primària i especialitzada. | 🟡 B | AEA 1 |
+| <a id="ca-1-4"></a>**1.4** | **1d** | Identifica l'estructura, contingut i finalitat del Conjunt Mínim Bàsic de Dades (RAE-CMBD). | 🔴 A | AEA 1 |
+| <a id="ca-1-5"></a>**1.5** | **1e** | Relaciona el procés de codificació d'altes amb l'agrupació per GRD i el finançament dels centres sanitaris. | 🟡 B | AEA 1 |
+| <a id="ca-1-6"></a>**1.6** | **1f** | Aplica la jerarquia de la dada a la informació i al coneixement (piràmide DIKW) en registres mèdics. | 🔴 A | AEA 1 |
 
 ---
 
@@ -103,12 +103,12 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **2.1** | **2a** | Analitza els problemes d'ambigüitat i dispersió derivats de l'ús del llenguatge natural a la història clínica. | 🔴 A | AEA 1 |
-| **2.2** | **2b** | Identifica els llenguatges documentals i els sistemes de normalització de dades en salut. | 🟡 B | AEA 1 |
-| **2.3** | **2c** | Diferencia clarament la finalitat i granularitat d'una terminologia clínica (SNOMED CT) respecte a una classificació (CIM-10-ES). | 🔴 A | AEA 1 |
-| **2.4** | **2d** | Realitza processos de mapatge (mapping) 1:1, 1:N i N:1 entre termes clínics i categories de classificació. | 🔴 A | AEA 1 |
-| **2.5** | **2e** | Reconeix l'estructura i aplicació de classificacions específiques d'atenció primària (CIAP-2) i oncologia (CIE-O-3). | 🟡 B | AEA 1 |
-| **2.6** | **2f** | Reconeix l'evolució històrica i els canvis estructurals entre la CIE-9-MC i la CIE-10-ES. | 🟢 C | AEA 1 |
+| <a id="ca-2-1"></a>**2.1** | **2a** | Analitza els problemes d'ambigüitat i dispersió derivats de l'ús del llenguatge natural a la història clínica. | 🔴 A | AEA 1 |
+| <a id="ca-2-2"></a>**2.2** | **2b** | Identifica els llenguatges documentals i els sistemes de normalització de dades en salut. | 🟡 B | AEA 1 |
+| <a id="ca-2-3"></a>**2.3** | **2c** | Diferencia clarament la finalitat i granularitat d'una terminologia clínica (SNOMED CT) respecte a una classificació (CIM-10-ES). | 🔴 A | AEA 1 |
+| <a id="ca-2-4"></a>**2.4** | **2d** | Realitza processos de mapatge (mapping) 1:1, 1:N i N:1 entre termes clínics i categories de classificació. | 🔴 A | AEA 1 |
+| <a id="ca-2-5"></a>**2.5** | **2e** | Reconeix l'estructura i aplicació de classificacions específiques d'atenció primària (CIAP-2) i oncologia (CIE-O-3). | 🟡 B | AEA 1 |
+| <a id="ca-2-6"></a>**2.6** | **2f** | Reconeix l'evolució històrica i els canvis estructurals entre la CIE-9-MC i la CIE-10-ES. | 🟢 C | AEA 1 |
 
 ---
 
@@ -116,12 +116,12 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **3.1** | **3a** | Navega eficaçment per l'Índex Alfabètic de Malalties (IAE) utilitzant termes principals en negreta. | 🔴 A | AEA 2 |
-| **3.2** | **3b** | Distingeix entre modificadors no essencials entre parèntesis `( )` i modificadors essencials sagnats. | 🔴 A | AEA 2 |
-| **3.3** | **3c** | Interpreta els termes relacionals («amb», «en») i les instruccions de remissió obligatòria (*Véase*) i recomanada (*Véase además*). | 🟡 B | AEA 2 |
-| **3.4** | **3d** | Aplica la prioritat numèrica per sobre de l'alfabètica en la selecció de modificadors a l'IAE. | 🟡 B | AEA 2 |
-| **3.5** | **3e** | Realitza la verificació obligatòria del codi a la Llista Tabular (LT) abans de la seva assignació definitiva. | 🔴 A | AEA 2 |
-| **3.6** | **3f** | Aplica estrictament les instruccions d'incompatibilitat mútua (*Excluye 1*) i de no inclusió (*Excluye 2*). | 🔴 A | AEA 2 |
+| <a id="ca-3-1"></a>**3.1** | **3a** | Navega eficaçment per l'Índex Alfabètic de Malalties (IAE) utilitzant termes principals en negreta. | 🔴 A | AEA 2 |
+| <a id="ca-3-2"></a>**3.2** | **3b** | Distingeix entre modificadors no essencials entre parèntesis `( )` i modificadors essencials sagnats. | 🔴 A | AEA 2 |
+| <a id="ca-3-3"></a>**3.3** | **3c** | Interpreta els termes relacionals («amb», «en») i les instruccions de remissió obligatòria (*Véase*) i recomanada (*Véase además*). | 🟡 B | AEA 2 |
+| <a id="ca-3-4"></a>**3.4** | **3d** | Aplica la prioritat numèrica per sobre de l'alfabètica en la selecció de modificadors a l'IAE. | 🟡 B | AEA 2 |
+| <a id="ca-3-5"></a>**3.5** | **3e** | Realitza la verificació obligatòria del codi a la Llista Tabular (LT) abans de la seva assignació definitiva. | 🔴 A | AEA 2 |
+| <a id="ca-3-6"></a>**3.6** | **3f** | Aplica estrictament les instruccions d'incompatibilitat mútua (*Excluye 1*) i de no inclusió (*Excluye 2*). | 🔴 A | AEA 2 |
 
 ---
 
@@ -129,12 +129,12 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **4.1** | **4a** | Analitza críticament l'informe d'alta i la documentació complementària (quirúrgica, biòpsies, analítiques). | 🟡 B | AEA 2 |
-| **4.2** | **4b** | Extreu el terme clau patològic (mai la localització anatòmica) com a bitllet d'entrada a l'índex. | 🔴 A | AEA 2 |
-| **4.3** | **4c** | Utilitza les dreceres oficials de l'IAE per a la codificació de condicionants de salut (Codis Z: història, absència, estat, procediment no realitzat). | 🔴 A | AEA 2 |
-| **4.4** | **4d** | Navega per la Taula matricial de Neoplàsies creuant topografia anatòmica i comportament cel·lular. | 🟡 B | AEA 2 |
-| **4.5** | **4e** | Identifica codis parcials amb guionet (-) i completa el codi fins a la màxima especificitat (5 a 7 caràcters). | 🔴 A | AEA 2 |
-| **4.6** | **4f** | Construeix codis amb lletra de 7è caràcter (A, D, S) utilitzant el *dummy character* (X) com a farciment. | 🔴 A | AEA 2 |
+| <a id="ca-4-1"></a>**4.1** | **4a** | Analitza críticament l'informe d'alta i la documentació complementària (quirúrgica, biòpsies, analítiques). | 🟡 B | AEA 2 |
+| <a id="ca-4-2"></a>**4.2** | **4b** | Extreu el terme clau patològic (mai la localització anatòmica) com a bitllet d'entrada a l'índex. | 🔴 A | AEA 2 |
+| <a id="ca-4-3"></a>**4.3** | **4c** | Utilitza les dreceres oficials de l'IAE per a la codificació de condicionants de salut (Codis Z: història, absència, estat, procediment no realitzat). | 🔴 A | AEA 2 |
+| <a id="ca-4-4"></a>**4.4** | **4d** | Navega per la Taula matricial de Neoplàsies creuant topografia anatòmica i comportament cel·lular. | 🟡 B | AEA 2 |
+| <a id="ca-4-5"></a>**4.5** | **4e** | Identifica codis parcials amb guionet (-) i completa el codi fins a la màxima especificitat (5 a 7 caràcters). | 🔴 A | AEA 2 |
+| <a id="ca-4-6"></a>**4.6** | **4f** | Construeix codis amb lletra de 7è caràcter (A, D, S) utilitzant el *dummy character* (X) com a farciment. | 🔴 A | AEA 2 |
 | **4g\*** | **4g\*** | Interpreta documentació clínica i abreviatures mèdiques en llengua anglesa instrumental(\*). | 🟢 C | AEA 2 |
 
 ---
@@ -143,13 +143,13 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **5.1** | **5a** | Aplica la definició oficial UHDDS del Diagnòstic Principal (la causa que després de l'estudi va motivar l'ingrés). | 🔴 A | AEA 3 |
-| **5.2** | **5b** | Aplica la norma de símptomes vs. diagnòstics confirmats (Secció A.5.1): no codificar símptomes integrals. | 🔴 A | AEA 3 |
-| **5.3** | **5c** | Codifica com a confirmats els diagnòstics de sospita («probable», «a descartar») en pacients hospitalitzats (A.5.2). | 🟡 B | AEA 3 |
-| **5.4** | **5d** | Aplica les excepcions d'incertesa: prohibició de codificar sospites en cas de COVID-19 o infecció per VIH/SIDA. | 🟡 B | AEA 3 |
-| **5.5** | **5e** | Resol situacions d'empat clínic (dues afeccions concurrents) seleccionant el DP que millor reflecteixi el motiu i consum de recursos. | 🔴 A | AEA 3 |
-| **5.6** | **5f** | Manté la malaltia com a DP en episodis de tractament cancel·lat abans d'iniciar la intervenció (Z53 / A.5.5). | 🟡 B | AEA 3 |
-| **5.7** | **5g** | Respecta l'ordre estricte de la locomotora i els vagons (*Codifique primero la causa subyacente* / *Use código adicional*). | 🟡 B | AEA 3 |
+| <a id="ca-5-1"></a>**5.1** | **5a** | Aplica la definició oficial UHDDS del Diagnòstic Principal (la causa que després de l'estudi va motivar l'ingrés). | 🔴 A | AEA 3 |
+| <a id="ca-5-2"></a>**5.2** | **5b** | Aplica la norma de símptomes vs. diagnòstics confirmats (Secció A.5.1): no codificar símptomes integrals. | 🔴 A | AEA 3 |
+| <a id="ca-5-3"></a>**5.3** | **5c** | Codifica com a confirmats els diagnòstics de sospita («probable», «a descartar») en pacients hospitalitzats (A.5.2). | 🟡 B | AEA 3 |
+| <a id="ca-5-4"></a>**5.4** | **5d** | Aplica les excepcions d'incertesa: prohibició de codificar sospites en cas de COVID-19 o infecció per VIH/SIDA. | 🟡 B | AEA 3 |
+| <a id="ca-5-5"></a>**5.5** | **5e** | Resol situacions d'empat clínic (dues afeccions concurrents) seleccionant el DP que millor reflecteixi el motiu i consum de recursos. | 🔴 A | AEA 3 |
+| <a id="ca-5-6"></a>**5.6** | **5f** | Manté la malaltia com a DP en episodis de tractament cancel·lat abans d'iniciar la intervenció (Z53 / A.5.5). | 🟡 B | AEA 3 |
+| <a id="ca-5-7"></a>**5.7** | **5g** | Respecta l'ordre estricte de la locomotora i els vagons (*Codifique primero la causa subyacente* / *Use código adicional*). | 🟡 B | AEA 3 |
 
 ---
 
@@ -157,14 +157,14 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **6.1** | **6a** | Assigna amb precisió l'indicador POA a cadascun dels diagnòstics codificats (S, N, D, I, E). | 🔴 A | AEA 3 |
-| **6.2** | **6b** | Diferencia les complicacions sorgides durant l'ingrés (POA: N) de les patologies preexistents a l'admissió (POA: S). | 🔴 A | AEA 3 |
-| **6.3** | **6c** | Prohibeix situar com a Diagnòstic Principal una complicació intrahospitalària sorgida després d'un ingrés programat. | 🟡 B | AEA 3 |
-| **6.4** | **6d** | Identifica les categories i codis exempts d'assignació d'indicador POA (valors E). | 🟡 B | AEA 3 |
-| **6.5** | **6e** | Detecta ambigüitats, contradiccions o manca de dades a l'informe mèdic i elabora consultes formals al facultatiu (*Query*). | 🟡 B | AEA 3 |
-| **6.6** | **6f** | Dissenya el Perfil del Document complet (Diagnòstic Principal + Diagnòstics Secundaris rellevants). | 🟡 B | AEA 3 |
-| **6.7** | **6g** | Diferencia les comorbiditats clíniques actives (que cal codificar com a DS) dels símptomes irrellevants («soroll clínic»). | 🟡 B | AEA 3 |
-| **6.8** | **6h** | Aplica la regla del VIH: un cop s'ha diagnosticat una patologia definidora de SIDA, es manté de per vida el codi `B20`. | 🔴 A | AEA 3 |
+| <a id="ca-6-1"></a>**6.1** | **6a** | Assigna amb precisió l'indicador POA a cadascun dels diagnòstics codificats (S, N, D, I, E). | 🔴 A | AEA 3 |
+| <a id="ca-6-2"></a>**6.2** | **6b** | Diferencia les complicacions sorgides durant l'ingrés (POA: N) de les patologies preexistents a l'admissió (POA: S). | 🔴 A | AEA 3 |
+| <a id="ca-6-3"></a>**6.3** | **6c** | Prohibeix situar com a Diagnòstic Principal una complicació intrahospitalària sorgida després d'un ingrés programat. | 🟡 B | AEA 3 |
+| <a id="ca-6-4"></a>**6.4** | **6d** | Identifica les categories i codis exempts d'assignació d'indicador POA (valors E). | 🟡 B | AEA 3 |
+| <a id="ca-6-5"></a>**6.5** | **6e** | Detecta ambigüitats, contradiccions o manca de dades a l'informe mèdic i elabora consultes formals al facultatiu (*Query*). | 🟡 B | AEA 3 |
+| <a id="ca-6-6"></a>**6.6** | **6f** | Dissenya el Perfil del Document complet (Diagnòstic Principal + Diagnòstics Secundaris rellevants). | 🟡 B | AEA 3 |
+| <a id="ca-6-7"></a>**6.7** | **6g** | Diferencia les comorbiditats clíniques actives (que cal codificar com a DS) dels símptomes irrellevants («soroll clínic»). | 🟡 B | AEA 3 |
+| <a id="ca-6-8"></a>**6.8** | **6h** | Aplica la regla del VIH: un cop s'ha diagnosticat una patologia definidora de SIDA, es manté de per vida el codi `B20`. | 🔴 A | AEA 3 |
 
 ---
 
@@ -172,12 +172,12 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **7.1** | **7a** | Construeix codis de procediment respectant l'estructura multiaxial de 7 caràcters de la Secció 0 (Mèdico-Quirúrgica). | 🔴 A | AEA 4 |
-| **7.2** | **7b** | Aplica la Regla de la Mateixa Fila a les taules PCS (mai combinar caràcters de files diferents). | 🔴 A | AEA 4 |
-| **7.3** | **7c** | Distingeix amb rigor entre les operacions arrel d'extirpació: Escissió (B - parcial) vs. Resecció (T - total) vs. Extracció (D). | 🔴 A | AEA 4 |
-| **7.4** | **7d** | Aplica la norma B3.1b sobre tècniques implícites: prohibició de codificar accessos, incisions o sutures de tancament. | 🔴 A | AEA 4 |
-| **7.5** | **7e** | Codifica procediments convertits (laparoscòpia a oberta) assignant doble codi (Inspecció endoscòpica + cirurgia oberta). | 🟡 B | AEA 4 |
-| **7.6** | **7f** | Codifica biòpsies assignant l'operació arrel Escissió (B) o Extracció (D) amb el qualificador diagnòstic X. | 🟡 B | AEA 4 |
+| <a id="ca-7-1"></a>**7.1** | **7a** | Construeix codis de procediment respectant l'estructura multiaxial de 7 caràcters de la Secció 0 (Mèdico-Quirúrgica). | 🔴 A | AEA 4 |
+| <a id="ca-7-2"></a>**7.2** | **7b** | Aplica la Regla de la Mateixa Fila a les taules PCS (mai combinar caràcters de files diferents). | 🔴 A | AEA 4 |
+| <a id="ca-7-3"></a>**7.3** | **7c** | Distingeix amb rigor entre les operacions arrel d'extirpació: Escissió (B - parcial) vs. Resecció (T - total) vs. Extracció (D). | 🔴 A | AEA 4 |
+| <a id="ca-7-4"></a>**7.4** | **7d** | Aplica la norma B3.1b sobre tècniques implícites: prohibició de codificar accessos, incisions o sutures de tancament. | 🔴 A | AEA 4 |
+| <a id="ca-7-5"></a>**7.5** | **7e** | Codifica procediments convertits (laparoscòpia a oberta) assignant doble codi (Inspecció endoscòpica + cirurgia oberta). | 🟡 B | AEA 4 |
+| <a id="ca-7-6"></a>**7.6** | **7f** | Codifica biòpsies assignant l'operació arrel Escissió (B) o Extracció (D) amb el qualificador diagnòstic X. | 🟡 B | AEA 4 |
 | **7e\*** | **7e\*** | Consulta documentació tècnica quirúrgica i denominacions d'operacions arrel en llengua anglesa(\*). | 🟢 C | AEA 4 |
 
 ---
@@ -186,13 +186,13 @@ A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **5
 
 | Oficial | Guia | Descripció del Criteri d'Avaluació | Prioritat | AEA |
 |:---:|:---:|:---|:---:|:---:|
-| **8.1** | **8a** | Codifica lesions traumàtiques assignant el 7è caràcter temporal corresponent (A inicial, D subsegüent, S seqüela). | 🔴 A | AEA 4 |
-| **8.2** | **8b** | Codifica traumatismes cranioencefàlics vinculant la pèrdua de consciència i l'escala de coma de Glasgow (`R40.24-`). | 🟡 B | AEA 4 |
-| **8.3** | **8c** | Construeix la seqüència de causes externes (V-Y): mecanisme causal + lloc (Y92) + activitat (Y93) + estatus laboral (Y99). | 🟡 B | AEA 4 |
-| **8.4** | **8d** | Aplica l'efecte mirall en causes externes: el 7è caràcter de la causa ha de coincidir amb el de la lesió produïda. | 🔴 A | AEA 4 |
-| **8.5** | **8e** | Diferencia la seqüenciació oposada entre intoxicació (codi T del fàrmac com a DP) i reacció adversa (manifestació clínica com a DP). | 🟡 B | AEA 4 |
-| **8.6** | **8f** | Vincula de manera obligatòria els codis de complicacions de cures (T80-T88) amb el codi de procediment causal (Y83-Y84). | 🟡 B | AEA 4 |
-| **8.7** | **8g** | Aplica la prohibició d'assignar codis Z38 com a Diagnòstic Principal en nadons al Sistema Nacional de Salut. | 🔴 A | AEA 4 |
+| <a id="ca-8-1"></a>**8.1** | **8a** | Codifica lesions traumàtiques assignant el 7è caràcter temporal corresponent (A inicial, D subsegüent, S seqüela). | 🔴 A | AEA 4 |
+| <a id="ca-8-2"></a>**8.2** | **8b** | Codifica traumatismes cranioencefàlics vinculant la pèrdua de consciència i l'escala de coma de Glasgow (`R40.24-`). | 🟡 B | AEA 4 |
+| <a id="ca-8-3"></a>**8.3** | **8c** | Construeix la seqüència de causes externes (V-Y): mecanisme causal + lloc (Y92) + activitat (Y93) + estatus laboral (Y99). | 🟡 B | AEA 4 |
+| <a id="ca-8-4"></a>**8.4** | **8d** | Aplica l'efecte mirall en causes externes: el 7è caràcter de la causa ha de coincidir amb el de la lesió produïda. | 🔴 A | AEA 4 |
+| <a id="ca-8-5"></a>**8.5** | **8e** | Diferencia la seqüenciació oposada entre intoxicació (codi T del fàrmac com a DP) i reacció adversa (manifestació clínica com a DP). | 🟡 B | AEA 4 |
+| <a id="ca-8-6"></a>**8.6** | **8f** | Vincula de manera obligatòria els codis de complicacions de cures (T80-T88) amb el codi de procediment causal (Y83-Y84). | 🟡 B | AEA 4 |
+| <a id="ca-8-7"></a>**8.7** | **8g** | Aplica la prohibició d'assignar codis Z38 com a Diagnòstic Principal en nadons al Sistema Nacional de Salut. | 🔴 A | AEA 4 |
 
 ---
 

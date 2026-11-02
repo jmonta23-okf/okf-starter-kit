@@ -146,6 +146,8 @@ CODIS_ERROR = {
     "Y024": ("Claus YAML duplicades", "🔴 Crític"),
     "Y025": ("El camp 'type' no és una cadena", "🔴 Crític"),
     "Y026": ("Camp array (authors/tags) amb tipus incorrecte", "🔴 Crític"),
+    "Y030": ("Criteri al frontmatter sense àncora al cos", "🟠 Alta"),
+    "Y031": ("Àncora al cos sense criteri al frontmatter", "🟠 Alta"),
     "Y035": ("Àlies declarats amb canònics conflictius entre Convencions", "🔴 Crític"),
     "Y036": ("Valor no vàlid per a 'naturalesa'", "🟠 Alta"),
 }
@@ -522,6 +524,52 @@ def es_buit(v):
     return False
 
 
+def comprovar_coherencia_cataleg(node_yaml, cos, ruta_node):
+    """
+    Comprova la coherència entre el frontmatter i el cos d'un CatalegCurricular
+    (RFC-OKF-02, Fase 3):
+
+    - Cada codi X.Y del camp `criteris:` ha de tenir la seva àncora
+      <a id="ca-X-Y"></a> al cos (si falta -> Y030).
+    - Cada àncora del cos ha de correspondre a un criteri del frontmatter
+      (si sobra -> Y031).
+
+    Retorna la llista de (codi, descripció, acció).
+    """
+    errors = []
+
+    crits = node_yaml.get("criteris") or {}
+    codis_fm = set()
+    if isinstance(crits, dict):
+        for llista in crits.values():
+            if isinstance(llista, list):
+                codis_fm |= {str(c) for c in llista}
+
+    ancres = set(re.findall(r"<a id=\"ca-([0-9]+-[0-9]+)\"></a>", cos or ""))
+
+    for codi in sorted(codis_fm):
+        clau = str(codi).replace(".", "-")
+        if clau not in ancres:
+            errors.append((
+                "Y030",
+                f"Criteri '{codi}' al frontmatter sense àncora "
+                f"<a id=\"ca-{clau}\"></a> al cos",
+                f"Afegir l'àncora <a id=\"ca-{clau}\"></a> a la fila del criteri al cos",
+            ))
+
+    for clau in sorted(ancres):
+        codi_txt = clau.replace("-", ".", 1)
+        if codi_txt not in codis_fm:
+            errors.append((
+                "Y031",
+                f"Àncora <a id=\"ca-{clau}\"></a> al cos sense criteri "
+                f"'{codi_txt}' al frontmatter",
+                f"Afegir '{codi_txt}' al camp `criteris:` del frontmatter o treure l'àncora",
+            ))
+
+    return errors
+
+
 def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None):
     """
     Valida un node. Retorna la llista d'errors (codi, descripció, acció).
@@ -603,6 +651,12 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
                 "(permesos: 'analitica', 'sintesi')",
                 "Usar 'analitica' o 'sintesi' (o treure el camp)",
             ))
+
+    # ---- Coherència catàleg: frontmatter ↔ àncores (RFC-OKF-02) ------
+    if tipus == "CatalegCurricular":
+        errors.extend(comprovar_coherencia_cataleg(
+            yaml_data, extreure_cos_md(ruta_fitxer), ruta_fitxer
+        ))
 
     # ---- ID: patró i duplicats ----------------------------------------
     if node_id is not None:
