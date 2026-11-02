@@ -14,7 +14,7 @@ authors:
 legal_framework: "Ordre EDU/10/2020 i RD 768/2014 (LOE)"
 modul: "MP1519"
 cataleg_referencia: "./01_MP1519_Cataleg_Curricular.md"
-cataleg_versio: "V2.0-Complet"
+cataleg_versio: "V2.1"
 naturalesa: analitica
 durada: "22 h"
 resultats_aprenentatge:

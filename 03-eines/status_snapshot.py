@@ -264,6 +264,8 @@ def curriculum_block(repo):
     aeas = {}
 
     for md in iter_md(repo):
+        if "04-plantilles" in md.parts:
+            continue
         try:
             text = md.read_text(encoding="utf-8", errors="replace")
         except Exception:
