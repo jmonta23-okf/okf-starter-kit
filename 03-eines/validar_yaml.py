@@ -940,10 +940,148 @@ def generar_informe(resultats, ruta_vault, ruta_sortida):
 # MAIN
 # =============================================================================
 
+def audit_curricular(vault_path, strict_versio=False):
+    """
+    Auditoria de cobertura curricular per catàleg (RFC-OKF-02, Fase 3).
+
+    Per a cada CatalegCurricular del vault (excloses les plantilles de
+    04-plantilles/), calcula: total CAs del decret, CAs avaluats per fitxes
+    analítiques, CAs només a síntesi, orfes, inexistents, mismatch de versió
+    i la coherència YAML↔àncores (Y030/Y031).
+
+    Retorna (linies, exit_code) amb exit_code 0 (tot cobert), 1 (incomplert o
+    error) o 2 (només warnings).
+    """
+    fitxers = trobar_fitxers_md(vault_path)
+
+    yaml_per_ruta = {}
+    for r in fitxers:
+        data, _errs = extreure_yaml(r)
+        yaml_per_ruta[r] = data
+
+    # Àlies declarats per les convencions (per normalitzar el type).
+    aliases, _conflictes = llegir_aliases_de_les_convencions(
+        fitxers, {r: {"data": d} for r, d in yaml_per_ruta.items()}
+    )
+
+    def tipus_normalitzat(d):
+        if not isinstance(d, dict):
+            return None
+        t = d.get("type")
+        if isinstance(t, str) and t in aliases:
+            return aliases[t]
+        return t
+
+    def no_es_plantilla(ruta):
+        return "04-plantilles" not in Path(ruta).parts
+
+    # Catàlegs per ruta absoluta.
+    catalegs = {}
+    for r, d in yaml_per_ruta.items():
+        if not no_es_plantilla(r):
+            continue
+        if isinstance(d, dict) and tipus_normalitzat(d) == "CatalegCurricular":
+            criteris = d.get("criteris")
+            catalegs[str(Path(r).resolve())] = {
+                "version": str(d.get("version", "")),
+                "criteris": criteris if isinstance(criteris, dict) else {},
+                "fitxes": [],
+            }
+
+    # Fitxes per catàleg referenciat (resolució de ruta relativa).
+    for r, d in yaml_per_ruta.items():
+        if not no_es_plantilla(r):
+            continue
+        if not (isinstance(d, dict) and tipus_normalitzat(d) == "FitxaAEA"):
+            continue
+        ref = d.get("cataleg_referencia")
+        if not isinstance(ref, str):
+            continue
+        ref_path = str((Path(r).parent / ref).resolve())
+        if ref_path in catalegs:
+            catalegs[ref_path]["fitxes"].append((r, d))
+
+    linies = []
+    sortida = 0
+    coberts = 0
+    incomplets = 0
+
+    for ruta_cat, info in sorted(catalegs.items()):
+        codis_decret = set()
+        for llista in info["criteris"].values():
+            if isinstance(llista, list):
+                codis_decret |= {str(c) for c in llista}
+        total_decret = len(codis_decret)
+
+        analitics = set()
+        sintesi = set()
+        mismatch = 0
+        for _r, d in info["fitxes"]:
+            codis = {str(c) for c in (d.get("criteris_avaluacio") or [])}
+            if d.get("naturalesa") == "sintesi":
+                sintesi |= codis
+            else:
+                analitics |= codis
+            v_fitxa = str(d.get("cataleg_versio")) if d.get("cataleg_versio") else ""
+            if v_fitxa and info["version"] and v_fitxa != info["version"]:
+                mismatch += 1
+
+        nomes_sintesi = (sintesi & codis_decret) - analitics
+        orfes = codis_decret - analitics
+        inexistents = analitics - codis_decret
+
+        errors_coherencia = comprovar_coherencia_cataleg(
+            {"criteris": info["criteris"]}, extreure_cos_md(ruta_cat), ruta_cat
+        )
+
+        verdicte = "COBERT"
+        if errors_coherencia:
+            verdicte = f"ERROR (Y030/Y031 × {len(errors_coherencia)})"
+        elif orfes or inexistents:
+            verdicte = "INCOMPLET"
+        elif mismatch and strict_versio:
+            verdicte = "INCOMPLET (mismatch de versió)"
+        elif mismatch or nomes_sintesi:
+            verdicte = "WARNING (mismatch de versió o CAs només a síntesi)"
+
+        if verdicte == "COBERT":
+            coberts += 1
+        else:
+            incomplets += 1
+
+        if verdicte.startswith("ERROR") or verdicte.startswith("INCOMPLET"):
+            sortida = max(sortida, 1)
+        elif verdicte.startswith("WARNING"):
+            sortida = max(sortida, 2)
+
+        linies.append(f"=== Cobertura curricular: {ruta_cat} ===")
+        linies.append(f"Versió del catàleg: {info['version']}")
+        linies.append(f"Total CAs al decret: {total_decret}")
+        linies.append(f"CAs avaluats (analítics): {len(analitics)}")
+        linies.append(f"CAs només a síntesi: {len(nomes_sintesi)}")
+        linies.append(f"CAs orfes: {len(orfes)}")
+        linies.append(f"CAs inexistents: {len(inexistents)}")
+        linies.append(f"Mismatch de versió: {mismatch}")
+        linies.append(f"Verdicte: {verdicte}")
+        linies.append("")
+
+    if not catalegs:
+        sortida = 1
+
+    linies.append("=== Resum ===")
+    linies.append(f"Catàlegs analitzats: {len(catalegs)}")
+    linies.append(f"Catàlegs coberts: {coberts}")
+    linies.append(f"Catàlegs incomplets: {incomplets}")
+
+    return linies, sortida
+
+
 def main():
     parser = argparse.ArgumentParser(description=f"Validador YAML de vaults OKF (v{VERSIO_SCRIPT})")
     parser.add_argument("--ruta", default=RUTA_DEFAULT)
     parser.add_argument("--output", default=None)
+    parser.add_argument("--audit", action="store_true", help="Auditoria de cobertura curricular per catàleg")
+    parser.add_argument("--strict-versio", action="store_true", help="Tractar mismatch de versió com a error (no warning)")
     args = parser.parse_args()
 
     ruta_vault = args.ruta
@@ -1041,7 +1179,15 @@ def main():
     print(contingut_informe)
     print(f"\n📄 Informe desat a: {ruta_sortida}")
 
-    sys.exit(1 if errors_totals else 0)
+    exit_final = 1 if errors_totals else 0
+    if args.audit:
+        linies_audit, exit_audit = audit_curricular(
+            ruta_vault, strict_versio=args.strict_versio
+        )
+        print("\n" + "\n".join(linies_audit))
+        exit_final = max(exit_final, exit_audit)
+
+    sys.exit(exit_final)
 
 
 if __name__ == "__main__":
