@@ -7,28 +7,57 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
-## [V1.2-Esborrany] - 2026-10-31
+## [V1.2] - 2026-11-02
+
+**Publicació oficial de la V1.2.** Consolida el validador v1.1.0 (sincronitzat amb els Cores), afegeix l'eina d'snapshot de l'estat del repositori, i alinea tota la documentació pública amb el Core v1.1.0 (8 camps universals, 9 tipus universals, tipus de família des de la Convenció, matriu d'errors Y001-Y026).
 
 ### Afegit
-- **Validador v1.1.0 sincronitzat amb els Cores:** comprova exactament els **8 camps universals** (id, type, title, version, data_ultima_actualitzacio, authors, llicencia, tags) i els **9 tipus universals** (MOC, Guia, Glossari, Protocol, PaquetLLM, ConvencioNomenclatura, Llicencia, Plantilla, DocumentHandoff), com fixen els Cores §2 i §3. `Llicencia` i `Plantilla` ara són acceptats.
-- **Tipus de família declarats a la Convenció, no al codi:** el validador llegeix les taules de tipus de les Convencions del vault (inclosa la nova §8.3 del Core FP amb els tipus del perfil CURS-OKF) i accepta els universals + els declarats. `credit` només s'exigeix si la Convenció ho declara, i és **prohibit** en tipus universals (Y017).
-- **Comprovacions de graf:** enllaços interns relatius (cap trencat, Y018), prohibició de wikilinks `[[...]]` (Y019), enums de `visibilitat` (5 valors) i `estat` (4 valors) del Core (Y020/Y021), MOC arrel (Y014), DocumentHandoff (Y015), ConvencioNomenclatura (Y016) i regla de privacitat de menors (Y022).
-- **Robustesa:** `type` no hashable (Y025) sense crash; valors buits `title: ""`/`tags: []` (Y002); `authors`/`tags` com a llistes (Y026); BOM UTF-8 amb avís clar (Y023); claus YAML duplicades (Y024); suprimida l'heurística Hermes: un node amb `name:` i sense `id:` ara dóna error en lloc de desaparèixer.
-- **Proves automàtiques (pytest):** carpeta `tests/` nova amb 24 casos (node vàlid, type llista, ID mal escrit, títol buit, tags buits, authors cadena, BOM, claus duplicades, enllaç trencat, wikilink dins i fora de fence, enums, privacitat, credit en universal, tipus de família declarats/no declarats, estructura del vault). Tot verd.
-- **GitHub Action** `.github/workflows/test.yml`: executa pytest i valida el kit complet a cada push i pull request.
-- **Estructura completa de vault als exemples:** nous `03_C1_Convencio.md` + `04_C1_Handoff.md` al mini-vault (5 nodes) i `12_MP1519_Convencio.md` + `13_MP1519_Handoff.md` a l'exemple complet (14 nodes), perquè cada exemple sigui un vault interoperable amb Convenció i handoff propis.
+
+- **`03-eines/status_snapshot.py`** — Eina de només lectura que genera un snapshot estandarditzat de l'estat del repositori (branca, HEAD, working tree, últims 5 commits, validador, tests, recompte de nodes). Modes: `--quick`, `--full` (per defecte), `--audit`, `--since <ref>`. Pensada per enganxar en briefs i converses amb assistents.
+- **6 tests nous** per a `status_snapshot.py` (`tests/test_status_snapshot.py`). Total: **30 tests**.
+- **Pas nou al CI** (`.github/workflows/test.yml`): `Snapshot (quick)` a cada push/PR.
+- **Secció «Snapshot de l'estat del repositori»** a `CONTRIBUTING.md`.
+- **Paràgraf «L'eina d'snapshot»** i menció a la taula d'eines del `README.md`.
+- **Nota `--output`** al `CONTRIBUTING.md` per evitar que el validador embruti `EINES/` en execucions manuals.
 
 ### Modificat
-- **Cores v1.1.2 (Català) / v1.0.2 (FP):** eliminades les referències fantasma (exemples d'ID amb ESO/SAD/TCAI/PTE, files de cores germans inexistents, remissió al §12 inexistent), eliminat el camp duplicat `ambit` (es conserva `legal_framework`), prohibició de wikilinks reformulada sense literals `[[...]]`, nova §8.3 al Core FP amb els tipus de família del perfil CURS-OKF.
-- **Kit alineat amb els 8 camps universals:** `llicencia: "CC BY-SA 4.0"` afegit a tots els nodes d'exemple i plantilles (21 fitxers); `credit` eliminat dels nodes de tipus universal; enllaços interns d'`02-exemple-complet` corregits (`10_` → `11_`); placeholders de les plantilles tancats en blocs de codi per no comptar com a enllaços.
-- **README:** el validador ja no és "en construcció"; es descriu el que fa de debò i cau la nota de "feina pendent" d'enllaços i enums.
+
+- **Documentació pública alineada amb el Core v1.1.0** (Bloc 9.5):
+  - `03-arquitectura.md`: taula de camps universals (8 reals), «15 tipus» → «9 universals + família», `PaquetLLM` fora de la secció `credit`, matriu d'errors Y001-Y026, «400 línies» → «901 línies».
+  - `05-glossari.md`: «Camp universal obligatori» amb els 8 camps reals, «15 tipus» → «9 universals + família», llistes de tipus corregides.
+  - `04-plantilles/README.md`: `PaquetLLM` fora de la columna `credit`, nota de política de `credit` reescrita.
+  - `00-index.md`: descripció de `03-arquitectura.md` actualitzada.
+- **README**:
+  - Bloc de sortida del validador amb el format real del v1.1.0 (taula resum + «## ✅ Resultat»).
+  - Badge Status → `V1.2` (URL slug i alt text).
+  - Badge DOI → **concept DOI (23823818)** amb el format correcte de Zenodo (`DOI/10.5281/zenodo.23823818.svg`).
+  - Versions dels Cores a la línia 200: `V1.1.2, V1.0.2` (abans `V1.1.1, V1.0.1`).
+- **Headers i peus de 11 fitxers**: DOI de versió (23823819) → **concept DOI (23823818)**, per política nova (els headers descriuen el projecte, no una versió concreta).
+- **`02-filosofia.md:111`**: «d'unes 400 línies» → «d'unes 900 línies» (mida real del validador).
+
+### Corregit
+
+- **Badge DOI trencat (HTTP 404)** des de la V1.1: el format `zenodo.org/badge/23823819.svg` no és vàlid; el correcte és `zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg`.
+- **Fence orfe** al final de `01-que-es-okf.md`.
+- **Fence orfe** al final de `03-arquitectura.md`.
+- **Fence orfe** al final de `CONTRIBUTING.md`.
+- **Newline final absent** al `CHANGELOG.md`.
 
 ### Estat
-- **27 nodes OKF** validats amb **0 errors** (validador v1.1.0).
-- **Mòdul MP1519** completament desplegat a `02-exemple-complet/` (14 nodes, ara amb Convenció i handoff propis).
-- **5 nodes** a `05-exemples-minims/` (LOGSE/C1, ara amb Convenció i handoff).
-- **6 plantilles** a `04-plantilles/`.
-- **2 Cores** a `01-cores/`.
+
+- **Repositori:** evolució contínua des de la publicació de la V1.1 (31/10/2026).
+- **27 nodes OKF** al kit (0 errors).
+- **30 tests** (24 existents + 6 de `status_snapshot.py`).
+- **5 fitxers Python** (4 eines + 1 test runner).
+- **CI verd** (pytest + validador + snapshot a cada push/PR).
+- **Validador**: v1.1.0 (8 camps universals, 9 tipus universals, tipus de família des de la Convenció, comprovacions de graf, Y001-Y026).
+- **Cores**: Català v1.1.2, FP v1.0.2.
+
+### DOI
+
+- **DOI de versió V1.2**: _(pendent — assignat per Zenodo en arxivar el tag V1.2)_
+- **Concept DOI** (sempre apunta a l'última versió): [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818)
+- **DOI de versió V1.1** (anterior): [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819)
 
 ---
 
@@ -138,8 +167,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ## Notes sobre el versionat
 
-- **V1.0-Esborrany** (25-28/10/2026): 4 fites de desenvolupament amb commits al repo local. Al final del període, el kit era funcional però encara tenia el to "tècnic" original.
-- **V1.1** (29/10/2026): humanització, MIAE+VCER, exemple de 11 nodes, privacitat. **Aquesta és la versió que s'ha publicat.**
-- **V1.1-publicació** (31/10/2026): publicació oficial a GitHub i Zenodo amb DOI permanent. El DOI `10.5281/zenodo.23823819` correspon a la V1.1.
-
-**Sobre el DOI:** el concept DOI (`10.5281/zenodo.23823818`) sempre apunta a la darrera versió. El DOI de la versió (`10.5281/zenodo.23823819`) correspon a la V1.1 específicament. Quan es faci una V1.2, es generarà un DOI nou automàticament.
+- **Concept DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) — sempre apunta a l'última versió del projecte. **Recomanat per a citacions generals**, per a headers de documents i per al badge del README.
+- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = pendent). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
+- **Política del kit:** els headers i peus dels documents fan servir el **concept DOI** (descriuen el projecte, no una versió). Les **citacions APA/BibTeX de versió** (README, CONTRIBUTING, 00-index, article d'eDigital) fan servir el **DOI de versió** corresponent.
+- **Format del badge Zenodo:** `https://zenodo.org/badge/DOI/10.5281/zenodo.<id>.svg`. El format `https://zenodo.org/badge/<id>.svg` **no és vàlid** (retorna 404).
