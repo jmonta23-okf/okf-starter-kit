@@ -3,7 +3,7 @@
 > **Benvingut a la base de coneixement d'OKF Starter Kit.**  
 > Una proposta de sistema operatiu per al coneixement docent. Menys burocràcia dispersa, més artesania pedagògica.
 
-**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+**DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
 
 ---
 

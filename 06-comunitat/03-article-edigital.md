@@ -67,7 +67,7 @@ Si us sona bé, el taller és obert. Porteu el cafè.
 
 *L'OKF Starter Kit és un projecte de codi obert desenvolupat per docents de la xarxa pública catalana. Pots accedir al codi, a les plantilles i als exemples complets al repositori del projecte: [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit).*
 
-*DOI del projecte: [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819).*
+*DOI del projecte: [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818).*
 
 ---
 

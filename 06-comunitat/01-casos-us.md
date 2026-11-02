@@ -4,7 +4,7 @@ Quatre casos: una co-docent sense la qual res d'això seria com és i tres docen
 
 No són un estudi d'impacte ni una vitrina: són proves artesanals fetes amb els pocs companys que s'han interessat pel sistema. M'interessa més el que hi ha grinyolat que el que ha sortit bé.
 
-**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+**DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
 
 > **Nota de privacitat.** Faig servir pseudònims i inicials, i no esmento cap centre. Això redueix la possibilitat d'identificar ningú, però no l'elimina, i per això he deixat fora tot el que no calia per entendre cada cas.
 

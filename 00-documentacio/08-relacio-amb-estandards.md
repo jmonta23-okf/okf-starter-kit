@@ -4,7 +4,7 @@
 
 Aquest document situa l'OKF Starter Kit respecte als estàndards educatius i d'intercanvi de dades que ja existeixen. No pretén ser exhaustiu, però sí honest: si el kit no implementa un estàndard, ho diu; si s'hi inspira, ho explica; i si podria ser-hi compatible en el futur, ho assenyala.
 
-**DOI:** [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
+**DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) · **Repositori:** [github.com/jmonta23-okf/okf-starter-kit](https://github.com/jmonta23-okf/okf-starter-kit)
 
 ---
 
