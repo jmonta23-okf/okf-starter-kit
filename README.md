@@ -228,7 +228,7 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
 ## Com citar aquest projecte
 
 **APA (7a edició):**
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.2) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.2) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23888081
 
 **BibTeX:**
 ```bibtex
@@ -238,8 +238,8 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
   year         = {2026},
   version      = {V1.2},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.23823819},
-  url          = {https://doi.org/10.5281/zenodo.23823819}
+  doi          = {10.5281/zenodo.23888081},
+  url          = {https://doi.org/10.5281/zenodo.23888081}
 }
 ```
 

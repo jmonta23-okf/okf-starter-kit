@@ -82,7 +82,7 @@ L'eina és **de només lectura**: no modifica fitxers, no fa `git add`, no fa `g
 
 Si la teva contribució es publica en un treball acadèmic o una comunicació, pots citar el projecte així:
 
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23823819
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.2) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23888081
 
 Per als detalls complets (APA, BibTeX, text pla), consulta la secció **[Com citar aquest projecte](README.md#com-citar-aquest-projecte)** del README principal.
 

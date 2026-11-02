@@ -55,7 +55,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ### DOI
 
-- **DOI de versió V1.2**: _(pendent — assignat per Zenodo en arxivar el tag V1.2)_
+- **DOI de versió V1.2**: [10.5281/zenodo.23888081](https://doi.org/10.5281/zenodo.23888081)
 - **Concept DOI** (sempre apunta a l'última versió): [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818)
 - **DOI de versió V1.1** (anterior): [10.5281/zenodo.23823819](https://doi.org/10.5281/zenodo.23823819)
 
@@ -168,6 +168,6 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 ## Notes sobre el versionat
 
 - **Concept DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) — sempre apunta a l'última versió del projecte. **Recomanat per a citacions generals**, per a headers de documents i per al badge del README.
-- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = pendent). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
+- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
 - **Política del kit:** els headers i peus dels documents fan servir el **concept DOI** (descriuen el projecte, no una versió). Les **citacions APA/BibTeX de versió** (README, CONTRIBUTING, 00-index, article d'eDigital) fan servir el **DOI de versió** corresponent.
 - **Format del badge Zenodo:** `https://zenodo.org/badge/DOI/10.5281/zenodo.<id>.svg`. El format `https://zenodo.org/badge/<id>.svg` **no és vàlid** (retorna 404).
