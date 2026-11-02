@@ -33,7 +33,6 @@ criteris_avaluacio:
   - "4.4"
   - "4.5"
   - "4.6"
-  - "4.7"
 tags:
   - okf/aea
   - okf/sanitat
@@ -78,7 +77,6 @@ Aquesta AEA desplega tots els CAs dels RAs 3 i 4 del [Catàleg Curricular](./01_
   * 🟡 **4.4 (4d):** Navegació matricial per la Taula de Neoplàsies (topografia $\times$ morfologia).
   * 🔴 **4.5 (4e):** Identificació de codis parcials amb guionet (-) i tancament fins a l'últim dígit.
   * 🔴 **4.6 (4f):** Construcció de codis de 7 caràcters utilitzant la `X` (*dummy character*).
-  * 🟢 **4.7 (4g):** Consulta de recursos i terminologia en llengua anglesa instrumental.
 
 ---
 

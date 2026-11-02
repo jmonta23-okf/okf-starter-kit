@@ -6,8 +6,8 @@ subtitle: "Definició de Resultats d'Aprenentatge, Criteris d'Avaluació oficial
 cycle: "CFGS Documentació i Administració Sanitàries (SAD)"
 center: "Centre educatiu de referència"
 academic_year: "2026-2027"
-version: "V2.0-Complet"
-data_ultima_actualitzacio: "2026-10-29"
+version: "V2.1"
+data_ultima_actualitzacio: "2026-11-02"
 llicencia: "CC BY-SA 4.0"
 authors:
   - "Josep Montañà Piqué"
@@ -16,6 +16,15 @@ tags:
   - okf/cataleg
   - okf/sanitat
   - mp1519/curriculum
+criteris:
+  RA1: ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6"]
+  RA2: ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6"]
+  RA3: ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6"]
+  RA4: ["4.1", "4.2", "4.3", "4.4", "4.5", "4.6"]
+  RA5: ["5.1", "5.2", "5.3", "5.4", "5.5", "5.6", "5.7"]
+  RA6: ["6.1", "6.2", "6.3", "6.4", "6.5", "6.6", "6.7", "6.8"]
+  RA7: ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6"]
+  RA8: ["8.1", "8.2", "8.3", "8.4", "8.5", "8.6", "8.7"]
 estat: vigent
 ---
 
@@ -65,11 +74,11 @@ El MP 1519 desenvolupa de manera directa les següents competències professiona
 
 ## 4 · El Model de Priorització Pedagògica (Nivells A, B, C)
 
-A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els 54 Criteris d'Avaluació es classifiquen en **tres nivells de prioritat formativa**. Aquesta priorització no altera la validesa legal de cap criteri, sinó que guia l'esforç docent cap a les competències que defineixen la professió:
+A l'efecte de programació didàctica i d'avaluació formativa a l'aula, els **52 Criteris d'Avaluació** es classifiquen en **tres nivells de prioritat formativa (28 A + 23 B + 1 C)**. Aquesta priorització no altera la validesa legal de cap criteri, sinó que guia l'esforç docent cap a les competències que defineixen la professió:
 
 * 🔴 **Prioritat Alta (Nivell A — 28 CAs):** Criteris nuclears i crítics per a l'exercici com a auditor d'informació clínica (selecció de Diagnòstic Principal, aplicació de l'indicador POA, gestió de la lateralitat, operacions arrel quirúrgiques i exclusions absolutes). S'avaluen de manera sumativa i continuada.
-* 🟡 **Prioritat Mitjana (Nivell B — 19 CAs):** Criteris procedimentals importants per a la fluïdesa tècnica i la navegació àgil per eCIEMaps (codis de situació Z, identificació de modificadors no essencials, estructures administratives del CMBD).
-* 🟢 **Prioritat Complementària (Nivell C — 7 CAs):** Criteris de suport conceptual, contextualització històrica i maneig de vocabulari auxiliar (anglès instrumental, evolució de la CIE-9 a la CIE-10).
+* 🟡 **Prioritat Mitjana (Nivell B — 23 CAs):** Criteris procedimentals importants per a la fluïdesa tècnica i la navegació àgil per eCIEMaps (codis de situació Z, identificació de modificadors no essencials, estructures administratives del CMBD).
+* 🟢 **Prioritat Complementària (Nivell C — 1 CA):** Criteris de suport conceptual, contextualització històrica i maneig de vocabulari auxiliar (anglès instrumental, evolució de la CIE-9 a la CIE-10).
 
 ---
 
