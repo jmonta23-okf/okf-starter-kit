@@ -259,3 +259,76 @@ def test_enums_absents_passen(tmp_path, codis_error):
     node = build_node("EX-GUIA-01", "Guia", "Una guia").replace("estat: vigent\n", "")
     errors = validar_vault(crear_vault(tmp_path, {"03_Guia.md": node}))
     assert codis_error(errors) == []
+
+
+# ---------------------------------------------------------------------------
+# Àlies i naturalesa (RFC-OKF-02, Fase 3)
+# ---------------------------------------------------------------------------
+
+# Convenció amb una secció d'àlies i FitxaAEA sense «requereix credit»
+# (per aïllar la normalització del Y003).
+ALIAS_CONVENCIO = CONVENCIO.replace(
+    "Fitxa d'una activitat d'ensenyament-aprenentatge. Requereix credit.",
+    "Fitxa d'una activitat d'ensenyament-aprenentatge.",
+) + """
+
+## 3 · Àlies de tipus
+
+| Àlies | Tipus canònic |
+|:---|:---|
+| `Activitat` | `FitxaAEA` |
+"""
+
+
+def _validar_amb_aliases(ruta_vault):
+    """Flux complet de validació, incloent la normalització d'àlies."""
+    import validar_yaml as v
+    fitxers = v.trobar_fitxers_md(ruta_vault)
+    yaml_per_ruta = {}
+    errors = []
+    for r in fitxers:
+        data, errs = v.extreure_yaml(r)
+        yaml_per_ruta[r] = {"data": data, "errors": errs}
+        for e in errs:
+            errors.append((r, e[0], e[1], e[2]))
+    declarats, _ = v.llegir_tipus_de_les_convencions(fitxers, yaml_per_ruta)
+    aliases, _conf = v.llegir_aliases_de_les_convencions(fitxers, yaml_per_ruta)
+    tipus_valid, _fam, tipus_credit = v.construir_tipus_valid(declarats)
+    ids_vists = {}
+    for r in fitxers:
+        data = yaml_per_ruta[r]["data"]
+        if data is None:
+            continue
+        enllacos = v.analitzar_enllacos(r)
+        for e in v.validar_node(r, data, ids_vists, tipus_valid, tipus_credit, enllacos, aliases):
+            errors.append((r, e[0], e[1], e[2]))
+    return errors
+
+
+def test_alias_normalization(tmp_path, codis_error):
+    """type: Activitat es normalitza a FitxaAEA si la Convenció declara l'àlies."""
+    node = NODE_BASE.format(nid="EX-AEA-01", tipus="Activitat", titol="Activitat amb àlies")
+    ruta = crear_vault(tmp_path, {
+        "03_Activitat.md": node,
+        "01_Convencio.md": ALIAS_CONVENCIO,
+    })
+    assert "Y004" not in codis_error(_validar_amb_aliases(ruta))
+
+    # Sense la Convenció que declara l'àlies, Activitat no és vàlid (Y004).
+    (tmp_path / "b").mkdir()
+    ruta2 = crear_vault(tmp_path / "b", {"03_Activitat.md": node})
+    assert "Y004" in codis_error(_validar_amb_aliases(ruta2))
+
+
+def test_naturalesa_validation(tmp_path, codis_error):
+    """naturalesa: sintesi és vàlid; naturalesa: inventada dona Y036."""
+    ok = NODE_BASE.format(nid="EX-AEA-02", tipus="FitxaAEA", titol="Fitxa amb naturalesa")
+    ok = ok.replace("tags:", "naturalesa: sintesi\ntags:")
+    ruta_ok = crear_vault(tmp_path, {"03_AEA.md": ok, "01_Convencio.md": ALIAS_CONVENCIO})
+    assert codis_error(validar_vault(ruta_ok)) == []
+
+    bad = NODE_BASE.format(nid="EX-AEA-03", tipus="FitxaAEA", titol="Fitxa amb naturalesa dolenta")
+    bad = bad.replace("tags:", "naturalesa: inventada\ntags:")
+    (tmp_path / "b").mkdir()
+    ruta_bad = crear_vault(tmp_path / "b", {"03_AEA.md": bad, "01_Convencio.md": ALIAS_CONVENCIO})
+    assert "Y036" in codis_error(validar_vault(ruta_bad))

@@ -146,6 +146,8 @@ CODIS_ERROR = {
     "Y024": ("Claus YAML duplicades", "🔴 Crític"),
     "Y025": ("El camp 'type' no és una cadena", "🔴 Crític"),
     "Y026": ("Camp array (authors/tags) amb tipus incorrecte", "🔴 Crític"),
+    "Y035": ("Àlies declarats amb canònics conflictius entre Convencions", "🔴 Crític"),
+    "Y036": ("Valor no vàlid per a 'naturalesa'", "🟠 Alta"),
 }
 
 
@@ -321,7 +323,11 @@ def extreure_tipus_convencio(contingut):
         m_cap = re.match(r"^(#{1,6})\s+(.*)", line)
         if m_cap:
             seccio_actual = m_cap.group(2).lower()
-            dins_taula_validada = "tipus" in seccio_actual
+            dins_taula_validada = (
+                "tipus" in seccio_actual
+                and "àlies" not in seccio_actual
+                and "alias" not in seccio_actual
+            )
             continue
 
         if not dins_taula_validada:
@@ -356,6 +362,73 @@ def llegir_tipus_de_les_convencions(fitxers, yaml_per_ruta):
             for t, desc in extreure_tipus_convencio(cos).items():
                 declarats[t] = desc
     return declarats, convencions
+
+
+def extreure_aliases_convencio(contingut):
+    """
+    Extreu els àlies de tipus declarats per una Convenció de Nomenclatura.
+
+    Llegeix les taules sota seccions amb "àlies" (o "alias") al títol
+    (per exemple "## 3 · Àlies de tipus"). Cada fila
+
+        | `Activitat` | `FitxaAEA` |
+
+    declara un àlies -> tipus canònic.
+    """
+    aliases = {}
+    seccio_actual = ""
+    dins_taula_aliases = False
+
+    for line in contingut.splitlines():
+        m_cap = re.match(r"^(#{1,6})\s+(.*)", line)
+        if m_cap:
+            seccio_actual = m_cap.group(2).lower()
+            dins_taula_aliases = (
+                "àlies" in seccio_actual or "alias" in seccio_actual
+            )
+            continue
+
+        if not dins_taula_aliases:
+            continue
+
+        if line.strip().startswith("|"):
+            m = re.match(r"^\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|", line)
+            if m:
+                aliases[m.group(1).strip()] = m.group(2).strip()
+
+    return aliases
+
+
+def llegir_aliases_de_les_convencions(fitxers, yaml_per_ruta):
+    """
+    Recull els àlies declarats per totes les Convencions del vault.
+
+    Retorna (aliases, errors_conflictes):
+    - aliases: {àlies: tipus_canonic} (el primer declarat guanya si coincideix).
+    - errors_conflictes: llista de (ruta, "Y035", descripció, acció) quan el
+      mateix àlies es declara amb canònics diferents en convencions diferents
+      (error de configuració, no de node).
+    """
+    aliases = {}
+    conflictes = []
+    for ruta in fitxers:
+        data = yaml_per_ruta.get(ruta, {}).get("data")
+        if not isinstance(data, dict):
+            continue
+        tipus_node = data.get("type")
+        if isinstance(tipus_node, str) and tipus_node in TIPUS_CONVENCIO:
+            cos = extreure_cos_md(ruta)
+            for alias, canonic in extreure_aliases_convencio(cos).items():
+                if alias in aliases and aliases[alias] != canonic:
+                    conflictes.append((
+                        ruta, "Y035",
+                        f"Àlies '{alias}' declarat amb canònics diferents: "
+                        f"'{aliases[alias]}' vs '{canonic}'",
+                        "Unificar el canònic de l'àlies a totes les Convencions",
+                    ))
+                elif alias not in aliases:
+                    aliases[alias] = canonic
+    return aliases, conflictes
 
 
 def construir_tipus_valid(declarats_convencio):
@@ -449,7 +522,7 @@ def es_buit(v):
     return False
 
 
-def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos):
+def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None):
     """
     Valida un node. Retorna la llista d'errors (codi, descripció, acció).
     """
@@ -490,6 +563,10 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
 
     node_id = yaml_data.get("id")
 
+    # ---- Àlies: normalització transparent (RFC-OKF-02, Fase 3) --------
+    if tipus and tipus not in tipus_valid and aliases and tipus in aliases:
+        tipus = aliases[tipus]
+
     # ---- Tipus vàlid: universal o declarat a la Convenció ------------
     if tipus and tipus not in tipus_valid:
         errors.append((
@@ -514,6 +591,17 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
                 f"Camp 'credit' absent en el tipus de família '{tipus}', que la "
                 "Convenció declara com a tipus de crèdit",
                 "Afegir el camp 'credit'",
+            ))
+
+    # ---- naturalesa (camp LOE del RFC-OKF-02; opcional, per defecte 'analitica')
+    naturalesa = yaml_data.get("naturalesa")
+    if not es_buit(naturalesa):
+        if not isinstance(naturalesa, str) or naturalesa not in ("analitica", "sintesi"):
+            errors.append((
+                "Y036",
+                f"Valor no vàlid per a 'naturalesa': '{naturalesa}' "
+                "(permesos: 'analitica', 'sintesi')",
+                "Usar 'analitica' o 'sintesi' (o treure el camp)",
             ))
 
     # ---- ID: patró i duplicats ----------------------------------------
@@ -836,7 +924,12 @@ def main():
 
     # ---- 2a passada: llegir les Convencions per descobrir tipus de família
     declarats_convencio, convencions = llegir_tipus_de_les_convencions(fitxers, yaml_per_ruta)
+    aliases, errors_aliases = llegir_aliases_de_les_convencions(fitxers, yaml_per_ruta)
     tipus_valid, tipus_familia, tipus_credit = construir_tipus_valid(declarats_convencio)
+
+    for ruta_cfg, codi, desc, accio in errors_aliases:
+        fitxers_amb_errors += 1
+        errors_totals.append((ruta_cfg, codi, desc, accio))
 
     # ---- 3a passada: anàlisi d'enllaços i validació per node ----------
     ids_vists = {}
@@ -851,7 +944,7 @@ def main():
 
         errors_enllacos = analitzar_enllacos(ruta)
         errors_node = validar_node(
-            ruta, data, ids_vists, tipus_valid, tipus_credit, errors_enllacos
+            ruta, data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases
         )
         fitxers_amb_errors += 1 if errors_node else 0
         fitxers_valids += 1 if not errors_node else 0
