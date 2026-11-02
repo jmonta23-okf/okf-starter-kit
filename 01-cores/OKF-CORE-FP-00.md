@@ -7,8 +7,8 @@ cycle: "Formació Professional (Grau Bàsic, Mitjà i Superior)"
 legal_framework: "LOE · LO 3/2022 · RD 659/2023 · LOGSE (origen històric)"
 center: "Centre educatiu (Catalunya)"
 academic_year: "2026-2027"
-version: "V1.0.2-Esborrany"
-data_ultima_actualitzacio: "2026-10-31"
+version: "V1.1.0"
+data_ultima_actualitzacio: "2026-11-02"
 authors:
   - "Josep Montañà Piqué"
 llicencia: "CC BY-SA 4.0"
@@ -199,7 +199,6 @@ Aquest core **no conté** tipus ni camps d'un cicle concret. Cada perfil de fam�
 
 Els perfils de FP poden afegir aquests camps (a més dels 8 universals):
 - `modul` (per a LOE)
-- `credit` (per a LOGSE)
 - `resultats_aprenentatge` (RA)
 - `criteris_avaluacio` (CA)
 - `continguts`
@@ -209,19 +208,29 @@ Els perfils de FP poden afegir aquests camps (a més dels 8 universals):
 
 **Regla:** un camp de família **no pot** tenir el mateix nom que un camp universal amb un significat diferent.
 
+#### Camps LOGSE (llegat)
+
+- `credit` — camp LOGSE. Amb la LOE, els crèdits desapareixen i el mòdul es pot inferir del `cataleg_referencia`. El validador només exigeix `credit` si la Convenció del vault ho declara explícitament (Y003).
+
 ---
 
 ### 8.3 · Tipus de família declarats del perfil CURS-OKF
 
-El perfil CURS-OKF (el que desplega l'exemple complet del kit, `02-exemple-complet/`)
-declara aquests tipus de família, a més dels 9 universals:
+El perfil CURS-OKF (el que desplega l'exemple complet del kit, `02-exemple-complet/`) declara aquests tipus de família, a més dels 9 universals.
+
+#### Tipus de família LOE (recomanats)
 
 | Tipus | Descripció breu |
 |:---|:---|
 | `CatalegCurricular` | Catàleg de resultats d'aprenentatge i criteris d'avaluació d'un mòdul. |
 | `EinaTecnica` | Eina, script o utilitat tècnica del vault. |
 | `FitxaAEA` | Fitxa d'una activitat d'ensenyament-aprenentatge concreta. |
-| `UnitatDidactica` | Unitat didàctica amb continguts, activitats i avaluació. |
+
+#### Tipus de família LOGSE (llegat, no usar en currículums LOE)
+
+| Tipus | Descripció breu |
+|:---|:---|
+| `UnitatDidactica` | Unitat didàctica amb continguts, activitats i avaluació. **Deprecated:** la LOE organitza els cicles en mòduls, RAs i CAs; no hi ha unitats didàctiques. Es manté per compatibilitat amb vaults LOGSE. |
 
 ---
 
@@ -272,6 +281,7 @@ Abans de desar un node en un vault OKF de FP:
 | V1.0-Esborrany | 2026-10-24 | Creació inicial del nucli OKF Core FP. 9 tipus universals, 8 camps universals, enums, sintaxi d'enllaç, declaració d'interoperabilitat i cores germans (Core Català). |
 | V1.0.1-Esborrany | 2026-10-25 | Adaptació per al OKF Starter Kit: marca neutralitzada (`center`), referències externes eliminades (només enllaç creuat amb el Core Català), `legal_framework` afegit (abans `ambit`), enllaç trencat al cos corregit, salt de línia final. |
 | **V1.0.2-Esborrany** | **2026-10-31** | **Sincronització amb el validador v1.1.0 del kit:** eliminat el camp duplicat `ambit` (es conserva `legal_framework`); nova §8.3 amb els tipus de família declarats del perfil CURS-OKF (`CatalegCurricular`, `EinaTecnica`, `FitxaAEA`, `UnitatDidactica`) com a font per al validador; exemples d'ID neutres (sense SAD/TCAI); fila de §9 reformulada en nota genèrica (sense l'inexistent "OKF Core PTE"); el punt 4 del procediment ja no remet al §12 inexistent; prohibició de wiki links reformulada sense literals de doble claudàtor. |
+| V1.1.0 | 2026-11-02 | Deprecació de UnitatDidactica i credit com a LOGSE. |
 
 ---
 
