@@ -321,7 +321,12 @@ def test_alias_normalization(tmp_path, codis_error):
 
 
 def test_naturalesa_validation(tmp_path, codis_error):
-    """naturalesa: sintesi és vàlid; naturalesa: inventada dona Y036."""
+    """
+    naturalesa: sintesi és vàlid; naturalesa: inventada dona warning Y036
+    (severitat 🟡 Mitjana, no error crític/alta).
+    """
+    import validar_yaml as v
+
     ok = NODE_BASE.format(nid="EX-AEA-02", tipus="FitxaAEA", titol="Fitxa amb naturalesa")
     ok = ok.replace("tags:", "naturalesa: sintesi\ntags:")
     ruta_ok = crear_vault(tmp_path, {"03_AEA.md": ok, "01_Convencio.md": ALIAS_CONVENCIO})
@@ -331,7 +336,9 @@ def test_naturalesa_validation(tmp_path, codis_error):
     bad = bad.replace("tags:", "naturalesa: inventada\ntags:")
     (tmp_path / "b").mkdir()
     ruta_bad = crear_vault(tmp_path / "b", {"03_AEA.md": bad, "01_Convencio.md": ALIAS_CONVENCIO})
-    assert "Y036" in codis_error(validar_vault(ruta_bad))
+    errors = validar_vault(ruta_bad)
+    assert "Y036" in codis_error(errors)
+    assert v.CODIS_ERROR["Y036"][1] == "🟡 Mitjana"
 
 
 # ---------------------------------------------------------------------------

@@ -148,8 +148,8 @@ CODIS_ERROR = {
     "Y026": ("Camp array (authors/tags) amb tipus incorrecte", "🔴 Crític"),
     "Y030": ("Criteri al frontmatter sense àncora al cos", "🟠 Alta"),
     "Y031": ("Àncora al cos sense criteri al frontmatter", "🟠 Alta"),
-    "Y035": ("Àlies declarats amb canònics conflictius entre Convencions", "🔴 Crític"),
-    "Y036": ("Valor no vàlid per a 'naturalesa'", "🟠 Alta"),
+    "Y035": ("Àlies declarats amb canònics conflictius entre Convencions", "🟠 Alta"),
+    "Y036": ("Valor no vàlid per a 'naturalesa'", "🟡 Mitjana"),
 }
 
 
@@ -947,7 +947,12 @@ def audit_curricular(vault_path, strict_versio=False):
     Per a cada CatalegCurricular del vault (excloses les plantilles de
     04-plantilles/), calcula: total CAs del decret, CAs avaluats per fitxes
     analítiques, CAs només a síntesi, orfes, inexistents, mismatch de versió
-    i la coherència YAML↔àncores (Y030/Y031).
+    (mètrica informativa; deprecated a RFC-OKF-03) i la coherència
+    YAML↔àncores (Y030/Y031).
+
+    `strict_versio` és deprecated i no-op (Bloc 14a): el mismatch de versió
+    és sempre una mètrica informativa que no afecta el veredicte ni el codi
+    de sortida.
 
     Retorna (linies, exit_code) amb exit_code 0 (tot cobert), 1 (incomplert o
     error) o 2 (només warnings).
@@ -1043,10 +1048,8 @@ def audit_curricular(vault_path, strict_versio=False):
             verdicte = f"ERROR (Y030/Y031 × {len(errors_coherencia)})"
         elif orfes or inexistents:
             verdicte = "INCOMPLET"
-        elif mismatch and strict_versio:
-            verdicte = "INCOMPLET (mismatch de versió)"
-        elif mismatch or nomes_sintesi:
-            verdicte = "WARNING (mismatch de versió o CAs només a síntesi)"
+        elif nomes_sintesi:
+            verdicte = "WARNING (CAs només a síntesi)"
 
         if verdicte == "COBERT":
             coberts += 1
@@ -1065,7 +1068,7 @@ def audit_curricular(vault_path, strict_versio=False):
         linies.append(f"CAs només a síntesi: {len(nomes_sintesi)}")
         linies.append(f"CAs orfes: {len(orfes)}")
         linies.append(f"CAs inexistents: {len(inexistents)}")
-        linies.append(f"Mismatch de versió: {mismatch}")
+        linies.append(f"Mismatch de versió: {mismatch} (deprecated, informatiu)")
         linies.append(f"Verdicte: {verdicte}")
         linies.append("")
 
@@ -1087,8 +1090,14 @@ def main():
     parser.add_argument("--ruta", default=RUTA_DEFAULT)
     parser.add_argument("--output", default=None)
     parser.add_argument("--audit", action="store_true", help="Auditoria de cobertura curricular per catàleg")
-    parser.add_argument("--strict-versio", action="store_true", help="Tractar mismatch de versió com a error (no warning)")
+    parser.add_argument(
+        "--strict-versio", action="store_true",
+        help="Deprecated (no-op): el mismatch de versió sempre és un warning",
+    )
     args = parser.parse_args()
+
+    if args.strict_versio:
+        print("--strict-versio is deprecated; version mismatch is always a warning")
 
     ruta_vault = args.ruta
     if not os.path.isdir(ruta_vault):

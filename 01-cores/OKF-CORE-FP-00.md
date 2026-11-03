@@ -200,7 +200,7 @@ Aquest core **no conté** tipus ni camps d'un cicle concret. Cada perfil de fam�
 Els perfils de FP poden afegir aquests camps (a més dels 8 universals):
 - `modul` (per a LOE)
 - `cataleg_referencia` (referència relativa al node `CatalegCurricular`)
-- `cataleg_versio` (versió del catàleg referenciat)
+- `cataleg_versio` — **deprecated (llegat)**: la normativa no versiona decrets (en publica de nous), de manera que el camp assumeix un model de versionat de programari que no existeix a la pràctica. El validador l'ignora silenciosament (ni error ni warning) i s'eliminarà de les fitxes en una migració futura.
 - `naturalesa` (valors: `analitica` | `sintesi`; per defecte `analitica`)
 - `resultats_aprenentatge` (llista de RAs; ja existia, sense canvi)
 - `criteris_avaluacio` (CA)

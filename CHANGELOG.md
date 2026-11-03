@@ -7,6 +7,20 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — Bloc 14a: deprecacions toves
+
+### Modificat
+
+- **`03-eines/validar_yaml.py`** — deprecacions toves (RFC-OKF-03, V1.3), sense canvi de format de dades:
+  - `Y035` (àlies duplicat) rebaixat de 🔴 Crític a 🟠 Alta.
+  - `Y036` (`naturalesa` invàlida) rebaixat de 🟠 Alta a 🟡 Mitjana (warning).
+  - `cataleg_versio` s'ignora silenciosament (ni error ni warning).
+  - `--strict-versio` esdevé no-op: emet el warning literal `--strict-versio is deprecated; version mismatch is always a warning` i no canvia el codi de sortida.
+  - El mismatch de versió de `--audit` es marca com a informatiu/deprecated i no afecta el veredicte ni el codi de sortida.
+- **`01-cores/OKF-CORE-FP-00.md`** (§8.2) — `cataleg_versio` marcat com a deprecated (llegat).
+
+---
+
 ## [V1.2] - 2026-11-02
 
 **Publicació oficial de la V1.2.** Consolida el validador v1.1.0 (sincronitzat amb els Cores), afegeix l'eina d'snapshot de l'estat del repositori, i alinea tota la documentació pública amb el Core v1.1.0 (8 camps universals, 9 tipus universals, tipus de família des de la Convenció, matriu d'errors Y001-Y026).

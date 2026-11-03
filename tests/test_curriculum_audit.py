@@ -141,16 +141,33 @@ def test_audit_sintesi_no_compta(tmp_path):
 
 
 def test_audit_mismatch_versio(tmp_path):
-    """Un mismatch de versió és warning (exit 2); amb --strict-versio, error (exit 1)."""
+    """El mismatch de versió és una mètrica informativa (deprecated): no afecta el veredicte ni l'exit."""
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], versio="V1.0"))
     r = run_audit(tmp_path)
-    assert r.returncode == 2, r.stdout + r.stderr
+    assert r.returncode == 0, r.stdout + r.stderr
     assert "Mismatch de versió: 1" in r.stdout
-    assert "Verdicte: WARNING" in r.stdout
+    assert "Verdicte: COBERT" in r.stdout
     r2 = run_audit(tmp_path, "--strict-versio")
-    assert r2.returncode == 1, r2.stdout + r2.stderr
+    assert r2.returncode == 0, r2.stdout + r2.stderr
+
+
+def test_strict_versio_noop(tmp_path):
+    """
+    --strict-versio és un no-op: mateix codi de sortida que sense el flag,
+    emet el warning literal en anglès i no converteix el mismatch en error.
+    """
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
+    (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], versio="V1.0"))
+    r = run_audit(tmp_path)
+    r2 = run_audit(tmp_path, "--strict-versio")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert r2.returncode == r.returncode, r2.stdout + r2.stderr
+    assert "--strict-versio is deprecated; version mismatch is always a warning" in r2.stdout
+    assert "Verdicte: COBERT" in r2.stdout
+    assert "Mismatch de versió: 1" in r2.stdout
 
 
 def test_audit_coherencia_yaml_ancora(tmp_path):
