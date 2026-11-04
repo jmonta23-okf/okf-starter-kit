@@ -46,6 +46,29 @@ criteris_avaluacio:
   - "8.1"
   - "8.4"
   - "8.6"
+instruments_avaluacio:
+  - codi: "I1"
+    descripcio: "Avaluació de Fitxa AEA 5: Projecte Integrador — L'Auditoria Clínica d'Expedients Sanitaris"
+    criteris:
+      - "1.4"
+      - "1.5"
+      - "2.3"
+      - "2.4"
+      - "3.5"
+      - "3.6"
+      - "4.2"
+      - "4.5"
+      - "5.1"
+      - "5.5"
+      - "6.1"
+      - "6.2"
+      - "6.5"
+      - "7.1"
+      - "7.3"
+      - "7.4"
+      - "8.1"
+      - "8.4"
+      - "8.6"
 tags:
   - okf/aea
   - okf/sanitat

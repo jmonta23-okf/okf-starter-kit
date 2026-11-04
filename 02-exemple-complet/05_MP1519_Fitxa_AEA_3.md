@@ -36,6 +36,25 @@ criteris_avaluacio:
   - "6.6"
   - "6.7"
   - "6.8"
+instruments_avaluacio:
+  - codi: "I1"
+    descripcio: "Avaluació de Fitxa AEA 3: Normativa General de Diagnòstics i Indicador POA"
+    criteris:
+      - "5.1"
+      - "5.2"
+      - "5.3"
+      - "5.4"
+      - "5.5"
+      - "5.6"
+      - "5.7"
+      - "6.1"
+      - "6.2"
+      - "6.3"
+      - "6.4"
+      - "6.5"
+      - "6.6"
+      - "6.7"
+      - "6.8"
 tags:
   - okf/aea
   - okf/sanitat

@@ -33,6 +33,22 @@ criteris_avaluacio:
   - "4.4"
   - "4.5"
   - "4.6"
+instruments_avaluacio:
+  - codi: "I1"
+    descripcio: "Avaluació de Fitxa AEA 2: Arquitectura de la CIE-10-ES Diagnòstics i convencions d'eCIEMaps"
+    criteris:
+      - "3.1"
+      - "3.2"
+      - "3.3"
+      - "3.4"
+      - "3.5"
+      - "3.6"
+      - "4.1"
+      - "4.2"
+      - "4.3"
+      - "4.4"
+      - "4.5"
+      - "4.6"
 tags:
   - okf/aea
   - okf/sanitat

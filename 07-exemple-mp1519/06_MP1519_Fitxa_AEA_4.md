@@ -34,6 +34,23 @@ criteris_avaluacio:
   - "8.5"
   - "8.6"
   - "8.7"
+instruments_avaluacio:
+  - codi: "I1"
+    descripcio: "Avaluació de Fitxa AEA 4: Arquitectura de Procediments (PCS), Traumatismes i Causes Externes"
+    criteris:
+      - "7.1"
+      - "7.2"
+      - "7.3"
+      - "7.4"
+      - "7.5"
+      - "7.6"
+      - "8.1"
+      - "8.2"
+      - "8.3"
+      - "8.4"
+      - "8.5"
+      - "8.6"
+      - "8.7"
 tags:
   - okf/aea
   - okf/sanitat
