@@ -766,3 +766,63 @@ def test_y051_no_es_dispara_en_format_antic(tmp_path, codis_error):
     assert "--- Warnings ---" in proc.stdout
     assert "Warning: instruments_avaluacio uses legacy format" in proc.stdout
     assert "Y051" not in proc.stdout
+
+
+# ---------------------------------------------------------------------------
+# Bloc 14g-bis: Y052 (criteri de criteris_avaluacio sense instrument)
+# ---------------------------------------------------------------------------
+
+def _fitxa_test_node_ca(nid, criteris_yaml, instruments_yaml=None):
+    """Node FitxaAEA vàlid amb `criteris_avaluacio` (i `instruments_avaluacio` opcional)."""
+    txt = (
+        "---\n"
+        f"id: {nid}\n"
+        "type: FitxaAEA\n"
+        'title: "Fitxa de test"\n'
+        'version: "V1.0-Esborrany"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        'credit: "1"\n'
+        "estat: vigent\n"
+        f"criteris_avaluacio:\n{criteris_yaml}"
+    )
+    if instruments_yaml is not None:
+        txt += f"instruments_avaluacio:\n{instruments_yaml}"
+    txt += "---\n# Fitxa de test\n"
+    return txt
+
+
+def test_y052_criteri_sense_instrument(tmp_path, codis_error):
+    """Un criteri de criteris_avaluacio que cap instrument avalua -> Y052 (🟡 Mitjana)."""
+    node = _fitxa_test_node_ca(
+        "EX-AEA-80",
+        '  - "5.1"\n  - "5.2"\n  - "6.1"\n',
+        '  - codi: "I1"\n    descripcio: "D"\n    criteris:\n      - "5.1"\n      - "5.2"\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y052" in codis_error(errors)
+    assert v.CODIS_ERROR["Y052"][1] == "🟡 Mitjana"
+    assert codis_error(errors).count("Y052") == 1  # només per a 6.1
+
+
+def test_y052_no_es_dispara_si_no_hi_ha_instruments(tmp_path, codis_error):
+    """Sense instruments_avaluacio (o [] ) NO s'emet Y052."""
+    node_abs = _fitxa_test_node_ca("EX-AEA-81", '  - "5.1"\n  - "5.2"\n', None)
+    node_buit = _fitxa_test_node_ca("EX-AEA-82", '  - "5.1"\n', "  []\n")
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Fitxa_a.md": node_abs, "03_Fitxa_b.md": node_buit}
+    ))
+    assert "Y052" not in codis_error(errors)
+
+
+def test_y052_dos_criteris_no_coberts(tmp_path, codis_error):
+    """Dos criteris no coberts -> dos Y052 (un per criteri)."""
+    node = _fitxa_test_node_ca(
+        "EX-AEA-83",
+        '  - "5.1"\n  - "6.1"\n  - "7.1"\n',
+        '  - codi: "I1"\n    descripcio: "D"\n    criteris:\n      - "5.1"\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert codis_error(errors).count("Y052") == 2

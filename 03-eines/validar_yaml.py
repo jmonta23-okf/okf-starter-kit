@@ -159,9 +159,9 @@ CODIS_ERROR = {
     "Y048": ("'criteris[RA]' no és una llista", "🟠 Alta"),
     "Y050": ("Instrument d'avaluació amb 'codi' duplicat", "🟠 Alta"),
     "Y051": ("Instrument d'avaluació (format nou) sense cap criteri", "🟡 Mitjana"),
+    "Y052": ("Criteri de 'criteris_avaluacio' que cap instrument avalua", "🟡 Mitjana"),
     # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
     # Y047 / Y049: lliures.
-    # Y052: auditoria de cobertura — ajornat al 14g-bis.
 }
 
 
@@ -937,6 +937,26 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
                         "Y051",
                         f"instruments_avaluacio[{i}]: instrument has no criteria",
                         "Afegir criteris a l'instrument o eliminar-lo",
+                    ))
+
+        # Y052: criteri de criteris_avaluacio que cap instrument avalua (Bloc 14g-bis).
+        # Només si instruments_avaluacio existeix i és una llista no buida.
+        criteris_aval = yaml_data.get("criteris_avaluacio") or []
+        if isinstance(instruments_raw, list) and len(instruments_raw) > 0:
+            coberts = set()
+            for item in instruments_raw:
+                if isinstance(item, dict):
+                    criteris_inst = item.get("criteris")
+                    if isinstance(criteris_inst, list):
+                        coberts.update(str(c) for c in criteris_inst if c is not None)
+            for crit in criteris_aval:
+                if crit is None:
+                    continue
+                if str(crit) not in coberts:
+                    errors.append((
+                        "Y052",
+                        f"criteri_avaluacio '{crit}' not covered by any instrument",
+                        "Afegir el criteri a un instrument o treure'l de criteris_avaluacio",
                     ))
 
     # ---- ID: patró i duplicats ----------------------------------------

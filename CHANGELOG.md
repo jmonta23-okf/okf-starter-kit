@@ -7,6 +7,20 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — Bloc 14g-bis: Y052 (criteri sense instrument)
+
+### Afegit
+
+- **`03-eines/validar_yaml.py`** — `Y052` 🟡 Mitjana: criteri de `criteris_avaluacio` que cap instrument de la mateixa fitxa avalua. Complementa `Y051` (instrument sense criteri). S'emet a `validar_node` (branca `FitxaAEA`), només si `instruments_avaluacio` existeix i és una llista no buida; un per criteri no cobert; no afecta veredicte ni exit.
+- **`tests/test_validar_yaml.py`** — 3 tests nous.
+- Total de codis: 37 → **38**.
+
+### No s'ha tocat
+
+- `--audit`, `status_snapshot.py`, `--strict-versio`, `cataleg_versio`, les 10 fitxes, els 2 catàlegs, `05-exemples-minims/`.
+
+---
+
 ## [No publicat] — Bloc 14g: --audit amb mètriques noves + Y045 + Y046
 
 ### Afegit
