@@ -7,6 +7,29 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — Bloc 14b: format nou de `criteris:` (v3)
+
+### Afegit
+
+- **`03-eines/validar_yaml.py`** — format nou de `criteris:` (llista de dicts), compatible amb el format antic (llista de strings), amb 3 codis nous d'invariants del format:
+  - `Y040` (`contextualitzat` no boolean) — 🟠 Alta.
+  - `Y042` (`codi` nul sense `afegit: true`) — 🔴 Crític.
+  - `Y043` (`afegit: true` sense camp `guia`) — 🔴 Crític.
+  - `normalitzar_criteris()`: normalitza el format antic al canònic intern; conserva els `null` explícits perquè les invariants els puguin detectar.
+  - Els camps desconeguts dins d'un dict emeten una advertència textual a la secció `--- Warnings ---` (una línia per camp únic al catàleg), sense codi Y i sense afectar el codi de sortida.
+  - `Y030`/`Y031` i `audit_curricular` llegeixen de l'estructura normalitzada; un CA amb `codi: null` (afegit) no espera àncora i no dispara `Y030`.
+
+### Modificat
+
+- **`04-plantilles/PLANTILLA-CatalegCurricular.md`** — exemple del format nou de `criteris:` amb els 6 camps, comentaris per contextualitzar i afegir CAs, i CAs d'anglès professional comentats.
+- **`tests/test_validar_yaml.py`** — 7 tests nous (normalització dels dos formats, `Y040`/`Y042`/`Y043`, i warning de camp desconegut amb dedup).
+
+### No s'ha tocat
+
+- `Y041`, `Y044`, `Y045`, `Y046` no s'implementen en aquest bloc. `instruments_avaluacio` i els catàlegs d'exemple (format antic) mantenen l'estat actual fins als Blocs 14c/14d/14e.
+
+---
+
 ## [No publicat] — Bloc 14a: deprecacions toves
 
 ### Modificat

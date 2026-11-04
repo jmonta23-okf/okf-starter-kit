@@ -150,6 +150,11 @@ CODIS_ERROR = {
     "Y031": ("Àncora al cos sense criteri al frontmatter", "🟠 Alta"),
     "Y035": ("Àlies declarats amb canònics conflictius entre Convencions", "🟠 Alta"),
     "Y036": ("Valor no vàlid per a 'naturalesa'", "🟡 Mitjana"),
+    "Y040": ("'contextualitzat' no és un booleà a criteris:", "🟠 Alta"),
+    "Y042": ("'codi' nul sense 'afegit: true' a criteris:", "🔴 Crític"),
+    "Y043": ("'afegit: true' sense camp 'guia' a criteris:", "🔴 Crític"),
+    # Y041: reservat (text canviat), retirat de la v1.3 — no s'implementa.
+    # Y044 / Y045 / Y046: auditories semàntiques/cobertura — Blocs 14c/14f.
 }
 
 
@@ -534,16 +539,15 @@ def comprovar_coherencia_cataleg(node_yaml, cos, ruta_node):
     - Cada àncora del cos ha de correspondre a un criteri del frontmatter
       (si sobra -> Y031).
 
+    Llegeix `criteris:` de l'estructura normalitzada (dicts): per a un CA amb
+    `codi: null` (afegit) no espera àncora i no dispara Y030.
+
     Retorna la llista de (codi, descripció, acció).
     """
     errors = []
 
     crits = node_yaml.get("criteris") or {}
-    codis_fm = set()
-    if isinstance(crits, dict):
-        for llista in crits.values():
-            if isinstance(llista, list):
-                codis_fm |= {str(c) for c in llista}
+    codis_fm = _codis_criteris(crits)
 
     ancres = set(re.findall(r"<a id=\"ca-([0-9]+-[0-9]+)\"></a>", cos or ""))
 
@@ -570,7 +574,155 @@ def comprovar_coherencia_cataleg(node_yaml, cos, ruta_node):
     return errors
 
 
-def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None):
+# -----------------------------------------------------------------------------
+# Format de `criteris:` (Bloc 14b): normalització i invariants del format nou
+# -----------------------------------------------------------------------------
+
+# Els 6 camps permesos dins d'un CA del format nou.
+CAMPS_CRITERI = ("codi", "guia", "descripcio", "contextualitzat", "afegit", "origen")
+
+
+def normalitzar_criteris(criteris):
+    """
+    Normalitza el bloc `criteris:` a l'estructura canònica interna (Bloc 14b).
+
+    Accepta el format antic (llista de strings per RA) i el format nou (llista
+    de dicts). Retorna una còpia normalitzada; no muta l'entrada (pura).
+
+    - String -> {'codi': <string>, 'guia': None, 'descripcio': None,
+                 'contextualitzat': False, 'afegit': False, 'origen': None}
+    - Dict   -> assegura tots els camps amb els defaults per als ABSENTS, però
+                conserva el valor tal com ve (incloent `null`) per als presents,
+                perquè les invariants Y040/Y042/Y043 puguin detectar-los.
+    El camp 'origen' no es valida en aquest bloc (accepta qualsevol valor).
+    Si un valor de RA no és una llista es deixa tal com arriba: la validació de
+    tipus existent (sense codi Y nou) és qui l'ha de gestionar.
+    """
+    if not isinstance(criteris, dict):
+        return criteris
+    normalitzat = {}
+    for ra, llista in criteris.items():
+        if not isinstance(llista, list):
+            normalitzat[ra] = llista
+            continue
+        nous = []
+        for element in llista:
+            if isinstance(element, str):
+                nous.append({
+                    "codi": element,
+                    "guia": None,
+                    "descripcio": None,
+                    "contextualitzat": False,
+                    "afegit": False,
+                    "origen": None,
+                })
+            elif isinstance(element, dict):
+                d = dict(element)
+                d.setdefault("codi", None)
+                d.setdefault("guia", None)
+                d.setdefault("descripcio", None)
+                d.setdefault("contextualitzat", False)
+                d.setdefault("afegit", False)
+                d.setdefault("origen", None)
+                nous.append(d)
+            else:
+                # Altres tipus d'element: es conserven sense tocar.
+                nous.append(element)
+        normalitzat[ra] = nous
+    return normalitzat
+
+
+def _codis_criteris(crits):
+    """
+    Extreu els codis oficials (no nulls) de l'estructura normalitzada de `criteris:`.
+    Un CA amb `codi: null` (afegit) no té codi oficial i no s'inclou.
+    """
+    codis = set()
+    if not isinstance(crits, dict):
+        return codis
+    for llista in crits.values():
+        if isinstance(llista, list):
+            for elem in llista:
+                if isinstance(elem, dict):
+                    c = elem.get("codi")
+                    if c is not None:
+                        codis.add(str(c))
+                else:
+                    codis.add(str(elem))
+    return codis
+
+
+def detectar_camps_desconeguts(criteris):
+    """
+    Detecta camps desconeguts (claus fora de CAMPS_CRITERI) als dicts de `criteris:`.
+
+    Retorna una llista de (camp, ra, index) amb la PRIMERA ocurrència de cada camp
+    desconegut únic al catàleg (dedup: una sola línia per camp, no per ocurrència).
+    S'usa per emetre les advertencies textuals (sense codi Y).
+    """
+    result = []
+    vistos = set()
+    if not isinstance(criteris, dict):
+        return result
+    for ra, llista in criteris.items():
+        if not isinstance(llista, list):
+            continue
+        for i, element in enumerate(llista):
+            if isinstance(element, dict):
+                for clau in element:
+                    if clau not in CAMPS_CRITERI and clau not in vistos:
+                        vistos.add(clau)
+                        result.append((clau, ra, i))
+    return result
+
+
+def validar_invariants_format_criteris(criteris):
+    """
+    Invariants del format de `criteris:` (Bloc 14b), sobre l'estructura normalitzada:
+    - Y040: 'contextualitzat' ha de ser boolean (🟠 Alta).
+    - Y042: 'codi' null (o absent) sense 'afegit: true' (🔴 Crític).
+    - Y043: 'afegit: true' sense camp 'guia' (🔴 Crític).
+
+    Retorna la llista de (codi, descripció, acció).
+    """
+    errors = []
+    if not isinstance(criteris, dict):
+        return errors
+    for ra, llista in criteris.items():
+        if not isinstance(llista, list):
+            continue
+        for i, element in enumerate(llista):
+            if not isinstance(element, dict):
+                continue
+
+            contextualitzat = element.get("contextualitzat")
+            if not isinstance(contextualitzat, bool):
+                errors.append((
+                    "Y040",
+                    f"'contextualitzat' ha de ser un booleà a criteris['{ra}'][{i}] "
+                    f"(l'actual és {contextualitzat!r})",
+                    "Usar true/false (no 'sí', 1 ni null)",
+                ))
+
+            afegit = element.get("afegit") is True
+            codi = element.get("codi")
+            if codi is None and not afegit:
+                errors.append((
+                    "Y042",
+                    f"'codi' és null sense 'afegit: true' a criteris['{ra}'][{i}]",
+                    "Posar un codi oficial o afegir 'afegit: true'",
+                ))
+
+            if afegit and element.get("guia") is None:
+                errors.append((
+                    "Y043",
+                    f"'afegit: true' sense camp 'guia' a criteris['{ra}'][{i}]",
+                    "Afegir la lletra de la Guia (ex: '1y') al CA afegit",
+                ))
+    return errors
+
+
+def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None, warnings=None):
     """
     Valida un node. Retorna la llista d'errors (codi, descripció, acció).
     """
@@ -653,9 +805,24 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
             ))
 
     # ---- Coherència catàleg: frontmatter ↔ àncores (RFC-OKF-02) ------
+    # El bloc `criteris:` es normalitza aquí (format antic/nov), abans de cap
+    # comprovació de coherència (Y030/Y031) o de les invariants del format nou.
     if tipus == "CatalegCurricular":
+        criteris_raw = yaml_data.get("criteris")
+        criteris_norm = normalitzar_criteris(criteris_raw)
+
+        # Invariants del format nou (Y040/Y042/Y043), sobre estructura normalitzada.
+        errors.extend(validar_invariants_format_criteris(criteris_norm))
+
+        # Advertències textuals per camps desconeguts (una per camp únic al catàleg).
+        if warnings is not None:
+            for camp, ra, idx in detectar_camps_desconeguts(criteris_raw):
+                warnings.append(
+                    f"Warning: camp desconegut '{camp}' a criteris['{ra}'][{idx}]"
+                )
+
         errors.extend(comprovar_coherencia_cataleg(
-            yaml_data, extreure_cos_md(ruta_fitxer), ruta_fitxer
+            {"criteris": criteris_norm}, extreure_cos_md(ruta_fitxer), ruta_fitxer
         ))
 
     # ---- ID: patró i duplicats ----------------------------------------
@@ -989,7 +1156,7 @@ def audit_curricular(vault_path, strict_versio=False):
             criteris = d.get("criteris")
             catalegs[str(Path(r).resolve())] = {
                 "version": str(d.get("version", "")),
-                "criteris": criteris if isinstance(criteris, dict) else {},
+                "criteris": normalitzar_criteris(criteris if isinstance(criteris, dict) else {}),
                 "fitxes": [],
             }
 
@@ -1014,10 +1181,7 @@ def audit_curricular(vault_path, strict_versio=False):
     tots_cas_coberts = set()
 
     for ruta_cat, info in sorted(catalegs.items()):
-        codis_decret = set()
-        for llista in info["criteris"].values():
-            if isinstance(llista, list):
-                codis_decret |= {str(c) for c in llista}
+        codis_decret = _codis_criteris(info["criteris"])
         total_decret = len(codis_decret)
         tots_cas_decret |= codis_decret
 
@@ -1143,6 +1307,7 @@ def main():
     fitxers_valids = 0
     ids_duplicats = dict()
     termes_lomloe_count = 0
+    warnings_totals = []
 
     for ruta in fitxers:
         data = yaml_per_ruta[ruta]["data"]
@@ -1151,7 +1316,8 @@ def main():
 
         errors_enllacos = analitzar_enllacos(ruta)
         errors_node = validar_node(
-            ruta, data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases
+            ruta, data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases,
+            warnings_totals,
         )
         fitxers_amb_errors += 1 if errors_node else 0
         fitxers_valids += 1 if not errors_node else 0
@@ -1192,6 +1358,12 @@ def main():
 
     contingut_informe = generar_informe(resultats, ruta_vault, ruta_sortida)
     print(contingut_informe)
+
+    if warnings_totals:
+        print("\n--- Warnings ---")
+        for w in warnings_totals:
+            print(w)
+
     print(f"\n📄 Informe desat a: {ruta_sortida}")
 
     exit_final = 1 if errors_totals else 0

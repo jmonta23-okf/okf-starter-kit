@@ -6,6 +6,12 @@ en qüestió) i comprova els codis d'error esperats. Els codis es defineixen a
 `CODIS_ERROR` del mateix validador.
 """
 
+import subprocess
+import sys
+from pathlib import Path
+
+import validar_yaml as v
+
 from conftest import (
     NODE_BASE,
     CONVENCIO,
@@ -14,6 +20,9 @@ from conftest import (
     crear_vault,
     validar_vault,
 )
+
+
+VALIDAR = str(Path(__file__).resolve().parent.parent / "03-eines" / "validar_yaml.py")
 
 
 # ---------------------------------------------------------------------------
@@ -395,3 +404,157 @@ def test_y031_ancora_sense_criteri(tmp_path, codis_error):
     ))
     assert "Y031" in codis_error(errors)
     assert "Y030" not in codis_error(errors)
+
+
+# ---------------------------------------------------------------------------
+# Format de `criteris:` (Bloc 14b): normalització i invariants del format nou
+# ---------------------------------------------------------------------------
+
+def _cataleg_test_node_nou(nid, criteris_body, ancres_cos):
+    """Node CatalegCurricular amb `criteris:` en format nou (dicts)."""
+    files = "\n".join(
+        f'| {c.replace("-", ".")} | Xa | <a id="ca-{c}"></a>Descripció | A | AEA |'
+        for c in ancres_cos
+    )
+    return (
+        "---\n"
+        f"id: {nid}\n"
+        "type: CatalegCurricular\n"
+        'title: "Catàleg de test"\n'
+        'version: "V1.0-Esborrany"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        "estat: vigent\n"
+        "criteris:\n"
+        f"{criteris_body}"
+        "---\n"
+        "# Catàleg de test\n"
+        "## 5 · Desglossament de CAs per RA\n"
+        f"{files}\n"
+    )
+
+
+def test_normalitzar_criteris_format_antic():
+    """Llista de strings -> dicts normalitzats amb defaults (format antic)."""
+    resultat = v.normalitzar_criteris({"RA5": ["5.1", "5.2"]})
+    assert resultat == {
+        "RA5": [
+            {"codi": "5.1", "guia": None, "descripcio": None,
+             "contextualitzat": False, "afegit": False, "origen": None},
+            {"codi": "5.2", "guia": None, "descripcio": None,
+             "contextualitzat": False, "afegit": False, "origen": None},
+        ]
+    }
+
+
+def test_normalitzar_criteris_format_nou():
+    """Dicts complets -> idèntics (idempotent); defaults per als camps absents."""
+    entrada = {
+        "RA5": [
+            {"codi": "5.1", "guia": "5a", "descripcio": "Desc",
+             "contextualitzat": False, "afegit": False, "origen": None},
+            {"codi": None, "guia": "5h", "descripcio": "Anglès",
+             "contextualitzat": True, "afegit": True, "origen": "anglès professional"},
+        ]
+    }
+    assert v.normalitzar_criteris(entrada) == entrada  # idempotent
+
+    parcial = {"RA5": [{"codi": "5.3"}]}
+    d = v.normalitzar_criteris(parcial)["RA5"][0]
+    assert d == {"codi": "5.3", "guia": None, "descripcio": None,
+                 "contextualitzat": False, "afegit": False, "origen": None}
+    assert "guia" not in parcial["RA5"][0]  # no muta l'entrada
+
+    # 'origen' accepta qualsevol valor (aquí un enter) sense petar.
+    amb_origen = {"RA5": [{"codi": None, "afegit": True, "guia": "5i", "origen": 42}]}
+    assert v.normalitzar_criteris(amb_origen)["RA5"][0]["origen"] == 42
+
+
+def test_y040_contextualitzat_no_boolean(tmp_path, codis_error):
+    """`contextualitzat: "sí"` -> Y040 (🟠 Alta)."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-30",
+        '  RA5:\n    - codi: "5.1"\n      contextualitzat: "sí"\n      afegit: false\n',
+        ["5-1"],
+    )
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y040" in codis_error(errors)
+
+
+def test_y042_codi_null_sense_afegit(tmp_path, codis_error):
+    """`codi: null` sense `afegit: true` -> Y042 (🔴 Crític)."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-31",
+        "  RA5:\n    - codi: null\n      guia: \"5a\"\n      afegit: false\n",
+        ["5-1"],
+    )
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y042" in codis_error(errors)
+
+
+def test_y043_afegit_sense_guia(tmp_path, codis_error):
+    """`afegit: true` sense `guia` -> Y043 (🔴 Crític)."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-32",
+        "  RA5:\n    - codi: null\n      afegit: true\n",
+        [],
+    )
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y043" in codis_error(errors)
+
+
+def test_camp_desconegut_warning(tmp_path):
+    """Camp extra en un dict -> warning textual, sense codi Y, exit 0, `--- Warnings ---`."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-33",
+        '  RA5:\n'
+        '    - codi: "5.1"\n'
+        '      guia: "5a"\n'
+        '      descripcions: "camp no permès"\n'
+        '    - codi: "5.2"\n'
+        '      guia: "5b"\n',
+        ["5-1", "5-2"],
+    )
+    ruta = crear_vault(tmp_path, {
+        "03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG
+    })
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "--- Warnings ---" in proc.stdout
+    assert "Warning: camp desconegut 'descripcions' a criteris['RA5'][0]" in proc.stdout
+    assert "Y040" not in proc.stdout  # cap codi Y pel camp desconegut
+
+
+def test_camp_desconegut_warning_dedup(tmp_path):
+    """Un mateix camp desconegut en 3 CAs -> UNA sola línia de warning."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-34",
+        '  RA5:\n'
+        '    - codi: "5.1"\n'
+        '      descripcions: "a"\n'
+        '    - codi: "5.2"\n'
+        '      descripcions: "b"\n'
+        '    - codi: "5.3"\n'
+        '      descripcions: "c"\n',
+        ["5-1", "5-2", "5-3"],
+    )
+    ruta = crear_vault(tmp_path, {
+        "03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG
+    })
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert proc.stdout.count("Warning: camp desconegut 'descripcions'") == 1

@@ -10,9 +10,59 @@ authors:
 tags: ["fp", "cataleg", "okf/cataleg"]
 estat: vigent
 criteris:
-  RA1: ["1.1", "1.2", "1.3"]
-  RA2: ["2.1", "2.2"]
-  # ... un RA per clau, i cada RA amb la llista de codis Oficials dels CAs
+  # Format nou (v1.3): cada CA és un diccionari.
+  # Per contextualitzar un CA, canvia 'contextualitzat' a true i modifica la
+  # seva 'descripcio' al context del centre. Per afegir un CA nou (no oficial),
+  # usa 'codi: null' amb 'afegit: true' i indica l''origen' (ex: "recurs propi").
+  RA1:
+    - codi: "1.1"
+      guia: "1a"
+      descripcio: "Descripció literal del CA 1.1."
+      contextualitzat: false
+      afegit: false
+      origen: null
+    - codi: "1.2"
+      guia: "1b"
+      descripcio: "Descripció literal del CA 1.2."
+      contextualitzat: false
+      afegit: false
+      origen: null
+    - codi: "1.3"
+      guia: "1c"
+      descripcio: "Descripció literal del CA 1.3."
+      contextualitzat: true
+      afegit: false
+      origen: null
+    # CAs d'anglès professional (descomentar i moure al RA que correspongui):
+    # - codi: null
+    #   guia: "1y"
+    #   descripcio: "Interpreta documentació professional en llengua anglesa."
+    #   afegit: true
+    #   origen: "anglès professional"
+    # - codi: null
+    #   guia: "1z"
+    #   descripcio: "Es comunica, per escrit i/o oralment, en llengua anglesa en situacions professionals habituals."
+    #   afegit: true
+    #   origen: "anglès professional"
+  RA2:
+    - codi: "2.1"
+      guia: "2a"
+      descripcio: "Descripció literal del CA 2.1."
+      contextualitzat: false
+      afegit: false
+      origen: null
+    - codi: "2.2"
+      guia: "2b"
+      descripcio: "Descripció literal del CA 2.2."
+      contextualitzat: false
+      afegit: false
+      origen: null
+    - codi: null
+      guia: "2z"
+      descripcio: "CA afegit pel docent (exemple)."
+      contextualitzat: false
+      afegit: true
+      origen: "recurs propi"
 ---
 
 # Catàleg Curricular: MP 0000 — Títol del mòdul
