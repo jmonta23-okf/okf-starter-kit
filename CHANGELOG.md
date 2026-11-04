@@ -7,7 +7,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
-## [V1.3] — 2026-11-XX
+## [V1.3] — 2026-11-04
 
 ### Completitud normativa del graf de dues capes (RFC-OKF-03)
 
