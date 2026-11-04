@@ -10,6 +10,8 @@ from pathlib import Path
 
 import pytest
 
+import validar_yaml as v
+
 VALIDAR = str(Path(__file__).resolve().parent.parent / "03-eines" / "validar_yaml.py")
 
 CONVENCIO = """---
@@ -129,15 +131,19 @@ def test_audit_criteri_orfes(tmp_path):
 
 
 def test_audit_sintesi_no_compta(tmp_path):
-    """Una AEA amb naturalesa: sintesi no compta per a la cobertura (exit 1)."""
+    """Una AEA amb naturalesa: sintesi no compta com a cobertura analítica: s'emet
+    Y046, la síntesi compta com a 'CAs coberts' i el verdicte és COBERT (Bloc 14g)."""
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], naturalesa="sintesi"))
     r = run_audit(tmp_path)
-    assert r.returncode == 1, r.stdout + r.stderr
+    assert r.returncode == 0, r.stdout + r.stderr
     assert "CAs avaluats (analítics): 0" in r.stdout
-    assert "CAs només a síntesi: 2" in r.stdout
-    assert "CAs orfes: 2" in r.stdout
+    assert "CAs coberts: 2" in r.stdout
+    assert "CAs orfes: 0" in r.stdout
+    assert "Verdicte: COBERT" in r.stdout
+    assert "[Y046] CA '1.1' covered only by synthesis AEAs" in r.stdout
+    assert "[Y046] CA '1.2' covered only by synthesis AEAs" in r.stdout
 
 
 def test_audit_mismatch_versio(tmp_path):
@@ -184,3 +190,69 @@ def test_audit_coherencia_yaml_ancora(tmp_path):
 def test_audit_instrument_per_criteri():
     """Un CA sense instrument associat dona warning."""
     pass
+
+
+# ---------------------------------------------------------------------------
+# Bloc 14g: format nou de --audit, Y045 i Y046
+# ---------------------------------------------------------------------------
+
+def node_cataleg_amb_afegit():
+    """Catàleg amb un CA oficial (1.1) i un CA afegit (codi null, guia X)."""
+    return (
+        "---\n"
+        "id: EX-CAT-00\n"
+        "type: CatalegCurricular\n"
+        'title: "Catàleg de test"\n'
+        'version: "V2.1"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        "estat: vigent\n"
+        "criteris:\n"
+        "  RA1:\n"
+        '    - codi: "1.1"\n'
+        "    - codi: null\n"
+        '      guia: "X"\n'
+        "      afegit: true\n"
+        "---\n"
+        "# Catàleg de test\n"
+        "## 5 · CAs\n"
+        '| 1.1 | 1a | <a id="ca-1-1"></a>Desc | A | AEA |\n'
+    )
+
+
+def test_audit_format_nou(tmp_path):
+    """El nou format de --audit inclou les línies noves i elimina 'CAs només a síntesi'."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
+    (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"]))
+    r = run_audit(tmp_path)
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "CAs coberts:" in r.stdout
+    assert "CAs contextualitzats (*):" in r.stdout
+    assert "CAs afegits pel docent:" in r.stdout
+    assert "CAs només a síntesi:" not in r.stdout
+
+
+def test_y045_ca_afegit_no_referenciat(tmp_path):
+    """Un CA afegit (afegit: true) sense cap FitxaAEA que el referenciï -> Y045 (🟡 Mitjana)."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg_amb_afegit())
+    (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1"]))
+    _linies, _exit_code, errors = v.audit_curricular(str(tmp_path))
+    codis = [e[0] for e in errors]
+    assert "Y045" in codis
+    assert v.CODIS_ERROR["Y045"][1] == "🟡 Mitjana"
+
+
+def test_y046_ca_nomes_sintesi(tmp_path):
+    """Un CA cobert només per fitxes de síntesi -> Y046 (🟡 Mitjana) sense afectar el veredicte."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
+    (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], naturalesa="sintesi"))
+    linies, _exit_code, errors = v.audit_curricular(str(tmp_path))
+    codis = [e[0] for e in errors]
+    assert "Y046" in codis
+    assert v.CODIS_ERROR["Y046"][1] == "🟡 Mitjana"
+    assert "Verdicte: COBERT" in "\n".join(linies)

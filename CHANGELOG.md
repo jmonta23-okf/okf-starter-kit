@@ -7,6 +7,25 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — Bloc 14g: --audit amb mètriques noves + Y045 + Y046
+
+### Afegit
+
+- **`03-eines/validar_yaml.py`** — nou format de `--audit` i 2 codis nous:
+  - `--audit`: noves línies `CAs coberts` (analítics + síntesi), `CAs contextualitzats (*)` i `CAs afegits pel docent`. S'elimina `CAs només a síntesi` (substituït per `Y046`). Es mantenen `CAs avaluats (analítics)` i `Mismatch de versió` per compatibilitat amb `status_snapshot.py`.
+  - `Y045` 🟡 Mitjana — CA afegit no referenciat per cap FitxaAEA.
+  - `Y046` 🟡 Mitjana — CA cobert només per fitxes de síntesi.
+  - Canvi de semàntica: la síntesi compta com a cobertura (`CAs coberts`); `Y045`/`Y046` no afecten el veredicte ni l'exit.
+  - `audit_curricular()` ara retorna `(linies, exit_code, errors)`.
+  - Total de codis: 35 → **37**.
+- **`tests/test_curriculum_audit.py`** — 3 tests nous + actualització de `test_audit_sintesi_no_compta` al nou format.
+
+### No s'ha tocat
+
+- `Y052` (ajornat al 14g-bis). `status_snapshot.py`, `--strict-versio`, `cataleg_versio`, els catàlegs i les fitxes.
+
+---
+
 ## [No publicat] — Bloc 14d: instruments_avaluacio estructurat
 
 ### Afegit

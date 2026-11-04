@@ -154,13 +154,14 @@ CODIS_ERROR = {
     "Y042": ("'codi' nul sense 'afegit: true' a criteris:", "🔴 Crític"),
     "Y043": ("'afegit: true' sense camp 'guia' a criteris:", "🔴 Crític"),
     "Y044": ("'afegit: true' i 'contextualitzat: true' alhora (redundant)", "🟡 Mitjana"),
+    "Y045": ("CA afegit no referenciat per cap FitxaAEA", "🟡 Mitjana"),
+    "Y046": ("CA cobert només per fitxes de síntesi", "🟡 Mitjana"),
     "Y048": ("'criteris[RA]' no és una llista", "🟠 Alta"),
     "Y050": ("Instrument d'avaluació amb 'codi' duplicat", "🟠 Alta"),
     "Y051": ("Instrument d'avaluació (format nou) sense cap criteri", "🟡 Mitjana"),
     # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
-    # Y045 / Y046: auditories de cobertura/creuades — ajornades al Bloc 14f.
     # Y047 / Y049: lliures.
-    # Y052: auditoria de cobertura — ajornat al Bloc 14f.
+    # Y052: auditoria de cobertura — ajornat al 14g-bis.
 }
 
 
@@ -1234,8 +1235,9 @@ def audit_curricular(vault_path, strict_versio=False):
     és sempre una mètrica informativa que no afecta el veredicte ni el codi
     de sortida.
 
-    Retorna (linies, exit_code) amb exit_code 0 (tot cobert), 1 (incomplert o
-    error) o 2 (només warnings).
+    Retorna (linies, exit_code, errors) amb exit_code 0 (tot cobert), 1 (incomplert
+    o error) o 2 (només warnings), i `errors` una llista de tuples (codi, desc, accio)
+    amb Y045/Y046 (que no afecten el veredicte ni l'exit).
     """
     fitxers = trobar_fitxers_md(vault_path)
 
@@ -1293,16 +1295,44 @@ def audit_curricular(vault_path, strict_versio=False):
     tots_cas_decret = set()
     tots_cas_coberts = set()
 
+    # Bloc 14g: acumuladors globals per a les mètriques noves i Y045/Y046.
+    errors_audit = []
+    tots_referenciats = set()
+    tots_sintesi = set()
+    tots_afegits_ids = set()
+    total_ctx = 0
+    total_afegits = 0
+
     for ruta_cat, info in sorted(catalegs.items()):
         codis_decret = _codis_criteris(info["criteris"])
         total_decret = len(codis_decret)
         tots_cas_decret |= codis_decret
+
+        # Mètriques del format nou: contextualitzats i afegits (per catàleg).
+        for llista in info["criteris"].values():
+            if not isinstance(llista, list):
+                continue
+            for element in llista:
+                if not isinstance(element, dict):
+                    continue
+                if element.get("contextualitzat") is True:
+                    total_ctx += 1
+                if element.get("afegit") is True:
+                    total_afegits += 1
+                    ident = (
+                        element.get("codi")
+                        if element.get("codi") is not None
+                        else element.get("guia")
+                    )
+                    if ident is not None:
+                        tots_afegits_ids.add(str(ident))
 
         analitics = set()
         sintesi = set()
         mismatch = 0
         for _r, d in info["fitxes"]:
             codis = {str(c) for c in (d.get("criteris_avaluacio") or [])}
+            tots_referenciats |= codis
             if d.get("naturalesa") == "sintesi":
                 sintesi |= codis
             else:
@@ -1312,9 +1342,10 @@ def audit_curricular(vault_path, strict_versio=False):
                 mismatch += 1
 
         tots_cas_coberts |= analitics
-        nomes_sintesi = (sintesi & codis_decret) - analitics
-        orfes = codis_decret - analitics
-        inexistents = analitics - codis_decret
+        tots_sintesi |= sintesi
+        coberts_cat = analitics | sintesi
+        orfes = codis_decret - coberts_cat
+        inexistents = coberts_cat - codis_decret
 
         errors_coherencia = comprovar_coherencia_cataleg(
             {"criteris": info["criteris"]}, extreure_cos_md(ruta_cat), ruta_cat
@@ -1325,8 +1356,6 @@ def audit_curricular(vault_path, strict_versio=False):
             verdicte = f"ERROR (Y030/Y031 × {len(errors_coherencia)})"
         elif orfes or inexistents:
             verdicte = "INCOMPLET"
-        elif nomes_sintesi:
-            verdicte = "WARNING (CAs només a síntesi)"
 
         if verdicte == "COBERT":
             coberts += 1
@@ -1335,14 +1364,12 @@ def audit_curricular(vault_path, strict_versio=False):
 
         if verdicte.startswith("ERROR") or verdicte.startswith("INCOMPLET"):
             sortida = max(sortida, 1)
-        elif verdicte.startswith("WARNING"):
-            sortida = max(sortida, 2)
 
         linies.append(f"=== Cobertura curricular: {ruta_cat} ===")
         linies.append(f"Versió del catàleg: {info['version']}")
         linies.append(f"Total CAs al decret: {total_decret}")
         linies.append(f"CAs avaluats (analítics): {len(analitics)}")
-        linies.append(f"CAs només a síntesi: {len(nomes_sintesi)}")
+        linies.append(f"CAs coberts: {len(coberts_cat)}")
         linies.append(f"CAs orfes: {len(orfes)}")
         linies.append(f"CAs inexistents: {len(inexistents)}")
         linies.append(f"Mismatch de versió: {mismatch} (deprecated, informatiu)")
@@ -1352,14 +1379,32 @@ def audit_curricular(vault_path, strict_versio=False):
     if not catalegs:
         sortida = 2
 
+    # Y045: CA afegit no referenciat per cap FitxaAEA (Bloc 14g).
+    for ident in sorted(tots_afegits_ids - tots_referenciats):
+        errors_audit.append((
+            "Y045",
+            f"CA '{ident}' added but not referenced by any FitxaAEA",
+            "Afegir el CA a una fitxa o treure'l del catàleg",
+        ))
+    # Y046: CA cobert només per fitxes de síntesi (Bloc 14g).
+    nomes_sintesi_globals = (tots_sintesi & tots_cas_decret) - tots_cas_coberts
+    for codi in sorted(nomes_sintesi_globals):
+        errors_audit.append((
+            "Y046",
+            f"CA '{codi}' covered only by synthesis AEAs",
+            "Cobrir el CA amb una fitxa analítica o justificar-ne la síntesi",
+        ))
+
     linies.append("=== Resum ===")
     linies.append(f"Catàlegs analitzats: {len(catalegs)}")
     linies.append(f"Catàlegs coberts: {coberts}")
     linies.append(f"Catàlegs incomplets: {incomplets}")
     linies.append(f"CAs únics al decret: {len(tots_cas_decret)}")
     linies.append(f"CAs únics coberts: {len(tots_cas_coberts)}")
+    linies.append(f"CAs contextualitzats (*): {total_ctx}")
+    linies.append(f"CAs afegits pel docent: {total_afegits}")
 
-    return linies, sortida
+    return linies, sortida, errors_audit
 
 
 def main():
@@ -1481,10 +1526,15 @@ def main():
 
     exit_final = 1 if errors_totals else 0
     if args.audit:
-        linies_audit, exit_audit = audit_curricular(
+        linies_audit, exit_audit, errors_audit = audit_curricular(
             ruta_vault, strict_versio=args.strict_versio
         )
         print("\n" + "\n".join(linies_audit))
+        if errors_audit:
+            print("\n--- Errors de cobertura (Y-codes) ---")
+            for codi, desc, _accio in errors_audit:
+                gravetat = CODIS_ERROR.get(codi, ("", "🔴 Crític"))[1]
+                print(f"[{codi}] {desc} ({gravetat})")
         exit_final = max(exit_final, exit_audit)
 
     sys.exit(exit_final)
