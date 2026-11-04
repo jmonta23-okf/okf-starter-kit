@@ -558,3 +558,50 @@ def test_camp_desconegut_warning_dedup(tmp_path):
     )
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert proc.stdout.count("Warning: camp desconegut 'descripcions'") == 1
+
+
+def test_y044_afegit_i_contextualitzat(tmp_path, codis_error):
+    """`afegit: true` i `contextualitzat: true` -> Y044 (🟡 Mitjana)."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-40",
+        '  RA5:\n'
+        '    - codi: null\n'
+        '      guia: "5a"\n'
+        '      afegit: true\n'
+        '      contextualitzat: true\n',
+        [],
+    )
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y044" in codis_error(errors)
+    assert v.CODIS_ERROR["Y044"][1] == "🟡 Mitjana"
+
+
+def test_y048_criteris_ra_no_llista(tmp_path, codis_error):
+    """`criteris: {RA5: "5.1"}` (string) -> Y048 (🟠 Alta); la resta es valida i --audit no peta."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-41",
+        '  RA5: "5.1"\n'
+        '  RA6:\n'
+        '    - codi: "6.1"\n'
+        '      guia: "6a"\n',
+        ["6-1"],
+    )
+    ruta = crear_vault(tmp_path, {
+        "03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG
+    })
+    errors = validar_vault(ruta)
+    assert "Y048" in codis_error(errors)
+    assert v.CODIS_ERROR["Y048"][1] == "🟠 Alta"
+    # el RA vàlid (RA6) es processa normalment: la seva àncora ca-6-1 no dispara Y030/Y031
+    assert "Y030" not in codis_error(errors)
+    assert "Y031" not in codis_error(errors)
+    # --audit no peta davant d'un RA no-llista (contribueix 0 CAs, però no falla)
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--audit",
+         "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode is not None  # arriba al final sense penjar-se
+    assert "Traceback" not in proc.stderr

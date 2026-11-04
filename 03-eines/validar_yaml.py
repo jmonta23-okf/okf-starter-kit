@@ -153,8 +153,11 @@ CODIS_ERROR = {
     "Y040": ("'contextualitzat' no és un booleà a criteris:", "🟠 Alta"),
     "Y042": ("'codi' nul sense 'afegit: true' a criteris:", "🔴 Crític"),
     "Y043": ("'afegit: true' sense camp 'guia' a criteris:", "🔴 Crític"),
-    # Y041: reservat (text canviat), retirat de la v1.3 — no s'implementa.
-    # Y044 / Y045 / Y046: auditories semàntiques/cobertura — Blocs 14c/14f.
+    "Y044": ("'afegit: true' i 'contextualitzat: true' alhora (redundant)", "🟡 Mitjana"),
+    "Y048": ("'criteris[RA]' no és una llista", "🟠 Alta"),
+    # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
+    # Y045 / Y046: auditories de cobertura/creuades — ajornades al Bloc 14f.
+    # Y047: lliure.
 }
 
 
@@ -678,10 +681,12 @@ def detectar_camps_desconeguts(criteris):
 
 def validar_invariants_format_criteris(criteris):
     """
-    Invariants del format de `criteris:` (Bloc 14b), sobre l'estructura normalitzada:
+    Invariants del format de `criteris:` (Bloc 14b/14c), sobre l'estructura normalitzada:
     - Y040: 'contextualitzat' ha de ser boolean (🟠 Alta).
     - Y042: 'codi' null (o absent) sense 'afegit: true' (🔴 Crític).
     - Y043: 'afegit: true' sense camp 'guia' (🔴 Crític).
+    - Y044: 'afegit: true' i 'contextualitzat: true' alhora (redundant) (🟡 Mitjana).
+    - Y048: 'criteris[RA]' no és una llista (🟠 Alta).
 
     Retorna la llista de (codi, descripció, acció).
     """
@@ -690,6 +695,11 @@ def validar_invariants_format_criteris(criteris):
         return errors
     for ra, llista in criteris.items():
         if not isinstance(llista, list):
+            errors.append((
+                "Y048",
+                f"criteris['{ra}'] must be a list (got {type(llista).__name__})",
+                f"Present the criteria of '{ra}' as a list of CAs",
+            ))
             continue
         for i, element in enumerate(llista):
             if not isinstance(element, dict):
@@ -705,6 +715,12 @@ def validar_invariants_format_criteris(criteris):
                 ))
 
             afegit = element.get("afegit") is True
+            if afegit and contextualitzat is True:
+                errors.append((
+                    "Y044",
+                    f"criteris['{ra}'][{i}]: 'afegit' and 'contextualitzat' are both true (redundant)",
+                    "Un CA no pot ser alhora afegit i contextualitzat; triar-ne un",
+                ))
             codi = element.get("codi")
             if codi is None and not afegit:
                 errors.append((

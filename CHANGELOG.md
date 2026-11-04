@@ -7,6 +7,22 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — Bloc 14c: Y044 i Y048
+
+### Afegit
+
+- **`03-eines/validar_yaml.py`** — tanca la validació del format de `criteris:` amb 2 codis nous:
+  - `Y044` — `afegit: true` i `contextualitzat: true` alhora (redundant). 🟡 Mitjana.
+  - `Y048` — `criteris[RA]` no és una llista. 🟠 Alta.
+  - Total de codis d'error: 31 → **33**.
+- **`tests/test_validar_yaml.py`** — 2 tests nous (`Y044` i `Y048`).
+
+### No s'ha tocat
+
+- `Y041` (retirat de la v1.3), `Y045`/`Y046` (ajornades al Bloc 14f). `instruments_avaluacio`, els catàlegs d'exemple (format antic) i la plantilla es mantenen.
+
+---
+
 ## [No publicat] — Bloc 14b: format nou de `criteris:` (v3)
 
 ### Afegit
