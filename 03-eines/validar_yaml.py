@@ -155,9 +155,12 @@ CODIS_ERROR = {
     "Y043": ("'afegit: true' sense camp 'guia' a criteris:", "🔴 Crític"),
     "Y044": ("'afegit: true' i 'contextualitzat: true' alhora (redundant)", "🟡 Mitjana"),
     "Y048": ("'criteris[RA]' no és una llista", "🟠 Alta"),
+    "Y050": ("Instrument d'avaluació amb 'codi' duplicat", "🟠 Alta"),
+    "Y051": ("Instrument d'avaluació (format nou) sense cap criteri", "🟡 Mitjana"),
     # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
     # Y045 / Y046: auditories de cobertura/creuades — ajornades al Bloc 14f.
-    # Y047: lliure.
+    # Y047 / Y049: lliures.
+    # Y052: auditoria de cobertura — ajornat al Bloc 14f.
 }
 
 
@@ -738,6 +741,45 @@ def validar_invariants_format_criteris(criteris):
     return errors
 
 
+CAMPS_INSTRUMENT = ("codi", "descripcio", "criteris")
+
+
+def normalitzar_instruments_avaluacio(instruments):
+    """
+    Normalitza el camp `instruments_avaluacio:` d'una FitxaAEA (Bloc 14d).
+
+    Accepta el format antic (llista de strings) i el nou (llista de dicts).
+    Funció pura: no muta l'entrada.
+
+    - None / absent    -> None
+    - no-llista        -> tal qual (no és d'aquest bloc)
+    - element string   -> {'codi': None, 'descripcio': <string>, 'criteris': []}
+    - element dict     -> assegura els 3 camps amb defaults, conservant els explícits
+    - element altre    -> tal qual
+    """
+    if instruments is None:
+        return None
+    if not isinstance(instruments, list):
+        return instruments
+    norm = []
+    for element in instruments:
+        if isinstance(element, str):
+            norm.append({
+                "codi": None,
+                "descripcio": element,
+                "criteris": [],
+            })
+        elif isinstance(element, dict):
+            d = dict(element)
+            d.setdefault("codi", None)
+            d.setdefault("descripcio", None)
+            d.setdefault("criteris", [])
+            norm.append(d)
+        else:
+            norm.append(element)
+    return norm
+
+
 def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None, warnings=None):
     """
     Valida un node. Retorna la llista d'errors (codi, descripció, acció).
@@ -840,6 +882,61 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
         errors.extend(comprovar_coherencia_cataleg(
             {"criteris": criteris_norm}, extreure_cos_md(ruta_fitxer), ruta_fitxer
         ))
+
+    # ---- instruments_avaluacio de les FitxaAEA (Bloc 14d) -------------
+    # Es normalitza aquí (abans de les invariants). S'accepta el format antic
+    # (llista de strings) i el nou (llista de dicts).
+    if tipus == "FitxaAEA":
+        instruments_raw = yaml_data.get("instruments_avaluacio")
+        instruments_norm = normalitzar_instruments_avaluacio(instruments_raw)
+
+        # Advertències textuals (format antic + camps desconeguts) a --- Warnings ---.
+        if warnings is not None:
+            if isinstance(instruments_raw, list) and any(
+                isinstance(x, str) for x in instruments_raw
+            ):
+                warnings.append(
+                    f"Warning: instruments_avaluacio uses legacy format in {node_id}; "
+                    "migrate to list of dicts"
+                )
+            camps_vistos = set()
+            if isinstance(instruments_raw, list):
+                for idx, item in enumerate(instruments_raw):
+                    if isinstance(item, dict):
+                        for camp in item:
+                            if camp not in CAMPS_INSTRUMENT and camp not in camps_vistos:
+                                camps_vistos.add(camp)
+                                warnings.append(
+                                    f"Warning: unknown field '{camp}' in "
+                                    f"instruments_avaluacio[{idx}] of {node_id}"
+                                )
+
+        # Y050: codi d'instrument duplicat (no nul), sobre la llista normalitzada.
+        if isinstance(instruments_norm, list):
+            comptador = {}
+            for item in instruments_norm:
+                if isinstance(item, dict) and item.get("codi") is not None:
+                    comptador[item["codi"]] = comptador.get(item["codi"], 0) + 1
+            for codi, n in comptador.items():
+                if n > 1:
+                    errors.append((
+                        "Y050",
+                        f"instruments_avaluacio: duplicate instrument code '{codi}'",
+                        "Renombrar els instruments (codi) duplicats",
+                    ))
+
+        # Y051: instrument en format nou sense criteris. S'avalua sobre la llista
+        # ORIGINAL (abans de normalitzar), només sobre dicts. Els strings (format
+        # antic) no generen Y051 (ja tenen el seu warning de format antic).
+        original = instruments_raw or []
+        if isinstance(original, list):
+            for i, item in enumerate(original):
+                if isinstance(item, dict) and not item.get("criteris"):
+                    errors.append((
+                        "Y051",
+                        f"instruments_avaluacio[{i}]: instrument has no criteria",
+                        "Afegir criteris a l'instrument o eliminar-lo",
+                    ))
 
     # ---- ID: patró i duplicats ----------------------------------------
     if node_id is not None:

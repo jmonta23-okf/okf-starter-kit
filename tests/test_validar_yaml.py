@@ -605,3 +605,164 @@ def test_y048_criteris_ra_no_llista(tmp_path, codis_error):
     )
     assert proc.returncode is not None  # arriba al final sense penjar-se
     assert "Traceback" not in proc.stderr
+
+
+# ---------------------------------------------------------------------------
+# instruments_avaluacio de les FitxaAEA (Bloc 14d)
+# ---------------------------------------------------------------------------
+
+def _fitxa_test_node(nid, instruments_body):
+    """Node FitxaAEA mínim i vàlid amb `instruments_avaluacio:`."""
+    return (
+        "---\n"
+        f"id: {nid}\n"
+        "type: FitxaAEA\n"
+        'title: "Fitxa de test"\n'
+        'version: "V1.0-Esborrany"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        'credit: "1"\n'
+        "estat: vigent\n"
+        f"instruments_avaluacio:\n{instruments_body}"
+        "---\n"
+        "# Fitxa de test\n"
+    )
+
+
+def test_instruments_format_antic(tmp_path, codis_error):
+    """FitxaAEA amb `instruments_avaluacio` de strings: s'accepta, warning de
+    format antic a --- Warnings ---, normalitza correctament i NO genera Y051."""
+    node = _fitxa_test_node(
+        "EX-AEA-01",
+        '  - "./01_Protocol.md#proves-escrites"\n'
+        '  - "./01_Protocol.md#observacio-competencial"\n',
+    )
+    ruta = crear_vault(tmp_path, {"03_Fitxa.md": node})
+
+    # normalització correcta (funció pura)
+    norm = v.normalitzar_instruments_avaluacio(
+        ["./01_Protocol.md#proves-escrites", "./01_Protocol.md#observacio-competencial"]
+    )
+    assert norm == [
+        {"codi": None, "descripcio": "./01_Protocol.md#proves-escrites", "criteris": []},
+        {"codi": None, "descripcio": "./01_Protocol.md#observacio-competencial", "criteris": []},
+    ]
+
+    # no genera Y051 i el node és vàlid (exit 0)
+    errors = validar_vault(ruta)
+    assert "Y051" not in codis_error(errors)
+
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "--- Warnings ---" in proc.stdout
+    assert "Warning: instruments_avaluacio uses legacy format in EX-AEA-01" in proc.stdout
+
+
+def test_instruments_format_nou(tmp_path, codis_error):
+    """FitxaAEA amb `instruments_avaluacio` de dicts vàlids: s'accepta, sense warning."""
+    node = _fitxa_test_node(
+        "EX-AEA-02",
+        '  - codi: "Pt1"\n'
+        '    descripcio: "Pràctica de taller 1"\n'
+        '    criteris: ["1.1", "1.2"]\n'
+        '  - codi: "Pe1"\n'
+        '    descripcio: "Prova escrita 1"\n'
+        '    criteris: ["2.1"]\n',
+    )
+    ruta = crear_vault(tmp_path, {"03_Fitxa.md": node})
+    errors = validar_vault(ruta)
+    assert "Y050" not in codis_error(errors)
+    assert "Y051" not in codis_error(errors)
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "--- Warnings ---" not in proc.stdout
+
+
+def test_instruments_camp_desconegut(tmp_path):
+    """Un instrument amb un camp extra -> warning textual, sense codi Y, exit 0."""
+    node = _fitxa_test_node(
+        "EX-AEA-03",
+        '  - codi: "Pt1"\n'
+        '    descripcio: "Pràctica"\n'
+        '    criteris: ["1.1"]\n'
+        '    notes: "extra"\n',
+    )
+    ruta = crear_vault(tmp_path, {"03_Fitxa.md": node})
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "--- Warnings ---" in proc.stdout
+    assert "Warning: unknown field 'notes' in instruments_avaluacio[0] of EX-AEA-03" in proc.stdout
+    assert "Y051" not in proc.stdout
+
+
+def test_y050_codi_instrument_duplicat(tmp_path, codis_error):
+    """Dos instruments amb `codi: "Pt1"` -> Y050 (🟠 Alta)."""
+    node = _fitxa_test_node(
+        "EX-AEA-04",
+        '  - codi: "Pt1"\n'
+        '    descripcio: "A"\n'
+        '    criteris: ["1.1"]\n'
+        '  - codi: "Pt1"\n'
+        '    descripcio: "B"\n'
+        '    criteris: ["1.2"]\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y050" in codis_error(errors)
+    assert v.CODIS_ERROR["Y050"][1] == "🟠 Alta"
+
+
+def test_y051_instrument_sense_criteris(tmp_path, codis_error):
+    """Un instrument en format nou (dict) amb `criteris: []` -> Y051 (🟡 Mitjana)."""
+    node = _fitxa_test_node(
+        "EX-AEA-05",
+        '  - codi: "Pt1"\n'
+        '    descripcio: "A"\n'
+        "    criteris: []\n",
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y051" in codis_error(errors)
+    assert v.CODIS_ERROR["Y051"][1] == "🟡 Mitjana"
+
+
+def test_y050_codi_null_no_es_duplicat(tmp_path, codis_error):
+    """Tres instruments amb `codi: null` -> cap Y050 (no són duplicats entre si)."""
+    node = _fitxa_test_node(
+        "EX-AEA-06",
+        '  - codi: null\n    descripcio: "A"\n    criteris: ["1.1"]\n'
+        '  - codi: null\n    descripcio: "B"\n    criteris: ["1.2"]\n'
+        '  - codi: null\n    descripcio: "C"\n    criteris: ["1.3"]\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y050" not in codis_error(errors)
+    assert "Y051" not in codis_error(errors)
+
+
+def test_y051_no_es_dispara_en_format_antic(tmp_path, codis_error):
+    """FitxaAEA amb instruments en format antic (strings) -> NO genera Y051, només el warning."""
+    node = _fitxa_test_node(
+        "EX-AEA-07",
+        '  - "./01_Protocol.md#proves-escrites"\n'
+        '  - "./01_Protocol.md#observacio-competencial"\n',
+    )
+    ruta = crear_vault(tmp_path, {"03_Fitxa.md": node})
+    errors = validar_vault(ruta)
+    assert "Y051" not in codis_error(errors)
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", ruta, "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    assert "--- Warnings ---" in proc.stdout
+    assert "Warning: instruments_avaluacio uses legacy format" in proc.stdout
+    assert "Y051" not in proc.stdout

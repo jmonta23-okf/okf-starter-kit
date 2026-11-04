@@ -7,6 +7,25 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — Bloc 14d: instruments_avaluacio estructurat
+
+### Afegit
+
+- **`03-eines/validar_yaml.py`** — format nou d'`instruments_avaluacio` (llista de dicts) a les `FitxaAEA`, compatible amb el format antic (llista de strings), amb 2 codis nous:
+  - `Y050` — 'codi' d'instrument duplicat (no nul) dins la fitxa. 🟠 Alta.
+  - `Y051` — instrument en format nou (dict) sense cap criteri. 🟡 Mitjana. **No s'aplica als instruments en format antic (strings).**
+  - `normalitzar_instruments_avaluacio()`: normalitza strings→dicts; `Y051` s'avalua sobre la llista original i només sobre dicts.
+  - Warnings textuals a `--- Warnings ---`: format antic (una per fitxa) i camp desconegut (una per (fitxa, camp)).
+  - Total de codis: 33 → **35**.
+- **`04-plantilles/PLANTILLA-FitxaAEA.md`** — afegit el camp `instruments_avaluacio` al frontmatter (format nou) amb la nota d'format antic obsolet.
+- **`tests/test_validar_yaml.py`** — 7 tests nous.
+
+### No s'ha tocat
+
+- `Y052` (ajornat al Bloc 14f), `Y049` lliure. Les fitxes d'exemple (format antic) es mantenen fins al 14e.
+
+---
+
 ## [No publicat] — Bloc 14c: Y044 i Y048
 
 ### Afegit

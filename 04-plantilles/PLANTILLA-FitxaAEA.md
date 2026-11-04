@@ -18,6 +18,15 @@ cataleg_versio: "V1.0"
 durada: "8 h"
 resultats_aprenentatge: ["RA1", "RA2"]
 criteris_avaluacio: ["1.1", "1.2", "2.1"]
+instruments_avaluacio:
+  # Cada instrument és un dict (format nou). El format antic (llista de strings)
+  # encara s'accepta però es considera obsolet.
+  - codi: "Pt1"
+    descripcio: "Pràctica de taller 1"
+    criteris: ["1.1", "1.2"]
+  - codi: "Pe1"
+    descripcio: "Prova escrita 1"
+    criteris: ["2.1"]
 naturalesa: analitica
 tags: ["fp", "aea", "okf/aea"]
 estat: vigent
