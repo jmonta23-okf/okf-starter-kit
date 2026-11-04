@@ -7,6 +7,57 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [V1.3] — 2026-11-XX
+
+### Completitud normativa del graf de dues capes (RFC-OKF-03)
+
+Implementació del RFC-OKF-03 v0.1: suport normatiu complet al graf
+curricular de dues capes (criteris contextualitzats, CAs afegits,
+instruments d'avaluació estructurats).
+
+#### Canvis principals
+
+- **Format nou de `criteris:` als catàlegs** (llista de diccionaris). Es manté
+  la compatibilitat amb el format antic.
+- **Format nou d'`instruments_avaluacio` a les fitxes AEA** (llista de
+  diccionaris). Es manté la compatibilitat amb el format antic.
+- **10 codis d'error nous**: `Y040`, `Y042`, `Y043`, `Y044`, `Y045`, `Y046`,
+  `Y048`, `Y050`, `Y051`, `Y052`. Total: **28 → 38 codis**.
+- **`--audit` actualitzat**: `CAs coberts`, `CAs contextualitzats (*)`, `CAs
+  afegits pel docent`. Es mantenen `CAs avaluats (analítics)` i `Mismatch de
+  versió` per compatibilitat amb `status_snapshot.py`.
+- **Deprecacions toves**: `cataleg_versio` (silenciós), `--strict-versio`
+  (no-op amb warning), `Y035` (🔴 → 🟠), `Y036` (🟠 → 🟡).
+
+#### Blocs
+
+14a (deprecacions), 14b (format `criteris:`), 14c (Y044/Y048), 14d
+(`instruments_avaluacio`), 14e (migració de catàlegs), 14f (instruments a les
+10 fitxes), 14g (`--audit` + Y045/Y046), 14g-bis (Y052).
+
+#### Codis d'error (38)
+
+`Y001-Y009`, `Y012-Y026`, `Y030`, `Y031`, `Y035`, `Y036`, `Y040`, `Y042`,
+`Y043`, `Y044`, `Y045`, `Y046`, `Y048`, `Y050`, `Y051`, `Y052`.
+(`Y010`/`Y011` no existeixen; `Y047`/`Y049` lliures.)
+
+#### Compatibilitat
+
+- Catàlegs i fitxes en format antic continuen funcionant.
+- `status_snapshot.py` no s'ha modificat.
+- Tots els tests passen (63 passed, 1 skipped).
+- **Política de retirada:** els formats antics de `criteris:` i
+  `instruments_avaluacio` s'eliminaran a la v1.4. Fins llavors, s'accepten amb
+  warning.
+
+#### Referències
+
+- RFC-OKF-03 v0.1 (document intern).
+- HANDOFF-09 (pre-V1.3) i HANDOFF-10 (post-V1.3).
+- Reial Decret 768/2014 (MP 1519).
+
+---
+
 ## [No publicat] — Bloc 14g-bis: Y052 (criteri sense instrument)
 
 ### Afegit

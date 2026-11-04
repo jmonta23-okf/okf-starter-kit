@@ -67,9 +67,31 @@ L'informe mostra, per a cada catàleg:
 
 - **Total CAs al decret:** quants criteris té el decret.
 - **CAs avaluats (analítics):** quants cobreixen les fitxes amb `naturalesa: analitica`.
+- **CAs coberts:** criteris coberts per alguna fitxa (analítica o de síntesi).
 - **CAs orfes:** criteris del decret que cap fitxa avalua.
 - **CAs inexistents:** criteris que una fitxa declara però que no són al catàleg.
-- **Mismatch de versió:** fitxes que apunten a una versió del catàleg diferent de la vigent.
+- **CAs contextualitzats (*):** criteris marcats com a `contextualitzat: true`.
+- **CAs afegits pel docent:** criteris marcats com a `afegit: true`.
+- **Mismatch de versió:** fitxes que apunten a una versió del catàleg diferent de la vigent (mètrica informativa, deprecated).
+
+Des de la **V1.3**, el `--audit` també emet codis de coherència/traçabilitat (`Y045`, `Y046`), i el validador valida els formats nous de `criteris:` i `instruments_avaluacio`:
+
+| Codi | Descripció | Severitat |
+|:---|:---|:---:|
+| `Y040` | `contextualitzat` no és boolean | 🟠 Alta |
+| `Y042` | `codi: null` sense `afegit: true` | 🔴 Crític |
+| `Y043` | `afegit: true` sense `guia` | 🔴 Crític |
+| `Y044` | `afegit` + `contextualitzat` redundants | 🟡 Mitjana |
+| `Y045` | CA afegit no referenciat per cap FitxaAEA | 🟡 Mitjana |
+| `Y046` | CA només cobert per fitxes de síntesi | 🟡 Mitjana |
+| `Y048` | `criteris[RA]` no és una llista | 🟠 Alta |
+| `Y050` | Codi d'instrument duplicat | 🟠 Alta |
+| `Y051` | Instrument sense cap criteri | 🟡 Mitjana |
+| `Y052` | Criteri sense cap instrument | 🟡 Mitjana |
+
+`Y045`, `Y046` i `Y052` **no afecten el veredicte** (COBERT/INCOMPLET): són observacions de qualitat i traçabilitat. La resta tampoc no canvia el veredicte, però cal corregir-los.
+
+Els tests del validador cobreixen aquests codis nous (63 passed, 1 skipped).
 
 ### Codis de sortida
 
@@ -77,11 +99,11 @@ L'informe mostra, per a cada catàleg:
 |:---:|:---|
 | 0 | Tots els catàlegs coberts. |
 | 1 | Algun catàleg amb orfes, inexistents o errors estructurals. |
-| 2 | Només warnings (mismatch de versió sense `--strict-versio`, o cap catàleg per auditar). |
+| 2 | Cap catàleg per auditar. |
 
 ### Opcions
 
-- `--strict-versio`: tracta el mismatch de versió com a error (codi 1) en lloc de warning (codi 2).
+- `--strict-versio`: *no-op* (deprecated). S'accepta el flag però no canvia el codi de sortida; el mismatch de versió sempre és informatiu.
 - `--output <fitxer>`: desa l'informe a un fitxer en lloc de mostrar-lo per stdout.
 
 La guia completa de l'arquitectura de dues capes és a [`00-documentacio/09-graf-curricular.md`](./00-documentacio/09-graf-curricular.md).
