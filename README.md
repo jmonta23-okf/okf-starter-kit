@@ -250,8 +250,8 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
   year         = {2026},
   version      = {V1.2},
   publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.23888081},
-  url          = {https://doi.org/10.5281/zenodo.23888081}
+  doi          = {10.5281/zenodo.23964880},
+  url          = {https://doi.org/10.5281/zenodo.23964880}
 }
 ```
 
