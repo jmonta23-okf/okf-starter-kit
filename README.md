@@ -159,7 +159,7 @@ El kit inclou una **arquitectura de dues capes** per al currículum de Formació
 python3 03-eines/validar_yaml.py --ruta . --audit
 ```
 
-L'informe mostra, per a cada catàleg, quants criteris d'avaluació cobreix, quants queden orfes i si hi ha incoherències. El codi de sortida és 0 (cobert), 1 (incomplert) o 2 (warning).
+L'informe mostra, per a cada catàleg, quants criteris d'avaluació cobreix (analítics i totals), quants queden orfes o inexistents, quants estan **contextualitzats** (`CAs contextualitzats (*)`) i quants ha **afegit el docent** (`CAs afegits pel docent`). A més, emet codis de qualitat i traçabilitat com `Y045` (CA afegit no referenciat per cap fitxa), `Y046` (CA només cobert per fitxes de síntesi) i `Y052` (criteri sense instrument), que **no afecten el veredicte** (COBERT/INCOMPLET). El codi de sortida és 0 (cobert), 1 (incomplert) o 2 (cap catàleg per auditar).
 
 Si vols veure un exemple complet, mira [`07-exemple-mp1519/`](./07-exemple-mp1519/). La guia completa de l'arquitectura és a [`00-documentacio/09-graf-curricular.md`](./00-documentacio/09-graf-curricular.md).
 

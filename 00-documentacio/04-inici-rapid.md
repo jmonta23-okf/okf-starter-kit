@@ -44,7 +44,7 @@ okf-starter-kit/
 ├── 01-cores/              # Marcs normatius oficials (FP i LOMLOE)
 ├── 02-exemple-complet/    # Mòdul sencer desplegat (Sanitat, MP1519)
 ├── 03-eines/              # El validador estàtic en Python (validar_yaml.py)
-├── 04-plantilles/         # Les 6 plantilles canòniques per crear nodes
+├── 04-plantilles/         # Les 7 plantilles canòniques per crear nodes
 ├── 05-exemples-minims/    # El laboratori de proves (vault de 3 nodes)
 └── 06-comunitat/          # Espai de compartició comunitària
 ```
@@ -125,7 +125,7 @@ python3 03-eines/validar_yaml.py --ruta 05-exemples-minims/vault-de-3-nodes
 ```text
 # Informe de Validació YAML — OKF Starter Kit
 **Ruta del vault:** 05-exemples-minims/vault-de-3-nodes
-**Script:** validar_yaml.py v1.0.1
+**Script:** validar_yaml.py v1.3.0
 
 ## Resum Executiu
 
@@ -266,7 +266,7 @@ Un cop completat aquest laboratori, tens diferents camins segons el que vulguis 
   ```bash
   python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
   ```
-  Veuràs com s'estructura un mòdul sencer (el MP1519 de Sanitat) amb 6 nodes complets, incloent-hi el catàleg curricular, protocols d'avaluació i el **Paquet LLM** d'aula.
+  Veuràs com s'estructura un mòdul sencer (el MP1519 de Sanitat) amb 14 nodes complets, incloent-hi el catàleg curricular, protocols d'avaluació, el **Paquet LLM** d'aula i el handoff.
 
 * **Obrir el vault a Obsidian per veure el graf visual:**  
   Descarrega [Obsidian](https://obsidian.md), fes clic a *«Open folder as vault»* i selecciona la carpeta `okf-starter-kit`. Prem `Ctrl+G` (o `Cmd+G` a Mac) per obrir la vista de graf i veure la xarxa neuronal de connexions del teu curs.
@@ -283,4 +283,3 @@ Un cop completat aquest laboratori, tens diferents camins segons el que vulguis 
 ---
 
 **Enhorabona! Ja formes part de la comunitat OKF.**
-```

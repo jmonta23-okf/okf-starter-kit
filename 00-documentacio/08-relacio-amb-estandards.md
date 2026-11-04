@@ -17,7 +17,7 @@ El juny de 2026, Google Cloud va publicar l'**Open Knowledge Format (OKF)**: un 
 | Aspecte | OKF de Google | OKF Starter Kit (perfil) |
 |:---|:---|:---|
 | **Camp obligatori** | `type` | `type` (i 8 camps universals més) |
-| **Tipus permesos** | Oberts | 9 universals + 12 de família (15 en total) |
+| **Tipus permesos** | Oberts | 9 universals + 4 de família (13 en total) |
 | **Enllaços** | Markdown estàndard | Markdown relatiu amb `.md` |
 | **Validació** | No n'inclou | Inclou un validador (`validar_yaml.py`) |
 | **Propòsit** | Coneixement empresarial per a agents d'IA | Governança del coneixement curricular docent |
@@ -220,4 +220,3 @@ Si treballes en un centre i vols col·laborar en algun d'aquests punts, obre un 
 ---
 
 *Document de posicionament de l'OKF Starter Kit respecte als estàndards existents. Honestedat sobre què s'implementa i què no. Invitació a col·laborar en la interoperabilitat.*
-```

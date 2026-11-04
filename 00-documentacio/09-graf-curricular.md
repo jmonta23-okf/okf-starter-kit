@@ -180,6 +180,20 @@ Des de la V1.3 el validador ha afegit 10 codis d'error per a la coherència dels
 
 Cap d'aquests codis no afecta el veredicte (COBERT/INCOMPLET) ni el codi de sortida d'`--audit`; són observacions de coherència i traçabilitat que cal corregir, però no bloquegen la cobertura.
 
+### Famílies de validació
+
+Els codis d'error del validador s'organitzen en famílies segons l'aspecte que validen:
+
+| Família | Què valida | Codis (rang) |
+|:---|:---|:---|
+| **YAML** | Estructura del frontmatter, sintaxi, enums | `Y001`-`Y009`, `Y023`, `Y024` (BOM, claus duplicades) |
+| **Node** | Camps universals, tipus, coherència del node | `Y012`-`Y026` (subconjunt), `Y030`, `Y031` |
+| **Graf** | Enllaços, coherència YAML↔àncores, àlies | `Y018`, `Y019` (enllaços i wikilinks), `Y030`, `Y031`, `Y035` |
+| **Currículum** | Format de `criteris:`, CAs afegits, contextualitzats, `naturalesa` | `Y036`, `Y040`, `Y042`, `Y043`, `Y044`, `Y045`, `Y046`, `Y048` |
+| **Avaluació** | `instruments_avaluacio` i cobertura creuada | `Y050`, `Y051`, `Y052` |
+| **Governança** | MOC arrel, Handoff, Convenció | `Y014` (MOC arrel), `Y015` (Handoff), `Y016` (Convenció) |
+| **Privacitat** | Inicials, pseudònims, dades de menors | `Y022` |
+
 ### Deprecacions (V1.3)
 
 - `cataleg_versio` s'ignora silenciosament (ni error ni warning).
@@ -223,6 +237,19 @@ L'arquitectura de dues capes és **nativament computable per agents**:
 - **`03-eines/validar_yaml.py` v1.3:** té `--audit` i els codis Y030-Y036, Y040-Y046, Y048-Y052.
 - **`04-plantilles/PLANTILLA-CatalegCurricular.md`:** plantilla per crear un catàleg nou.
 - **`07-exemple-mp1519/`:** exemple complet de l'arquitectura.
+
+## 9 · Distinció de versions
+
+L'ecosistema OKF-CATALA té quatre versions diferents que no s'han de confondre:
+
+| Element | Versió actual | Què versiona |
+|:---|:---|:---|
+| **Kit** (OKF Starter Kit) | V1.3 | El conjunt del kit (documents, eines, plantilles, exemples). És la versió que es publica a Zenodo. |
+| **Model de dades** (perfil OKF) | v1.1.0 | L'especificació del model de dades (camps universals, tipus, famílies). Canvia poc. |
+| **Validador** (`validar_yaml.py`) | v1.3.0 | L'eina de validació. Pot evolucionar independentment del kit. |
+| **Core** (FP, Català) | FP v1.1.0 · Català v1.1.2 | Les regles específiques de cada família (LOE/LOGSE, llengua). |
+
+> Nota: el validador v1.3.0 és el que acompanya el kit V1.3. A la v1.4 es preveu un salt de versió amb l'eliminació de les deprecacions.
 
 ---
 
