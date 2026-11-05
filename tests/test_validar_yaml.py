@@ -861,3 +861,31 @@ def test_y052_es_dispara_en_format_nou(tmp_path, codis_error):
     errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
     assert "Y052" in codis_error(errors)
     assert codis_error(errors).count("Y052") == 1  # només per a 6.1
+
+
+# ---------------------------------------------------------------------------
+# D4 / F2.5.b2: MOC absent a tot l'arbre -> Y014 (comprovació global del vault)
+# ---------------------------------------------------------------------------
+
+def test_y014_moc_absent(tmp_path):
+    """Un vault (directori) sense cap node MOC emet Y014 (D4/F2.5.b2)."""
+    guia = build_node("EX-GUIA-01", "Guia", "Una guia")
+    ruta = crear_vault(tmp_path, {"03_Guia.md": guia}, amb_estructura=False)
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", str(ruta), "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert "Y014" in proc.stdout
+    assert "No MOC node found in vault" in proc.stdout
+
+
+def test_y014_no_es_dispara_amb_moc(tmp_path):
+    """Un vault amb MOC (estructura completa) no emet Y014 i valida sense errors."""
+    guia = build_node("EX-GUIA-01", "Guia", "Una guia")
+    ruta = crear_vault(tmp_path, {"03_Guia.md": guia})  # estructura completa: MOC + Convenció + Handoff
+    proc = subprocess.run(
+        [sys.executable, VALIDAR, "--ruta", str(ruta), "--output", str(tmp_path / "inf.md")],
+        capture_output=True, text=True, timeout=120,
+    )
+    assert "Y014" not in proc.stdout
+    assert proc.returncode == 0, proc.stdout + proc.stderr

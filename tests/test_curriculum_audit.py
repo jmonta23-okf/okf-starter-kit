@@ -96,9 +96,47 @@ def node_fitxa(nid, codis, cataleg="01_Cataleg.md", versio="V2.1", naturalesa="a
     )
 
 
+def node_moc(nid="EX-MOC-00"):
+    """Node MOC mínim (perquè els fixtures per CLI tinguin un vault complet, no només Y014)."""
+    return (
+        "---\n"
+        f"id: {nid}\n"
+        "type: MOC\n"
+        'title: "MOC de test"\n'
+        'version: "V1.0-Esborrany"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        "estat: vigent\n"
+        "---\n"
+        "# MOC de test\n"
+    )
+
+
+def node_handoff(nid="EX-HANDOFF-00"):
+    """Node DocumentHandoff mínim (estructura de vault completa)."""
+    return (
+        "---\n"
+        f"id: {nid}\n"
+        "type: DocumentHandoff\n"
+        'title: "Handoff de test"\n'
+        'version: "V1.0-Esborrany"\n'
+        'data_ultima_actualitzacio: "2026-11-02"\n'
+        'authors:\n  - "Test"\n'
+        'llicencia: "CC BY-SA 4.0"\n'
+        'tags:\n  - okf/test\n'
+        "estat: vigent\n"
+        "---\n"
+        "# Handoff de test\n"
+    )
+
+
 def test_audit_cobertura_completa(tmp_path):
     """Una AEA que declara tots els CAs del catàleg dona cobertura 100% (exit 0)."""
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "00_MOC.md").write_text(node_moc())
+    (tmp_path / "99_Handoff.md").write_text(node_handoff())
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"]))
     r = run_audit(tmp_path)
@@ -134,6 +172,8 @@ def test_audit_sintesi_no_compta(tmp_path):
     """Una AEA amb naturalesa: sintesi no compta com a cobertura analítica: s'emet
     Y046, la síntesi compta com a 'CAs coberts' i el verdicte és COBERT (Bloc 14g)."""
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "00_MOC.md").write_text(node_moc())
+    (tmp_path / "99_Handoff.md").write_text(node_handoff())
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], naturalesa="sintesi"))
     r = run_audit(tmp_path)
@@ -149,6 +189,8 @@ def test_audit_sintesi_no_compta(tmp_path):
 def test_audit_mismatch_versio(tmp_path):
     """El mismatch de versió és una mètrica informativa (deprecated): no afecta el veredicte ni l'exit."""
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "00_MOC.md").write_text(node_moc())
+    (tmp_path / "99_Handoff.md").write_text(node_handoff())
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], versio="V1.0"))
     r = run_audit(tmp_path)
@@ -165,6 +207,8 @@ def test_strict_versio_noop(tmp_path):
     emet el warning literal en anglès i no converteix el mismatch en error.
     """
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "00_MOC.md").write_text(node_moc())
+    (tmp_path / "99_Handoff.md").write_text(node_handoff())
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"], versio="V1.0"))
     r = run_audit(tmp_path)
@@ -225,6 +269,8 @@ def node_cataleg_amb_afegit():
 def test_audit_format_nou(tmp_path):
     """El nou format de --audit inclou les línies noves i elimina 'CAs només a síntesi'."""
     (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "00_MOC.md").write_text(node_moc())
+    (tmp_path / "99_Handoff.md").write_text(node_handoff())
     (tmp_path / "01_Cataleg.md").write_text(node_cataleg())
     (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "1.2"]))
     r = run_audit(tmp_path)

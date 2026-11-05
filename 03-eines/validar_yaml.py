@@ -1533,6 +1533,23 @@ def main():
     for codi, desc, accio in comprovacions_estructurals(ruta_vault, fitxers, yaml_per_ruta):
         errors_totals.append((ruta_vault, codi, desc, accio))
 
+    # ---- 4a bis: MOC absent a tot l'arbre (D4 / F2.5.b2) ---------------
+    # Si cap node del directori validat és de tipus MOC, el diagnòstic
+    # correcte és que falta el MOC (Y014), no només enllaços trencats (Y018);
+    # els Y018 que hi hagi es continuen emetent. Només aplica a directoris
+    # (main ja exigeix que --ruta sigui un directori).
+    te_moc = any(
+        isinstance(yaml_per_ruta.get(r, {}).get("data"), dict)
+        and yaml_per_ruta[r]["data"].get("type") == "MOC"
+        for r in fitxers
+    )
+    if not te_moc:
+        errors_totals.append((
+            ruta_vault, "Y014",
+            "No MOC node found in vault",
+            "Crear un MOC arrel que indexi el vault (ex: 'EX-MOC-00')",
+        ))
+
     data_avui = datetime.datetime.now().strftime("%Y-%m-%d")
     if args.output:
         ruta_sortida = args.output
