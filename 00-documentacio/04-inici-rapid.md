@@ -1,5 +1,7 @@
 # Inici ràpid — 30 minuts
 
+> **Abans de començar:** aquest tutorial parteix del currículum i baixa cap a la pràctica (**enfocament deductiu**). Si ja tens una programació feta (Word, PDF, Excel) i vols convertir-la en un vault OKF sense reescriure-la, potser et convé l'**enfocament inductiu** ([`PLANTILLA-PaquetLLM-01.md`](../04-plantilles/PLANTILLA-PaquetLLM-01.md)). Si comences de zero o vols repensar la programació des del currículum, continua llegint: aquest tutorial és per a tu.
+
 Aquest tutorial et porta de zero a tenir un vault OKF operatiu i validat al teu ordinador en **30 minuts**. No necessites cap coneixement previ d'OKF: només saber obrir un terminal bàsic i un editor de text.
 
 | | |
@@ -71,7 +73,9 @@ Per entendre el mètode sense aclaparar-te, hem preparat el vault més petit pos
 vault-de-3-nodes/
 ├── 00_C1_MOC.md              # Node arrel (Map of Content)
 ├── 01_C1_Unitat_Didactica.md  # Unitat didàctica del curs
-└── 02_C1_Fitxa_Activitat.md  # Fitxa d'activitat d'aula
+├── 02_C1_Fitxa_Activitat.md  # Fitxa d'activitat d'aula
+├── 03_C1_Convencio.md        # Convenció de nomenclatura
+└── 04_C1_Handoff.md          # Document de traspàs
 ```
 
 Obre el fitxer arrel `00_C1_MOC.md` amb el teu editor de text (o mostra'l al terminal amb `cat 05-exemples-minims/vault-de-3-nodes/00_C1_MOC.md`):
@@ -131,7 +135,7 @@ python3 03-eines/validar_yaml.py --ruta 05-exemples-minims/vault-de-3-nodes
 
 | Mètrica | Valor |
 |:--------|:-----:|
-| Fitxers .md escanejats (nodes OKF) | 3 |
+| Fitxers .md escanejats (nodes OKF) | 5 |
 | Fitxers amb errors | 0 |
 | Errors crítics (🔴) | 0 |
 | Errors alts (🟠) | 0 |
@@ -244,7 +248,7 @@ En aquesta activitat l'alumnat practica la tècnica del rentat de mans quirúrgi
 python3 03-eines/validar_yaml.py --ruta 05-exemples-minims/vault-de-3-nodes
 ```
 
-**Veuràs que el sistema ara escaneja 4 nodes i confirma 0 errors.** Has expandit el teu graf correctament.
+**Veuràs que el sistema ara escaneja 6 nodes i confirma 0 errors.** Has expandit el teu graf correctament.
 
 ---
 
@@ -260,6 +264,20 @@ En només 30 minuts has dominat els fonaments d'OKF:
 ## 10 · Següents passos
 
 Un cop completat aquest laboratori, tens diferents camins segons el que vulguis fer:
+
+### Quin camí trio?
+
+| La teva situació | Enfocament | Paquet |
+|:---|:---|:---|
+| **Tens una programació feta** (Word, PDF, Excel) i vols convertir-la en un vault OKF sense reescriure-la | **Inductiu** (de la pràctica al currículum) | [`PLANTILLA-PaquetLLM-01.md`](../04-plantilles/PLANTILLA-PaquetLLM-01.md) |
+| **Comences de zero** (mòdul nou, sense programació) o vols repensar la programació des del currículum | **Deductiu** (del currículum a la pràctica) | [`PLANTILLA-PaquetLLM-00.md`](../04-plantilles/PLANTILLA-PaquetLLM-00.md) |
+| **No ho tens clar** | Comença pel **deductiu** (Paquet 00) | [`PLANTILLA-PaquetLLM-00.md`](../04-plantilles/PLANTILLA-PaquetLLM-00.md) |
+
+Tots dos camins porten al mateix lloc: un vault OKF validat. La diferència és el punt de partida i el grau de formalitat del resultat. El camí inductiu preserva la teva feina existent; el deductiu produeix un graf formalment més perfecte.
+
+**Terminologia:** en aquest kit, «deductiu» vol dir «del general (currículum) al particular (programació)»; «inductiu» vol dir «del particular (programació) al general (currículum)». Són termes de la metodologia científica, no de la programació.
+
+### Altres camins
 
 * **Veure un mòdul sencer real:**  
   Executa el validador sobre l'exemple complet del kit:
@@ -283,3 +301,7 @@ Un cop completat aquest laboratori, tens diferents camins segons el que vulguis 
 ---
 
 **Enhorabona! Ja formes part de la comunitat OKF.**
+```
+
+---
+
