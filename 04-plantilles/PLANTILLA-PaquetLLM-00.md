@@ -7,7 +7,7 @@ version: "V1.0"
 data_ultima_actualitzacio: "2026-11-05"
 authors: ["Josep Montañà Piqué"]
 llicencia: "CC BY-SA 4.0"
-tags: ["okf", "paquetllm", "onboarding", "miae-3"]
+tags: ["okf/paquetllm", "paquetllm", "onboarding", "miae-3"]
 estat: vigent
 nivell_miae: 3
 ---
