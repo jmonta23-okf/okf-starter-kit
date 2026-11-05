@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-05 · **Versió del document:** 1.6 (F0, F1 i F2.5 completades)
+> **Última revisió:** 2026-11-05 · **Versió del document:** 1.7 (F0, F1, F2.5 completades + Paquets 00/01)
 
 ---
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 2 · Estat actual (2026-11-05, post-F0/F1/F2.5)
+## 2 · Estat actual (2026-11-05, post-F0/F1/F2.5 + Paquets)
 
 | Component | Estat |
 |:---|:---|
@@ -25,7 +25,8 @@
 | `--audit` | Mètriques noves + Y045/Y046/Y052, **per catàleg** |
 | CAs afegits | Camp `id` estable, referenciables des de `criteris_avaluacio` |
 | MOC absent | Detectat amb `Y014` (comprovació global, només per a directoris) |
-| Documentació | 7 documents actualitzats (14h-a, 14h-b) + ROADMAP + CHANGELOG |
+| Paquets LLM | **00 (deductiu)** i **01 (inductiu)** documentats i desats a `04-plantilles/` |
+| Documentació | 7 documents actualitzats (14h-a, 14h-b) + ROADMAP + CHANGELOG + filosofia + inici ràpid |
 | Release | Tag `V1.3`, DOI `10.5281/zenodo.23964880` |
 | CI | Verd |
 
@@ -46,6 +47,10 @@
 - ~~Tests de snapshot fallen sense `.git`.~~ → **Fan `skip`** (F2.5.a).
 - ~~Exemple mínim no portable.~~ → **Portable** (F2.5.b1).
 - ~~MOC absent mal diagnosticat.~~ → **`Y014` global** (F2.5.b2).
+
+**Problemes resolts a la documentació dels Paquets:**
+- ~~Els docents no saben per on començar (corba d'entrada).~~ → **Paquets 00 i 01** (taula de decisió a `04-inici-rapid.md`, secció 9 a `02-filosofia.md`).
+- ~~Crítica: «el docent es perdrà en els YAML».~~ → **Resposta a `02-filosofia.md` §9** («El docent no és un programador»).
 
 ---
 
@@ -84,8 +89,8 @@
 | **F0** | Correccions immediates (badge, requirements, docstring, neteja) | 1-2 dies | 🔴 P0 | ✅ **Fet** |
 | **F1** | Consolidació semàntica (§3) | 2-3 setmanes | 🔴 P0 | ✅ **Fet** |
 | **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | ⏳ Pendent |
-| **F2.5** | Correccions de l'auditoria externa (DOIs, recomptes, privacitat, tests, MOC absent) | 1 setmana | 🔴 P0 | ✅ **Fet** |
-| **F3** | Reducció de fricció (schema, ZIP, guia, especificació, Paquet LLM-00) | 2-3 setmanes | 🟠 P1 | ⏳ Pendent |
+| **F2.5** | Correccions de l'auditoria externa | 1 setmana | 🔴 P0 | ✅ **Fet** |
+| **F3** | Reducció de fricció (schema, ZIP, guia, especificació, Paquets 00/01) | 2-3 setmanes | 🟠 P1 | 🟡 **Parcial** |
 | **F4** | Producte (okf-tools o plugin, un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
 | **F5** | Comunitat (Registry, MkDocs) | 6-12 mesos | 🟡 P2 | ⏳ Pendent |
 | **F6** | Integració de la prova d'usabilitat (Alícia) | quan hi hagi resultats | 🟠 P1 | ⏳ Pendent |
@@ -125,15 +130,17 @@
 - [x] Documentar relació 02/07 i fer portable el mini-vault (`dfd72c2`)
 - [x] MOC absent → `Y014` global (`d87437b`)
 
-### F3 · Reducció de fricció ⏳ **Pendent**
+### F3 · Reducció de fricció 🟡 **Parcial**
 
 - [ ] `01-cores/okf-core.schema.json` (validació en viu a VS Code / Obsidian)
 - [ ] ZIP preconfigurat del `vault-de-3-nodes`
 - [ ] Guia ràpida per a docents sense Git (`00-documentacio/09-arrencada-rapida.md`)
 - [ ] Publicar l'RFC-OKF-03 com a document consultable
 - [ ] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades
-- [ ] Convertir el Paquet LLM-00 en plantilla oficial (`04-plantilles/PLANTILLA-PaquetLLM-00.md`)
-- [ ] Documentar l'aproximació híbrida (docent genera amb IA, nosaltres validem)
+- [x] **Convertir el Paquet LLM-00 en plantilla oficial** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-00.md`, `f879dc4`)
+- [x] **Documentar l'aproximació inductiva (Paquet 01)** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-01.md`, `f879dc4`)
+- [x] **Taula de decisió inductiu/deductiu a `04-inici-rapid.md`** — **Fet** (`c610ad0`)
+- [x] **Secció «El docent no és un programador» a `02-filosofia.md`** — **Fet** (`f879dc4`)
 
 ### F4 · Producte (triar-ne un) ⏳ **Pendent**
 
@@ -159,7 +166,7 @@
 
 - [ ] Validar l'AEA de l'Alícia
 - [ ] Documentar la prova a `~/.hermes/okf-curs-0056/PROVA-USABILITAT.md`
-- [ ] Integrar els resultats al ROADMAP (v1.7)
+- [ ] Integrar els resultats al ROADMAP (v1.8)
 - [ ] Crear `HANDOFF-11` amb els resultats
 
 ---
@@ -175,10 +182,11 @@ La V1.4 no es publica fins que es compleixin:
 | Auditoria multi-catàleg | Cap interferència entre codis repetits | ✅ F1.3 |
 | MOC absent | Detectat amb `Y014` | ✅ F2.5.b2 |
 | Text de privacitat honest | Reflecteix el que el codi fa realment | ✅ F2.5.a |
+| Paquets d'onboarding | 00 (deductiu) i 01 (inductiu) documentats | ✅ F3 |
 | Validació de tipus | Completa per als camps nous | ⏳ F2 |
 | Excepcions no controlades | 0 en les proves negatives | ⏳ F2 |
 | Tests | Tots actius; cap `skip` sense justificació | ⏳ F2 |
-| Documentació | README, CHANGELOG, CONTRIBUTING i RFC sincronitzats | ✅ F0/F2.5 |
+| Documentació | README, CHANGELOG, CONTRIBUTING i RFC sincronitzats | ✅ F0/F2.5/F3 |
 | Prova d'usabilitat | Resultats integrats (o justificació de per què no) | ⏳ F6 |
 
 ---
@@ -220,8 +228,8 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-05 | 1.4 | Congelada. Aplicades les dues esmenes finals: `cataleg_versio` mogut de F1 a F0; HANDOFF-11 convertit en tasca explícita a F6. |
 | 2026-11-05 | 1.5 | **F0 i F1 completades.** Commits: F0-a `f75dedc`, F0-b `924223c`, F0-c `68ff50c`, F1.1 `0ff7d39`, F1.2 `0c13e0a`, F1.3 `eacc716`. |
 | 2026-11-05 | 1.6 | **F2.5 completada.** Commits: F2.5.a `3184e0d`, F2.5.b1 `dfd72c2`, F2.5.b2 `d87437b`. 75 tests. D3 descartat (falsos positius en Sanitat). MOC absent → `Y014`. Text de privacitat honest. |
+| 2026-11-05 | 1.7 | **Paquets 00/01 i filosofia.** Commits: `c610ad0` (taula de decisió a `04-inici-rapid.md`), `f879dc4` (secció 9 a `02-filosofia.md` + dos PLANTILLA). Resposta a la crítica «el docent es perdrà en els YAML». F3 parcial (4 tasques fetes). |
 
 ---
 
-**Fi del ROADMAP v1.6. F0, F1 i F2.5 completades. La propera versió (v1.7) es farà quan comenci F2 (robustesa del validador) o quan arribin els resultats de l'Alícia.**
-```
+**Fi del ROADMAP v1.7. F0, F1 i F2.5 completades. Paquets 00/01 documentats. La propera versió (v1.8) es farà quan comenci F2 o quan arribin els resultats de l'Alícia.**

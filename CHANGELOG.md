@@ -41,6 +41,13 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
   - Commit `dfd72c2`.
 - **F2.5.b2** · **MOC absent → `Y014`**: ara un vault sense cap node `MOC` emet `Y014` (`No MOC node found in vault`) a més dels `Y018` que corresponguin. La comprovació és global (després de validar tots els nodes) i només s'aplica a directoris. Commit `d87437b`.
 
+### F3 · Reducció de fricció (parcial)
+
+- **Taula de decisió inductiu/deductiu** a `00-documentacio/04-inici-rapid.md`: ajuda el docent a triar quin Paquet LLM fer servir segons el seu punt de partida. Commit `c610ad0`.
+- **Secció «El docent no és un programador»** a `00-documentacio/02-filosofia.md` (§9): respon a la crítica que el docent mitjà es perdrà en els YAML. El kit no pretén que els docents es converteixin en programadors, sinó que entenguin l'estructura del coneixement curricular i sàpiguen guiar una IA. Commit `f879dc4`.
+- **`PLANTILLA-PaquetLLM-00.md`** (Paquet deductiu): parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero. Commit `f879dc4`.
+- **`PLANTILLA-PaquetLLM-01.md`** (Paquet inductiu): parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la. Commit `f879dc4`.
+
 ### Descartat
 
 - **D3 (detecció de DNI/NIE en prosa)**: descartat. Un kit de Sanitat genera casos clínics ficticis amb DNIs inventats; un regex de DNI generaria falsos positius constants per a zero valor. El risc real es cobreix amb els flags de privacitat i la revisió manual (que el README ja documenta).
@@ -296,4 +303,3 @@ instruments d'avaluació estructurats).
 - **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`; V1.3 = `10.5281/zenodo.23964880`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
 - **Política del kit:** els headers i peus dels documents fan servir el **concept DOI** (descriuen el projecte, no una versió). Les **citacions APA/BibTeX de versió** (README, CONTRIBUTING, 00-index, article d'eDigital) fan servir el **DOI de versió** corresponent.
 - **Format del badge Zenodo:** `https://zenodo.org/badge/DOI/10.5281/zenodo.<id>.svg`. El format `https://zenodo.org/badge/<id>.svg` **no és vàlid** (retorna 404).
-```
