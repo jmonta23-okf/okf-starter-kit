@@ -191,7 +191,9 @@ De la fricció entre tots dos en va sortir el que realment importa: **un esquele
 - **OKF-CURS-MP1523** és una altra **adaptació d'OKF-CURS-FP**, en aquest cas per al mòdul MP1523 (Sanitat), feta amb en César G.
 - (Hi ha una tercera adaptació d'OKF-CURS-FP per a un docent d'ESO, que no apareix al diagrama per respectar la seva privacitat.)
 
-### Els Cores: components del kit, aplicats a tots els projectes
+---
+
+## 8 · Els Cores: components del kit, aplicats a tots els projectes
 
 Els Cores (`OKF-CORE-CATALA-00`, `OKF-CORE-FP-00`) **no són projectes de l'ecosistema**: són **components del kit** que fixen les regles mínimes (tipus universals, camps universals, enums, sintaxi d'enllaç) per a cada marc legal. Els vaig desenvolupar **per al kit**, però després els he aplicat a tots els projectes (TCAI-OKF, SAD-GRAF, OKF-CURS-FP, PTE-OKF, OKF-CURS-MP1523) per fer-los **interoperables**.
 
@@ -200,6 +202,23 @@ Així, un vault de TCAI pot heretar el Core Català o el Core FP, i un vault de 
 ### El kit com a síntesi
 
 L'**OKF Starter Kit** és la **síntesi genèrica** de TCAI-OKF i SAD-GRAF: agafa les idees fonamentals dels dos, les neutralitza (sense dades personals, sense marca de centre), i les publica perquè qualsevol docent les pugui fer servir. És el que tens a les mans.
+
+---
+
+## 9 · El docent no és un programador
+
+Una crítica habitual a aquest kit és que el docent mitjà no té un perfil tècnic i es perdrà en els fitxers YAML. La crítica és raonable, però parteix d'una premissa falsa: **que el docent ha de tocar els YAML a mà**.
+
+No és el cas. Cap docent no escriurà mai un YAML des de zero. Tots ho faran assistits per una IA. El kit no pretén que els docents es converteixin en programadors, sinó que **entenguin l'estructura del coneixement curricular** i tinguin les competències bàsiques per guiar una IA en la construcció del seu vault.
+
+Els **Paquets LLM** són les receptes que fan possible aquest diàleg. N'hi ha de dos tipus:
+
+- **Paquet 00 (enfocament deductiu):** parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero. Vegeu [`PLANTILLA-PaquetLLM-00.md`](../04-plantilles/PLANTILLA-PaquetLLM-00.md).
+- **Paquet 01 (enfocament inductiu):** parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la. Vegeu [`PLANTILLA-PaquetLLM-01.md`](../04-plantilles/PLANTILLA-PaquetLLM-01.md).
+
+Tots dos són vàlids. El primer produeix grafs formalment més perfectes; el segon, grafs operativament més útils.
+
+La lentitud del diàleg amb la IA no és un inconvenient: és el propòsit. Cada cop que el docent copia un YAML i el desa, aprèn què és un `id`, què és un `type`, per què hi ha camps universals. I si no ho entén, pot preguntar a la IA, que li explicarà.
 
 ---
 
@@ -222,3 +241,46 @@ L'**OKF Starter Kit** és la **síntesi genèrica** de TCAI-OKF i SAD-GRAF: agaf
 - [`03-arquitectura.md`](03-arquitectura.md): com està organitzat el sistema per dins.
 - [`04-inici-rapid.md`](04-inici-rapid.md): posa't a treballar en uns 30 minuts.
 ```
+
+---
+
+## Comandes per aplicar-ho i committejar
+
+1. **Substitueix el contingut de `00-documentacio/02-filosofia.md`** pel text de dalt.
+
+2. **Verifica l'estructura:**
+   ```bash
+   cd ~/.hermes/okf-starter-kit/
+   grep -n "^## \|^### " 00-documentacio/02-filosofia.md
+   ```
+   Hauries de veure:
+   ```
+   1:# Filosofia d'OKF
+   ...
+   ## 1 · ...
+   ## 2 · ...
+   ## 3 · ...
+   ### Declaració d'ús d'IA en aquest kit
+   ## 4 · ...
+   ## 5 · ...
+   ## 6 · ...
+   ## 7 · ...
+   ### L'ecosistema OKF-CATALA
+   ### Els dos orígens directes del kit
+   ### El curs formatiu i les seves adaptacions
+   ## 8 · Els Cores: components del kit, aplicats a tots els projectes
+   ### El kit com a síntesi
+   ## 9 · El docent no és un programador
+   ## Resum: els sis principis
+   ## Següents passos
+   ```
+
+3. **Commit dels 3 fitxers:**
+   ```bash
+   git add 00-documentacio/02-filosofia.md 04-plantilles/PLANTILLA-PaquetLLM-00.md 04-plantilles/PLANTILLA-PaquetLLM-01.md
+   git status --porcelain  # hauries de veure exactament 3 fitxers staged
+   git commit -m "Documentació: afegir secció filosofia inductiu/deductiu i els dos Paquets LLM"
+   git push
+   gh run list --limit 3
+   ```
+
