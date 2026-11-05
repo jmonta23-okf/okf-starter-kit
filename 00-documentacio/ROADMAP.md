@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-05 · **Versió del document:** 1.5 (F0 i F1 completades)
+> **Última revisió:** 2026-11-05 · **Versió del document:** 1.6 (F0, F1 i F2.5 completades)
 
 ---
 
@@ -15,15 +15,16 @@
 
 ---
 
-## 2 · Estat actual (2026-11-05, post-F0/F1)
+## 2 · Estat actual (2026-11-05, post-F0/F1/F2.5)
 
 | Component | Estat |
 |:---|:---|
-| Validador | v1.3.0, 38 codis, **73 passed + 1 skipped** |
+| Validador | v1.3.0, 38 codis, **75 passed + 1 skipped** |
 | Criteris (`criteris:`) | Format nou (dicts) + compatibilitat amb strings |
 | Instruments (`instruments_avaluacio`) | Format nou (dicts) + compatibilitat amb strings |
 | `--audit` | Mètriques noves + Y045/Y046/Y052, **per catàleg** |
 | CAs afegits | Camp `id` estable, referenciables des de `criteris_avaluacio` |
+| MOC absent | Detectat amb `Y014` (comprovació global, només per a directoris) |
 | Documentació | 7 documents actualitzats (14h-a, 14h-b) + ROADMAP + CHANGELOG |
 | Release | Tag `V1.3`, DOI `10.5281/zenodo.23964880` |
 | CI | Verd |
@@ -35,10 +36,16 @@
 - **Aproximació híbrida:** l'Alícia genera l'AEA amb el seu model d'IA (Paquet LLM-00), nosaltres la validem amb el validador i li tornem el resultat. No se li exigeix instal·lar Python.  
 - **Resultats pendents d'integrar.** És la informació més valuosa que tindrem: on es perd un docent real.
 
-**Problemes resolts a F0:**
-- ~~El badge del README encara diu V1.2.~~ → **Resolt** (F0-a, `f75dedc`).
-- ~~No hi ha `requirements.txt` ni `pyproject.toml`.~~ → **`requirements.txt` creat** (F0-a); `pyproject.toml` queda per a F4.
-- ~~`cataleg_versio` deprecated però encara present als exemples.~~ → **Eliminat** (F0-b, `924223c`).
+**Problemes resolts a F0/F1/F2.5:**
+- ~~El badge del README encara diu V1.2.~~ → **Resolt** (F0-a).
+- ~~No hi ha `requirements.txt`.~~ → **Creat** (F0-a).
+- ~~`cataleg_versio` deprecated als exemples.~~ → **Eliminat** (F0-b).
+- ~~DOIs desactualitzats a CONTRIBUTING, 00-index i article eDigital.~~ → **Actualitzats a V1.3** (F2.5.a).
+- ~~Recompte de plantilles i nodes incorrecte.~~ → **Corregit** (F2.5.a).
+- ~~Text de privacitat sobrepromès.~~ → **Ajustat** (F2.5.a).
+- ~~Tests de snapshot fallen sense `.git`.~~ → **Fan `skip`** (F2.5.a).
+- ~~Exemple mínim no portable.~~ → **Portable** (F2.5.b1).
+- ~~MOC absent mal diagnosticat.~~ → **`Y014` global** (F2.5.b2).
 
 ---
 
@@ -52,11 +59,11 @@
 
 ### 3.2 · Y052 i el format antic (P0 — decisió de disseny, no bug) ✅ **Fet a F1.2**
 
-**Implementat al commit `0c13e0a`.** Y052 no s'aplica si algun element de `instruments_avaluacio` no és un `dict` (format antic o mixt). Test de regressió inclòs (`test_y052_es_dispara_en_format_nou`).
+**Implementat al commit `0c13e0a`.** Y052 no s'aplica si algun element de `instruments_avaluacio` no és un `dict` (format antic o mixt). Test de regressió inclòs.
 
 **Criteri de tancament:** una fitxa amb instruments en format antic no genera Y052. ✅ Complert.
 
-**Pendent per a v1.4/v1.5:** afegir un warning textual quan es detecti format mixt (alguns dicts + alguns strings), perquè l'usuari sàpiga que té un estat estrany.
+**Pendent per a v1.4/v1.5:** afegir un warning textual quan es detecti format mixt (alguns dicts + alguns strings).
 
 ---
 
@@ -77,6 +84,7 @@
 | **F0** | Correccions immediates (badge, requirements, docstring, neteja) | 1-2 dies | 🔴 P0 | ✅ **Fet** |
 | **F1** | Consolidació semàntica (§3) | 2-3 setmanes | 🔴 P0 | ✅ **Fet** |
 | **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | ⏳ Pendent |
+| **F2.5** | Correccions de l'auditoria externa (DOIs, recomptes, privacitat, tests, MOC absent) | 1 setmana | 🔴 P0 | ✅ **Fet** |
 | **F3** | Reducció de fricció (schema, ZIP, guia, especificació, Paquet LLM-00) | 2-3 setmanes | 🟠 P1 | ⏳ Pendent |
 | **F4** | Producte (okf-tools o plugin, un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
 | **F5** | Comunitat (Registry, MkDocs) | 6-12 mesos | 🟡 P2 | ⏳ Pendent |
@@ -84,22 +92,21 @@
 
 ### F0 · Correccions immediates ✅ **Fet**
 
-- [x] Actualitzar el badge del README a V1.3 (`f75dedc`)
-- [x] Afegir `requirements.txt` amb `pyyaml` (`f75dedc`)
-- [x] Corregir la docstring interna dels Cores a `validar_yaml.py` (`V1.1.1/V1.0.1` → `V1.1.0/V1.1.2`) (`f75dedc`)
-- [x] Verificar `com-compartir.md` (no és duplicació, són complementaris) (`f75dedc`)
-- [x] Fusionar o eliminar les entrades `[No publicat]` del CHANGELOG (`924223c`)
-- [x] Eliminar `cataleg_versio` dels exemples (`924223c`)
-- [x] Netejar la prosa de `cataleg_versio` al MOC/Handoff (`68ff50c`)
-- [x] Netejar la cua anòmala de `07-com-compartir.md` (`68ff50c`)
-- [x] Actualitzar el BibTeX del README a V1.3 (`924223c`)
+- [x] Badge del README a V1.3 (`f75dedc`)
+- [x] `requirements.txt` amb `pyyaml` (`f75dedc`)
+- [x] Docstring dels Cores (`f75dedc`)
+- [x] `ROADMAP.md` a `00-documentacio/` (`f75dedc`)
+- [x] `[No publicat]` del CHANGELOG eliminades (`924223c`)
+- [x] `cataleg_versio` dels exemples eliminat (`924223c`)
+- [x] Prosa de `cataleg_versio` al MOC/Handoff (`68ff50c`)
+- [x] Cua anòmala de `07-com-compartir.md` (`68ff50c`)
+- [x] BibTeX `version = {V1.3}` (`924223c`)
 
 ### F1 · Consolidació semàntica ✅ **Fet**
 
-- [x] Resoldre §3.1 (identitat dels CAs afegits) — **F1.1 (`0ff7d39`)**
-- [x] Resoldre §3.2 (Y052 i format antic, com a decisió de disseny) — **F1.2 (`0c13e0a`)**
-- [x] Resoldre §4.1 (auditoria per catàleg) — **F1.3 (`eacc716`)**
-- [x] Afegir fixtures que reprodueixin cada problema abans de corregir-lo
+- [x] §3.1 · Identitat dels CAs afegits — **F1.1 (`0ff7d39`)**
+- [x] §3.2 · Y052 i format antic/mixt — **F1.2 (`0c13e0a`)**
+- [x] §4.1 · Auditoria per catàleg — **F1.3 (`eacc716`)**
 
 ### F2 · Robustesa del validador ⏳ **Pendent**
 
@@ -108,15 +115,25 @@
 - [ ] Validar que `criteris` d'instrument sigui una llista
 - [ ] Proves negatives (cap excepció no controlada)
 
+### F2.5 · Correccions de l'auditoria externa ✅ **Fet**
+
+- [x] DOIs actualitzats a V1.3 (`CONTRIBUTING`, `00-index`, article eDigital) (`3184e0d`)
+- [x] Recompte de plantilles (6 → 7) (`3184e0d`)
+- [x] Recompte de nodes del mini-vault (3 → 5) (`3184e0d`)
+- [x] Text de privacitat honest (flags, no prosa) (`3184e0d`)
+- [x] Tests de snapshot amb `skip` sense `.git` (`3184e0d`)
+- [x] Documentar relació 02/07 i fer portable el mini-vault (`dfd72c2`)
+- [x] MOC absent → `Y014` global (`d87437b`)
+
 ### F3 · Reducció de fricció ⏳ **Pendent**
 
 - [ ] `01-cores/okf-core.schema.json` (validació en viu a VS Code / Obsidian)
 - [ ] ZIP preconfigurat del `vault-de-3-nodes`
 - [ ] Guia ràpida per a docents sense Git (`00-documentacio/09-arrencada-rapida.md`)
 - [ ] Publicar l'RFC-OKF-03 com a document consultable
-- [ ] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades (camps, tipus, invariants, compatibilitat). **No crear un document nou** tret que el model creixi fins al punt que ho justifiqui.
-- [ ] Convertir el Paquet LLM-00 (actualment `05_Paquet_LLM-00.md` al vault de l'Alícia) en plantilla oficial (`04-plantilles/PLANTILLA-PaquetLLM-00.md`) i documentar-lo com a via recomanada per crear fitxes AEA.
-- [ ] Documentar l'aproximació híbrida (docent genera amb IA, nosaltres validem) com a via d'entrada per a docents sense Python.
+- [ ] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades
+- [ ] Convertir el Paquet LLM-00 en plantilla oficial (`04-plantilles/PLANTILLA-PaquetLLM-00.md`)
+- [ ] Documentar l'aproximació híbrida (docent genera amb IA, nosaltres validem)
 
 ### F4 · Producte (triar-ne un) ⏳ **Pendent**
 
@@ -140,21 +157,10 @@
 
 **Quan arribin els resultats:**
 
-- [ ] Validar l'AEA de l'Alícia:
-  - Desar-la al vault: `~/.hermes/okf-curs-0056/06_Fitxa_AEA_1.md`.
-  - Executar `validar_yaml.py --ruta .` i `--audit` sobre el vault.
-  - Reportar: errors, codis Y disparats, si l'auditoria ha passat de 43 orfes a menys orfes.
-- [ ] Documentar la prova a `~/.hermes/okf-curs-0056/PROVA-USABILITAT.md`:
-  - Temps per fase (descàrrega, comprensió, generació, revisió, validació).
-  - Errors comesos (del model o de l'Alícia).
-  - Punts de fricció (on ha necessitat ajuda).
-  - Feedback qualitatiu (què li ha agradat, què canviaria, què li ha sobrat, què li ha faltat).
-- [ ] Integrar els resultats al ROADMAP (v1.6):
-  - Afegir les troballes a §3 (si són problemes del model) o a §5 F3 (si són problemes de fricció).
-  - Actualitzar §9 (registre de revisions).
-- [ ] Crear `HANDOFF-11` amb els resultats de la prova i les seves conclusions.
-
-**Nota:** no modificar el kit (`~/.hermes/okf-starter-kit/`) fins que tinguem els resultats. Les correccions al kit es faran a la v1.4.
+- [ ] Validar l'AEA de l'Alícia
+- [ ] Documentar la prova a `~/.hermes/okf-curs-0056/PROVA-USABILITAT.md`
+- [ ] Integrar els resultats al ROADMAP (v1.7)
+- [ ] Crear `HANDOFF-11` amb els resultats
 
 ---
 
@@ -167,10 +173,12 @@ La V1.4 no es publica fins que es compleixin:
 | CAs afegits | Referenciables de manera inequívoca | ✅ F1.1 |
 | Y052 | Decisió de disseny documentada; sense falsos positius en formats antics | ✅ F1.2 |
 | Auditoria multi-catàleg | Cap interferència entre codis repetits | ✅ F1.3 |
+| MOC absent | Detectat amb `Y014` | ✅ F2.5.b2 |
+| Text de privacitat honest | Reflecteix el que el codi fa realment | ✅ F2.5.a |
 | Validació de tipus | Completa per als camps nous | ⏳ F2 |
 | Excepcions no controlades | 0 en les proves negatives | ⏳ F2 |
 | Tests | Tots actius; cap `skip` sense justificació | ⏳ F2 |
-| Documentació | README, CHANGELOG, CONTRIBUTING i RFC sincronitzats | ✅ F0 |
+| Documentació | README, CHANGELOG, CONTRIBUTING i RFC sincronitzats | ✅ F0/F2.5 |
 | Prova d'usabilitat | Resultats integrats (o justificació de per què no) | ⏳ F6 |
 
 ---
@@ -186,6 +194,7 @@ La V1.4 no es publica fins que es compleixin:
 | Guardar els informes originals | El full de ruta n'integra les aportacions; els informes es descarten |
 | Canviar els 8 camps universals o els 9 tipus universals | Són la base de la interoperabilitat; no es toquen |
 | Crear un document separat d'especificació del model | Massa sobreenginyeria; per defecte s'amplia `09-graf-curricular.md`. **Excepció:** si el model creix fins al punt que ho justifiqui, es pot crear un document nou. |
+| **D3 · Detecció de DNI/NIE en prosa** | **Falsos positius garantits** en un kit de Sanitat (casos clínics ficticis amb DNI inventat). El risc real es cobreix amb els flags de privacitat i la revisió manual, no amb un regex. |
 
 ---
 
@@ -208,9 +217,11 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-05 | 1.1 | Revisió: §3.3 reformulat com a decisió de disseny; §3.2 baixa a P1; afegida la prova de l'Alícia (F6); afegides l'especificació del model i el Paquet LLM-00 a F3 |
 | 2026-11-05 | 1.2 | Enriquit amb detalls del brief de la prova d'usabilitat: vault `okf-curs-0056`, 43 CAs, aproximació híbrida, Paquet LLM-00 com a `05_Paquet_LLM-00.md`, passos concrets per integrar els resultats (F6), i referència a HANDOFF-11 |
 | 2026-11-05 | 1.3 | Aplicades les tres esmenes de la valoració: excepció a §7 (especificació del model), cross-referències a §2 (→ F0/F1), i docstring dels Cores a F0 |
-| 2026-11-05 | 1.4 | Congelada. Aplicades les dues esmenes finals: `cataleg_versio` mogut de F1 a F0 (és neteja, no consolidació); HANDOFF-11 convertit en tasca explícita a F6. |
-| 2026-11-05 | 1.5 | **F0 i F1 completades.** Commits: F0-a `f75dedc`, F0-b `924223c`, F0-c `68ff50c`, F1.1 `0ff7d39`, F1.2 `0c13e0a`, F1.3 `eacc716`. Actualitzats §2 (problemes resolts, 73 tests), §3.1/§3.2/§4.1 (marcats com a fets), §5 (F0/F1 ✅), §6 (taula d'estat). La propera actualització serà v1.6, quan arribin els resultats de la prova d'usabilitat o comenci F2. |
+| 2026-11-05 | 1.4 | Congelada. Aplicades les dues esmenes finals: `cataleg_versio` mogut de F1 a F0; HANDOFF-11 convertit en tasca explícita a F6. |
+| 2026-11-05 | 1.5 | **F0 i F1 completades.** Commits: F0-a `f75dedc`, F0-b `924223c`, F0-c `68ff50c`, F1.1 `0ff7d39`, F1.2 `0c13e0a`, F1.3 `eacc716`. |
+| 2026-11-05 | 1.6 | **F2.5 completada.** Commits: F2.5.a `3184e0d`, F2.5.b1 `dfd72c2`, F2.5.b2 `d87437b`. 75 tests. D3 descartat (falsos positius en Sanitat). MOC absent → `Y014`. Text de privacitat honest. |
 
 ---
 
-**Fi del ROADMAP v1.5. F0 i F1 completades. La propera versió (v1.6) es farà quan arribin els resultats de l'Alícia o quan comenci F2.**
+**Fi del ROADMAP v1.6. F0, F1 i F2.5 completades. La propera versió (v1.7) es farà quan comenci F2 (robustesa del validador) o quan arribin els resultats de l'Alícia.**
+```

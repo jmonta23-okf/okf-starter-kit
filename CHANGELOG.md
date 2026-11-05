@@ -26,11 +26,30 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **F1.2** · **`Y052` no s'aplica a fitxes amb instruments en format antic o mixt** (alguns elements no són `dict`). Elimina falsos positius durant la migració. Test de regressió inclòs. Commit `0c13e0a`.
 - **F1.3** · **Auditoria per catàleg**: `Y045` i `Y046` es calculen per catàleg, no globalment. El veredicte global és `INCOMPLET` si **algun** catàleg té orfes o inexistents. Els missatges inclouen l'`id` del catàleg (`(catalog: MP1519-CAT-00)`). Commit `eacc716`.
 
+### F2.5 · Correccions de l'auditoria externa
+
+- **F2.5.a** · Correccions de baix cost i alt impacte detectades per l'auditoria externa:
+  - DOIs actualitzats a V1.3 (`23964880`) a `CONTRIBUTING.md`, `00-documentacio/00-index.md` i `06-comunitat/03-article-edigital.md`.
+  - Recompte de plantilles corregit: «6» → «7» (a `README.md` i `04-plantilles/README.md`).
+  - Recompte de nodes del mini-vault corregit: «3» → «5» (a `00-documentacio/04-inici-rapid.md`).
+  - **Text de privacitat honest**: el README diu que el validador comprova la coherència dels flags de privacitat (`dades_personals`, `anonimitzat`, `visibilitat`), no que «detecta dades personals». La detecció de dades personals en prosa és responsabilitat del docent (revisió manual).
+  - **Tests de snapshot resilients sense `.git`**: `test_snapshot_format` i `test_snapshot_deterministic` fan `skip` si no hi ha `.git` (per exemple, quan es baixa el ZIP de GitHub).
+  - Commit `3184e0d`.
+- **F2.5.b1** · Documentació i portabilitat:
+  - Documentada la relació entre `02-exemple-complet/` i `07-exemple-mp1519/`: són dues variants del mateix mòdul (MP 1519), totes dues amb el format nou de la V1.3. La diferència principal és el MOC (`07` és més detallat). `07-exemple-mp1519/` es va crear al **Bloc 12d** com a exemple focalitzat de l'arquitectura de dues capes.
+  - **Mini-vault portable**: eliminat l'enllaç a `../../01-cores/` de `05-exemples-minims/vault-de-3-nodes/03_C1_Convencio.md`. El mini-vault ja no depèn de carpetes del kit.
+  - Commit `dfd72c2`.
+- **F2.5.b2** · **MOC absent → `Y014`**: ara un vault sense cap node `MOC` emet `Y014` (`No MOC node found in vault`) a més dels `Y018` que corresponguin. La comprovació és global (després de validar tots els nodes) i només s'aplica a directoris. Commit `d87437b`.
+
+### Descartat
+
+- **D3 (detecció de DNI/NIE en prosa)**: descartat. Un kit de Sanitat genera casos clínics ficticis amb DNIs inventats; un regex de DNI generaria falsos positius constants per a zero valor. El risc real es cobreix amb els flags de privacitat i la revisió manual (que el README ja documenta).
+
 ### Estat
 
 - Validador v1.3.0, **38 codis**, 0 errors.
 - `--audit` per catàleg: 2 catàlegs coberts, 52/52/0/0.
-- **73 tests passed, 1 skipped.**
+- **75 tests passed, 1 skipped.**
 - CI verd.
 - **Política de retirada:** els formats antics de `criteris:` i `instruments_avaluacio` s'eliminaran a la v1.4. Fins llavors, s'accepten amb warning. El warning de format mixt (alguns elements dict + alguns strings) s'afegirà a la v1.4/v1.5.
 
@@ -277,3 +296,4 @@ instruments d'avaluació estructurats).
 - **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`; V1.3 = `10.5281/zenodo.23964880`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
 - **Política del kit:** els headers i peus dels documents fan servir el **concept DOI** (descriuen el projecte, no una versió). Les **citacions APA/BibTeX de versió** (README, CONTRIBUTING, 00-index, article d'eDigital) fan servir el **DOI de versió** corresponent.
 - **Format del badge Zenodo:** `https://zenodo.org/badge/DOI/10.5281/zenodo.<id>.svg`. El format `https://zenodo.org/badge/<id>.svg` **no és vàlid** (retorna 404).
+```
