@@ -34,6 +34,7 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 | **`06-faq.md`** | **[Preguntes freqüents](./06-faq.md)** | Respostes a dubtes comuns sobre formats, canvis de centre, relació amb la IA, protecció de dades i inspecció. | 10 min |
 | **`07-com-compartir.md`** | **[Com compartir](./07-com-compartir.md)** | Guia per publicar el teu vault, aplicar llicències lliures i col·laborar amb la comunitat educativa. | 10 min |
 | **`08-relacio-amb-estandards.md`** | **[Relació amb estàndards](./08-relacio-amb-estandards.md)** | Com es posiciona el kit respecte a OKF (Google), CASE, LRMI, Schema.org, OOAPI i Esfer@/SAGA. | 15 min |
+| **`ROADMAP.md`** | **[Full de ruta](./ROADMAP.md)** | Document intern de planificació del projecte. | 10 min |
 ---
 
 ## Comunitat i difusió

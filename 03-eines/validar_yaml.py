@@ -4,7 +4,7 @@
 validar_yaml.py — Validador YAML de vaults OKF (OKF Starter Kit) v1.3.0
 
 Validador genèric i reutilitzable per a qualsevol vault creat amb el
-OKF Starter Kit. Sincronitzat amb els Cores del kit (V1.1.1 / V1.0.1):
+OKF Starter Kit. Sincronitzat amb els Cores del kit (V1.1.0 / V1.1.2):
 
   - 8 camps universals obligatoris (id, type, title, version,
     data_ultima_actualitzacio, authors, llicencia, tags), segons els
