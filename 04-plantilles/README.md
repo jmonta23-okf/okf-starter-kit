@@ -14,7 +14,7 @@ Aquesta carpeta conté les plantilles de nodes del OKF Starter Kit. Una **planti
 
 Totes les plantilles passen el validador tal com són, amb els valors d'exemple.
 
-## Les 6 plantilles
+## Les 7 plantilles
 
 | Plantilla | Tipus | Categoria | Descripció |
 |:---|:---|:---|:---|

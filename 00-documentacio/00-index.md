@@ -96,7 +96,7 @@ Els documents de traspàs de context (*Handoffs*) són **fora del repositori pú
 
 Si fas servir aquest kit en un treball acadèmic, una publicació o un article:
 
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.2) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23888081
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.3) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23964880
 
 Per als detalls complets (APA, BibTeX, text pla), consulta la secció **[Com citar aquest projecte](../README.md#com-citar-aquest-projecte)** del README principal.
 

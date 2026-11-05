@@ -135,7 +135,7 @@ La guia completa de l'arquitectura de dues capes és a [`00-documentacio/09-graf
 
 Si la teva contribució es publica en un treball acadèmic o una comunicació, pots citar el projecte així:
 
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.2) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23888081
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular* (V1.3) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23964880
 
 Per als detalls complets (APA, BibTeX, text pla), consulta la secció **[Com citar aquest projecte](README.md#com-citar-aquest-projecte)** del README principal.
 

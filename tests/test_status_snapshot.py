@@ -35,6 +35,17 @@ def init_repo(path):
     subprocess.run(["git", "commit", "-m", "init"], cwd=path, check=True)
 
 
+def has_git():
+    """
+    True si l'arrel del repo en prova té un directori .git propi.
+
+    Coherent amb 03-eines/status_snapshot.py (que comprova `(repo / '.git').exists()`):
+    un `git rev-parse --git-dir` caminant cap amunt trobaria repos avantpassats
+    (p. ex. /opt/data/.git) i donaria falsos positius.
+    """
+    return (REPO_ROOT / ".git").exists()
+
+
 def test_snapshot_runs(tmp_path):
     """L'snapshot s'executa en un repo git buit i retorna exit 0."""
     init_repo(tmp_path)
@@ -42,6 +53,7 @@ def test_snapshot_runs(tmp_path):
     assert result.returncode == 0, result.stderr
 
 
+@pytest.mark.skipif(not has_git(), reason="requires a git repository")
 def test_snapshot_format():
     """L'output conté les capçaleres esperades i les seccions."""
     result = run_snapshot("--quick")
@@ -56,6 +68,7 @@ def test_snapshot_format():
     assert "--- files_summary ---" in out
 
 
+@pytest.mark.skipif(not has_git(), reason="requires a git repository")
 def test_snapshot_deterministic():
     """Dues execucions seguides donen el mateix output (excepte timestamp)."""
     r1 = run_snapshot("--quick")

@@ -73,4 +73,4 @@ Si us sona bé, el taller és obert. Porteu el cafè.
 
 **Com citar aquest article:**
 
-> Montañà Piqué, J. (2026). *Del laboratori a la sala de mestres: un currículum que és una xarxa viva*. OKF Starter Kit (V1.2). Zenodo. https://doi.org/10.5281/zenodo.23888081
+> Montañà Piqué, J. (2026). *Del laboratori a la sala de mestres: un currículum que és una xarxa viva*. OKF Starter Kit (V1.3). Zenodo. https://doi.org/10.5281/zenodo.23964880

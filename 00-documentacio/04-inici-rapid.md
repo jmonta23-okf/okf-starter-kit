@@ -45,7 +45,7 @@ okf-starter-kit/
 ├── 02-exemple-complet/    # Mòdul sencer desplegat (Sanitat, MP1519)
 ├── 03-eines/              # El validador estàtic en Python (validar_yaml.py)
 ├── 04-plantilles/         # Les 7 plantilles canòniques per crear nodes
-├── 05-exemples-minims/    # El laboratori de proves (vault de 3 nodes)
+├── 05-exemples-minims/    # El laboratori de proves (vault de 5 nodes)
 └── 06-comunitat/          # Espai de compartició comunitària
 ```
 
