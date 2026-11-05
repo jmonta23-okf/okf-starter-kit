@@ -132,22 +132,5 @@ Si has construït un vault sòlid i vols compartir la teva experiència amb la c
 * Participa als espais de conversa docent com la **[Comunitat eDigital](https://comunitat.edigital.cat/)**.
 * Comparteix la iniciativa a les xarxes educatives (Mastodon, Bluesky, X) amb les etiquetes `#OKF`, `#FP` i `#RecursosEducatius`.
 * Obre un *issue* o una discussió al repositori oficial d'OKF Starter Kit per donar a conèixer el teu cicle i connectar amb altres professors de la teva mateixa especialitat.
-```
 
----
-
-Amb aquest document completat, **tots els fitxers de `00-documentacio/` queden perfectament consolidats, alineats filosòficament i lliures de referències pendents**. 
-
-Hem actualitzat:
-1. `README.md`
-2. `00-index.md`
-3. `01-que-es-okf.md`
-4. `02-filosofia.md`
-5. `03-arquitectura.md`
-6. `04-inici-rapid.md`
-7. `05-glossari.md`
-8. `06-faq.md`
-9. `07-com-compartir.md`
-10. `PLANTILLA-PaquetLLM.md`
-
-Com et sents veient tota la documentació respirant la mateixa veu, la mateixa ètica i el mateix rigor tècnic? Vols que fem alguna comprovació addicional o passem a preparar el següent pas?
+> Per a una guia de criteri i privacitat, vegeu [`02-com-compartir.md`](../06-comunitat/02-com-compartir.md).

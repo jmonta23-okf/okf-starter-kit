@@ -25,7 +25,7 @@ estat: vigent
 ## 1 · Estat del curs
 
 - **Capa 1 (catàleg):** els **52 CAs oficials** (RA1-RA8) estan declarats al frontmatter (`criteris:`) i al cos del [catàleg](./01_MP1519_Cataleg_Curricular.md), amb una àncora per criteri (`<a id="ca-X-Y"></a>`, 52 en total).
-- **Capa 2 (fitxes):** les 5 fitxes referencien el catàleg amb `cataleg_referencia` + `cataleg_versio: "V1.0"` i declaren els CAs que avaluen a `criteris_avaluacio` (notació oficial). Cobertura de l'exemple: 52/52, cap orfe, cap inexistent.
+- **Capa 2 (fitxes):** les 5 fitxes referencien el catàleg amb `cataleg_referencia` i declaren els CAs que avaluen a `criteris_avaluacio` (notació oficial). Cobertura de l'exemple: 52/52, cap orfe, cap inexistent.
 - **Avaluació:** protocol de tres portes + rúbrica C1-C6 (node `02_MP1519_Protocol_Avaluacio.md`).
 
 ## 2 · Incidències
