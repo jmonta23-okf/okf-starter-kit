@@ -7,6 +7,35 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
+## [No publicat] — propera versió
+
+### F0 · Neteja i coherència inicial
+
+- **Badge del README** actualitzat a V1.3.
+- **`requirements.txt`** creat amb `pyyaml>=6.0`.
+- **Docstring dels Cores** corregida (`V1.1.0 / V1.1.2`).
+- **`ROADMAP.md`** mogut a `00-documentacio/` (exclòs del validador) i afegit a l'índex.
+- **CHANGELOG**: eliminades les entrades `[No publicat]` redundants (la [V1.3] ja les resumeix).
+- **`cataleg_versio`** eliminat de les 10 fitxes AEA i de la prosa del MOC/Handoff.
+- **BibTeX del README** actualitzat a `version = {V1.3}`.
+- **`07-com-compartir.md`**: netejada la cua anòmala (fence orfe + fragment conversacional) i afegit enllaç a `02-com-compartir.md`.
+
+### F1 · Consolidació semàntica (RFC-OKF-03)
+
+- **F1.1** · **Identitat dels CAs afegits**: nou camp `id` als CAs amb `afegit: true`, perquè puguin ser referenciats des de `criteris_avaluacio`. `Y045` deixa de disparar-se si el CA afegit és referenciat per `id`. Fallback a `guia` per a CAs sense `id` (compatibilitat). Commit `0ff7d39`.
+- **F1.2** · **`Y052` no s'aplica a fitxes amb instruments en format antic o mixt** (alguns elements no són `dict`). Elimina falsos positius durant la migració. Test de regressió inclòs. Commit `0c13e0a`.
+- **F1.3** · **Auditoria per catàleg**: `Y045` i `Y046` es calculen per catàleg, no globalment. El veredicte global és `INCOMPLET` si **algun** catàleg té orfes o inexistents. Els missatges inclouen l'`id` del catàleg (`(catalog: MP1519-CAT-00)`). Commit `eacc716`.
+
+### Estat
+
+- Validador v1.3.0, **38 codis**, 0 errors.
+- `--audit` per catàleg: 2 catàlegs coberts, 52/52/0/0.
+- **73 tests passed, 1 skipped.**
+- CI verd.
+- **Política de retirada:** els formats antics de `criteris:` i `instruments_avaluacio` s'eliminaran a la v1.4. Fins llavors, s'accepten amb warning. El warning de format mixt (alguns elements dict + alguns strings) s'afegirà a la v1.4/v1.5.
+
+---
+
 ## [V1.3] — 2026-11-04
 
 ### Completitud normativa del graf de dues capes (RFC-OKF-03)
@@ -238,13 +267,13 @@ instruments d'avaluació estructurats).
 
 ### Notes
 - Aquesta és la primera versió del kit. És un esborrany i pot canviar.
-- El validador és una adaptació del TCAI-OKF, pensada per a un kit genèric.
+- El validador és una adaptació del TCAI-OKF, pensat per a un kit genèric.
 
 ---
 
 ## Notes sobre el versionat
 
 - **Concept DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) — sempre apunta a l'última versió del projecte. **Recomanat per a citacions generals**, per a headers de documents i per al badge del README.
-- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
+- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`; V1.3 = `10.5281/zenodo.23964880`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
 - **Política del kit:** els headers i peus dels documents fan servir el **concept DOI** (descriuen el projecte, no una versió). Les **citacions APA/BibTeX de versió** (README, CONTRIBUTING, 00-index, article d'eDigital) fan servir el **DOI de versió** corresponent.
 - **Format del badge Zenodo:** `https://zenodo.org/badge/DOI/10.5281/zenodo.<id>.svg`. El format `https://zenodo.org/badge/<id>.svg` **no és vàlid** (retorna 404).
