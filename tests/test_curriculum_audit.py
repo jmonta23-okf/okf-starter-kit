@@ -256,3 +256,46 @@ def test_y046_ca_nomes_sintesi(tmp_path):
     assert "Y046" in codis
     assert v.CODIS_ERROR["Y046"][1] == "🟡 Mitjana"
     assert "Verdicte: COBERT" in "\n".join(linies)
+
+
+def test_audit_per_cataleg_no_barreja(tmp_path):
+    """Dos catàlegs amb el mateix codi: la cobertura d'un NO emmascara l'altre (F1.3)."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    # Catàleg A (MP1519): CA 1.1, cobert analíticament per la seva fitxa.
+    (tmp_path / "01_Cataleg_A.md").write_text(node_cataleg(
+        nid="MP1519-CAT-00", criteris={"RA1": ["1.1"]}, ancres_cos=["1-1"]))
+    # Catàleg B (MP1520): CA 1.1 — cap fitxa seva el cobreix.
+    (tmp_path / "02_Cataleg_B.md").write_text(node_cataleg(
+        nid="MP1520-CAT-00", criteris={"RA1": ["1.1"]}, ancres_cos=["1-1"]))
+    (tmp_path / "03_Fitxa_A.md").write_text(node_fitxa("MP1519-AEA-01", ["1.1"], cataleg="01_Cataleg_A.md"))
+    (tmp_path / "04_Fitxa_B.md").write_text(node_fitxa("MP1520-AEA-01", [], cataleg="02_Cataleg_B.md"))
+    linies, exit_code, errors = v.audit_curricular(str(tmp_path))
+    text = "\n".join(linies)
+    # A cobert, B incomplet (orfe 1.1), verdicte global incomplet.
+    assert "CAs orfes: 1" in text
+    assert text.count("Verdicte: COBERT") == 1       # A
+    assert "Verdicte: INCOMPLET" in text              # B
+    assert exit_code == 1
+    codis = [e[0] for e in errors]
+    assert "Y045" not in codis
+    assert "Y046" not in codis
+
+
+def test_audit_per_cataleg_y046(tmp_path):
+    """Mateix codi en dos catàlegs: només el cobert per síntesi genera Y046 (F1.3)."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg_A.md").write_text(node_cataleg(
+        nid="MP1519-CAT-00", criteris={"RA1": ["1.1"]}, ancres_cos=["1-1"]))
+    (tmp_path / "02_Cataleg_B.md").write_text(node_cataleg(
+        nid="MP1520-CAT-00", criteris={"RA1": ["1.1"]}, ancres_cos=["1-1"]))
+    (tmp_path / "03_Fitxa_A.md").write_text(node_fitxa("MP1519-AEA-01", ["1.1"], cataleg="01_Cataleg_A.md", naturalesa="sintesi"))
+    (tmp_path / "04_Fitxa_B.md").write_text(node_fitxa("MP1520-AEA-01", ["1.1"], cataleg="02_Cataleg_B.md"))
+    linies, exit_code, errors = v.audit_curricular(str(tmp_path))
+    assert "Verdicte: COBERT" in "\n".join(linies)
+    assert exit_code == 0
+    y046 = [e for e in errors if e[0] == "Y046"]
+    assert len(y046) == 1                                  # només el catàleg A (síntesi)
+    assert "MP1519-CAT-00" in y046[0][1]
+    assert "MP1520-CAT-00" not in y046[0][1]
+    codis = [e[0] for e in errors]
+    assert "Y045" not in codis

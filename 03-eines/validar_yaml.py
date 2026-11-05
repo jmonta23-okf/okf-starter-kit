@@ -1298,6 +1298,7 @@ def audit_curricular(vault_path, strict_versio=False):
         if isinstance(d, dict) and tipus_normalitzat(d) == "CatalegCurricular":
             criteris = d.get("criteris")
             catalegs[str(Path(r).resolve())] = {
+                "id": d.get("id"),
                 "version": str(d.get("version", "")),
                 "criteris": normalitzar_criteris(criteris if isinstance(criteris, dict) else {}),
                 "fitxes": [],
@@ -1323,11 +1324,8 @@ def audit_curricular(vault_path, strict_versio=False):
     tots_cas_decret = set()
     tots_cas_coberts = set()
 
-    # Bloc 14g: acumuladors globals per a les mètriques noves i Y045/Y046.
+    # Acumuladors globals per a les mètriques (Y045/Y046 es calculen per catàleg, F1.3).
     errors_audit = []
-    tots_referenciats = set()
-    tots_sintesi = set()
-    tots_afegits_ids = set()
     total_ctx = 0
     total_afegits = 0
 
@@ -1335,8 +1333,10 @@ def audit_curricular(vault_path, strict_versio=False):
         codis_decret = _codis_criteris(info["criteris"])
         total_decret = len(codis_decret)
         tots_cas_decret |= codis_decret
+        cat_label = str(info.get("id") or ruta_cat)
 
         # Mètriques del format nou: contextualitzats i afegits (per catàleg).
+        afegits_ids_cat = set()
         for llista in info["criteris"].values():
             if not isinstance(llista, list):
                 continue
@@ -1353,14 +1353,15 @@ def audit_curricular(vault_path, strict_versio=False):
                         else element.get("guia")
                     )
                     if ident is not None:
-                        tots_afegits_ids.add(str(ident))
+                        afegits_ids_cat.add(str(ident))
 
         analitics = set()
         sintesi = set()
         mismatch = 0
+        referenciats_cat = set()
         for _r, d in info["fitxes"]:
             codis = {str(c) for c in (d.get("criteris_avaluacio") or [])}
-            tots_referenciats |= codis
+            referenciats_cat |= codis
             if d.get("naturalesa") == "sintesi":
                 sintesi |= codis
             else:
@@ -1370,7 +1371,6 @@ def audit_curricular(vault_path, strict_versio=False):
                 mismatch += 1
 
         tots_cas_coberts |= analitics
-        tots_sintesi |= sintesi
         coberts_cat = analitics | sintesi
         orfes = codis_decret - coberts_cat
         inexistents = coberts_cat - codis_decret
@@ -1394,6 +1394,7 @@ def audit_curricular(vault_path, strict_versio=False):
             sortida = max(sortida, 1)
 
         linies.append(f"=== Cobertura curricular: {ruta_cat} ===")
+        linies.append(f"ID del catàleg: {cat_label}")
         linies.append(f"Versió del catàleg: {info['version']}")
         linies.append(f"Total CAs al decret: {total_decret}")
         linies.append(f"CAs avaluats (analítics): {len(analitics)}")
@@ -1402,26 +1403,26 @@ def audit_curricular(vault_path, strict_versio=False):
         linies.append(f"CAs inexistents: {len(inexistents)}")
         linies.append(f"Mismatch de versió: {mismatch} (deprecated, informatiu)")
         linies.append(f"Verdicte: {verdicte}")
+
+        # Y045 i Y046 per catàleg (F1.3): la cobertura d'un catàleg no emmascara l'altre.
+        for ident in sorted(afegits_ids_cat - referenciats_cat):
+            errors_audit.append((
+                "Y045",
+                f"CA '{ident}' added but not referenced by any FitxaAEA (catalog: {cat_label})",
+                "Afegir el CA a una fitxa o treure'l del catàleg",
+            ))
+        nomes_sintesi_cat = (sintesi & codis_decret) - analitics
+        for codi in sorted(nomes_sintesi_cat):
+            errors_audit.append((
+                "Y046",
+                f"CA '{codi}' covered only by synthesis AEAs (catalog: {cat_label})",
+                "Cobrir el CA amb una fitxa analítica o justificar-ne la síntesi",
+            ))
+
         linies.append("")
 
     if not catalegs:
         sortida = 2
-
-    # Y045: CA afegit no referenciat per cap FitxaAEA (Bloc 14g).
-    for ident in sorted(tots_afegits_ids - tots_referenciats):
-        errors_audit.append((
-            "Y045",
-            f"CA '{ident}' added but not referenced by any FitxaAEA",
-            "Afegir el CA a una fitxa o treure'l del catàleg",
-        ))
-    # Y046: CA cobert només per fitxes de síntesi (Bloc 14g).
-    nomes_sintesi_globals = (tots_sintesi & tots_cas_decret) - tots_cas_coberts
-    for codi in sorted(nomes_sintesi_globals):
-        errors_audit.append((
-            "Y046",
-            f"CA '{codi}' covered only by synthesis AEAs",
-            "Cobrir el CA amb una fitxa analítica o justificar-ne la síntesi",
-        ))
 
     linies.append("=== Resum ===")
     linies.append(f"Catàlegs analitzats: {len(catalegs)}")
