@@ -94,4 +94,4 @@ Sintaxi wiki (dobles claudàtors, estil Obsidian) prohibida, com fixa el Core.
 ## Relacions (Graf)
 
 - Complementa: [MOC del vault](./00_C1_MOC.md)
-- Complementa: [OKF-CORE-FP-00](../../01-cores/OKF-CORE-FP-00.md) — core del marc FP (origen LOGSE inclòs).
+- Complementa: els Cores del kit (OKF-CORE-FP-00, core del marc FP amb l'origen LOGSE inclòs). Referència textual, sense enllaç, per mantenir el mini-vault portable.

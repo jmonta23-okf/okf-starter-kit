@@ -136,10 +136,13 @@ Tots els nodes OKF del vault han passat la validació sense errors.
 | **`00-documentacio/`** | Filosofia, arquitectura, FAQ i manuals d'acollida | Per entendre com estructurar el teu pensament docent en xarxa. |
 | **`01-cores/`** | Nuclis curriculars oficials (LOMLOE i FP) | L'esquelet legal predefinit, perquè no hagis de picar decrets a mà. |
 | **`02-exemple-complet/`** | Un mòdul complet desplegat (MP1519, 14 nodes) | Un mirall de referència real: 5 AEAs, protocol de 3 portes, Paquet LLM i validador determinista. |
+| **`07-exemple-mp1519/`** | El mateix mòdul MP1519 com a exemple de l'**arquitectura de dues capes** (9 nodes: MOC detallat, catàleg, protocol, 5 fitxes, convenció i handoff) | Exemple focalitzat en catàleg + fitxes (amb convenció d'àlies), sense les eines del desplegament complet. |
 | **`03-eines/`** | Validador (`validar_yaml.py`) i snapshot d'estat (`status_snapshot.py`) | El validador comprova el compliment dels Cores: 8 camps universals, 9 tipus universals, tipus de família de la Convenció, enllaços, enums i la coherència dels flags de privacitat. L'snapshot genera un resum de l'estat del repo (branca, commits, validador, tests, nodes) en text pla. |
 | **`04-plantilles/`** | 7 plantilles preparades (MOC, UD, PaquetLLM…) | Duplica-les per crear els teus primers nodes en pocs minuts. |
 | **`05-exemples-minims/`** | Un vault funcional de 5 nodes (MOC, UD, AEA, Convenció i handoff) | El laboratori més petit possible per provar-ho en 30 minuts. |
 | **`06-comunitat/`** | Espai de difusió i l'article d'*eDigital* | Per compartir grafs i experiències entre docents. |
+
+> **Nota sobre els exemples:** `02-exemple-complet/` i `07-exemple-mp1519/` són dues variants del mateix mòdul (MP 1519). Tots dos fan servir el format nou de la V1.3 (`criteris:` amb dicts, `instruments_avaluacio` estructurat). El `07-exemple-mp1519/` es va crear al **Bloc 12d** com a exemple focalitzat de l'**arquitectura de dues capes** (catàleg + fitxes, amb convenció d'àlies), sense les eines del desplegament complet de `02-exemple-complet/`. La diferència principal és el MOC: `02-exemple-complet/` té un MOC més sintètic, i `07-exemple-mp1519/` té un MOC més detallat. No són «antic» i «nou»: tots dos són de la V1.3.
 
 ### L'eina d'snapshot
 
