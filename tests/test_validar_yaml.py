@@ -441,9 +441,9 @@ def test_normalitzar_criteris_format_antic():
     resultat = v.normalitzar_criteris({"RA5": ["5.1", "5.2"]})
     assert resultat == {
         "RA5": [
-            {"codi": "5.1", "guia": None, "descripcio": None,
+            {"codi": "5.1", "id": None, "guia": None, "descripcio": None,
              "contextualitzat": False, "afegit": False, "origen": None},
-            {"codi": "5.2", "guia": None, "descripcio": None,
+            {"codi": "5.2", "id": None, "guia": None, "descripcio": None,
              "contextualitzat": False, "afegit": False, "origen": None},
         ]
     }
@@ -453,9 +453,9 @@ def test_normalitzar_criteris_format_nou():
     """Dicts complets -> idèntics (idempotent); defaults per als camps absents."""
     entrada = {
         "RA5": [
-            {"codi": "5.1", "guia": "5a", "descripcio": "Desc",
+            {"codi": "5.1", "id": None, "guia": "5a", "descripcio": "Desc",
              "contextualitzat": False, "afegit": False, "origen": None},
-            {"codi": None, "guia": "5h", "descripcio": "Anglès",
+            {"codi": None, "id": None, "guia": "5h", "descripcio": "Anglès",
              "contextualitzat": True, "afegit": True, "origen": "anglès professional"},
         ]
     }
@@ -463,7 +463,7 @@ def test_normalitzar_criteris_format_nou():
 
     parcial = {"RA5": [{"codi": "5.3"}]}
     d = v.normalitzar_criteris(parcial)["RA5"][0]
-    assert d == {"codi": "5.3", "guia": None, "descripcio": None,
+    assert d == {"codi": "5.3", "id": None, "guia": None, "descripcio": None,
                  "contextualitzat": False, "afegit": False, "origen": None}
     assert "guia" not in parcial["RA5"][0]  # no muta l'entrada
 

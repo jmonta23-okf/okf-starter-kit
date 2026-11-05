@@ -617,6 +617,7 @@ def normalitzar_criteris(criteris):
             if isinstance(element, str):
                 nous.append({
                     "codi": element,
+                    "id": None,
                     "guia": None,
                     "descripcio": None,
                     "contextualitzat": False,
@@ -626,6 +627,7 @@ def normalitzar_criteris(criteris):
             elif isinstance(element, dict):
                 d = dict(element)
                 d.setdefault("codi", None)
+                d.setdefault("id", None)
                 d.setdefault("guia", None)
                 d.setdefault("descripcio", None)
                 d.setdefault("contextualitzat", False)
@@ -1330,30 +1332,39 @@ def audit_curricular(vault_path, strict_versio=False):
     total_afegits = 0
 
     for ruta_cat, info in sorted(catalegs.items()):
-        codis_decret = _codis_criteris(info["criteris"])
-        total_decret = len(codis_decret)
-        tots_cas_decret |= codis_decret
         cat_label = str(info.get("id") or ruta_cat)
 
-        # Mètriques del format nou: contextualitzats i afegits (per catàleg).
-        afegits_ids_cat = set()
+        # Separació cas_decret / cas_decret_tots / afegits (F1.1).
+        cas_decret = set()        # només codis oficials (Total CAs i orfes)
+        cas_decret_tots = set()   # codis + ids (inexistents)
+        afegits_cat = set()       # id (o guia) dels CAs afegits (Y045)
         for llista in info["criteris"].values():
             if not isinstance(llista, list):
                 continue
             for element in llista:
+                if isinstance(element, str):
+                    cas_decret.add(str(element))
+                    cas_decret_tots.add(str(element))
+                    continue
                 if not isinstance(element, dict):
                     continue
+                codi_ca = element.get("codi")
+                id_ca = element.get("id")
+                es_afegit = element.get("afegit") is True
                 if element.get("contextualitzat") is True:
                     total_ctx += 1
-                if element.get("afegit") is True:
+                if codi_ca:
+                    cas_decret.add(str(codi_ca))
+                    cas_decret_tots.add(str(codi_ca))
+                if id_ca:
+                    cas_decret_tots.add(str(id_ca))
+                if es_afegit:
                     total_afegits += 1
-                    ident = (
-                        element.get("codi")
-                        if element.get("codi") is not None
-                        else element.get("guia")
-                    )
+                    ident = id_ca or element.get("guia")
                     if ident is not None:
-                        afegits_ids_cat.add(str(ident))
+                        afegits_cat.add(str(ident))
+        total_decret = len(cas_decret)
+        tots_cas_decret |= cas_decret
 
         analitics = set()
         sintesi = set()
@@ -1372,8 +1383,8 @@ def audit_curricular(vault_path, strict_versio=False):
 
         tots_cas_coberts |= analitics
         coberts_cat = analitics | sintesi
-        orfes = codis_decret - coberts_cat
-        inexistents = coberts_cat - codis_decret
+        orfes = cas_decret - referenciats_cat
+        inexistents = referenciats_cat - cas_decret_tots
 
         errors_coherencia = comprovar_coherencia_cataleg(
             {"criteris": info["criteris"]}, extreure_cos_md(ruta_cat), ruta_cat
@@ -1405,13 +1416,13 @@ def audit_curricular(vault_path, strict_versio=False):
         linies.append(f"Verdicte: {verdicte}")
 
         # Y045 i Y046 per catàleg (F1.3): la cobertura d'un catàleg no emmascara l'altre.
-        for ident in sorted(afegits_ids_cat - referenciats_cat):
+        for ident in sorted(afegits_cat - referenciats_cat):
             errors_audit.append((
                 "Y045",
                 f"CA '{ident}' added but not referenced by any FitxaAEA (catalog: {cat_label})",
                 "Afegir el CA a una fitxa o treure'l del catàleg",
             ))
-        nomes_sintesi_cat = (sintesi & codis_decret) - analitics
+        nomes_sintesi_cat = (sintesi & cas_decret) - analitics
         for codi in sorted(nomes_sintesi_cat):
             errors_audit.append((
                 "Y046",

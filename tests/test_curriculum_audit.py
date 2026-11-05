@@ -299,3 +299,82 @@ def test_audit_per_cataleg_y046(tmp_path):
     assert "MP1520-CAT-00" not in y046[0][1]
     codis = [e[0] for e in errors]
     assert "Y045" not in codis
+
+
+# ---------------------------------------------------------------------------
+# Bloc F1.1: identitat dels CAs afegits (camp `id`)
+# ---------------------------------------------------------------------------
+
+def node_cataleg_afegit(oficials=("1.1",), id_afegit=None, guia_afegit="1z", nid="EX-CAT-00"):
+    """Catàleg en format nou: CAs oficials + un CA afegit (id opcional), amb àncores pels oficials."""
+    parts = [
+        "---", f"id: {nid}", "type: CatalegCurricular", 'title: "Catàleg de test"',
+        'version: "V2.1"', 'data_ultima_actualitzacio: "2026-11-02"',
+        "authors:", '  - "Test"', 'llicencia: "CC BY-SA 4.0"', "tags:", "  - okf/test",
+        "estat: vigent", "criteris:", "  RA1:",
+    ]
+    for c in oficials:
+        parts.append(f'    - codi: "{c}"')
+    parts.append("    - codi: null")
+    if id_afegit is not None:
+        parts.append(f'      id: "{id_afegit}"')
+    parts.append(f'      guia: "{guia_afegit}"')
+    parts.append("      afegit: true")
+    parts.append("---")
+    parts.append("# Catàleg de test")
+    parts.append("## 5 · CAs")
+    for c in oficials:
+        parts.append(f'| <a id="ca-{c.replace(".", "-")}"></a>{c} | 1a | Desc | A | AEA1 |')
+    return "\n".join(parts) + "\n"
+
+
+def test_y045_ca_afegit_amb_id_referenciat(tmp_path):
+    """Un CA afegit amb id referenciat per una fitxa NO genera Y045 (F1.1)."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg_afegit(
+        oficials=[], id_afegit="MP1519-CAT-00-RA1-ADD-01"))
+    (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["MP1519-CAT-00-RA1-ADD-01"]))
+    _l, _exit_code, errors = v.audit_curricular(str(tmp_path))
+    codis = [e[0] for e in errors]
+    assert "Y045" not in codis
+
+
+def test_y045_ca_afegit_amb_id_no_referenciat(tmp_path):
+    """Un CA afegit amb id sense cap fitxa que el referenciï -> Y045 amb l'id."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg_afegit(
+        oficials=[], id_afegit="MP1519-CAT-00-RA1-ADD-01"))
+    _l, _exit_code, errors = v.audit_curricular(str(tmp_path))
+    y045 = [e for e in errors if e[0] == "Y045"]
+    assert y045 and "MP1519-CAT-00-RA1-ADD-01" in y045[0][1]
+
+
+def test_y045_ca_afegit_sense_id(tmp_path):
+    """Un CA afegit sense id -> Y045 amb la guia com a identificador (fallback)."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg_afegit(oficials=[], id_afegit=None, guia_afegit="1z"))
+    _l, _exit_code, errors = v.audit_curricular(str(tmp_path))
+    y045 = [e for e in errors if e[0] == "Y045"]
+    assert y045 and "CA '1z'" in y045[0][1]
+
+
+def test_audit_afegits_no_compten_com_orfs(tmp_path):
+    """Els afegits no compten a 'Total CAs al decret' ni a 'CAs orfes' (F1.1)."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg_afegit(
+        oficials=["1.1", "1.2"], id_afegit="MP1519-CAT-00-RA1-ADD-01"))
+    linies, _exit_code, _errors = v.audit_curricular(str(tmp_path))
+    text = "\n".join(linies)
+    assert "Total CAs al decret: 2" in text
+    assert "CAs orfes: 2" in text
+    assert "CAs orfes: 3" not in text
+
+
+def test_audit_id_inexistent(tmp_path):
+    """Una referència a un id que no existeix al catàleg -> CAs inexistents: 1."""
+    (tmp_path / "00_Convencio.md").write_text(CONVENCIO)
+    (tmp_path / "01_Cataleg.md").write_text(node_cataleg_afegit(oficials=["1.1"], id_afegit=None))
+    (tmp_path / "02_AEA.md").write_text(node_fitxa("EX-AEA-01", ["1.1", "MP1519-CAT-00-RA1-ADD-99"]))
+    linies, _exit_code, _errors = v.audit_curricular(str(tmp_path))
+    text = "\n".join(linies)
+    assert "CAs inexistents: 1" in text
