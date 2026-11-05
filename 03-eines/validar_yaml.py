@@ -940,9 +940,17 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
                     ))
 
         # Y052: criteri de criteris_avaluacio que cap instrument avalua (Bloc 14g-bis).
-        # Només si instruments_avaluacio existeix i és una llista no buida.
+        # Només s'aplica si instruments_avaluacio existeix, és una llista no buida I tots
+        # els elements són dicts (format nou). Amb format antic/mixt no es pot verificar
+        # la cobertura, i s'eviten falsos positius durant la migració (F1.2).
+        te_instruments_no_dict = (
+            isinstance(instruments_raw, list)
+            and any(not isinstance(item, dict) for item in instruments_raw)
+        )
         criteris_aval = yaml_data.get("criteris_avaluacio") or []
-        if isinstance(instruments_raw, list) and len(instruments_raw) > 0:
+        if (isinstance(instruments_raw, list)
+                and len(instruments_raw) > 0
+                and not te_instruments_no_dict):
             coberts = set()
             for item in instruments_raw:
                 if isinstance(item, dict):

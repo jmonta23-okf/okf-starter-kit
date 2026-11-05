@@ -826,3 +826,38 @@ def test_y052_dos_criteris_no_coberts(tmp_path, codis_error):
     )
     errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
     assert codis_error(errors).count("Y052") == 2
+
+
+def test_y052_no_es_dispara_en_format_antic(tmp_path, codis_error):
+    """Instruments en format antic (strings) -> Y052 NO s'aplica (no es pot verificar)."""
+    node = _fitxa_test_node_ca(
+        "EX-AEA-90",
+        '  - "5.1"\n  - "5.2"\n',
+        '  - "./protocol.md#prova-escrita"\n  - "./protocol.md#observacio"\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y052" not in codis_error(errors)
+
+
+def test_y052_no_es_dispara_en_format_mixt(tmp_path, codis_error):
+    """Barreja de dict + string (format mixt) -> Y052 NO s'aplica."""
+    node = _fitxa_test_node_ca(
+        "EX-AEA-91",
+        '  - "5.1"\n  - "5.2"\n',
+        '  - codi: "I1"\n    descripcio: "D"\n    criteris:\n      - "5.1"\n'
+        '  - "./protocol.md#treball"\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y052" not in codis_error(errors)
+
+
+def test_y052_es_dispara_en_format_nou(tmp_path, codis_error):
+    """Tots els instruments en format nou (dicts) -> Y052 s'aplica com abans."""
+    node = _fitxa_test_node_ca(
+        "EX-AEA-92",
+        '  - "5.1"\n  - "6.1"\n',
+        '  - codi: "I1"\n    descripcio: "D"\n    criteris:\n      - "5.1"\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y052" in codis_error(errors)
+    assert codis_error(errors).count("Y052") == 1  # només per a 6.1
