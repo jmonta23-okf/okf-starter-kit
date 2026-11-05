@@ -248,7 +248,7 @@ Els límits són aquí i no enterrats perquè un projecte que amaga els seus lí
   author       = {Montañà Piqué, Josep},
   title        = {OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent},
   year         = {2026},
-  version      = {V1.2},
+  version      = {V1.3},
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.23964880},
   url          = {https://doi.org/10.5281/zenodo.23964880}
