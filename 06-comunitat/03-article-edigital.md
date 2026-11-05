@@ -1,6 +1,6 @@
 # Del laboratori a la sala de mestres: un currículum que és una xarxa viva
 
-*Reflexions d'un professor de Sanitat sobre OKF, el Paquet LLM i el gust de fer les coses amb les mans.*
+*Reflexions d'un professor de Sanitat sobre OKF, els Paquets LLM i el gust de fer les coses amb les mans.*
 
 ---
 
@@ -28,6 +28,23 @@ El Paquet LLM és una recepta oberta, escrita en text pla. La Montse el pot lleg
 
 ---
 
+## Dues maneres de començar (i per què no cal patir pels YAML)
+
+Una crítica que rebo sovint és que el docent mitjà no té un perfil tan tècnic com el meu i que es perdrà en els fitxers YAML. És una crítica raonable, però parteix d'una premissa falsa: **que el docent ha de tocar els YAML a mà**.
+
+No és el cas. Cap docent no escriurà mai un YAML des de zero. Tots ho faran assistits per una IA. El kit no pretén que els docents es converteixin en programadors, sinó que **entenguin l'estructura del coneixement curricular** i tinguin les competències bàsiques per guiar una IA en la construcció del seu vault.
+
+Amb el temps, he après que hi ha **dues portes d'entrada** al kit, i totes dues són igual de vàlides:
+
+- **Paquet 00 (enfocament deductiu):** parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero.
+- **Paquet 01 (enfocament inductiu):** parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la.
+
+Tots dos camins porten al mateix lloc: un vault OKF validat. La diferència és el punt de partida i el grau de formalitat del resultat. El camí inductiu preserva la feina existent; el deductiu produeix un graf formalment més perfecte.
+
+La lentitud del diàleg amb la IA no és un inconvenient: és el propòsit. Cada cop que el docent copia un YAML i el desa, aprèn què és un `id`, què és un `type`, per què hi ha camps universals. I si no ho entén, pot preguntar a la IA, que li explicarà. És un diàleg a dos.
+
+---
+
 ## Artesania entre amics
 
 Fora del meu institut també faig proves, però no amb una «cartera de clients». Les faig amb gent de confiança, i les fem amb calma, entre hores o sopant un divendres a la nit. Ho dic sense embuts: l'adopció real d'una eina demana temps i motivació, i no es mesura en clics ràpids.
@@ -50,6 +67,8 @@ El Kit incorpora, a més, dos estàndards ètics que em semblen urgents:
 
 - El marc **MIAE**, que posa la supervisió humana de la IA al centre. La màquina proposa, però el docent decideix, sempre.
 - El **VCER** (*Vibe Coding Educatiu Responsable*), de Juanjo de Haro, que ens recorda que crear amb IA a l'aula demana criteri ètic i tècnic (materials 100% offline, sense rastreig de dades d'alumnes i amb llicència lliure), i que aquest criteri mai es delega.
+
+I una norma de sentit comú que ens posem: **dades personals de l'alumnat, ni al graf ni als prompts.**
 
 ---
 
