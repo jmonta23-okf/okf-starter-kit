@@ -51,7 +51,7 @@ Fora del meu institut també faig proves, però no amb una «cartera de clients�
 
 Pel Benet, un amic novell a la docència, vaig construir un mòdul sencer de Química. És una matèria que jo no domino, i justament per això ho vaig fer: per comprovar que el graf aguanta fora de la meva zona de confort. Funciona perquè l'estructura no depèn de qui l'omple.
 
-I demà vaig a sopar a casa l'Ariadna. Ens mirarem amb calma com el graf pot ajudar-la a gestionar Plans Individuals i adaptacions. Es tracta d'una feina delicada, plena de matisos i de persones concretes, on una xarxa de coneixement ben lligada pot treure molta feina de sobre.
+I demà vaig a sopar a casa l'Ariadna. Ens mirarem amb calma com el graf pot ajudar-la a estructurar bancs d'estratègies i models d'adaptació per a Plans Individuals —sempre a escala de disseny pedagògic, sense noms ni historials d'alumnes—. Es tracta d'una feina delicada, plena de matisos i de persones concretes, on una xarxa de coneixement ben lligada pot treure molta feina de sobre.
 
 Potser algun dia caldrà una acreditació de competència OKF per garantir una adopció sòlida. Però avui som a la trinxera, entre companys, i això ja em sembla molt.
 
@@ -63,10 +63,10 @@ Ho confesso: el meu graf de TCAI i SAD pateix de sobreenginyeria. M'hi he obsess
 
 L'**OKF Starter Kit** neix d'aquesta autocrítica. És una neteja: ho he reduït tot a la mínima expressió, a l'os que aguanta el sistema. Si un docent vol afegir-hi coses, les afegirà ell, a mida. Millor un esquelet net que una armadura que no hi ha qui carregui.
 
-El Kit incorpora, a més, dos estàndards ètics que em semblen urgents:
+El Kit incorpora, a més, dos marcs ètics que em semblen urgents:
 
-- El marc **MIAE**, que posa la supervisió humana de la IA al centre. La màquina proposa, però el docent decideix, sempre.
-- El **VCER** (*Vibe Coding Educatiu Responsable*), de Juanjo de Haro, que ens recorda que crear amb IA a l'aula demana criteri ètic i tècnic (materials 100% offline, sense rastreig de dades d'alumnes i amb llicència lliure), i que aquest criteri mai es delega.
+- El marc **MIAE**, de Juanjo de Haro, que posa la supervisió humana de la IA al centre (amb el docent al Nivell 3, com a decisor crític). La màquina proposa, però el docent decideix, sempre.
+- El **VCER** (*Vibe Coding Educatiu Responsable*), formulat també per ell, que ens recorda que crear amb IA a l'aula demana criteri ètic i tècnic (materials 100% offline, sense rastreig de dades d'alumnes i amb llicència lliure), i que aquest criteri mai es delega.
 
 I una norma de sentit comú que ens posem: **dades personals de l'alumnat, ni al graf ni als prompts.**
 
