@@ -29,6 +29,7 @@
 | Documentació | 7 documents actualitzats (14h-a, 14h-b) + ROADMAP + CHANGELOG + filosofia + inici ràpid |
 | Release | Tag `V1.3`, DOI `10.5281/zenodo.23964880` |
 | CI | Verd |
+| Paquets LLM | **00 (deductiu)**, **01 (inductiu)** i **02 (sortida)** documentats i desats a `04-plantilles/` |
 
 **Prova d'usabilitat en curs:** docent extern (Alícia, mòdul **0056** — *Atenció sanitària especial en situacions d'emergència*, CFGM en Emergències Sanitàries – TES).  
 - **Vault:** `~/.hermes/okf-curs-0056/` — 6 fitxers (`00_MOC.md`, `01_Cataleg_Curricular.md`, `02_Protocol_Avaluacio.md`, `03_Convencio.md`, `04_Handoff.md`, `05_Paquet_LLM-00.md`).  
@@ -148,6 +149,7 @@
 - [ ] Plugin d'Obsidian per editar YAML visualment
 - [ ] Servidor MCP per a clients d'IA
 - [ ] Generador de vistes derivades institucionals (CSV per a Esfer@/SAGA)
+- [x] Generador de vistes derivades institucionals (Programació Didàctica en HTML/CSS per a Word) — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-02.md`)
 
 **Nota:** no fer-ne quatre alhora. Triar-ne un, fer-lo bé, i valorar el següent segons l'adopció.
 

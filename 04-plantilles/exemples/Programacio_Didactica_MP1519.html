@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programació Didàctica · MP 1519 · Sistemes d'informació i classificació sanitaris</title>
+<style>
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 10.5px; color: #1a1a1a; margin: 30px; }
+  h1 { color: #003366; font-size: 20px; }
+  h2 { color: #003366; font-size: 15px; border-bottom: 2px solid #003366; padding-bottom: 3px; }
+  h3 { color: #003366; font-size: 13px; }
+  h4 { color: #003366; font-size: 11.5px; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 16px 0; }
+  th, td { border: 1px solid #000; padding: 4px 6px; vertical-align: top; text-align: left; }
+  th { background-color: #003366; color: #fff; }
+  td.pes, th.pes { text-align: center; }
+  .alert-box { background-color: #fdebe9; border: 2px solid #c00000; padding: 8px 10px; margin: 10px 0; font-weight: bold; color: #a00000; }
+  .alert-green { background-color: #e2efda; border: 2px solid #4a7c28; padding: 8px 10px; margin: 10px 0; }
+  .center { text-align: center; }
+  .legal { font-size: 9.5px; color: #444; }
+  .aea-block { border: 1px solid #003366; border-left: 5px solid #003366; margin: 14px 0; padding: 8px 10px; }
+  .firma { width: 30%; vertical-align: top; }
+  thead { display: table-header-group; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ CAPÇALERA -->
+<h1 class="center">Programació Didàctica · CFGS Documentació i Administració Sanitàries</h1>
+<h2 class="center">Mòdul Professional 1519 · Sistemes d'informació i classificació sanitaris</h2>
+
+<table>
+  <tr>
+    <td><b>[Nom del centre educatiu]<br>[Departament]<br>[Adreça]</b></td>
+    <td class="center"><b>Programació Didàctica<br>CFGS SAD — 1r curs<br>Curs 2026-2027</b></td>
+    <td><b>Autor:</b> [Nom del docent]<br><b>Document:</b> Programació v1.1 (LOE)</td>
+  </tr>
+</table>
+
+<table>
+  <tr><th>Versió</th><th>Data</th><th>Estat</th><th>Autor</th><th>Notes</th></tr>
+  <tr><td>v1.0</td><td>06/11/2026</td><td>Vigent</td><td>[Nom del docent]</td><td>Generada a partir del graf OKF del mòdul (MOC, Catàleg, Protocol, 5 AEAs)</td></tr>
+  <tr><td>v1.1</td><td>06/11/2026</td><td>Vigent</td><td>[Nom del docent]</td><td>Desglossament per sessions (2 h/sessió) i taules d'AEA completes</td></tr>
+</table>
+
+<!-- ============================================================ 1 · DADES -->
+<h2>1 · Dades generals del mòdul</h2>
+<table>
+  <tr><th>Camp</th><th>Valor</th></tr>
+  <tr><td>Codi oficial</td><td>MP 1519</td></tr>
+  <tr><td>Denominació</td><td>Sistemes d'informació i classificació sanitaris</td></tr>
+  <tr><td>Cicle formatiu</td><td>CFGS Documentació i Administració Sanitàries (SAD)</td></tr>
+  <tr><td>Curs acadèmic</td><td>1r curs</td></tr>
+  <tr><td>Durada total</td><td>99 hores (66 h al centre + 33 h d'estada a l'empresa / FCT)</td></tr>
+  <tr><td>Crèdits ECTS</td><td>7 crèdits</td></tr>
+  <tr><td>Distribució lectiva</td><td>2 hores setmanals × 33 setmanes lectives (33 sessions)</td></tr>
+  <tr><td>Desdoblament</td><td>100 % (desdoblament setmanal a l'aula d'informàtica)</td></tr>
+  <tr><td>Marc legal</td><td>Ordre EDU/10/2020 (currículum Catalunya) · RD 768/2014 (títol SAD) · LO 3/2022 i RD 659/2023</td></tr>
+  <tr><td>Font normativa vinculant</td><td>CIE-10-ES Diagnòstics i Procediments, 6a edició (Ministeri de Sanitat, 2026)</td></tr>
+</table>
+
+<h3>1.1 · Justificació i filosofia didàctica</h3>
+<p>El mòdul forma <b>auditors d'informació clínica, no simples picadors de dades</b>. L'alumnat aprèn a analitzar l'episodi assistencial en la seva integritat, extreure'n els conceptes diagnòstics i terapèutics clau i codificar-los segons la normativa oficial vinculant. Cada decisió tècnica s'ensenya com un acte de responsabilitat: un error d'especificitat o una fallada de l'indicador POA desfigura el Registre d'Activitats d'Atenció Especialitzada (RAE-CMBD), altera el Grup Relacionat pel Diagnòstic (GRD) i compromet el finançament hospitalari i l'epidemiologia pública.</p>
+<div class="alert-green"><b>Frontera curricular amb el MP 1520:</b> el MP 1519 es focalitza en la normativa general de codificació (Capítol A), l'arquitectura de navegació per la CIE-10-ES, l'indicador POA, l'estructura multiaxial de 7 caràcters de procediments (PCS) i la codificació específica base. Queda expressament exclosa la codificació de patologies específiques per aparells, que es desenvolupa al MP 1520 de 2n curs.</div>
+
+<h2>2 · Competències del títol vinculades al mòdul</h2>
+<table>
+  <tr><th>Codi</th><th>Competència professional, personal i social (títol SAD)</th></tr>
+  <tr><td>a</td><td>Participar en la gestió dels sistemes d'informació sanitaris, garantint la disponibilitat, integritat i confidencialitat de la dada clínica.</td></tr>
+  <tr><td>b</td><td>Explotar les bases de dades del SIS i del CMBD per a la gestió clínica i epidemiològica.</td></tr>
+  <tr><td>c</td><td>Codificar la informació clínica i no clínica de l'episodi assistencial mitjançant terminologies i sistemes de classificació internacionals estàndard.</td></tr>
+  <tr><td>d</td><td>Aplicar procediments d'auditoria i control de qualitat a la documentació clínica per garantir la precisió del registre d'altes i el finançament via GRD.</td></tr>
+</table>
+
+<!-- ============================================================ 3 · RAs i CAs -->
+<h2>3 · Resultats d'Aprenentatge i distribució horària</h2>
+<table>
+  <tr><th>RA</th><th>Resultat d'Aprenentatge oficial</th><th class="pes">Pes QMP</th><th class="pes">Hores</th><th>AEA</th></tr>
+  <tr><td>RA1</td><td>Caracteritza els diferents elements que intervenen en el procés de creació d'un SIS.</td><td class="pes">8 %</td><td class="pes">5 h</td><td>AEA 1</td></tr>
+  <tr><td>RA2</td><td>Maneja els diferents sistemes de classificacions internacionals i terminologies clíniques.</td><td class="pes">8 %</td><td class="pes">5 h</td><td>AEA 1</td></tr>
+  <tr><td>RA3</td><td>Utilitza eficaçment les diferents parts que componen la classificació internacional de malalties.</td><td class="pes">10 %</td><td class="pes">6 h</td><td>AEA 2</td></tr>
+  <tr><td>RA4</td><td>Selecciona els codis de la CIM, extraient prèviament l'episodi assistencial.</td><td class="pes">10 %</td><td class="pes">6 h</td><td>AEA 2</td></tr>
+  <tr><td>RA5</td><td>Aplica la normativa establerta en matèria de codificació de dades clíniques i no clíniques.</td><td class="pes">20 %</td><td class="pes">12 h</td><td>AEA 3</td></tr>
+  <tr><td>RA6</td><td>Duu a terme processos de codificació de diagnòstics amb la CIM vigent (normativa general).</td><td class="pes">20 %</td><td class="pes">12 h</td><td>AEA 3</td></tr>
+  <tr><td>RA7</td><td>Duu a terme processos de codificació de procediments amb la CIM vigent (CIE-10-PCS).</td><td class="pes">12 %</td><td class="pes">7 h</td><td>AEA 4</td></tr>
+  <tr><td>RA8</td><td>Duu a terme processos de codificació específica amb la CIM vigent (urgències i causes externes).</td><td class="pes">12 %</td><td class="pes">7 h</td><td>AEA 4</td></tr>
+  <tr><td colspan="2"><b>TOTAL</b></td><td class="pes"><b>100 %</b></td><td class="pes"><b>60 h</b></td><td>+ 6 h recuperació/tancament</td></tr>
+</table>
+
+<h3>3.1 · Criteris d'Avaluació oficials (52 CAs)</h3>
+<p class="legal">Prioritat formativa: 🔴 A (nuclear), 🟡 B (procedimental), 🟢 C (suport). La priorització no altera la validesa legal de cap criteri.</p>
+
+<h3>RA1 · Caracterització del SIS — Pes 8 % · 5 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>1.1</td><td>1a</td><td>Reconeix la utilitat del SIS per als diferents agents implicats (ciutadania, professionals, administració).</td><td class="pes">🔴 A</td></tr>
+<tr><td>1.2</td><td>1b</td><td>Diferencia les dades clíniques, administratives i econòmiques que integren el sistema hospitalari.</td><td class="pes">🔴 A</td></tr>
+<tr><td>1.3</td><td>1c</td><td>Descriu els circuits d'informació clínica i els fluxos de dades entre atenció primària i especialitzada.</td><td class="pes">🟡 B</td></tr>
+<tr><td>1.4</td><td>1d</td><td>Identifica l'estructura, contingut i finalitat del Conjunt Mínim Bàsic de Dades (RAE-CMBD).</td><td class="pes">🔴 A</td></tr>
+<tr><td>1.5</td><td>1e</td><td>Relaciona el procés de codificació d'altes amb l'agrupació per GRD i el finançament dels centres.</td><td class="pes">🟡 B</td></tr>
+<tr><td>1.6</td><td>1f</td><td>Aplica la jerarquia de la dada a la informació i al coneixement (piràmide DIKW) en registres mèdics.</td><td class="pes">🔴 A</td></tr>
+</table>
+
+<h3>RA2 · Classificacions i terminologies — Pes 8 % · 5 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>2.1</td><td>2a</td><td>Analitza els problemes d'ambigüitat i dispersió de l'ús del llenguatge natural a la història clínica.</td><td class="pes">🔴 A</td></tr>
+<tr><td>2.2</td><td>2b</td><td>Identifica els llenguatges documentals i els sistemes de normalització de dades en salut.</td><td class="pes">🟡 B</td></tr>
+<tr><td>2.3</td><td>2c</td><td>Diferencia la finalitat i granularitat d'una terminologia (SNOMED CT) respecte a una classificació (CIM-10-ES).</td><td class="pes">🔴 A</td></tr>
+<tr><td>2.4</td><td>2d</td><td>Realitza processos de mapatge 1:1, 1:N i N:1 entre termes clínics i categories de classificació.</td><td class="pes">🔴 A</td></tr>
+<tr><td>2.5</td><td>2e</td><td>Reconeix l'estructura de classificacions específiques d'atenció primària (CIAP-2) i oncologia (CIE-O-3).</td><td class="pes">🟡 B</td></tr>
+<tr><td>2.6</td><td>2f</td><td>Reconeix l'evolució històrica i els canvis estructurals entre la CIE-9-MC i la CIE-10-ES.</td><td class="pes">🟢 C</td></tr>
+</table>
+
+<h3>RA3 · Estructura de la CIM — Pes 10 % · 6 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>3.1</td><td>3a</td><td>Navega eficaçment per l'Índex Alfabètic (IAE) utilitzant termes principals en negreta.</td><td class="pes">🔴 A</td></tr>
+<tr><td>3.2</td><td>3b</td><td>Distingeix entre modificadors no essencials entre parèntesis i modificadors essencials sagnats.</td><td class="pes">🔴 A</td></tr>
+<tr><td>3.3</td><td>3c</td><td>Interpreta termes relacionals («amb», «en») i instruccions de remissió obligatòria i recomanada.</td><td class="pes">🟡 B</td></tr>
+<tr><td>3.4</td><td>3d</td><td>Aplica la prioritat numèrica per sobre de l'alfabètica en la selecció de modificadors a l'IAE.</td><td class="pes">🟡 B</td></tr>
+<tr><td>3.5</td><td>3e</td><td>Realitza la verificació obligatòria del codi a la Llista Tabular (LT) abans de l'assignació definitiva.</td><td class="pes">🔴 A</td></tr>
+<tr><td>3.6</td><td>3f</td><td>Aplica les instruccions d'incompatibilitat mútua (Excluye 1) i de no inclusió (Excluye 2).</td><td class="pes">🔴 A</td></tr>
+</table>
+
+<h3>RA4 · Selecció de codis i extracció de l'episodi — Pes 10 % · 6 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>4.1</td><td>4a</td><td>Analitza críticament l'informe d'alta i la documentació complementària.</td><td class="pes">🟡 B</td></tr>
+<tr><td>4.2</td><td>4b</td><td>Extreu el terme clau patològic (mai la localització anatòmica) com a bitllet d'entrada a l'índex.</td><td class="pes">🔴 A</td></tr>
+<tr><td>4.3</td><td>4c</td><td>Utilitza les dreceres oficials de l'IAE per a la codificació de condicionants de salut (codis Z).</td><td class="pes">🔴 A</td></tr>
+<tr><td>4.4</td><td>4d</td><td>Navega per la Taula matricial de Neoplàsies creuant topografia i comportament cel·lular.</td><td class="pes">🟡 B</td></tr>
+<tr><td>4.5</td><td>4e</td><td>Identifica codis parcials amb guionet (-) i completa fins a la màxima especificitat (5 a 7 caràcters).</td><td class="pes">🔴 A</td></tr>
+<tr><td>4.6</td><td>4f</td><td>Construeix codis amb lletra de 7è caràcter (A, D, S) usant el dummy character (X).</td><td class="pes">🔴 A</td></tr>
+<tr><td>4g*</td><td>4g*</td><td>Interpreta documentació clínica en llengua anglesa (*CA afegit).</td><td class="pes">🟢 C</td></tr>
+</table>
+
+<h3>RA5 · Normativa de codificació de dades clíniques — Pes 20 % · 12 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>5.1</td><td>5a</td><td>Aplica la definició oficial UHDDS del Diagnòstic Principal (la causa que motivà l'ingrés).</td><td class="pes">🔴 A</td></tr>
+<tr><td>5.2</td><td>5b</td><td>Aplica la norma de símptomes vs. diagnòstics confirmats (A.5.1): no codificar símptomes integrals.</td><td class="pes">🔴 A</td></tr>
+<tr><td>5.3</td><td>5c</td><td>Codifica com a confirmats els diagnòstics de sospita en pacients hospitalitzats (A.5.2).</td><td class="pes">🟡 B</td></tr>
+<tr><td>5.4</td><td>5d</td><td>Aplica les excepcions d'incertesa (prohibició de codificar sospites en COVID-19 o VIH/SIDA).</td><td class="pes">🟡 B</td></tr>
+<tr><td>5.5</td><td>5e</td><td>Resol situacions d'empat clínic seleccionant el DP que millor reflecteixi el motiu i consum de recursos.</td><td class="pes">🔴 A</td></tr>
+<tr><td>5.6</td><td>5f</td><td>Manté la malaltia com a DP en tractament cancel·lat abans d'iniciar la intervenció (Z53 / A.5.5).</td><td class="pes">🟡 B</td></tr>
+<tr><td>5.7</td><td>5g</td><td>Respecta l'ordre estricte de la locomotora i els vagons (Codifique primero / Use código adicional).</td><td class="pes">🟡 B</td></tr>
+</table>
+
+<h3>RA6 · Codificació de diagnòstics i indicador POA — Pes 20 % · 12 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>6.1</td><td>6a</td><td>Assigna amb precisió l'indicador POA a cada diagnòstic codificat (S, N, D, I, E).</td><td class="pes">🔴 A</td></tr>
+<tr><td>6.2</td><td>6b</td><td>Diferencia complicacions sorgides durant l'ingrés (POA: N) de les preexistents (POA: S).</td><td class="pes">🔴 A</td></tr>
+<tr><td>6.3</td><td>6c</td><td>Prohibeix situar com a DP una complicació intrahospitalària després d'un ingrés programat.</td><td class="pes">🟡 B</td></tr>
+<tr><td>6.4</td><td>6d</td><td>Identifica categories i codis exempts d'assignació de POA (valors E).</td><td class="pes">🟡 B</td></tr>
+<tr><td>6.5</td><td>6e</td><td>Detecta ambigüitats o manca de dades i elabora consultes formals al facultatiu (Query).</td><td class="pes">🟡 B</td></tr>
+<tr><td>6.6</td><td>6f</td><td>Dissenya el Perfil del Document complet (DP + Diagnòstics Secundaris rellevants).</td><td class="pes">🟡 B</td></tr>
+<tr><td>6.7</td><td>6g</td><td>Diferencia comorbiditats actives dels símptomes irrellevants («soroll clínic»).</td><td class="pes">🟡 B</td></tr>
+<tr><td>6.8</td><td>6h</td><td>Aplica la regla del VIH: manté de per vida el codi B20 un cop hi ha patologia definidora de SIDA.</td><td class="pes">🔴 A</td></tr>
+</table>
+
+<h3>RA7 · Procediments amb CIE-10-PCS — Pes 12 % · 7 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>7.1</td><td>7a</td><td>Construeix codis respectant l'estructura multiaxial de 7 caràcters de la Secció 0.</td><td class="pes">🔴 A</td></tr>
+<tr><td>7.2</td><td>7b</td><td>Aplica la Regla de la Mateixa Fila a les taules PCS (no combinar caràcters de files diferents).</td><td class="pes">🔴 A</td></tr>
+<tr><td>7.3</td><td>7c</td><td>Distingeix entre Escissió (B – parcial), Resecció (T – total) i Extracció (D).</td><td class="pes">🔴 A</td></tr>
+<tr><td>7.4</td><td>7d</td><td>Aplica la norma B3.1b sobre tècniques implícites (prohibició d'accessos, incisions, sutures).</td><td class="pes">🔴 A</td></tr>
+<tr><td>7.5</td><td>7e</td><td>Codifica procediments convertits assignant doble codi (inspecció endoscòpica + cirurgia oberta).</td><td class="pes">🟡 B</td></tr>
+<tr><td>7.6</td><td>7f</td><td>Codifica biòpsies amb l'operació arrel adequada i el qualificador diagnòstic X.</td><td class="pes">🟡 B</td></tr>
+<tr><td>7e*</td><td>7e*</td><td>Consulta documentació tècnica quirúrgica en llengua anglesa (*CA afegit).</td><td class="pes">🟢 C</td></tr>
+</table>
+
+<h3>RA8 · Codificació específica, lesions i causes externes — Pes 12 % · 7 h</h3>
+<table><tr><th>Oficial</th><th>Guia</th><th>Criteri d'Avaluació</th><th class="pes">Prior.</th></tr>
+<tr><td>8.1</td><td>8a</td><td>Codifica lesions traumàtiques amb el 7è caràcter temporal (A inicial, D subsegüent, S seqüela).</td><td class="pes">🔴 A</td></tr>
+<tr><td>8.2</td><td>8b</td><td>Codifica TCE vinculant la pèrdua de consciència i l'escala de Glasgow (R40.24-).</td><td class="pes">🟡 B</td></tr>
+<tr><td>8.3</td><td>8c</td><td>Construeix la seqüència de causes externes (V-Y): mecanisme + lloc (Y92) + activitat (Y93) + estatus (Y99).</td><td class="pes">🟡 B</td></tr>
+<tr><td>8.4</td><td>8d</td><td>Aplica l'efecte mirall: el 7è caràcter de la causa ha de coincidir amb el de la lesió.</td><td class="pes">🔴 A</td></tr>
+<tr><td>8.5</td><td>8e</td><td>Diferencia intoxicació (codi T del fàrmac com a DP) de reacció adversa (manifestació clínica com a DP).</td><td class="pes">🟡 B</td></tr>
+<tr><td>8.6</td><td>8f</td><td>Vincula les complicacions de cures (T80-T88) amb el codi de procediment causal (Y83-Y84).</td><td class="pes">🟡 B</td></tr>
+<tr><td>8.7</td><td>8g</td><td>Aplica la prohibició d'assignar codis Z38 com a DP en nadons al SNS.</td><td class="pes">🔴 A</td></tr>
+</table>
+
+<!-- ============================================================ 4 · TEMPORITZACIÓ -->
+<h2>4 · Temporització: Activitats d'Ensenyament-Aprenentatge (AEA)</h2>
+<table>
+  <tr><th>AEA</th><th>Denominació i abast formatiu</th><th class="pes">Durada</th><th class="pes">Sessions</th><th>RAs</th><th>Setmanes</th><th>Instrument</th></tr>
+  <tr><td>1</td><td>El SIS i l'estandardització de la dada clínica.</td><td class="pes">8 h</td><td class="pes">4</td><td>RA1, RA2</td><td>1 a 4</td><td>I1</td></tr>
+  <tr><td>2</td><td>Arquitectura de la CIE-10-ES Diagnòstics.</td><td class="pes">10 h</td><td class="pes">5</td><td>RA3, RA4</td><td>5 a 9</td><td>I1</td></tr>
+  <tr><td>3</td><td>Normativa general de diagnòstics i indicador POA.</td><td class="pes">22 h</td><td class="pes">11</td><td>RA5, RA6</td><td>11 a 21</td><td>I1</td></tr>
+  <tr><td>4</td><td>Arquitectura de procediments (PCS) i causes externes.</td><td class="pes">12 h</td><td class="pes">6</td><td>RA7, RA8</td><td>23-27 i 32</td><td>I1</td></tr>
+  <tr><td>5</td><td>Projecte Integrador d'Auditoria d'Expedients Sanitaris.</td><td class="pes">8 h</td><td class="pes">4</td><td>Tots</td><td>28 a 31</td><td>I1 (síntesi)</td></tr>
+  <tr><td>—</td><td>Recuperació contínua i tancament d'expedients</td><td class="pes">6 h</td><td class="pes">3</td><td>—</td><td>10, 22 i 33</td><td>—</td></tr>
+  <tr><td colspan="2"><b>TOTAL presencial</b></td><td class="pes"><b>66 h</b></td><td class="pes"><b>33</b></td><td colspan="3">(60 h AEA + 6 h recuperació) · + 33 h FCT</td></tr>
+</table>
+<p class="legal">Ritme lectiu: 1 sessió setmanal de 2 h. Total del mòdul: 99 h (66 centre + 33 FCT).</p>
+
+<div class="aea-block">
+<h3>4.1 · AEA 1 — El SIS i l'estandardització de la dada clínica (8 h · 4 sessions)</h3>
+<h4>Fitxa de l'activitat</h4>
+<table>
+  <tr><th>Camp</th><th>Contingut</th></tr>
+  <tr><td>RAs treballats</td><td>RA1, RA2</td></tr>
+  <tr><td>CAs avaluats</td><td>1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6 (12 CAs)</td></tr>
+  <tr><td>Continguts clau</td><td>SIS i agents implicats · jerarquia DIKW · dades clíniques/administratives/econòmiques · circuits i fluxos de dades · RAE-CMBD · GRD i finançament · llenguatge natural i ambigüitat · terminologies (SNOMED CT) vs. classificacions (CIM-10-ES) · mapeig 1:1/1:N/N:1 · CIAP-2/CIE-O-3 · evolució CIE-9→CIE-10</td></tr>
+  <tr><td>Capacitats clau</td><td>Rigor tècnic (C1) · Autonomia (C2) · Seguretat i integritat de la informació (C3) · Diligència (C4)</td></tr>
+  <tr><td>Organització d'aula</td><td>Aula d'informàtica amb desdoblament; 1 equip/alumne; dossier de casos anonimitzats</td></tr>
+  <tr><td>Metodologia</td><td>ABP + classe invertida; exemples reals de registres mèdics; debat sobre el valor de la dada</td></tr>
+  <tr><td>Recursos</td><td>eCIEMaps (inicial), presentació DIKW, exemples CMBD/RAE, aula virtual/Classroom</td></tr>
+  <tr><td>Instrument i avaluació</td><td>Dossier AEA 1 (OC_AEA) + PE1 (Open Book) · Fita 1 (setmana 4)</td></tr>
+</table>
+<h4>Seqüenciació de sessions</h4>
+<table><tr><th class="pes">Sessió</th><th class="pes">Setmana</th><th class="pes">Durada</th><th>Contingut de la sessió</th><th>RAs/CAs</th></tr>
+<tr><td class="pes">S1</td><td class="pes">1</td><td class="pes">2 h</td><td>Presentació del mòdul i del mètode d'auditoria. El SIS i els agents implicats. Piràmide DIKW.</td><td>RA1 · 1.1, 1.6</td></tr>
+<tr><td class="pes">S2</td><td class="pes">2</td><td class="pes">2 h</td><td>Tipus de dades (clíniques, administratives, econòmiques) i circuits/fluxos d'informació AP↔AE.</td><td>RA1 · 1.2, 1.3</td></tr>
+<tr><td class="pes">S3</td><td class="pes">3</td><td class="pes">2 h</td><td>RAE-CMBD i la seva estructura. Relació codificació ↔ GRD ↔ finançament hospitalari.</td><td>RA1 · 1.4, 1.5</td></tr>
+<tr><td class="pes">S4</td><td class="pes">4</td><td class="pes">2 h</td><td>Llenguatge natural i ambigüitat (2.1). Terminologies (SNOMED) vs. classificacions (CIM). Mapeig. CIAP-2/CIE-O-3. CIE-9→10. <b>Fita 1 (PE1)</b>.</td><td>RA2 · 2.1-2.6</td></tr>
+</table>
+</div>
+
+<div class="aea-block">
+<h3>4.2 · AEA 2 — Arquitectura de la CIE-10-ES Diagnòstics (10 h · 5 sessions)</h3>
+<h4>Fitxa de l'activitat</h4>
+<table>
+  <tr><th>Camp</th><th>Contingut</th></tr>
+  <tr><td>RAs treballats</td><td>RA3, RA4</td></tr>
+  <tr><td>CAs avaluats</td><td>3.1-3.6, 4.1-4.6, 4g* (13 CAs)</td></tr>
+  <tr><td>Continguts clau</td><td>Índex Alfabètic (IAE) i Llista Tabular (LT) · modificadors no essencials/essencials · remissions · prioritat numèrica · verificació tabular · Excluye 1/2 · informe d'alta · terme clau patològic · codis Z · taula de neoplàsies · 7è caràcter i dummy X</td></tr>
+  <tr><td>Capacitats clau</td><td>C1 · C2 · C3 · C4</td></tr>
+  <tr><td>Organització d'aula</td><td>Aula d'informàtica desdoblada amb eCIEMaps obert (accés real a IAE i LT)</td></tr>
+  <tr><td>Metodologia</td><td>ABP amb casos clínics; navegació guiada per IAE/LT; pràctica individual cronometrada</td></tr>
+  <tr><td>Recursos</td><td>eCIEMaps, Manual Diagnósticos (Capítol A), lupa de neoplàsies, dossier de casos</td></tr>
+  <tr><td>Instrument i avaluació</td><td>Dossier AEA 2 + PE2 (Open Book) · Fita 2 (setmana 9)</td></tr>
+</table>
+<h4>Seqüenciació de sessions</h4>
+<table><tr><th class="pes">Sessió</th><th class="pes">Setmana</th><th class="pes">Durada</th><th>Contingut de la sessió</th><th>RAs/CAs</th></tr>
+<tr><td class="pes">S1</td><td class="pes">5</td><td class="pes">2 h</td><td>Navegació per l'IAE i termes principals en negreta. Modificadors no essencials vs. essencials sagnats.</td><td>RA3 · 3.1, 3.2</td></tr>
+<tr><td class="pes">S2</td><td class="pes">6</td><td class="pes">2 h</td><td>Termes relacionals i remissions (Véase / Véase además). Prioritat numèrica sobre l'alfabètica.</td><td>RA3 · 3.3, 3.4</td></tr>
+<tr><td class="pes">S3</td><td class="pes">7</td><td class="pes">2 h</td><td>Verificació a la Llista Tabular. Excluye 1 / Excluye 2. Anàlisi de l'informe d'alta (4.1).</td><td>RA3 · 3.5, 3.6 · RA4 · 4.1</td></tr>
+<tr><td class="pes">S4</td><td class="pes">8</td><td class="pes">2 h</td><td>Terme clau patològic. Dreceres de codis Z. Taula matricial de neoplàsies.</td><td>RA4 · 4.2, 4.3, 4.4</td></tr>
+<tr><td class="pes">S5</td><td class="pes">9</td><td class="pes">2 h</td><td>Codis parcials i màxima especificitat. 7è caràcter (A/D/S) i dummy X. Anglès instrumental (4g*). <b>Fita 2 (PE2)</b>.</td><td>RA4 · 4.5, 4.6, 4g*</td></tr>
+</table>
+</div>
+
+<div class="aea-block">
+<h3>4.3 · AEA 3 — Normativa general de diagnòstics i indicador POA (22 h · 11 sessions)</h3>
+<h4>Fitxa de l'activitat</h4>
+<table>
+  <tr><th>Camp</th><th>Contingut</th></tr>
+  <tr><td>RAs treballats</td><td>RA5, RA6</td></tr>
+  <tr><td>CAs avaluats</td><td>5.1-5.7, 6.1-6.8 (15 CAs)</td></tr>
+  <tr><td>Continguts clau</td><td>Definició UHDDS del Diagnòstic Principal · símptomes vs. diagnòstics confirmats · incertesa a l'alta · excepcions COVID/VIH · empat clínic · ordre locomotora/vagons · indicador POA (S/N/D/I/E) · complicacions vs. preexistents · Query · Perfil del Document · soroll clínic · regla del VIH</td></tr>
+  <tr><td>Capacitats clau</td><td>C1 (rigor) · C2 (autonomia) · C6 (acceptació del control de qualitat)</td></tr>
+  <tr><td>Organització d'aula</td><td>Bloc central del mòdul; sessions de taller amb casos d'ingres hospitalari complexos</td></tr>
+  <tr><td>Metodologia</td><td>ABP i auditoria clínica; cas per cas amb justificació normativa; debat de discrepàncies</td></tr>
+  <tr><td>Recursos</td><td>eCIEMaps, Manual Diagnósticos (A.5), casos d'ingrés anonimitzats, micro-rúbrica d'auditoria</td></tr>
+  <tr><td>Instrument i avaluació</td><td>Dossier AEA 3 + PE3 (Normativa i POA) · Fita 3 (setmana 21)</td></tr>
+</table>
+<h4>Seqüenciació de sessions</h4>
+<table><tr><th class="pes">Sessió</th><th class="pes">Setmana</th><th class="pes">Durada</th><th>Contingut de la sessió</th><th>RAs/CAs</th></tr>
+<tr><td class="pes">S1</td><td class="pes">11</td><td class="pes">2 h</td><td>Definició UHDDS del Diagnòstic Principal.</td><td>RA5 · 5.1</td></tr>
+<tr><td class="pes">S2</td><td class="pes">12</td><td class="pes">2 h</td><td>Símptomes vs. diagnòstics confirmats (A.5.1).</td><td>RA5 · 5.2</td></tr>
+<tr><td class="pes">S3</td><td class="pes">13</td><td class="pes">2 h</td><td>Diagnòstics de sospita confirmats en hospitalitzats (A.5.2).</td><td>RA5 · 5.3</td></tr>
+<tr><td class="pes">S4</td><td class="pes">14</td><td class="pes">2 h</td><td>Excepcions d'incertesa: COVID-19 i VIH/SIDA.</td><td>RA5 · 5.4</td></tr>
+<tr><td class="pes">S5</td><td class="pes">15</td><td class="pes">2 h</td><td>Empat clínic i selecció del DP.</td><td>RA5 · 5.5</td></tr>
+<tr><td class="pes">S6</td><td class="pes">16</td><td class="pes">2 h</td><td>Tractament cancel·lat (Z53 / A.5.5). Locomotora i vagons.</td><td>RA5 · 5.6, 5.7</td></tr>
+<tr><td class="pes">S7</td><td class="pes">17</td><td class="pes">2 h</td><td>Indicador POA: assignació S, N, D, I, E.</td><td>RA6 · 6.1</td></tr>
+<tr><td class="pes">S8</td><td class="pes">18</td><td class="pes">2 h</td><td>Complicacions (POA N) vs. preexistents (POA S). Prohibició del DP de complicació.</td><td>RA6 · 6.2, 6.3</td></tr>
+<tr><td class="pes">S9</td><td class="pes">19</td><td class="pes">2 h</td><td>Codis exempts de POA (valors E). Elaboració de Query al facultatiu.</td><td>RA6 · 6.4, 6.5</td></tr>
+<tr><td class="pes">S10</td><td class="pes">20</td><td class="pes">2 h</td><td>Perfil del Document complet. Soroll clínic vs. comorbiditats.</td><td>RA6 · 6.6, 6.7</td></tr>
+<tr><td class="pes">S11</td><td class="pes">21</td><td class="pes">2 h</td><td>Regla del VIH (B20 de per vida). Repàs global de normativa. <b>Fita 3 (PE3)</b>.</td><td>RA6 · 6.8</td></tr>
+</table>
+</div>
+
+<div class="aea-block">
+<h3>4.4 · AEA 4 — Arquitectura de procediments (PCS) i causes externes (12 h · 6 sessions)</h3>
+<h4>Fitxa de l'activitat</h4>
+<table>
+  <tr><th>Camp</th><th>Contingut</th></tr>
+  <tr><td>RAs treballats</td><td>RA7, RA8</td></tr>
+  <tr><td>CAs avaluats</td><td>7.1-7.6, 7e*, 8.1-8.7 (14 CAs)</td></tr>
+  <tr><td>Continguts clau</td><td>Estructura multiaxial de 7 caràcters · Secció 0 · Regla de la Mateixa Fila · operacions arrel (Escissió/Resecció/Extracció) · tècniques implícites (B3.1b) · procediments convertits · biòpsies · lesions traumàtiques i 7è caràcter · TCE/Glasgow · causes externes V-Y · efecte mirall · intoxicació vs. reacció adversa · complicacions de cures T80-88/Y83-84 · Z38</td></tr>
+  <tr><td>Capacitats clau</td><td>C1 · C2 · C5 (treball en equip en discrepàncies de codificació)</td></tr>
+  <tr><td>Organització d'aula</td><td>Taller amb eCIEMaps (mòdul procediments) i docs quirúrgics anonimitzats</td></tr>
+  <tr><td>Metodologia</td><td>Construcció pas a pas de codis PCS; casos d'informes quirúrgics reals; treball en parelles</td></tr>
+  <tr><td>Recursos</td><td>eCIEMaps Procediments, Manual Procedimientos (Secció 0, B3.1b), infografies de causes externes</td></tr>
+  <tr><td>Instrument i avaluació</td><td>Dossier AEA 4 + PE4 (PCS i Urgències) · Fita 4 (setmana 27)</td></tr>
+</table>
+<h4>Seqüenciació de sessions</h4>
+<table><tr><th class="pes">Sessió</th><th class="pes">Setmana</th><th class="pes">Durada</th><th>Contingut de la sessió</th><th>RAs/CAs</th></tr>
+<tr><td class="pes">S1</td><td class="pes">23</td><td class="pes">2 h</td><td>Estructura multiaxial de 7 caràcters de la Secció 0. Regla de la Mateixa Fila.</td><td>RA7 · 7.1, 7.2</td></tr>
+<tr><td class="pes">S2</td><td class="pes">24</td><td class="pes">2 h</td><td>Operacions arrel: Escissió (B) vs. Resecció (T) vs. Extracció (D). Tècniques implícites (B3.1b).</td><td>RA7 · 7.3, 7.4</td></tr>
+<tr><td class="pes">S3</td><td class="pes">25</td><td class="pes">2 h</td><td>Procediments convertits (doble codi). Biòpsies. Anglès quirúrgic (7e*).</td><td>RA7 · 7.5, 7.6, 7e*</td></tr>
+<tr><td class="pes">S4</td><td class="pes">26</td><td class="pes">2 h</td><td>Lesions traumàtiques i 7è caràcter temporal. TCE i escala de Glasgow (R40.24-).</td><td>RA8 · 8.1, 8.2</td></tr>
+<tr><td class="pes">S5</td><td class="pes">27</td><td class="pes">2 h</td><td>Seqüència de causes externes (V-Y + Y92 + Y93 + Y99). Efecte mirall. <b>Fita 4 (PE4)</b>.</td><td>RA8 · 8.3, 8.4</td></tr>
+<tr><td class="pes">S6</td><td class="pes">32</td><td class="pes">2 h</td><td>Intoxicació vs. reacció adversa. Complicacions de cures (T80-88 / Y83-84). Z38. Tancament.</td><td>RA8 · 8.5, 8.6, 8.7</td></tr>
+</table>
+</div>
+
+<div class="aea-block">
+<h3>4.5 · AEA 5 — Projecte Integrador d'Auditoria d'Expedients Sanitaris (8 h · 4 sessions)</h3>
+<h4>Fitxa de l'activitat</h4>
+<table>
+  <tr><th>Camp</th><th>Contingut</th></tr>
+  <tr><td>RAs treballats</td><td>Tots (transversal RA1-RA8)</td></tr>
+  <tr><td>CAs avaluats</td><td>Tots els 52 CAs (avaluació integrada)</td></tr>
+  <tr><td>Continguts clau</td><td>Auditoria integral d'expedients clínics complexos · resolució de discrepàncies i Query · justificació normativa · defensa oral · impacte en gestió (GRD/CMBD)</td></tr>
+  <tr><td>Capacitats clau</td><td>Les 6 capacitats C1-C6, amb pes especial de C5 (treball en equip) i C6 (control de qualitat)</td></tr>
+  <tr><td>Organització d'aula</td><td>Sessions de treball cooperatiu + sessió de defensa oral davant del docent</td></tr>
+  <tr><td>Metodologia</td><td>Aprenentatge basat en projectes; casos hospitalaris complexos reals anonimitzats; feedback Glows &amp; Grows</td></tr>
+  <tr><td>Recursos</td><td>Expedients complexos, micro-rúbrica d'auditoria, rúbrica de defensa oral, Motor d'IA per a retroacció</td></tr>
+  <tr><td>Instrument i avaluació</td><td>Rúbrica del Projecte Integrador + defensa oral · Fita 5 (setmana 31) · nodreix el 30 % de l'OC</td></tr>
+</table>
+<h4>Seqüenciació de sessions</h4>
+<table><tr><th class="pes">Sessió</th><th class="pes">Setmana</th><th class="pes">Durada</th><th>Contingut de la sessió</th><th>RAs/CAs</th></tr>
+<tr><td class="pes">S1</td><td class="pes">28</td><td class="pes">2 h</td><td>Presentació del projecte i dels casos complexos. Planificació i repartiment.</td><td>Tots (transversal)</td></tr>
+<tr><td class="pes">S2</td><td class="pes">29</td><td class="pes">2 h</td><td>Auditoria del cas hospitalari 1 (DP, DS, POA, PCS, causes externes).</td><td>Tots (transversal)</td></tr>
+<tr><td class="pes">S3</td><td class="pes">30</td><td class="pes">2 h</td><td>Auditoria del cas hospitalari 2. Resolució de discrepàncies i Query.</td><td>Tots (transversal)</td></tr>
+<tr><td class="pes">S4</td><td class="pes">31</td><td class="pes">2 h</td><td><b>Fita 5:</b> defensa oral del projecte amb rúbrica C1-C6.</td><td>Tots (transversal)</td></tr>
+</table>
+</div>
+
+<div class="alert-green">
+<h3>4.6 · Recuperació contínua i tancament (6 h · 3 sessions)</h3>
+<table>
+  <tr><th class="pes">Sessió</th><th class="pes">Setmana</th><th class="pes">Durada</th><th>Contingut</th><th>RAs</th></tr>
+  <tr><td class="pes">R1</td><td class="pes">10</td><td class="pes">2 h</td><td>Recuperació d'estudi de casos de RA1-RA4 no assolits (nota màxima 10).</td><td>RA1-RA4</td></tr>
+  <tr><td class="pes">R2</td><td class="pes">22</td><td class="pes">2 h</td><td>Recuperació de diagnòstics i POA (RA5-RA6).</td><td>RA5-RA6</td></tr>
+  <tr><td class="pes">R3</td><td class="pes">33</td><td class="pes">2 h</td><td>Recuperació de procediments PCS (RA7-RA8) i tancament d'actes.</td><td>RA7-RA8</td></tr>
+</table>
+</div>
+
+<!-- ============================================================ 5 · METODOLOGIA -->
+<h2>5 · Metodologia didàctica</h2>
+<ul>
+  <li><b>Aprenentatge Basat en Problemes (ABP) i auditoria clínica:</b> cada sessió parteix de casos clínics reals (anonimitzats) que l'alumnat resol amb raonament auditable, no amb memorització.</li>
+  <li><b>Open Book amb eCIEMaps:</b> l'alumnat treballa sempre amb l'eina oficial del Ministeri de Sanitat i els manuals de normativa, replicant les condicions reals d'un servei de documentació hospitalària.</li>
+  <li><b>Desdoblament setmanal:</b> ràtio reduïda a l'aula d'informàtica per auditar el raonament clínic cas per cas.</li>
+  <li><b>Llengua anglesa instrumental:</b> interpretació de terminologies internacionals (SNOMED CT, DRG/GRD) i documentació tècnica quirúrgica (CAs afegits 4g* i 7e*).</li>
+  <li><b>IA com a co-docent:</b> ús de Paquets LLM amb blindatge anti-al·lucinació, arquitectura Dual-User (SYS_PROMPT oficial, NotebookLM) i Motor d'IA per a l'avaluació formativa — sempre sota supervisió docent i amb dades anonimitzades.</li>
+</ul>
+
+<h2>6 · Avaluació (model de tres portes, llindar ≥ 5,0)</h2>
+<h3>6.1 · Portes</h3>
+<ul>
+  <li><b>Porta 1 (ítem i instrument):</b> cal assolir <b>PE ≥ 5,0</b> i <b>OC ≥ 5,0</b>.</li>
+  <li><b>Porta 2 (RA):</b> tots i cadascun dels 8 RAs amb <b>QRA ≥ 5,0</b>. No hi ha compensació entre RAs.</li>
+  <li><b>Porta 3 (mòdul):</b> <b>QMP<sub>final</sub> ≥ 5,0</b>.</li>
+</ul>
+
+<h3>6.2 · Fórmules</h3>
+<table><tr><th>Qualificació</th><th>Fórmula</th></tr>
+<tr><td>Resultat d'Aprenentatge</td><td><b>QRA<sub>x</sub> = (PE<sub>x</sub> × 0,70) + (OC<sub>x</sub> × 0,30)</b></td></tr>
+<tr><td>Observació Competencial per RA</td><td>OC<sub>x</sub> = (OC_AEA<sub>x</sub> × 0,70) + (OC_AEA5<sub>x</sub> × 0,30)</td></tr>
+<tr><td>Qualificació de centre (90 %)</td><td>QMP<sub>centre</sub> = 0,08·QRA1 + 0,08·QRA2 + 0,10·QRA3 + 0,10·QRA4 + 0,20·QRA5 + 0,20·QRA6 + 0,12·QRA7 + 0,12·QRA8</td></tr>
+<tr><td>Qualificació definitiva</td><td><b>QMP<sub>final</sub> = (0,90 × QMP<sub>centre</sub>) + (0,10 × Qualificació_FCT)</b> (si FCT convalidada, QMP<sub>final</sub> = QMP<sub>centre</sub>)</td></tr>
+</table>
+
+<h3>6.3 · Instruments (PE i OC)</h3>
+<ul>
+  <li><b>PE (70 %):</b> 4 proves escrites competencials en modalitat Open Book amb eCIEMaps (PE1 a PE4), resolució individual de casos clínics, justificació del DP i construcció multiaxial PCS.</li>
+  <li><b>OC (30 %):</b> Observació Competencial continuada amb la rúbrica C1-C6 (Rigor tècnic 20 %, Autonomia 20 %, Seguretat 20 %, Diligència 15 %, Treball en equip 15 %, Control de qualitat 10 %). Es nodreix en un 70 % dels dossiers d'AEA i un 30 % del Projecte Integrador (AEA 5).</li>
+  <li><b>Micro-rúbrica d'Auditoria</b> (base 2 punts) per a preguntes obertes: justificació normativa, procés lògic, impacte en gestió hospitalària i vocabulari tècnic oficial.</li>
+</ul>
+
+<h3>6.4 · Recuperació i absentisme</h3>
+<div class="alert-box">⚠️ PÈRDUA D'AVALUACIÓ CONTÍNUA: superar el <b>20 % d'absències no justificades</b> de les hores presencials (14 h sobre 66 h) comporta la pèrdua del dret a l'avaluació contínua i el pas a la convocatòria extraordinària amb examen global.</div>
+<p>Recuperació contínua integrada en 3 períodes (setmanes 10, 22 i 33) amb nota màxima 10, més segona convocatòria final exclusivament dels RAs no assolits.</p>
+
+<h3>6.5 · Línies Vermelles deontològiques (LV)</h3>
+<table><tr><th>LV</th><th>Infracció</th><th>Conseqüència</th></tr>
+<tr><td>LV1</td><td>Introduir dades identificatives reals de pacients a models d'IA públics sense anonimització prèvia.</td><td>0 punts a l'activitat/prova</td></tr>
+<tr><td>LV2</td><td>Frau o suplantació acadèmica en proves Open Book.</td><td>0 punts a l'activitat/prova</td></tr>
+<tr><td>LV3</td><td>Falsificació documental (modificar diagnòstics sense Query al facultatiu).</td><td>0 punts a l'activitat/prova</td></tr>
+</table>
+
+<div class="alert-box">🚨 LOPD I ÚS DE LA IA: CAP dada identificativa real de pacients a models d'IA públics (p. ex. NotebookLM). Treballeu sempre amb casos clínics <b>anonimitzats</b>. La vulneració és una Línia Vermella (LV1).</div>
+
+<!-- ============================================================ 7 · DUA -->
+<h2>7 · Atenció a la diversitat (DUA)</h2>
+<ul>
+  <li>Mesures d'accessibilitat universal i materials en formats compatibles.</li>
+  <li>Ampliació del <b>25 % de temps</b> en les proves competencials per a l'alumnat amb dictamen de la Comissió d'Atenció a la Diversitat (CAD).</li>
+</ul>
+
+<h2>8 · Coordinació intermodular</h2>
+<table><tr><th>Mòdul</th><th>Relació</th><th>Flux de coordinació</th></tr>
+<tr><td>MP 1516 (Terminologia clínica)</td><td>Coordinat (1r)</td><td>Vocabulari anatomofisiològic per descompondre diagnòstics.</td></tr>
+<tr><td>MP 1517 (Extracció de diagnòstics)</td><td>Coordinat (1r)</td><td>Lectura crítica de la història clínica i identificació de l'episodi assistencial.</td></tr>
+<tr><td>MP 1520 (Codificació avançada)</td><td>Posterior (2n)</td><td>El MP 1519 lliura la competència instrumental; el 1520 aborda la patologia per aparells.</td></tr>
+<tr><td>MP 1522 (Validació i explotació)</td><td>Posterior (2n)</td><td>Usa les bases de dades del CMBD del MP 1519.</td></tr>
+</table>
+
+<!-- ============================================================ 9 · VALIDACIÓ -->
+<h2>9 · Quadre de validació i signatures</h2>
+<table style="text-align:center;">
+  <tr>
+    <td class="firma"><br><br><br><b>El docent</b><br>[Nom del docent]<br><br>Signatura i data</td>
+    <td class="firma"><br><br><br><b>Cap de Departament</b><br>Nom:<br><br>Signatura i data</td>
+    <td class="firma"><br><br><br><b>Direcció</b><br>Nom:<br><br>Vistiplau i data</td>
+  </tr>
+</table>
+
+<p class="legal">Document generat a partir del graf OKF del mòdul (MOC, Catàleg Curricular i Protocol d'Avaluació de <code>02-exemple-complet/</code>) del OKF Starter Kit. Tot el contingut curricular prové del decret (RD 768/2014 · Ordre EDU/10/2020) i de la normativa tècnica CIE-10-ES 6a edició. No s'ha modificat cap fitxer del kit.</p>
+
+</body>
+</html>

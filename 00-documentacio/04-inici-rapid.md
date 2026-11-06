@@ -272,6 +272,7 @@ Un cop completat aquest laboratori, tens diferents camins segons el que vulguis 
 | **Tens una programació feta** (Word, PDF, Excel) i vols convertir-la en un vault OKF sense reescriure-la | **Inductiu** (de la pràctica al currículum) | [`PLANTILLA-PaquetLLM-01.md`](../04-plantilles/PLANTILLA-PaquetLLM-01.md) |
 | **Comences de zero** (mòdul nou, sense programació) o vols repensar la programació des del currículum | **Deductiu** (del currículum a la pràctica) | [`PLANTILLA-PaquetLLM-00.md`](../04-plantilles/PLANTILLA-PaquetLLM-00.md) |
 | **No ho tens clar** | Comença pel **deductiu** (Paquet 00) | [`PLANTILLA-PaquetLLM-00.md`](../04-plantilles/PLANTILLA-PaquetLLM-00.md) |
+| **Ja tens el vault construït** i vols generar el document oficial per a Inspecció | **Sortida** (del vault al document) | [`PLANTILLA-PaquetLLM-02.md`](../04-plantilles/PLANTILLA-PaquetLLM-02.md) |
 
 Tots dos camins porten al mateix lloc: un vault OKF validat. La diferència és el punt de partida i el grau de formalitat del resultat. El camí inductiu preserva la teva feina existent; el deductiu produeix un graf formalment més perfecte.
 

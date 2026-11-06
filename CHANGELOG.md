@@ -47,6 +47,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **Secció «El docent no és un programador»** a `00-documentacio/02-filosofia.md` (§9): respon a la crítica que el docent mitjà es perdrà en els YAML. El kit no pretén que els docents es converteixin en programadors, sinó que entenguin l'estructura del coneixement curricular i sàpiguen guiar una IA. Commit `f879dc4`.
 - **`PLANTILLA-PaquetLLM-00.md`** (Paquet deductiu): parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero. Commit `f879dc4`.
 - **`PLANTILLA-PaquetLLM-01.md`** (Paquet inductiu): parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la. Commit `f879dc4`.
+- **`PLANTILLA-PaquetLLM-02.md`** (Paquet de sortida): genera el document oficial de Programació Didàctica en HTML/CSS a partir dels nodes del vault (MOC, Catàleg, Protocol, Fitxes AEA). Inclou l'exemple complet `exemples/Programacio_Didactica_MP1519.html`. Commit `[pendent]`.
 
 ### Descartat
 
