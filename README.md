@@ -2,7 +2,7 @@
 
 > **Una proposta de sistema operatiu per al coneixement curricular docent.**  
 > El currículum com un graf de text pla: llegible, versionable i teu.  
-> I una invitació oberta a construir, entre tots, un estàndard per al currículum.
+> I una invitació oberta a construir, entre tots, un estàndard educatiu lliure.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.md)
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-blue.svg)](LICENSE.md)
@@ -12,102 +12,138 @@
 
 ---
 
+## Índex
+- [Què és això, de docent a docent?](#què-és-això-de-docent-a-docent)
+- [D'on surt la idea?](#don-surt-la-idea)
+- [El problema de cada setembre](#el-problema-de-cada-setembre)
+- [De la trinxera a l'Starter Kit](#de-la-trinxera-a-lstarter-kit)
+- [Què fa diferent aquest mètode?](#què-fa-diferent-aquest-mètode)
+- [Tres portes d'entrada (i una de sortida)](#tres-portes-dentrada-i-una-de-sortida)
+- [Com és un node OKF?](#com-és-un-node-okf)
+- [Què conté aquest repositori?](#què-conté-aquest-repositori)
+- [Inici ràpid en 10 minuts](#inici-ràpid-en-10-minuts)
+- [Límits coneguts i honestedat](#límits-coneguts-i-honestedat)
+- [Llicències i citació](#llicències-i-citació)
+- [Declaració d'ús d'IA](#declaració-dús-dia)
+- [Crèdits i agraïments](#crèdits-i-agraïments)
+
+---
+
 ## Què és això, de docent a docent?
 
-OKF no és cap programari que hagis d'instal·lar ni cap plataforma amb subscripció. És una metodologia oberta per estructurar programacions, activitats, criteris d'avaluació i materials en **fitxers de text pla (Markdown)** connectats com un graf.
+L'**OKF Starter Kit** no és cap programari comercial que hagis d'instal·lar ni cap plataforma amb subscripció al núvol. És una metodologia oberta per estructurar programacions, activitats, criteris d'avaluació i recursos didàctics en **fitxers de text pla (Markdown)** interconnectats en forma de graf.
 
-Un sistema operatiu posa ordre als recursos d'un ordinador; OKF intenta posar-ne a la complexitat curricular perquè hi puguis treballar amb coherència. És una metàfora: un sistema operatiu fa complir les regles, i OKF les proposa i, com a molt, les comprova.
+Igual que un sistema operatiu gestiona els recursos d'una màquina, aquest kit posa ordre a la complexitat curricular perquè puguis treballar-hi amb rigor i coherència. 
 
-Quan el teu coneixement és endreçat i validat, hi pots connectar la IA mitjançant els **Paquets LLM**: receptes obertes, en text pla, que pots llegir i modificar. La idea és que el coneixement docent deixi de ser un cementiri de fitxers Word oblidats i passi a ser un taller.
-
----
-
-## D'on surt aquesta idea?
-
-Soc del 74, biòleg de formació i professor de FP a l'escola pública catalana des del 2008. Abans treballava en control microbiològic a la indústria farmacèutica, on el que no estava validat, registrat i traçat, senzillament no existia.
-
-El 2015, sent interí, em va tocar el mòdul de Codificació Sanitària, el «marró» que ningú volia per la seva complexitat. Me'l vaig agafar com un repte, i treballant amb ontologies i classificacions mèdiques (SNOMED-CT, CIM-10) em va caure la fitxa: **el currículum funciona com una xarxa viva**. Té resultats d'aprenentatge, criteris d'avaluació, continguts, activitats i protocols que depenen els uns dels altres. I tanmateix el gestionem amb documents de Word lineals de 80 pàgines que es trenquen i es desfasen cada trimestre.
-
-**El juny de 2026, Google Cloud va publicar l'especificació Open Knowledge Format (OKF):** un format obert per estructurar coneixement en fitxers Markdown amb frontmatter YAML, pensat perquè els agents d'IA el puguin llegir i compartir. L'especificació era minimalista (només exigia un camp `type`), i estava pensada per al coneixement empresarial.
-
-Quan la vaig llegir, em va caure la fitxa: **allò que Google proposava per al coneixement corporatiu es podia aplicar al currículum.** Un graf de nodes interconnectats, amb metadades validables, era exactament el que necessitava el sistema educatiu. No calia inventar un format nou: n'hi havia prou d'adaptar-ne un d'existent i afegir-hi la capa curricular (Cores, plantilles, Paquets LLM).
-
-Aquest kit és, per tant, un **perfil de l'especificació OKF de Google**, adaptat a l'educació catalana. Respecta el nucli (el camp `type`) i afegeix 9 tipus i 8 camps universals per a la governança del currículum. Si vols el detall tècnic, és a [`02-filosofia.md`](00-documentacio/02-filosofia.md).
-
-**Relació amb altres estàndards educatius.** El kit no implementa CASE (intercanvi de competències), LRMI (descripció de recursos) ni Schema.org (dades estructurades a la web), però hi dialoga conceptualment. Tampoc no pretén substituir els sistemes administratius com Esfer@ o SAGA: la via pràctica per connectar-s'hi és generar fitxers d'importació massiva a partir dels nodes del vault (mitjançant un Paquet LLM), eliminant la introducció manual de notes alumne per alumne. Els detalls complets són a [`08-relacio-amb-estandards.md`](00-documentacio/08-relacio-amb-estandards.md).
+Quan el teu coneixement docent està estructurat i validat, pots connectar-hi models de llenguatge mitjançant els **Paquets LLM**: instruccions en text pla que pots auditar, retallar o adaptar. L'objectiu és senzill: que la feina docent deixi de ser un cementiri de fitxers Word oblidats i torni a ser un taller viu.
 
 ---
 
-## El setembre que coneixem tots
+## D'on surt la idea?
 
-Arribes a un institut nou, et canvien el mòdul o obres el Drive per preparar el curs:
+Soc del 74, biòleg de formació i professor de Formació Professional a la xarxa pública des del 2008. Abans treballava en control microbiològic a la indústria farmacèutica, on el que no estava registrat, validat i traçat, senzillament no existia.
 
-- Tens 50 fitxers escampats: `Programacio_v2_definitiva_OK.docx`, exàmens sense pauta de correcció i fitxes de pràctiques que no saps a quin criteri responen.
-- Si adaptes un criteri d'avaluació al gener, has de revisar dotze documents a mà, i sempre te'n descuides algun.
-- Si cobreixes una substitució, sovint reps carpetes amb retalls o el buit absolut.
-- Cada curs reinventes la roda, perquè el material de l'any anterior és massa rígid per reutilitzar-lo.
+El 2015, sent interí, em va tocar el mòdul de Codificació Sanitària. Treballant amb ontologies mèdiques (CIM-10, SNOMED-CT) em va caure la fitxa: **el currículum funciona exactament com una biologia**. Està format per resultats d'aprenentatge, criteris d'avaluació, continguts i activitats que depenen els uns dels altres. Cap concepte no viu aïllat. I tanmateix, el continuem gestionant en documents Word lineals de 80 pàgines que es trenquen i queden obsolets cada curs.
 
-El kit intenta donar-hi una resposta digna: recuperar el control de les teves eines de treball.
+**La gènesi amb Google OKF (juny de 2026):** Quan Google Cloud va publicar l'especificació *Open Knowledge Format* (un model obert i minimalista per compartir bases de coneixement mitjançant Markdown i capçaleres YAML per a agents d'IA), vaig veure clar que allò que proposaven per a l'àmbit corporatiu era la solució idònia per al currículum. 
+
+Aquest repositori és un **perfil curricular català de l'especificació OKF**: respecta l'estàndard base (el camp `type`) i hi afegeix **9 tipus universals** i **8 camps mínims** per a la governança educativa. 
+
+* **Relació amb altres marcs:** Dialoga conceptualment amb CASE, LRMI i Schema.org, però prioritza la sobirania del docent. No pretén substituir els aplicatius oficials (com Esfer@ o SAGA), sinó oferir una font de veritat des d'on generar automàticament imports massius (detalls a [`00-documentacio/08-relacio-amb-estandards.md`](00-documentacio/08-relacio-amb-estandards.md)).
+
+---
+
+## El problema de cada setembre
+
+Tots coneixem la inèrcia d'inici de curs:
+- 50 fitxers dispersos al Drive: `Programacio_v2_definitiva_OK.docx`, exàmens desconnectats de la seva pauta i activitats sense criteris clars.
+- Modifiques un criteri al gener i has de recordar quins dotze documents has d'obrir a mà per actualitzar-lo.
+- Si fas una substitució, sovint reps un calaix desendreçat o el buit absolut.
+- Cada any reinventem la roda perquè el material heretat és massa rígid per reutilitzar-lo.
+
+El kit busca recuperar el control sobre les nostres pròpies eines de treball.
 
 ---
 
 ## De la trinxera a l'Starter Kit
 
-La trinxera ha estat el meu despatx, a casa. Els vaults de TCAI i SAD són fruit de caps de setmana i vacances, no d'un projecte d'equip ni de res que s'hagi gestat a la sala de professors. Aquest sistema no és un producte corporatiu ni una recepta màgica: és una obsessió personal que ha crescut a base d'assaig i error.
+Aquest kit és fruit de caps de setmana i vacances a la trinxera de casa, no d'un encàrrec institucional. Neix d'una obsessió personal sotmesa a la prova del cotó amb companys reals:
 
-**El factor Montse.** TCAI el compartim. L'agost de 2026 vaig enllestir el graf del cicle de Cures Auxiliars d'Infermeria i vaig començar a operar-lo amb IA, amb bateries de *prompts* que anava polint i passant a la Montse G., la meva co-docent del torn de tarda. Ella s'atabalava, i era normal: jo li passava una enginyeria que tenia sentit al meu cap tecno-friqui, i ella només volia preparar una bona classe. D'aquí va néixer el **Paquet LLM**: una recepta oberta, transparent i en text pla que ella pot llegir, entendre i retallar o canviar una línia. La Montse és la veritable usuària del sistema, i de moment ens permet anar harmonitzats al matí i a la tarda sense que la tecnologia l'angoixi. Quan completo o millore nodes de TCAI, i sobretot els Paquets LLM, ho faig amb ella. SAD, en canvi, l'evoluciono sol i només per mi.
-
-**Els qui s'hi han apropat.** Els companys coneixen els meus vaults, però la majoria no hi han entrat: és una eina que, avui, només fa servir qui té un perfil molt tècnic, i ho entenc. Només a qui ha mostrat interès li he preparat materials a mida per iniciar-s'hi: en Benet M. (un mòdul de Química des de zero, una matèria que no domino), en César G. (un vault propi de 59 nodes que passen el validador) i l'Ariadna C. (Pedagogia Terapèutica, amb la privacitat de menors com a condició de disseny). Amb la Montse en fan quatre, i els explico amb detall a [`01-casos-us.md`](06-comunitat/01-casos-us.md). L'adopció real no es mesura en clics, sinó en temps, motivació i acompanyament reposat.
-
-**L'autocrítica.** Els meus vaults de TCAI i SAD pateixen de sobreenginyeria: m'hi vaig passar de frenada. L'**OKF Starter Kit** és la meva operació de neteja: l'esquelet mínim que aguanta el sistema.
-
-**Per què el publico.** L'allibero a GitHub per trobar altres *rara avis* com jo, que segur que n'hi ha, i per valorar plegats si això mereix tirar-se endavant. Si t'hi reconeixes, ets exactament qui busco. **El codi és meu; l'estàndard pot ser de tots.** Si vols construir-lo amb mi, el taller és obert.
+* **El factor Montse:** A l'agost de 2026 vaig muntar el graf del cicle TCAI (Cures Auxiliars d'Infermeria) per operar-lo amb IA. Quan li vaig passar les bateries de *prompts* a la Montse G., la meva co-docent de la tarda, es va atabalar amb tota la raó: jo li passava una enginyeria pensada per al meu cap tecnològic, i ella només volia preparar una bona classe. D'aquí va néixer el **Paquet LLM**: una recepta transparent en text pla que ella pot llegir, ajustar o retallar sense tocar cap línia de codi. La Montse és la veritable usuària del sistema: gràcies a ella treballem coordinats matí i tarda sense angoixa tecnològica.
+* **Proves fora de la zona de confort:** Amb en Benet M. vam construir de zero el mòdul de Química (una especialitat que jo no domino) per provar que l'estructura sosté qualsevol matèria; amb en César G. vam validar l'escalabilitat d'un vault propi de 59 nodes; i amb l'Ariadna C. vam explorar l'encaix amb la Pedagogia Terapèutica i el Disseny Universal per a l'Aprenentatge (DUA), fent de la privacitat dels menors una condició sagrada de disseny ([`06-comunitat/01-casos-us.md`](06-comunitat/01-casos-us.md)).
+* **L'autocrítica:** Els meus vaults personals patien de sobreenginyeria. L'**OKF Starter Kit** és la neteja necessària: l'esquelet mínim per sostenir el curs sense afegir pes inútil.
 
 ---
 
 ## Què fa diferent aquest mètode?
 
-1. **Text pla (Markdown + YAML).** El teu coneixement viu al teu ordinador, en fitxers lliures. Cap format és etern, però el text pla és el que millor resisteix el pas del temps i s'obre amb qualsevol editor.
-2. **El graf com a font de veritat (programació viva).** Les unitats i les activitats s'enllacen entre elles. La programació que demana el centre o Inspecció no és un document que hagis de picar a part: és una vista derivada del teu graf, que revises abans de lliurar-la.
-3. **Paquets LLM i dos marcs de referència.** La IA s'opera amb **Paquets LLM**: instruccions en text pla que pots llegir i modificar. El seu ús es descriu amb dos marcs de Juan José de Haro:
-   - **[MIAE](https://jjdeharo.github.io/miae/es/)** descriu com es reparteix el treball entre la persona i la IA. Per als materials d'aula treballem al **nivell 3**: la IA proposa un esborrany i el docent el reconstrueix i en pren la decisió final.
-   - **[VCER](https://vibe-coding-educativo.github.io/vibe-responsable/ca/)** (*Vibe Coding Educatiu Responsable*) posa condicions als materials que es generen: els artefactes (com presentacions HTML interactives) funcionen 100% offline, no envien dades ni telemetria, es poden fer servir amb teclat i s'alliberen amb llicència lliure.
-4. **Un validador que et cuida l'esquena.** Un petit script en Python que comprova el compliment dels Cores: els **8 camps universals** i els **9 tipus universals**, els tipus de família declarats a la teva Convenció, els enllaços interns (cap trencat, cap wiki link), els enums de `visibilitat` i `estat`, la presència de MOC arrel, Handoff i Convenció, i la coherència dels flags de privacitat (`dades_personals`, `anonimitzat`, `visibilitat`). **No detecta dades personals en prosa:** per a una protecció completa, cal revisar manualment el contingut dels documents. Comprova la forma, no la veritat: que el contingut sigui correcte continua sent feina teva.
+1. **Text pla (Markdown + YAML):** El teu coneixement viu al teu disc dur, en fitxers lliures i duradors que podràs obrir d'aquí a vint anys amb qualsevol editor.
+2. **El graf com a font de veritat:** Les unitats i les activitats s'enllacen en xarxa. La programació que lliures al centre o a Inspecció deixa de ser un document burocràtic a part per esdevenir una vista derivada directa del teu graf.
+3. **Paquets LLM sota marcs ètics d'aula:** Operem la IA amb els marcs formulats per Juan José de Haro:
+   - **[MIAE](https://jjdeharo.github.io/miae/es/) (Nivell 3):** La IA només proposa esborranys. El docent reconstrueix, valida críticament i pren la decisió final.
+   - **[VCER](https://vibe-coding-educativo.github.io/vibe-responsable/ca/) (*Vibe Coding Educatiu Responsable*):** Els materials d'aula generats han de ser 100% *offline*, sense telemetria d'alumnat, accessibles per teclat i amb llicència lliure.
+4. **Validació determinista:** Un script en Python comprova l'estructura dels Cores: camps obligatoris, coherència de tipus, integritat d'enllaços relatius (zero enllaços trencats, sense dependència de wikilinks propietaris) i governança estructural (`MOC.md`, `Handoff.md`, `Convencio.md`). 
 
 ---
 
-## Com es veu un node OKF?
+## Tres portes d'entrada (i una de sortida)
 
-Un document d'una activitat o unitat és simplement text net amb metadades clares:
+El kit no té una única manera de començar. Té **tres Paquets LLM** que cobreixen tot el cicle, des de la construcció del vault fins al document oficial:
+
+| Paquet | Enfocament | Punt de partida | Punt d'arribada | Fitxer |
+|:---|:---|:---|:---|:---|
+| **Paquet 00** | **Deductiu** | Currículum oficial | Vault construït | [`PLANTILLA-PaquetLLM-00.md`](04-plantilles/PLANTILLA-PaquetLLM-00.md) |
+| **Paquet 01** | **Inductiu** | Programació existent | Vault construït | [`PLANTILLA-PaquetLLM-01.md`](04-plantilles/PLANTILLA-PaquetLLM-01.md) |
+| **Paquet 02** | **Sortida** | Vault construït | Document oficial (Word) | [`PLANTILLA-PaquetLLM-02.md`](04-plantilles/PLANTILLA-PaquetLLM-02.md) |
+
+**Quin trio?**
+
+- **Tens una programació feta** (Word, PDF, Excel) i vols convertir-la en un vault OKF sense reescriure-la → **Paquet 01** (inductiu).
+- **Comences de zero** (mòdul nou) o vols repensar la programació des del currículum → **Paquet 00** (deductiu).
+- **Ja tens el vault construït** i vols generar el document oficial per a Inspecció → **Paquet 02** (sortida).
+
+Els dos primers camins porten al mateix lloc: un vault OKF validat. La diferència és el punt de partida i el grau de formalitat del resultat. El camí inductiu preserva la feina existent; el deductiu produeix un graf formalment més perfecte. El tercer tanca el cercle: converteix el vault en el document que has de lliurar.
+
+**Exemple de sortida:** [`04-plantilles/exemples/Programacio_Didactica_MP1519.html`](04-plantilles/exemples/Programacio_Didactica_MP1519.html) — una Programació Didàctica completa en HTML/CSS, llesta per importar a Word.
+
+---
+
+## Com és un node OKF?
+
+Un document d'activitat o d'unitat és text net acompanyat d'unes metadades clares. Aquí tens un exemple de **Fitxa AEA** (el tipus de node que fa servir la família LOE):
 
 ```markdown
 ---
-id: QU20-MP1257-UD-01
-type: UnitatDidactica
-title: "Unitat 1: Auditoria de seguretat del magatzem"
+id: SAD-MP1519-AEA-01
+type: FitxaAEA
+title: "AEA 1: El SIS i l'estandardització de la dada clínica"
 version: "V1.0"
-data_ultima_actualitzacio: "2026-10-29"
+data_ultima_actualitzacio: "2026-11-06"
 authors:
-  - "Benet M."
   - "Josep Montañà Piqué"
 legal_framework: LOE
-credit: "MP1257"
+modul: "MP1519"
+criteris_avaluacio: ["1.1", "1.2", "1.3", "1.4"]
+instruments_avaluacio:
+  - codi: "I1"
+    descripcio: "Observació competencial amb llista de control"
+    criteris: ["1.1", "1.2", "1.3", "1.4"]
 tags:
-  - okf/ud
-  - okf/mp1257
-  - mp1257/magatzem
+  - okf/aea
+  - okf/mp1519
 estat: vigent
 ---
 
-# Unitat 1: Auditoria de seguretat del magatzem
+# AEA 1: El SIS i l'estandardització de la dada clínica
 
-Aquesta unitat desplega el Resultat d'Aprenentatge RA1 del mòdul.
+Aquesta activitat desplega el Resultat d'Aprenentatge RA1 del mòdul.
 
 ## Activitats associades
-- [A1 · Auditoria de seguretat del magatzem](./02_MP1257_Fitxa_AEA_1.md)
+- [Protocol d'avaluació](./02_MP1519_Protocol_Avaluacio.md)
+- [Catàleg curricular](./01_MP1519_Cataleg_Curricular.md)
 ```
 
-I quan vols comprovar que el teu curs encaixa abans de publicar:
+I quan vols verificar la coherència estructural abans de tancar el trimestre:
 
 ```bash
 python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
@@ -121,171 +157,109 @@ python3 03-eines/validar_yaml.py --ruta 02-exemple-complet
 | Advertències (🟡) | 0 |
 
 ## ✅ Resultat
-
 Tots els nodes OKF del vault han passat la validació sense errors.
 ```
 
-«0 errors» vol dir que el graf compleix les regles de forma. No vol dir que el contingut sigui correcte.
+*(«0 errors» confirma que el graf compleix les regles de forma i enllaç; el rigor pedagògic del contingut continua sent responsabilitat del docent).*
 
 ---
 
-## Què conté aquest Starter Kit?
+## Què conté aquest repositori?
 
-| Carpeta | Què hi ha? | Per a què et serveix? |
+| Carpeta | Contingut | Utilitat pedagògica |
 |:---|:---|:---|
-| **`00-documentacio/`** | Filosofia, arquitectura, FAQ i manuals d'acollida | Per entendre com estructurar el teu pensament docent en xarxa. |
-| **`01-cores/`** | Nuclis curriculars oficials (LOMLOE i FP) | L'esquelet legal predefinit, perquè no hagis de picar decrets a mà. |
-| **`02-exemple-complet/`** | Un mòdul complet desplegat (MP1519, 14 nodes) | Un mirall de referència real: 5 AEAs, protocol de 3 portes, Paquet LLM i validador determinista. |
-| **`07-exemple-mp1519/`** | El mateix mòdul MP1519 com a exemple de l'**arquitectura de dues capes** (9 nodes: MOC detallat, catàleg, protocol, 5 fitxes, convenció i handoff) | Exemple focalitzat en catàleg + fitxes (amb convenció d'àlies), sense les eines del desplegament complet. |
-| **`03-eines/`** | Validador (`validar_yaml.py`) i snapshot d'estat (`status_snapshot.py`) | El validador comprova el compliment dels Cores: 8 camps universals, 9 tipus universals, tipus de família de la Convenció, enllaços, enums i la coherència dels flags de privacitat. L'snapshot genera un resum de l'estat del repo (branca, commits, validador, tests, nodes) en text pla. |
-| **`04-plantilles/`** | 7 plantilles preparades (MOC, UD, PaquetLLM…) | Duplica-les per crear els teus primers nodes en pocs minuts. |
-| **`05-exemples-minims/`** | Un vault funcional de 5 nodes (MOC, UD, AEA, Convenció i handoff) | El laboratori més petit possible per provar-ho en 30 minuts. |
-| **`06-comunitat/`** | Espai de difusió i l'article d'*eDigital* | Per compartir grafs i experiències entre docents. |
+| **`00-documentacio/`** | Filosofia, arquitectura, manuals d'acollida i ROADMAP | Guia conceptual per pensar el teu currículum en xarxa, i full de ruta del projecte. |
+| **`01-cores/`** | Nuclis curriculars oficials (LOMLOE i FP) | L'esquelet normatiu per no haver de picar decrets a mà. |
+| **`02-exemple-complet/`** | Mòdul complet desplegat (MP1519, 14 nodes) | Exemple de referència: 5 AEAs, protocol de 3 portes, Paquet LLM i validador. |
+| **`07-exemple-mp1519/`** | Variant en dues capes del mòdul MP1519 | Model centrat en catàleg + fitxes d'activitat (amb MOC detallat). |
+| **`03-eines/`** | Validador (`validar_yaml.py`) i snapshot (`status_snapshot.py`) | Eines de consola per auditar la salut del graf i obtenir resums per a la IA. |
+| **`04-plantilles/`** | Plantilles de nodes (MOC, UD, AEA, els 3 Paquets LLM…) | Models llestos per duplicar i omplir en pocs minuts. |
+| **`05-exemples-minims/`** | Vault de prova reduït (5 nodes, carpeta `vault-de-3-nodes`) | El banc de proves més petit possible per arrencar sense aclaparar-se. |
+| **`06-comunitat/`** | Casos d'ús reals i article d'anàlisi docent | Experiències d'aula i documentació divulgativa. |
 
-> **Nota sobre els exemples:** `02-exemple-complet/` i `07-exemple-mp1519/` són dues variants del mateix mòdul (MP 1519). Tots dos fan servir el format nou de la V1.3 (`criteris:` amb dicts, `instruments_avaluacio` estructurat). El `07-exemple-mp1519/` es va crear al **Bloc 12d** com a exemple focalitzat de l'**arquitectura de dues capes** (catàleg + fitxes, amb convenció d'àlies), sense les eines del desplegament complet de `02-exemple-complet/`. La diferència principal és el MOC: `02-exemple-complet/` té un MOC més sintètic, i `07-exemple-mp1519/` té un MOC més detallat. No són «antic» i «nou»: tots dos són de la V1.3.
+### Eines d'auditoria i diagnosi
 
-### L'eina d'snapshot
-
-A més del validador, el kit inclou **`status_snapshot.py`**, una eina de només lectura que genera un resum estandarditzat de l'estat del repositori: branca, commits recents, resultat del validador, resultat dels tests i recompte de nodes per tipus.
-
-```bash
-python3 03-eines/status_snapshot.py --full
-```
-
-És especialment útil quan treballes amb un assistent d'IA: el snapshot és un bloc de text pla que es pot enganxar a la conversa perquè l'assistent vegi l'estat real del repo sense necessitat de fer servir la terminal. Modes disponibles: `--quick`, `--full` (per defecte), `--audit` i `--since <ref>`.
-
-### L'auditoria curricular
-
-El kit inclou una **arquitectura de dues capes** per al currículum de Formació Professional: un catàleg normatiu (el decret) i fitxes d'activitat que hi apunten. El validador pot auditar la cobertura:
-
-```bash
-python3 03-eines/validar_yaml.py --ruta . --audit
-```
-
-L'informe mostra, per a cada catàleg, quants criteris d'avaluació cobreix (analítics i totals), quants queden orfes o inexistents, quants estan **contextualitzats** (`CAs contextualitzats (*)`) i quants ha **afegit el docent** (`CAs afegits pel docent`). A més, emet codis de qualitat i traçabilitat com `Y045` (CA afegit no referenciat per cap fitxa), `Y046` (CA només cobert per fitxes de síntesi) i `Y052` (criteri sense instrument), que **no afecten el veredicte** (COBERT/INCOMPLET). El codi de sortida és 0 (cobert), 1 (incomplert) o 2 (cap catàleg per auditar).
-
-Si vols veure un exemple complet, mira [`07-exemple-mp1519/`](./07-exemple-mp1519/). La guia completa de l'arquitectura és a [`00-documentacio/09-graf-curricular.md`](./00-documentacio/09-graf-curricular.md).
+* **Snapshot d'estat (`status_snapshot.py`):** Genera un bloc resum de text pla amb l'estat del repositori (branques, commits, tests i recompte de nodes) ideal per enganxar directament a un xat d'IA.
+* **Auditoria curricular (`--audit`):** Executant `python3 03-eines/validar_yaml.py --ruta . --audit`, el motor creua el catàleg normatiu amb les activitats, comptabilitzant la cobertura exacta de Criteris d'Avaluació (CAs coberts, orfes o afegits pel docent) emetent alertes de traçabilitat (`Y045`, `Y046`, `Y052`).
 
 ---
 
-## Inici ràpid (30 minuts)
+## Inici ràpid en 10 minuts
 
-Pots provar el validador ara mateix al teu equip:
+Pots validar el teu primer mini-graf localment:
 
 ```bash
 # 1. Clona el repositori
 git clone https://github.com/jmonta23-okf/okf-starter-kit.git
 cd okf-starter-kit
 
-# 2. Instal·la la dependència del validador (només requereix PyYAML)
+# 2. Instal·la l'única dependència necessària (PyYAML)
 pip install pyyaml
 
-# 3. Comprova l'exemple mínim
+# 3. Executa la validació sobre el vault mínim
 python3 03-eines/validar_yaml.py --ruta 05-exemples-minims/vault-de-3-nodes
 ```
 
-Segueix el tutorial pas a pas a la [Guia d'inici ràpid](00-documentacio/04-inici-rapid.md).
+```text
+| Mètrica | Valor |
+|:--------|:-----:|
+| Fitxers .md escanejats (nodes OKF) | 5 |
+| Fitxers amb errors | 0 |
+| Advertències (🟡) | 0 |
 
----
-
-## Per a qui és (i per a qui no)
-
-- **És per a tu si** ets docent de FP, secundària o primària; vols deixar de picar la mateixa burocràcia cada curs; vols que el teu material viatgi amb tu quan canviïs de centre; i vols treballar amb la IA amb criteri propi i amb eines que pots llegir.
-- **No és per a tu si** busques un programa comercial amb botons fets per no haver de pensar en la teva programació, o si et produeix rebuig treballar amb fitxers de text.
-
----
-
-## Límits coneguts (i per què els dic en veu alta)
-
-Aquest kit és una **proposta d'estàndard** (els Cores) amb una **implementació de referència** (el kit sencer). No és encara un estàndard, perquè un estàndard no el declara una persona: l'adopta una comunitat.
-
-### 1 · La paradoxa de la Montse
-
-La Montse pot fer servir el Paquet LLM, però encara no pot crear el seu propi vault des de zero sense la meva ajuda. En Benet, l'Ariadna i en César també van tenir acompanyament directe. El kit ha reduït la fricció, però no l'ha eliminada: per a un docent sense ningú que l'acompanyi, la corba d'aprenentatge (YAML, Git, terminal) continua sent alta. **És feina pendent, no una cosa resolta.**
-
-### 2 · Proposta d'estàndard o eina personal
-
-Els Cores (`OKF-CORE-CATALA-00`, `OKF-CORE-FP-00`) són una especificació formal: fixen 9 tipus universals, 8 camps universals, enums de visibilitat i estat, sintaxi d'enllaç Markdown relatiu i una declaració d'interoperabilitat. El validador és la implementació de referència, i el DOI de Zenodo en dona persistència.
-
-Però un estàndard necessita també:
-
-- **Comunitat externa**: persones que facin servir els Cores sense que jo les acompanyi. Avui no n'hi ha (factor autobús = 1).
-- **Governança**: un procés per decidir canvis. Avui les decisions les prenc jo.
-- **Adopció per part d'altres projectes**: que altres centres o eines facin servir els Cores. Avui no passa.
-- **Versionat formal de l'especificació**: els Cores ja tenen versió (V1.1.2, V1.0.2), però cal separar-lo del versionat del kit.
-
-Això no es pot decretar: s'ha de guanyar, i és feina de mesos o anys. Mentrestant, allibero els Cores amb DOI i llicència oberta, amb una invitació explícita a adoptar-los o a proposar-ne canvis. Si ningú ho fa, el kit serà una bona eina personal; si algú ho fa, podrà esdevenir un estàndard. No puc decidir per la comunitat: només puc posar les condicions perquè passi.
-
-### 3 · El cost de manteniment
-
-Un vault de 60 nodes demana disciplina. Quan arriba un pic de feina (avaluacions, tutories, famílies), el temps de mantenir el graf competeix amb el temps d'atenció a l'alumnat, i en aquesta competició **el graf perd**. Per a un docent amb 20 hores lectives setmanals i tres tutories, potser no és sostenible. No es resol amb cap eina: es resol amb menys nodes o amb més automatització, i és una decisió de disseny que encara no he pres del tot.
-
-### Què no és aquest kit
-
-- **No és encara un estàndard.** Li falta comunitat, governança i adopció externa.
-- **No és una eina per a tothom.** És per a qui vol sobirania digital i està disposat a aprendre eines tècniques. Si busques botons, hi ha eines comercials que ho fan millor.
-- **No és un producte acabat.** És un prototip amb DOI, provat per quatre persones, sense comunitat externa ni validació independent. El que veus és el que hi ha.
-- **El validador comprova la forma, no la veritat.** Comprova l'adherència als Cores (camps, tipus, enllaços, enums, MOC arrel, Handoff, coherència dels flags de privacitat), però no pot saber si el contingut docent és correcte ni detectar dades personals dins del text: això és el teu criteri professional.
-- **No substitueix les eines oficials.** El graf és la teva font de veritat interna; el document per a Inspecció és una vista derivada. Mentre no hi hagi exportació automàtica, caldrà fer el pas a mà (o amb un Paquet LLM que t'ho generi).
-- **No és una solució per a la cultura escolar actual.** La cultura escolar demana Word, Drive i plataformes oficials. El kit ofereix una capa de sobirania per al docent, no una substitució de les eines del centre.
-
-Els límits són aquí i no enterrats perquè un projecte que amaga els seus límits no és digne de confiança, i perquè tens dret a saber què t'emportes, encara que sigui gratis. Si et fan dubtar, potser el kit no és per a tu, i està bé. Si els veus com un repte assumible, el taller és obert.
-
----
-
-## Llicències
-
-- El codi de les eines i del validador té llicència **MIT**.
-- Les plantilles, la documentació i els continguts curriculars tenen llicència **Creative Commons Reconeixement-CompartirIgual 4.0 (CC BY-SA 4.0)**.
-
----
-
-## Com citar aquest projecte
-
-**APA (7a edició):**
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.3) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23964880
-
-**BibTeX:**
-```bibtex
-@software{montanya2026okf,
-  author       = {Montañà Piqué, Josep},
-  title        = {OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent},
-  year         = {2026},
-  version      = {V1.3},
-  publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.23964880},
-  url          = {https://doi.org/10.5281/zenodo.23964880}
-}
+## ✅ Resultat
+Tots els nodes OKF del vault han passat la validació sense errors.
 ```
 
-Per citar el projecte en general, sense versió específica, fes servir el concept DOI: https://doi.org/10.5281/zenodo.23823818
+Per a un recorregut guiat, consulta la [Guia d'inici ràpid](00-documentacio/04-inici-rapid.md).
+
+---
+
+## Límits coneguts i honestedat
+
+Un projecte públic ha de ser transparent amb les seves febleses. L'OKF Starter Kit és una proposta d'estàndard amb una implementació de referència, però avui té limitacions clares:
+
+1. **La corba de l'autonomia (El Factor Montse):** La Montse opera amb èxit els Paquets LLM a l'aula, però encara requereix acompanyament per crear un vault des de zero. Per a un docent sense familiaritat amb Markdown, Git o la terminal, la barrera d'entrada continua sent alta. Els Paquets 00 i 01 redueixen aquesta barrera, però no l'eliminen.
+2. **Estàndard vs. Eina personal:** Els Cores fixen una especificació tècnica formal arxiu a Zenodo, però un estàndard només existeix si hi ha una comunitat externa que l'adopta i en governa els canvis de forma autònoma. Avui el factor autobús encara és 1.
+3. **El cost del manteniment:** Mantenir un graf gran demana constància. En moments punta del trimestre (avaluacions, entrevistes de tutoria), el temps docent és escàs i el graf corre el perill de quedar desfasat si no s'automatitza prou.
+4. **Comprovació formal, no de contingut:** L'eina verifica metadades, camps i rutes d'enllaços. La idoneïtat pedagògica del que hi ha escrit continuarà sent sempre patrimoni del teu criteri professional.
+
+---
+
+## Llicències i citació
+
+* **Codi i eines:** Llicència **MIT** (lliure per reutilitzar, modificar i distribuir).
+* **Plantilles, documentació i exemples curriculars:** **Creative Commons Reconeixement-CompartirIgual 4.0 (CC BY-SA 4.0)**.
+
+**Com citar el projecte (APA 7a edició):**
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.3) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23964880
+
+*(Per citar el concepte global del projecte de manera independent de la versió: [https://doi.org/10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818)).*
 
 ---
 
 ## Declaració d'ús d'IA
 
-Aquest kit s'ha desenvolupat en **cocreació amb models de llenguatge** (Claude, DeepSeek, Gemini). No és un producte generat automàticament ni fet només per una persona: és el resultat d'un diàleg continu entre l'autor i diversos models, amb l'autor prenent sempre les decisions crítiques.
+Aquest kit és fruit d'una **cocreació reflexiva amb models de llenguatge** (Claude, DeepSeek, Gemini). No és codi generat en pilot automàtic, sinó un diàleg continu on l'autor humà ha pres totes les decisions crítiques de disseny, arquitectura i supervisió pedagògica.
 
-**Nivell MIAE declarat: 4 (cocreació).** L'autor ha aportat la visió, la filosofia, el domini curricular, els casos reals i les decisions de disseny. La IA ha generat esborranys, ha proposat estructures, ha comès errors (que l'autor ha detectat i corregit) i ha refinat el text. El nivell 3 és el que proposem per als materials d'aula; el kit mateix, com a obra, és de nivell 4.
-
-Aquesta declaració és coherent amb el que el kit demana als materials que genera: cap material no amaga com s'ha fet. Els detalls complets (metodologia, errors detectats, relació amb VCER) són a la [filosofia](00-documentacio/02-filosofia.md#declaració-dús-dia-en-aquest-kit).
-
-**Què s'envia als models d'IA?** Quan es fa servir un Paquet LLM, el text que s'envia al model és el **contingut del graf** (currículum, activitats, criteris d'avaluació). **Mai dades personals de l'alumnat.** Si el graf conté adaptacions individuals (per exemple, un Pla de Suport Individualitzat), cal anonimitzar-les abans de passar-les al model. El VCER garanteix que els materials generats són 100% offline, però el procés de generació sí que passa per un model al núvol (o local, si es tria un model d'execució local com Ollama o LM Studio). Els detalls complets són a [`08-relacio-amb-estandards.md`](00-documentacio/08-relacio-amb-estandards.md).
+* **Nivell MIAE declarat del projecte:** **Nivell 4 (Cocreació)** per a la construcció del kit com a obra. Per als materials que genereu per als alumnes a l'aula, el kit prescriu mantenir-se estrictament al **Nivell 3 (Supervisió docent)**.
+* **Privacitat estricta (Zero dades personals):** El text que s'envia als models en operar un Paquet LLM és exclusivament **estructura curricular i disseny pedagògic**. Al graf **MAI hi ha dades personals d'estudiants**. Les adaptacions i suports educatius (com el DUA o els Plans Individuals) s'articulen com a bancs d'estratègies abstractes i models tipificats, mai associats a noms ni historials individuals.
 
 ---
 
 ## Crèdits i agraïments
 
-Aquest kit l'he construït sobretot en solitari, als caps de setmana i a les vacances, però no sense ajuda:
+Construït amb el suport i l'aprenentatge compartit amb companys d'ofici:
 
-- **Arquitectura i mètode original:** Josep Montañà Piqué.
-- **Montse G.** (co-docent de TCAI): la seva sinceritat a l'aula davant la complexitat va fer néixer el Paquet LLM.
-- **Benet M.** (Química): va confiar en el mètode per al seu debut docent i em va ajudar a comprovar que l'estructura aguanta fora de la meva especialitat.
-- **Ariadna C.** (Pedagogia Terapèutica): la millor aliada en l'exploració de grafs per a Plans Individuals (PI) i adaptacions DUA (Disseny Universal per a l'Aprenentatge).
-- **César G.** (Sanitat): la complicitat en la creació del seu propi graf docent autònom.
-- **Juan José de Haro:** els marcs MIAE i VCER, que guien el nostre taller digital.
+* **Josep Montañà Piqué:** Disseny, arquitectura i implementació.
+* **Montse G.** (Sanitat - TCAI): La seva sinceritat a l'aula davant la complexitat tècnica va ser l'espurna que va fer néixer els Paquets LLM.
+* **Benet M.** (Química): La confiança per desplegar el seu primer mòdul docent sencer dins d'aquest graf.
+* **Ariadna C.** (Pedagogia Terapèutica): La complicitat per dissenyar estructures curriculars inclusives respectant al 100% la privacitat.
+* **César G.** (Sanitat): L'audàcia de fer créixer un vault docent autònom de gairebé seixanta nodes.
+* **Juan José de Haro:** El mestratge dels marcs MIAE i VCER, que aporten el criteri ètic a aquest taller.
 
-Si fas servir el kit a la teva aula, si crees el graf d'un cicle nou o si tens idees per simplificar-lo, obre un *issue*, comparteix la teva experiència o col·labora a [CONTRIBUTING.md](CONTRIBUTING.md).
+Si vols col·laborar obrint nous cicles, polint les eines o proposant simplificacions a la convenció, revisa [CONTRIBUTING.md](CONTRIBUTING.md).
 
 Fet amb estima per l'artesania i la dignitat de la professió docent.  
 *Josep Montañà Piqué — 2026*
+```
