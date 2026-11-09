@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-05 · **Versió del document:** 1.7 (F0, F1, F2.5 completades + Paquets 00/01)
+> **Última revisió:** 2026-11-09 · **Versió del document:** 1.8 (F2 és la propera fita; F3/F4 reclassificades; Operational Kit separat)
 
 ---
 
@@ -89,12 +89,14 @@
 |:---:|:---|:---:|:---:|:---:|
 | **F0** | Correccions immediates (badge, requirements, docstring, neteja) | 1-2 dies | 🔴 P0 | ✅ **Fet** |
 | **F1** | Consolidació semàntica (§3) | 2-3 setmanes | 🔴 P0 | ✅ **Fet** |
-| **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | ⏳ Pendent |
+| **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | 🔜 **Proper fita** |
 | **F2.5** | Correccions de l'auditoria externa | 1 setmana | 🔴 P0 | ✅ **Fet** |
-| **F3** | Reducció de fricció (schema, ZIP, guia, especificació, Paquets 00/01) | 2-3 setmanes | 🟠 P1 | 🟡 **Parcial** |
-| **F4** | Producte (okf-tools o plugin, un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
+| **F3** | Adopció del Starter Kit i reducció de fricció (schema, ZIP, guia, RFC, Paquets 00/01) | 2-3 setmanes | 🟠 P1 | 🟡 **Parcial** |
+| **F4** | Eines del Starter Kit (okf-tools, plugin o MCP; un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
 | **F5** | Comunitat (Registry, MkDocs) | 6-12 mesos | 🟡 P2 | ⏳ Pendent |
 | **F6** | Integració de la prova d'usabilitat (Alícia) | quan hi hagi resultats | 🟠 P1 | ⏳ Pendent |
+
+**Reclassificació v1.8:** F3 cobreix l'adopció i la reducció de fricció del **Starter Kit**; F4 cobreix les eines que s'hi construeixin (una a la vegada). L'**OKF Operational Kit** és el Programa B, un producte MIAE-3 separat, i no forma part de F4: [repositori OKF Operational Kit](https://github.com/jmonta23-okf/okf-operational-kit). La propera fita del Starter Kit és **F2 · Robustesa del validador**; F3/F4 no són prerequisits per començar O1 de l'Operational Kit.
 
 ### F0 · Correccions immediates ✅ **Fet**
 
@@ -114,7 +116,7 @@
 - [x] §3.2 · Y052 i format antic/mixt — **F1.2 (`0c13e0a`)**
 - [x] §4.1 · Auditoria per catàleg — **F1.3 (`eacc716`)**
 
-### F2 · Robustesa del validador ⏳ **Pendent**
+### F2 · Robustesa del validador 🔜 **Propera fita**
 
 - [ ] Matriu de tipus per a cada camp de `criteris:` i `instruments_avaluacio`
 - [ ] Validar que `codi` d'instrument sigui hashable
@@ -168,7 +170,7 @@
 
 - [ ] Validar l'AEA de l'Alícia
 - [ ] Documentar la prova a `~/.hermes/okf-curs-0056/PROVA-USABILITAT.md`
-- [ ] Integrar els resultats al ROADMAP (v1.8)
+- [ ] Integrar els resultats al ROADMAP en la propera revisió
 - [ ] Crear `HANDOFF-11` amb els resultats
 
 ---
@@ -231,7 +233,8 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-05 | 1.5 | **F0 i F1 completades.** Commits: F0-a `f75dedc`, F0-b `924223c`, F0-c `68ff50c`, F1.1 `0ff7d39`, F1.2 `0c13e0a`, F1.3 `eacc716`. |
 | 2026-11-05 | 1.6 | **F2.5 completada.** Commits: F2.5.a `3184e0d`, F2.5.b1 `dfd72c2`, F2.5.b2 `d87437b`. 75 tests. D3 descartat (falsos positius en Sanitat). MOC absent → `Y014`. Text de privacitat honest. |
 | 2026-11-05 | 1.7 | **Paquets 00/01 i filosofia.** Commits: `c610ad0` (taula de decisió a `04-inici-rapid.md`), `f879dc4` (secció 9 a `02-filosofia.md` + dos PLANTILLA). Resposta a la crítica «el docent es perdrà en els YAML». F3 parcial (4 tasques fetes). |
+| 2026-11-09 | 1.8 | **F2 és la propera fita.** Reclassificades F3 (adopció/fricció del Starter Kit) i F4 (eines del Starter Kit); l'OKF Operational Kit s'identifica com a Programa B independent, fora de F4. Afegit enllaç al repositori. F3/F4 no bloquegen O1 de l'Operational Kit. |
 
 ---
 
-**Fi del ROADMAP v1.7. F0, F1 i F2.5 completades. Paquets 00/01 documentats. La propera versió (v1.8) es farà quan comenci F2 o quan arribin els resultats de l'Alícia.**
+**Fi del ROADMAP v1.8.** F0, F1 i F2.5 completades; Paquets 00/01 documentats. **F2 és la propera fita del Starter Kit.** F3/F4 queden delimitades al Starter Kit; l'OKF Operational Kit és un Programa B independent. La propera versió (v1.9) s'actualitzarà quan tanqui F2 o arribin els resultats de l'Alícia.
