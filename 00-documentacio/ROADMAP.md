@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-10 · **Versió del document:** 1.9 (F3.1, F3.2 i F3.4 completades)
+> **Última revisió:** 2026-11-10 · **Versió del document:** 1.10 (F3.1, F3.2, F3.4 i F3.5 completades)
 
 ---
 
@@ -139,7 +139,7 @@
 - [x] ZIP preconfigurat del `vault-de-3-nodes` (`867c761`)
 - [ ] Guia ràpida per a docents sense Git (`00-documentacio/09-arrencada-rapida.md`)
 - [x] Publicar l'RFC-OKF-03 com a document consultable (`00-documentacio/10-rfc-okf-03.md`)
-- [ ] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades
+- [x] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades
 - [x] **Convertir el Paquet LLM-00 en plantilla oficial** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-00.md`, `f879dc4`)
 - [x] **Documentar l'aproximació inductiva (Paquet 01)** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-01.md`, `f879dc4`)
 - [x] **Taula de decisió inductiu/deductiu a `04-inici-rapid.md`** — **Fet** (`c610ad0`)
@@ -235,6 +235,7 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-05 | 1.7 | **Paquets 00/01 i filosofia.** Commits: `c610ad0` (taula de decisió a `04-inici-rapid.md`), `f879dc4` (secció 9 a `02-filosofia.md` + dos PLANTILLA). Resposta a la crítica «el docent es perdrà en els YAML». F3 parcial (4 tasques fetes). |
 | 2026-11-09 | 1.8 | **F2 és la propera fita.** Reclassificades F3 (adopció/fricció del Starter Kit) i F4 (eines del Starter Kit); l'OKF Operational Kit s'identifica com a Programa B independent, fora de F4. Afegit enllaç al repositori. F3/F4 no bloquegen O1 de l'Operational Kit. |
 | 2026-11-10 | 1.9 | F3.1 (JSON Schema), F3.2 (ZIP mini-vault) i F3.4 (RFC-OKF-03 publicat) completades. |
+| 2026-11-10 | 1.10 | F3.5 (especificació del model de dades a `09-graf-curricular.md`) completada. |
 
 ---
 

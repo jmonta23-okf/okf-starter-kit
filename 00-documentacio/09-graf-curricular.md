@@ -275,4 +275,101 @@ L'ecosistema OKF-CATALA té quatre versions diferents que no s'han de confondre:
 
 ---
 
+## 10 · Especificació del model de dades
+
+Aquesta secció formalitza el **model de dades** dels nodes OKF: quins camps té cada tipus, quines invariants s'apliquen i com és la compatibilitat entre el format antic i el nou. Els valors provenen del codi (`03-eines/validar_yaml.py`), dels Cores (`01-cores/OKF-CORE-*.md`) i de les plantilles (`04-plantilles/`).
+
+### 10.1 · Camps universals (8)
+
+Tots els nodes OKF han de tenir aquests 8 camps al frontmatter YAML (`CAMPS_UNIVERSALS` al validador):
+
+| Camp | Tipus | Obligatori | Descripció |
+|:---|:---|:---:|:---|
+| `id` | string | ✅ | Identificador únic del node. Patró `^[A-Z0-9]+(-[A-Z0-9]+)+-\d{2}$` (`PATRO_ID`). |
+| `type` | string | ✅ | Tipus de node (un dels 9 universals de §10.2 o 4 de família de §10.3). |
+| `title` | string | ✅ | Títol llegible. |
+| `version` | string | ✅ | Versió del node. Patró `^V\d+\.\d+(\.\d+)?(-[A-Za-zÀ-ÿ]+)?$` (`PATRO_VERSION`). |
+| `data_ultima_actualitzacio` | string | ✅ | Data de la darrera modificació en format `YYYY-MM-DD`. |
+| `authors` | llista de strings | ✅ | Autors del node. Mínim 1 (`CAMPS_ARRAY`). |
+| `llicencia` | string | ✅ | Llicència del node. |
+| `tags` | llista de strings | ✅ | Etiquetes. Almenys una amb prefix `okf/` (Y007). |
+
+### 10.2 · Tipus universals (9)
+
+Aquests tipus són transversals a tots els marcs legals («tancats i compartits»): `MOC`, `Guia`, `Glossari`, `Protocol`, `PaquetLLM`, `ConvencioNomenclatura`, `Llicencia`, `Plantilla`, `DocumentHandoff`. (`TIPUS_UNIVERSALS` al validador; Cores §2.)
+
+### 10.3 · Tipus de família (4)
+
+Aquests tipus són específics d'un marc legal. No estan fixats al codi: es llegeixen de la Convenció de Nomenclatura del vault (el validador accepta els 9 universals + els declarats). Els declarats pels Cores del kit són:
+
+| Tipus | Marc legal | Estat |
+|:---|:---|:---:|
+| `CatalegCurricular` | LOE | Vigent |
+| `EinaTecnica` | LOE | Vigent |
+| `FitxaAEA` | LOE | Vigent |
+| `UnitatDidactica` | LOGSE | Deprecated |
+
+(*Nota:* el validador emet `Y004` per a qualsevol `type` que no sigui universal ni declarat a la Convenció, i `Y025` si `type` no és un string.)
+
+### 10.4 · Camps específics per tipus de família
+
+A més dels 8 camp universals, cada família declara camps propis (fonts: Core FP §8.2, §8.3 i les plantilles). El validador **no obliga** la majoria d'aquests camps (són opcionals); el model els documenta per a intercanvi entre eines.
+
+#### CatalegCurricular
+
+- `criteris:` — llista de diccionaris per RA amb els camps `codi`, `id`, `guia`, `descripcio`, `contextualitzat`, `afegit`, `origen` (`CAMPS_CRITERI` + `id`). Font de veritat dels CAs per a l'auditoria.
+- `estat:` — opcional; del enum `vigent|esborrany|obsolet|arxivat` (defecte `vigent`).
+- `visibilitat:` — opcional; del enum `publica|interna|restringida|personal|externa` (defecte `interna`).
+
+#### FitxaAEA
+
+- `modul:` — codi del mòdul professional (ex: `MP1519`).
+- `cataleg_referencia:` — ruta relativa al catàleg que respon la fitxa.
+- `cataleg_versio:` — versió del catàleg. **Deprecated** (vegeu §10.6); el validador la ignora silenciosament.
+- `durada:` — durada de l'activitat (ex: `4 h`).
+- `resultats_aprenentatge:` — llista de RA que treballa.
+- `criteris_avaluacio:` — llista de codis oficials que avalua (ex: `["5.1", "5.2"]`).
+- `instruments_avaluacio:` — llista de diccionaris amb `codi`, `descripcio`, `criteris` (`CAMPS_INSTRUMENT`).
+- `naturalesa:` — `analitica` (defecte) o `sintesi` (Y036 si és invàlida).
+
+#### UnitatDidactica (LOGSE, deprecated)
+
+- `credit:` — codi del crèdit LOGSE. El validador només l'exigeix (Y003) si la Convenció ho declara; **mai** s'accepta en un tipus universal (Y017).
+- `durada:` — durada de la unitat (ex: `8 h`).
+- Camps residuals compartits amb la família LOE: `modul`, `resultats_aprenentatge`, `criteris_avaluacio` (vegeu la nota de terminologia de `PLANTILLA-UnitatDidactica.md`).
+
+### 10.5 · Invariants del format de criteris i instruments (Y040-Y052)
+
+Aquestes invariants s'apliquen al bloc `criteris:` dels catàlegs i a `instruments_avaluacio:` de les fitxes (`validar_invariants_format_criteris` i la validació de fitxa al validador). Severitats del `CODIS_ERROR`:
+
+| Codi | Descripció | Severitat |
+|:---|:---|:---:|
+| `Y040` | `contextualitzat` no és boolean | 🟠 Alta |
+| `Y042` | `codi: null` sense `afegit: true` | 🔴 Crític |
+| `Y043` | `afegit: true` sense `guia` | 🔴 Crític |
+| `Y044` | `afegit` + `contextualitzat` redundants | 🟡 Mitjana |
+| `Y045` | CA afegit no referenciat per cap FitxaAEA | 🟡 Mitjana |
+| `Y046` | CA només cobert per fitxes de síntesi | 🟡 Mitjana |
+| `Y048` | `criteris[RA]` no és una llista | 🟠 Alta |
+| `Y050` | Codi d'instrument duplicat | 🟠 Alta |
+| `Y051` | Instrument sense cap criteri | 🟡 Mitjana |
+| `Y052` | Criteri sense cap instrument | 🟡 Mitjana |
+
+### 10.6 · Compatibilitat de formats
+
+El validador accepta **dos formats** per a `criteris:` i `instruments_avaluacio:` (el validador normalitza el format antic al nou abans de validar-lo):
+
+| Camp | Format antic | Format nou | Estat |
+|:---|:---|:---|:---:|
+| `criteris:` | Llista de strings per RA (`["5.1", "5.2"]`) | Llista de diccionaris (amb `codi`, `guia`, `descripcio`, `contextualitzat`, `afegit`, `origen`) | Ambdós acceptats |
+| `instruments_avaluacio:` | Llista de strings/rutes (`["./prova.md#seccio"]`) | Llista de diccionaris (amb `codi`, `descripcio`, `criteris`) | Ambdós acceptats |
+
+**Política de retirada:** els formats antics s'eliminaran a la v1.4. Fins llavors, s'accepten amb warning (el warning de format mixt — alguns dicts + alguns strings — s'afegirà a la v1.4/v1.5).
+
+### 10.7 · Relació amb el JSON Schema
+
+El fitxer [`01-cores/okf-core.schema.json`](../01-cores/okf-core.schema.json) (F3.1) implementa els **8 camps universals** i els **enums bàsics** (`visibilitat`, `estat`) d'aquest model. Els camps de família (`criteris:`, `instruments_avaluacio:`, `modul:`, etc.) **no estan restringits** al JSON Schema (es deixen com a `additionalProperties: true`), però sí que estan documentats en aquesta secció. Per obtenir les restriccions completes de coherència (enllaços, auditories), la font de veritat continua sent el validador (`validar_yaml.py`) i els Cores.
+
+---
+
 *Document creat el 3 de novembre de 2026. Forma part del RFC-OKF-02 (arquitectura del graf curricular de dues capes).*
