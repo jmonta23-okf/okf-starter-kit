@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-10 · **Versió del document:** 1.11 (F0, F1, F2, F2.5 i F3.1/F3.2/F3.4/F3.5 completades)
+> **Última revisió:** 2026-11-10 · **Versió del document:** 1.12 (F3.5 i publicació completades)
 
 ---
 
@@ -92,7 +92,7 @@
 | **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | ✅ **Fet** |
 | **F2.5** | Correccions de l'auditoria externa | 1 setmana | 🔴 P0 | ✅ **Fet** |
 | **F3** | Adopció del Starter Kit i reducció de fricció (schema, ZIP, guia, RFC, Paquets 00/01) | 2-3 setmanes | 🟠 P1 | 🟡 **Parcial** |
-| **F4** | Eines del Starter Kit (okf-tools, plugin o MCP; un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
+| **F4** | Producte (okf-tools o plugin, un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
 | **F5** | Comunitat (Registry, MkDocs) | 6-12 mesos | 🟡 P2 | ⏳ Pendent |
 | **F6** | Integració de la prova d'usabilitat (Alícia) | quan hi hagi resultats | 🟠 P1 | ⏳ Pendent |
 
@@ -144,6 +144,7 @@
 - [x] **Documentar l'aproximació inductiva (Paquet 01)** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-01.md`, `f879dc4`)
 - [x] **Taula de decisió inductiu/deductiu a `04-inici-rapid.md`** — **Fet** (`c610ad0`)
 - [x] **Secció «El docent no és un programador» a `02-filosofia.md`** — **Fet** (`f879dc4`)
+- [x] Documentar les opcions de publicació i distribució a `09-graf-curricular.md` (§11)
 
 ### F4 · Producte (triar-ne un) ⏳ **Pendent**
 
@@ -237,7 +238,8 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-10 | 1.9 | F3.1 (JSON Schema), F3.2 (ZIP mini-vault) i F3.4 (RFC-OKF-03 publicat) completades. |
 | 2026-11-10 | 1.10 | F3.5 (especificació del model de dades a `09-graf-curricular.md`) completada. |
 | 2026-11-10 | 1.11 | F2 (robustesa del validador) completada: F2.1 (matriu de tipus, Y053) i F2.2 (10 tests de robustesa). Tots els blocs P0 del ROADMAP completats. |
+| 2026-11-10 | 1.12 | Afegida la secció de publicació i distribució (inspirada en l'article d'eXeLearning de J.J. de Haro) a 09-graf-curricular.md §11. |
 
 ---
 
-**Fi del ROADMAP v1.8.** F0, F1, F2 i F2.5 completades; Paquets 00/01 documentats. **F6 (prova d'usabilitat) és la propera fita del Starter Kit.** F3/F4 queden delimitades al Starter Kit; l'OKF Operational Kit és un Programa B independent. La propera versió (v1.12) s'actualitzarà quan comenci el següent bloc (F6 o F3.3).
+**Fi del ROADMAP v1.8.** F0, F1, F2 i F2.5 completades; Paquets 00/01 documentats. **F6 (prova d'usabilitat) és la propera fita del Starter Kit.** F3/F4 queden delimitades al Starter Kit; l'OKF Operational Kit és un Programa B independent. La propera versió (v1.13) s'actualitzarà quan comenci el següent bloc (F6 o F3.3).

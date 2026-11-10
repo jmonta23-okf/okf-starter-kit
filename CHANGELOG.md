@@ -58,6 +58,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **`PLANTILLA-PaquetLLM-02.md`** (Paquet de sortida): genera el document oficial de Programació Didàctica en HTML/CSS a partir dels nodes del vault (MOC, Catàleg, Protocol, Fitxes AEA). Inclou l'exemple complet `exemples/Programacio_Didactica_MP1519.html`. Commit `[pendent]`.
 - **`00-documentacio/10-rfc-okf-03.md`** — Publicació del document de planificació de la V1.3 (RFC-OKF-03 v0.1), en format resumit, amb les 9 accions (6 adoptades, 3 rebutjades), els canvis implementats i una nota sobre errors coneguts del document original.
 - **Especificació del model de dades** a `00-documentacio/09-graf-curricular.md` — 4 blocs: camps/tipus universals, camps de família, invariants (Y040-Y052) i compatibilitat de formats. Complementa el JSON Schema (F3.1).
+- **Publicació i distribució** a `00-documentacio/09-graf-curricular.md` §11 — 10 opcions per publicar el vault OKF (ZIP, Git, Hugo, SCORM, etc.), inspirat en l'article de J.J. de Haro sobre eXeLearning.
 
 ### Descartat
 

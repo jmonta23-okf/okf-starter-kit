@@ -370,6 +370,67 @@ El validador accepta **dos formats** per a `criteris:` i `instruments_avaluacio:
 
 El fitxer [`01-cores/okf-core.schema.json`](../01-cores/okf-core.schema.json) (F3.1) implementa els **8 camps universals** i els **enums bàsics** (`visibilitat`, `estat`) d'aquest model. Els camps de família (`criteris:`, `instruments_avaluacio:`, `modul:`, etc.) **no estan restringits** al JSON Schema (es deixen com a `additionalProperties: true`), però sí que estan documentats en aquesta secció. Per obtenir les restriccions completes de coherència (enllaços, auditories), la font de veritat continua sent el validador (`validar_yaml.py`) i els Cores.
 
+## 11 · Publicació i distribució dels recursos OKF
+
+Un cop el vault OKF està construït i validat, el següent pas natural és **publicar-lo** perquè arribi a l'alumnat o a la comunitat docent. Igual que passa amb les eines d'autoria com eXeLearning, la publicació no ha d'estar lligada a una única plataforma privativa. La filosofia de sobirania del kit també s'aplica aquí: **el docent ha de poder decidir on i com publica el seu coneixement**.
+
+Aquesta secció descriu les opcions de publicació que ofereix l'ecosistema OKF, des de la compartició del codi font fins a la generació de recursos per a plataformes LMS.
+
+### 11.1 · Nivells de publicació
+
+La publicació d'un vault OKF es pot fer en quatre nivells, segons l'objectiu i el públic destinatari:
+
+| Nivell | Format | Públic | Eina / Mètode |
+|:---|:---|:---|:---|
+| **1. Codi font** | Fitxers `.md` + YAML | Altres docents (compartir) | ZIP del vault, repositori Git, Obsidian Publish |
+| **2. Web estàtica** | HTML5 + CSS | Alumnat, comunitat | Hugo, MkDocs, GitHub Pages (com el blog d'aquest projecte) |
+| **3. LMS** | Paquet SCORM o IMS | Alumnat (Moodle, Classroom) | Exportació des del Paquet LLM (futur) |
+| **4. Document formal** | HTML/CSS o PDF | Inspecció, direcció | Paquet LLM 02 (Programació Didàctica) |
+
+### 11.2 · Opcions de publicació (inspirades en les 10 vies d'eXeLearning)
+
+L'article *Cómo publicar los recursos de eXeLearning* de Juan José de Haro descriu deu maneres de publicar un recurs. Adaptem-les al context de l'OKF:
+
+1. **Compartir el vault en ZIP:** És l'opció més bàsica i sobirana. El docent pot descarregar el ZIP del seu vault (o del mini-vault, com a `05-exemples-minims/vault-de-3-nodes.zip`) i compartir-lo per correu o per un drive. Qualsevol persona amb un editor de text el pot obrir.
+2. **Publicar en un repositori Git (GitHub, GitLab):** El vault es converteix en un repositori, versionat i col·laboratiu. És ideal per a equips docents que volen treballar junts. Es pot clonar o descarregar com a ZIP.
+3. **Web estàtica amb Hugo o MkDocs:** A partir dels fitxers Markdown, es pot generar un lloc web (HTML5) que es pot penjar a **GitHub Pages**, a un servidor del centre o a qualsevol allotjament estàtic. Aquesta és l'opció que hem fet servir per al blog d'aquest projecte (vegeu `okf-blog` a l'ecosistema).
+4. **Obsidian Publish:** Si el docent treballa amb Obsidian, pot publicar el vault directament amb aquest servei (de pagament), mantenint la privacitat i la sincronització.
+5. **Google Sites / Google Drive:** Es pot exportar el contingut com a HTML i pujar-lo a Google Sites o Google Drive per compartir-lo amb l'alumnat. És una opció còmoda per a centres que ja fan servir Google Workspace.
+6. **Exportació a HTML autocontingut:** El Paquet LLM 02 pot generar un fitxer `.html` únic (amb CSS incrustat) que es pot obrir sense internet i desar com a document.
+7. **Paquet SCORM per a Moodle:** (Futur) El Paquet LLM 03 podria generar un paquet SCORM a partir dels nodes AEA, perquè es pugui pujar directament a Moodle o a qualsevol LMS compatible.
+8. **Document PDF / Word:** El Paquet LLM 02 ja genera un document HTML/CSS que es pot importar a Word i desar com a PDF. És l'opció per a Inspecció o per a la direcció del centre.
+9. **Impressió en paper:** A partir del document HTML/PDF, es pot imprimir el material per a l'alumnat que no té accés a dispositius digitals.
+10. **Publicació al fòrum o a la comunitat:** Compartir l'experiència i els aprenentatges en un fòrum (com eDigital) o en un blog personal. És l'opció per difondre el projecte i crear comunitat.
+
+### 11.3 · Com els Paquets LLM hi poden ajudar
+
+Els Paquets LLM (especialment el **Paquet 02**) ja estan dissenyats per generar un document de Programació Didàctica en HTML/CSS. Però poden anar més enllà:
+
+- **Generació de web estàtica:** Un sub-prompt pot convertir els nodes del vault en un lloc web (Hugo/MkDocs) llest per publicar a GitHub Pages.
+- **Generació de paquets SCORM:** (Futur) Un prompt pot empaquetar els nodes AEA en un fitxer SCORM per a Moodle.
+- **Generació de recursos per a Google Sites:** Un prompt pot exportar els continguts en format HTML compatible amb Google Sites.
+
+**La idea és que la IA no només generi el contingut, sinó que també ajudi a publicar-lo**, respectant la sobirania del docent (que tria on publicar).
+
+### 11.4 · Publicació al blog personal (cas pràctic)
+
+El blog personal d'aquest projecte (a `https://jmonta23-okf.github.io/`) és un exemple de com publicar un article de reflexió (com el de *Del laboratori a la sala de mestres*). El flux és:
+
+1. Escriure l'article en Markdown (dins del vault o al blog).
+2. Generar el lloc estàtic amb Hugo.
+3. Pujar-lo a GitHub Pages (o al servidor del centre).
+4. Compartir l'enllaç a LinkedIn, fòrums o xarxes socials.
+
+Aquest flux és totalment sobirà i es pot replicar per a qualsevol docent que vulgui publicar els seus materials.
+
+### 11.5 · Recomanacions
+
+- **Per a compartir amb altres docents:** ZIP o repositori Git.
+- **Per a l'alumnat:** Web estàtica (Hugo/MkDocs) o SCORM (si el centre té Moodle).
+- **Per a Inspecció:** Document HTML/PDF (Paquet 02).
+- **Per a difusió:** Blog personal i xarxes socials (LinkedIn).
+
+**Recorda:** la publicació ha de servir per compartir el coneixement, no per quedar atrapat en una plataforma. El text pla és el format més durador i el que millor resisteix els canvis de programari.
 ---
 
 *Document creat el 3 de novembre de 2026. Forma part del RFC-OKF-02 (arquitectura del graf curricular de dues capes).*
