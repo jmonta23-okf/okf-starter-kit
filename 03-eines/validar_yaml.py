@@ -160,6 +160,7 @@ CODIS_ERROR = {
     "Y050": ("Instrument d'avaluació amb 'codi' duplicat", "🟠 Alta"),
     "Y051": ("Instrument d'avaluació (format nou) sense cap criteri", "🟡 Mitjana"),
     "Y052": ("Criteri de 'criteris_avaluacio' que cap instrument avalua", "🟡 Mitjana"),
+    "Y053": ("Tipus incorrecte en un camp de criteris: o instruments_avaluacio:", "🟠 Alta"),
     # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
     # Y047 / Y049: lliures.
 }
@@ -711,6 +712,17 @@ def validar_invariants_format_criteris(criteris):
             if not isinstance(element, dict):
                 continue
 
+            # Y053: matriu de tipus dels camps del CA, abans de qualsevol
+            # operació sobre ells. `origen` no es valida (F1.1).
+            for camp, tipus_esperats in TIPUS_CRITERI.items():
+                valor = element.get(camp)
+                if valor is not None and not isinstance(valor, tipus_esperats):
+                    errors.append((
+                        "Y053",
+                        f"criteris['{ra}'][{i}]['{camp}']: expected {tipus_esperats}, got {type(valor).__name__}",
+                        "Corregir el tipus del camp al valor esperat (o eliminar-lo)",
+                    ))
+
             contextualitzat = element.get("contextualitzat")
             if not isinstance(contextualitzat, bool):
                 errors.append((
@@ -745,6 +757,27 @@ def validar_invariants_format_criteris(criteris):
 
 
 CAMPS_INSTRUMENT = ("codi", "descripcio", "criteris")
+
+# ------------------------------------------------------- F2.1 (matriu de tipus) -
+# Matriu de tipus per als camps d'un CA de `criteris:` (format nou). `origen`
+# NO es valida (decisió F1.1: accepta qualsevol valor). Si un camp té un tipus
+# incorrecte, s'emet Y053 i es salta el camp (no es continua amb el valor dolent).
+TIPUS_CRITERI = {
+    "codi": (str, type(None)),
+    "id": (str, type(None)),
+    "guia": (str, type(None)),
+    "descripcio": (str, type(None)),
+    "contextualitzat": (bool,),
+    "afegit": (bool,),
+    # origen: no es valida (qualsevol tipus)
+}
+
+# Matriu de tipus per als camps d'un instrument d'`instruments_avaluacio:`.
+TIPUS_INSTRUMENT = {
+    "codi": (str, type(None)),
+    "descripcio": (str, type(None)),
+    "criteris": (list,),
+}
 
 
 def normalitzar_instruments_avaluacio(instruments):
@@ -892,6 +925,22 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
     if tipus == "FitxaAEA":
         instruments_raw = yaml_data.get("instruments_avaluacio")
         instruments_norm = normalitzar_instruments_avaluacio(instruments_raw)
+
+        # Y053: matriu de tipus dels camps d'instrument, abans de qualsevol
+        # operació sobre ells. El format antic (elements string) no s'aplica:
+        # només es validen els elements que són dicts (format nou).
+        if isinstance(instruments_raw, list):
+            for idx, item in enumerate(instruments_raw):
+                if not isinstance(item, dict):
+                    continue
+                for camp, tipus_esperats in TIPUS_INSTRUMENT.items():
+                    valor = item.get(camp)
+                    if valor is not None and not isinstance(valor, tipus_esperats):
+                        errors.append((
+                            "Y053",
+                            f"instruments_avaluacio[{idx}]['{camp}']: expected {tipus_esperats}, got {type(valor).__name__}",
+                            "Corregir el tipus del camp al valor esperat (o eliminar-lo)",
+                        ))
 
         # Advertències textuals (format antic + camps desconeguts) a --- Warnings ---.
         if warnings is not None:

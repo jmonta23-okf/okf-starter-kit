@@ -889,3 +889,45 @@ def test_y014_no_es_dispara_amb_moc(tmp_path):
     )
     assert "Y014" not in proc.stdout
     assert proc.returncode == 0, proc.stdout + proc.stderr
+
+
+# ---------------------------------------------------------------------------
+# F2.1: Y053 (matriu de tipus de criteris: i instruments_avaluacio:)
+# ---------------------------------------------------------------------------
+
+def test_y053_criteri_tipus_incorrecte(tmp_path, codis_error):
+    """`codi: 123` (int en lloc de string) -> Y053 (🟠 Alta)."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-60",
+        '  RA5:\n    - codi: 123\n      contextualitzat: false\n      afegit: false\n',
+        ["5-1"],
+    )
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y053" in codis_error(errors)
+    assert v.CODIS_ERROR["Y053"][1] == "🟠 Alta"
+
+
+def test_y053_criteri_contextualitzat_string(tmp_path, codis_error):
+    """`contextualitzat: "sí"` (string en lloc de bool) -> Y053 (a més de Y040)."""
+    node = _cataleg_test_node_nou(
+        "EX-CAT-61",
+        '  RA5:\n    - codi: "5.1"\n      contextualitzat: "sí"\n      afegit: false\n',
+        ["5-1"],
+    )
+    errors = validar_vault(crear_vault(
+        tmp_path, {"03_Cataleg.md": node, "01_Convencio.md": CONV_AMB_CATALEG}
+    ))
+    assert "Y053" in codis_error(errors)
+    assert "Y040" in codis_error(errors)  # ambdós es disparen; acceptable (F2.1)
+
+
+def test_y053_instrument_tipus_incorrecte(tmp_path, codis_error):
+    """`criteris: 5` (int en lloc de llista) en un instrument -> Y053."""
+    node = _fitxa_test_node(
+        "EX-AEA-93",
+        '  - codi: "I1"\n    descripcio: "D"\n    criteris: 5\n',
+    )
+    errors = validar_vault(crear_vault(tmp_path, {"03_Fitxa.md": node}))
+    assert "Y053" in codis_error(errors)
