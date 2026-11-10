@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://okf-starter-kit/01-cores/okf-core.schema.json",
+  "title": "OKF Core — Schema dels nodes",
+  "description": "JSON Schema per a la validació en viu dels nodes OKF mentre el docent els escriu (VS Code, extensió YAML; Obsidian, plugins de validació YAML). Cobreix els 8 camps universals, els 13 tipus (9 universals + 4 de família) i els enums bàsics de visibilitat i estat. Sincronitzat amb validar_yaml.py v1.3.0 i els Cores OKF Català (V1.1.2) i OKF FP (V1.1.0). Les restriccions específiques de cada tipus de família (criteris, instruments_avaluacio, modul, ...) s'afegeixen en un bloc posterior.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "type",
+    "title",
+    "version",
+    "data_ultima_actualitzacio",
+    "authors",
+    "llicencia",
+    "tags"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identificador únic del node. Ha de seguir el patró {CODI}-{ÀMBIT}-{NN} de la Convenció (Cores §5.1).",
+      "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)+-\\d{2}$",
+      "examples": ["EX-MOC-00", "MP1519-MOC-00"]
+    },
+    "type": {
+      "type": "string",
+      "description": "Tipus del node: un dels 9 tipus universals (Cores §2) o un dels 4 tipus de família declarats (Core FP §8.3: CatalegCurricular, EinaTecnica, FitxaAEA; UnitatDidactica, deprecated, LOGSE).",
+      "enum": [
+        "MOC",
+        "Guia",
+        "Glossari",
+        "Protocol",
+        "PaquetLLM",
+        "ConvencioNomenclatura",
+        "Llicencia",
+        "Plantilla",
+        "DocumentHandoff",
+        "CatalegCurricular",
+        "EinaTecnica",
+        "FitxaAEA",
+        "UnitatDidactica"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Títol llegible del node. No pot ser buit.",
+      "minLength": 1,
+      "examples": ["OKF Core FP"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Versió del node. Patró V<maj>.<min>[.<patch>] amb sufix d'estat opcional (Cores §3).",
+      "pattern": "^V\\d+\\.\\d+(\\.\\d+)?(-[A-Za-zÀ-ÿ]+)?$",
+      "examples": ["V1.0", "V1.1.2-Esborrany"]
+    },
+    "data_ultima_actualitzacio": {
+      "type": "string",
+      "description": "Data de la darrera modificació en format ISO 8601 (YYYY-MM-DD).",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "examples": ["2026-11-04"]
+    },
+    "authors": {
+      "type": "array",
+      "description": "Autors del node. Llista no buida de cadenes.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "llicencia": {
+      "type": "string",
+      "description": "Llicència del contingut (recomanat: CC BY-SA 4.0). No pot ser buit.",
+      "minLength": 1,
+      "examples": ["CC BY-SA 4.0", "CC BY-NC-SA 4.0"]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Etiquetes de navegació. Com a mínim una ha d'iniciar-se amb el prefix 'okf/' (validador Y007).",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "contains": {
+        "type": "string",
+        "pattern": "^okf/"
+      }
+    },
+    "visibilitat": {
+      "type": "string",
+      "description": "Visibilitat del node. Opcional; si no es declara, s'assumeix 'interna'. Enum tancat (Cores §4.1).",
+      "enum": ["publica", "interna", "restringida", "personal", "externa"],
+      "default": "interna"
+    },
+    "estat": {
+      "type": "string",
+      "description": "Estat del node. Opcional; si no es declara, s'assumeix 'vigent'. Enum tancat (Cores §4.2).",
+      "enum": ["vigent", "esborrany", "obsolet", "arxivat"],
+      "default": "vigent"
+    }
+  }
+}

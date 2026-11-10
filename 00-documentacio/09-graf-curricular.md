@@ -201,6 +201,28 @@ Els codis d'error del validador s'organitzen en famílies segons l'aspecte que v
 - `Y035` (àlies duplicat) ha baixat de 🔴 Crític a 🟠 Alta.
 - `Y036` (`naturalesa` invàlida) ha baixat de 🟠 Alta a 🟡 Mitjana.
 
+### Validació en viu amb el JSON Schema
+
+El fitxer [`01-cores/okf-core.schema.json`](../01-cores/okf-core.schema.json) defineix l'esquema JSON dels nodes OKF (8 camps universals, 13 tipus i enums bàsics). Permet que editors com VS Code i Obsidian donin **validació en viu** mentre escrius els nodes, sense haver d'executar el validador.
+
+**A VS Code:**
+1. Instal·la l'extensió **YAML** (de Red Hat).
+2. Obre la configuració (`Cmd+,` o `Ctrl+,`) i afegeix:
+   ```json
+   "yaml.schemas": {
+     "./01-cores/okf-core.schema.json": "*.md"
+   }
+   ```
+   (La ruta és relativa a l'arrel del projecte obert a VS Code.)
+3. Els fitxers `.md` amb frontmatter YAML mostraran errors en vermell si no compleixen l'esquema.
+
+**A Obsidian:**
+1. Instal·la el plugin **Linter** o **YAML Validation**.
+2. Configura'l perquè apunti a `01-cores/okf-core.schema.json`.
+3. Els nodes mostraran avisos si no compleixen l'esquema.
+
+**Nota:** el JSON Schema és una **ajuda per a l'editor**, no substitueix el validador (`validar_yaml.py`). El validador fa comprovacions addicionals que el schema no pot fer (enllaços relatius, coherència YAML↔àncores, etc.).
+
 ## 5 · Un exemple pràctic
 
 El kit inclou `07-exemple-mp1519/`, un exemple complet de l'arquitectura de dues capes amb el mòdul MP 1519 (*Sistemes d'informació i classificació sanitaris*, CFGS Documentació i Administració Sanitàries):
