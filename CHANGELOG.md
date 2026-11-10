@@ -26,6 +26,14 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **F1.2** · **`Y052` no s'aplica a fitxes amb instruments en format antic o mixt** (alguns elements no són `dict`). Elimina falsos positius durant la migració. Test de regressió inclòs. Commit `0c13e0a`.
 - **F1.3** · **Auditoria per catàleg**: `Y045` i `Y046` es calculen per catàleg, no globalment. El veredicte global és `INCOMPLET` si **algun** catàleg té orfes o inexistents. Els missatges inclouen l'`id` del catàleg (`(catalog: MP1519-CAT-00)`). Commit `eacc716`.
 
+### F2 · Robustesa del validador
+
+- **Y053** (🟠 Alta) — Tipus incorrecte en un camp de `criteris:` o `instruments_avaluacio:`. El validador ara valida el tipus de cada camp **abans** de qualsevol operació, i emet `Y053` si el tipus no és l'esperat. Commit `f114437`.
+- **Matriu de tipus** per a `criteris:` (7 camps) i `instruments_avaluacio:` (3 camps), extreta del codi i de les plantilles.
+- **10 tests de robustesa** (`tests/test_robustesa.py`) amb fixtures de dades malformades (dict en lloc de llista, int en lloc de dict, tots els camps malformats, `None` a la llista, etc.). Cap excepció no controlada. Commit `fa4917f`.
+- Total de codis d'error: **38 → 39**.
+- **Tots els blocs P0 del ROADMAP completats** (F0, F1, F2, F2.5).
+
 ### F2.5 · Correccions de l'auditoria externa
 
 - **F2.5.a** · Correccions de baix cost i alt impacte detectades per l'auditoria externa:
@@ -57,9 +65,10 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ### Estat
 
-- Validador v1.3.0, **38 codis**, 0 errors.
+- Validador v1.3.0, **39 codis** (Y001-Y053), 0 errors.
 - `--audit` per catàleg: 2 catàlegs coberts, 52/52/0/0.
-- **75 tests passed, 1 skipped.**
+- **88 tests passed, 1 skipped.**
+- **Tots els blocs P0 del ROADMAP completats** (F0, F1, F2, F2.5).
 - CI verd.
 - **Política de retirada:** els formats antics de `criteris:` i `instruments_avaluacio` s'eliminaran a la v1.4. Fins llavors, s'accepten amb warning. El warning de format mixt (alguns elements dict + alguns strings) s'afegirà a la v1.4/v1.5.
 

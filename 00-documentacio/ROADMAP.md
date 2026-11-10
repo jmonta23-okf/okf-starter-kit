@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-10 · **Versió del document:** 1.10 (F3.1, F3.2, F3.4 i F3.5 completades)
+> **Última revisió:** 2026-11-10 · **Versió del document:** 1.11 (F0, F1, F2, F2.5 i F3.1/F3.2/F3.4/F3.5 completades)
 
 ---
 
@@ -19,7 +19,7 @@
 
 | Component | Estat |
 |:---|:---|
-| Validador | v1.3.0, 38 codis, **75 passed + 1 skipped** |
+| Validador | v1.3.0, 39 codis (Y053), **88 passed + 1 skipped** |
 | Criteris (`criteris:`) | Format nou (dicts) + compatibilitat amb strings |
 | Instruments (`instruments_avaluacio`) | Format nou (dicts) + compatibilitat amb strings |
 | `--audit` | Mètriques noves + Y045/Y046/Y052, **per catàleg** |
@@ -89,14 +89,14 @@
 |:---:|:---|:---:|:---:|:---:|
 | **F0** | Correccions immediates (badge, requirements, docstring, neteja) | 1-2 dies | 🔴 P0 | ✅ **Fet** |
 | **F1** | Consolidació semàntica (§3) | 2-3 setmanes | 🔴 P0 | ✅ **Fet** |
-| **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | 🔜 **Proper fita** |
+| **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | ✅ **Fet** |
 | **F2.5** | Correccions de l'auditoria externa | 1 setmana | 🔴 P0 | ✅ **Fet** |
 | **F3** | Adopció del Starter Kit i reducció de fricció (schema, ZIP, guia, RFC, Paquets 00/01) | 2-3 setmanes | 🟠 P1 | 🟡 **Parcial** |
 | **F4** | Eines del Starter Kit (okf-tools, plugin o MCP; un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
 | **F5** | Comunitat (Registry, MkDocs) | 6-12 mesos | 🟡 P2 | ⏳ Pendent |
 | **F6** | Integració de la prova d'usabilitat (Alícia) | quan hi hagi resultats | 🟠 P1 | ⏳ Pendent |
 
-**Reclassificació v1.8:** F3 cobreix l'adopció i la reducció de fricció del **Starter Kit**; F4 cobreix les eines que s'hi construeixin (una a la vegada). L'**OKF Operational Kit** és el Programa B, un producte MIAE-3 separat, i no forma part de F4: [repositori OKF Operational Kit](https://github.com/jmonta23-okf/okf-operational-kit). La propera fita del Starter Kit és **F2 · Robustesa del validador**; F3/F4 no són prerequisits per començar O1 de l'Operational Kit.
+**Reclassificació v1.8:** F3 cobreix l'adopció i la reducció de fricció del **Starter Kit**; F4 cobreix les eines que s'hi construeixin (una a la vegada). L'**OKF Operational Kit** és el Programa B, un producte MIAE-3 separat, i no forma part de F4: [repositori OKF Operational Kit](https://github.com/jmonta23-okf/okf-operational-kit). La propera fita del Starter Kit és **F6 (prova d'usabilitat)**; F3/F4 no són prerequisits per començar O1 de l'Operational Kit.
 
 ### F0 · Correccions immediates ✅ **Fet**
 
@@ -116,12 +116,12 @@
 - [x] §3.2 · Y052 i format antic/mixt — **F1.2 (`0c13e0a`)**
 - [x] §4.1 · Auditoria per catàleg — **F1.3 (`eacc716`)**
 
-### F2 · Robustesa del validador 🔜 **Propera fita**
+### F2 · Robustesa del validador ✅ **Fet**
 
-- [ ] Matriu de tipus per a cada camp de `criteris:` i `instruments_avaluacio`
-- [ ] Validar que `codi` d'instrument sigui hashable
-- [ ] Validar que `criteris` d'instrument sigui una llista
-- [ ] Proves negatives (cap excepció no controlada)
+- [x] Matriu de tipus per a cada camp de `criteris:` i `instruments_avaluacio:` — **F2.1** (`f114437`)
+- [x] Validar que `codi` d'instrument sigui hashable (cobert per la matriu de tipus de F2.1)
+- [x] Validar que `criteris` d'instrument sigui una llista (cobert per la matriu de tipus de F2.1)
+- [x] Proves negatives (cap excepció no controlada) — **F2.2** (`fa4917f`)
 
 ### F2.5 · Correccions de l'auditoria externa ✅ **Fet**
 
@@ -236,7 +236,8 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-09 | 1.8 | **F2 és la propera fita.** Reclassificades F3 (adopció/fricció del Starter Kit) i F4 (eines del Starter Kit); l'OKF Operational Kit s'identifica com a Programa B independent, fora de F4. Afegit enllaç al repositori. F3/F4 no bloquegen O1 de l'Operational Kit. |
 | 2026-11-10 | 1.9 | F3.1 (JSON Schema), F3.2 (ZIP mini-vault) i F3.4 (RFC-OKF-03 publicat) completades. |
 | 2026-11-10 | 1.10 | F3.5 (especificació del model de dades a `09-graf-curricular.md`) completada. |
+| 2026-11-10 | 1.11 | F2 (robustesa del validador) completada: F2.1 (matriu de tipus, Y053) i F2.2 (10 tests de robustesa). Tots els blocs P0 del ROADMAP completats. |
 
 ---
 
-**Fi del ROADMAP v1.8.** F0, F1 i F2.5 completades; Paquets 00/01 documentats. **F2 és la propera fita del Starter Kit.** F3/F4 queden delimitades al Starter Kit; l'OKF Operational Kit és un Programa B independent. La propera versió (v1.9) s'actualitzarà quan tanqui F2 o arribin els resultats de l'Alícia.
+**Fi del ROADMAP v1.8.** F0, F1, F2 i F2.5 completades; Paquets 00/01 documentats. **F6 (prova d'usabilitat) és la propera fita del Starter Kit.** F3/F4 queden delimitades al Starter Kit; l'OKF Operational Kit és un Programa B independent. La propera versió (v1.12) s'actualitzarà quan comenci el següent bloc (F6 o F3.3).
