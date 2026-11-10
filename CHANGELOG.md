@@ -48,6 +48,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **`PLANTILLA-PaquetLLM-00.md`** (Paquet deductiu): parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero. Commit `f879dc4`.
 - **`PLANTILLA-PaquetLLM-01.md`** (Paquet inductiu): parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la. Commit `f879dc4`.
 - **`PLANTILLA-PaquetLLM-02.md`** (Paquet de sortida): genera el document oficial de Programació Didàctica en HTML/CSS a partir dels nodes del vault (MOC, Catàleg, Protocol, Fitxes AEA). Inclou l'exemple complet `exemples/Programacio_Didactica_MP1519.html`. Commit `[pendent]`.
+- **`00-documentacio/10-rfc-okf-03.md`** — Publicació del document de planificació de la V1.3 (RFC-OKF-03 v0.1), en format resumit, amb les 9 accions (6 adoptades, 3 rebutjades), els canvis implementats i una nota sobre errors coneguts del document original.
 
 ### Descartat
 
