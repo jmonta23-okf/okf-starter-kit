@@ -12,7 +12,7 @@ El 2015, sent interí, em va tocar el mòdul de Codificació Sanitària. Era el 
 
 Quan treballes amb ontologies i classificacions mèdiques, acabes veient que cap concepte viu sol. Cada terme penja d'un altre, hereta d'un tercer i s'especialitza en un quart. I em va caure la fitxa: **el currículum educatiu és una biologia**, una xarxa viva de conceptes interconnectats.
 
-Tot i això, el gestionem com si fos una cosa morta. Carpetes, documents de Word lineals, versions que es trenquen i programacions que es desfasen en tres mesos. D'aquí va néixer la idea d'OKF (*Open Knowledge Format*, o *Organized Knowledge Framework*, segons el dia): portar el currículum a un graf de text pla, en Markdown, on cada node és un fitxer que es pot llegir, enllaçar i versionar.
+Tot i això, el gestionem com si fos una cosa morta. Carpetes, documents de Word lineals de 15 o 20 pàgines, dissenyats per complir el tràmit amb la inspecció. Són documents massa esquemàtics: no hi cap la riquesa real de l'aula, les 50 activitats que has dissenyat, les adaptacions o el context del teu centre. Així, acabes amb la programació oficial per una banda, i un calaix de sastre de fitxers al Drive per l'altra. D'aquí va néixer la idea d'OKF (*Open Knowledge Format*, o *Organized Knowledge Framework*, segons el dia): portar el currículum a un graf de text pla, en Markdown, on cada node és un fitxer que es pot llegir, enllaçar i versionar.
 
 ---
 
@@ -28,19 +28,18 @@ El Paquet LLM és una recepta oberta, escrita en text pla. La Montse el pot lleg
 
 ---
 
-## Tres portes (i una de sortida)
+## Dues maneres de començar (i per què no cal patir pels YAML)
 
 Una crítica que rebo sovint és que el docent mitjà no té un perfil tan tècnic com el meu i que es perdrà en els fitxers YAML. És una crítica raonable, però parteix d'una premissa falsa: **que el docent ha de tocar els YAML a mà**.
 
 No és el cas. Cap docent no escriurà mai un YAML des de zero. Tots ho faran assistits per una IA. El kit no pretén que els docents es converteixin en programadors, sinó que **entenguin l'estructura del coneixement curricular** i tinguin les competències bàsiques per guiar una IA en la construcció del seu vault.
 
-Amb el temps, he après que hi ha **tres portes d'entrada** al kit, i totes tres són igual de vàlides:
+Amb el temps, he après que hi ha **dues portes d'entrada** al kit, i totes dues són igual de vàlides:
 
 - **Paquet 00 (enfocament deductiu):** parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero.
 - **Paquet 01 (enfocament inductiu):** parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la.
-- **Paquet 02 (sortida):** un cop tens el vault construït, el converteix en el document oficial de Programació Didàctica, en HTML/CSS llest per importar a Word. El cercle es tanca: del currículum al vault, i del vault al paper.
 
-Tots tres camins porten al mateix lloc: un vault OKF validat i un document oficial a punt per lliurar. La diferència és el punt de partida i el grau de formalitat del resultat. El camí inductiu preserva la feina existent; el deductiu produeix un graf formalment més perfecte; el de sortida tanca el cercle.
+Tots dos camins porten al mateix lloc: un vault OKF validat. La diferència és el punt de partida i el grau de formalitat del resultat. El camí inductiu preserva la feina existent; el deductiu produeix un graf formalment més perfecte.
 
 La lentitud del diàleg amb la IA no és un inconvenient: és el propòsit. Cada cop que el docent copia un YAML i el desa, aprèn què és un `id`, què és un `type`, per què hi ha camps universals. I si no ho entén, pot preguntar a la IA, que li explicarà. És un diàleg a dos.
 
