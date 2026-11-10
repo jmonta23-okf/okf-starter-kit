@@ -174,7 +174,7 @@ Tots els nodes OKF del vault han passat la validació sense errors.
 | **`07-exemple-mp1519/`** | Variant en dues capes del mòdul MP1519 | Model centrat en catàleg + fitxes d'activitat (amb MOC detallat). |
 | **`03-eines/`** | Validador (`validar_yaml.py`) i snapshot (`status_snapshot.py`) | Eines de consola per auditar la salut del graf i obtenir resums per a la IA. |
 | **`04-plantilles/`** | Plantilles de nodes (MOC, UD, AEA, els 3 Paquets LLM…) | Models llestos per duplicar i omplir en pocs minuts. |
-| **`05-exemples-minims/`** | Vault de prova reduït (5 nodes, carpeta `vault-de-3-nodes`) | El banc de proves més petit possible per arrencar sense aclaparar-se. |
+| **`05-exemples-minims/`** | Vault de prova reduït (5 nodes, carpeta `vault-de-3-nodes`) | El banc de proves més petit possible per arrencar sense aclaparar-se. Inclou un **[ZIP descarregable del mini-vault](05-exemples-minims/vault-de-3-nodes.zip)**. |
 | **`06-comunitat/`** | Casos d'ús reals i article d'anàlisi docent | Experiències d'aula i documentació divulgativa. |
 
 ### Eines d'auditoria i diagnosi
@@ -185,6 +185,10 @@ Tots els nodes OKF del vault han passat la validació sense errors.
 ---
 
 ## Inici ràpid en 10 minuts
+
+### Vols començar sense clonar tot el repositori?
+
+Descarrega el **[mini-vault en ZIP](05-exemples-minims/vault-de-3-nodes.zip)** (5 nodes) i obre'l directament a Obsidian o al teu editor preferit. És la manera més ràpida de veure l'estructura d'un vault OKF sense instal·lar res.
 
 Pots validar el teu primer mini-graf localment:
 
