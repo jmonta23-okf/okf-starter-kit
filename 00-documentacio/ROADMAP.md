@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-13 · **Versió del document:** 1.14 (F3.6 completada)
+> **Última revisió:** 2026-11-13 · **Versió del document:** 1.15 (F3.7 completada)
 
 ---
 
@@ -138,6 +138,7 @@
 - [x] Taula de decisió inductiu/deductiu a `04-inici-rapid.md` (`c610ad0`)
 - [x] Secció «El docent no és un programador» a `02-filosofia.md` (`f879dc4`)
 - [x] F3.6 · Cura i dogfooding: arreglar l'exemple del README, la plantilla del Paquet 00, connectar el JSON Schema al CI, i netejar detalls (errata, LICENSE, taula d'estàndards).
+- [x] F3.7 · Tancar el dogfooding: `jsonschema` al CI i eliminar `importorskip` (el test de schema s'executa de debò).
 - [x] Publicació i distribució a `09-graf-curricular.md` §11 (inspirat en l'article de De Haro)
 - [x] Article eDigital actualitzat a V1.3
 
@@ -237,7 +238,8 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-10 | 1.12 | Afegida la secció de publicació i distribució (inspirada en l'article d'eXeLearning de J.J. de Haro) a `09-graf-curricular.md` §11. |
 | 2026-11-13 | 1.13 | **Redefinició estratègica post-prova d'usabilitat.** L'Starter Kit es redefineix com a infraestructura (estàndard, validador, exemples). L'Operational Kit assumeix el paper de producte per al docent. F3.3 es transfereix a l'Operational Kit. F4 es reformula com a "eines per a desenvolupadors". F6 es reorienta com a "lliçons apreses". S'afegeix el principi 5 (separació de responsabilitats). |
 | 2026-11-13 | 1.14 | F3.6: cura i dogfooding (README, plantilla, JSON Schema al CI, neteja de detalls). |
+| 2026-11-13 | 1.15 | F3.7: tancar el dogfooding (jsonschema al CI, eliminar importorskip). |
 
 ---
 
-**Fi del ROADMAP v1.14. F0, F1, F2, F2.5 i F3 completades. F3.3 transferida a l'Operational Kit. F4 reformulada com a eines per a desenvolupadors. F6 reorientada com a lliçons apreses. L'Starter Kit queda com a infraestructura de l'estàndard; l'Operational Kit és el producte per al docent.**
+**Fi del ROADMAP v1.15. F0, F1, F2, F2.5 i F3 completades. F3.3 transferida a l'Operational Kit. F4 reformulada com a eines per a desenvolupadors. F6 reorientada com a lliçons apreses. L'Starter Kit queda com a infraestructura de l'estàndard; l'Operational Kit és el producte per al docent.**

@@ -4,9 +4,9 @@ Valida que tots els nodes OKF del repo compleixin l'esquema
 definit a 01-cores/okf-core.schema.json.
 """
 import json
-import sys
 from pathlib import Path
 
+import jsonschema
 import pytest
 
 # Carpetes que el validador exclou (no són nodes OKF)
@@ -60,7 +60,6 @@ def find_okf_nodes():
 
 def test_schema_valid_per_a_tots_els_nodes():
     """Tots els nodes OKF del repo compleixen el JSON Schema."""
-    jsonschema = pytest.importorskip("jsonschema")
     schema = load_schema()
     nodes = find_okf_nodes()
     assert len(nodes) > 0, "No s'ha trobat cap node OKF"

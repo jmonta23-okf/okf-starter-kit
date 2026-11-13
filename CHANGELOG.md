@@ -60,6 +60,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **Especificació del model de dades** a `00-documentacio/09-graf-curricular.md` — 4 blocs: camps/tipus universals, camps de família, invariants (Y040-Y052) i compatibilitat de formats. Complementa el JSON Schema (F3.1).
 - **Publicació i distribució** a `00-documentacio/09-graf-curricular.md` §11 — 10 opcions per publicar el vault OKF (ZIP, Git, Hugo, SCORM, etc.), inspirat en l'article de J.J. de Haro sobre eXeLearning.
 - **F3.6 · Cura i dogfooding** — Arreglat l'exemple del README (Y002/Y007), la plantilla del Paquet 00 (Y007), connectat el JSON Schema al CI (test de schema) i netejat detalls (errata, LICENSE, taula d'estàndards).
+- **F3.7 · Tancar el dogfooding** — `jsonschema>=4.0` afegit a `tests/requirements-test.txt` i substituït `importorskip` per `import jsonschema` (el test de schema ara s'executa de debò al CI).
 
 ### Descartat
 
