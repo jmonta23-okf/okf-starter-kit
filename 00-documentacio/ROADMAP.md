@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-10 · **Versió del document:** 1.12 (F3.5 i publicació completades)
+> **Última revisió:** 2026-11-13 · **Versió del document:** 1.13 (Redefinició estratègica post-prova d'usabilitat)
 
 ---
 
@@ -12,33 +12,34 @@
 2. **Reduir fricció.** Cada decisió es valora per si acosta el kit a un docent sense coneixements de terminal.
 3. **No sobreenginyeria.** Un sol document de planificació, no un arxiu d'informes. Una eina, no quatre.
 4. **Verificar abans de corregir.** Els problemes detectats en informes s'han de convertir en proves reproduïbles abans de tocar codi.
+5. **Separació de responsabilitats (Nou a la v1.13):** L'Starter Kit és la infraestructura (l'estàndard, el validador, els exemples). L'Operational Kit és el producte (l'agent que fa servir el docent). No duplicar esforços: si una funcionalitat és per a docents, va a l'Operational Kit.
 
 ---
 
-## 2 · Estat actual (2026-11-05, post-F0/F1/F2.5 + Paquets)
+## 2 · Estat actual (2026-11-13, post-F0/F1/F2/F2.5/F3.1/F3.2/F3.4/F3.5)
 
 | Component | Estat |
 |:---|:---|
-| Validador | v1.3.0, 39 codis (Y053), **88 passed + 1 skipped** |
+| Validador | v1.3.0, 39 codis, **88 passed + 1 skipped** |
 | Criteris (`criteris:`) | Format nou (dicts) + compatibilitat amb strings |
 | Instruments (`instruments_avaluacio`) | Format nou (dicts) + compatibilitat amb strings |
 | `--audit` | Mètriques noves + Y045/Y046/Y052, **per catàleg** |
 | CAs afegits | Camp `id` estable, referenciables des de `criteris_avaluacio` |
 | MOC absent | Detectat amb `Y014` (comprovació global, només per a directoris) |
-| Paquets LLM | **00 (deductiu)** i **01 (inductiu)** documentats i desats a `04-plantilles/` |
-| Documentació | 7 documents actualitzats (14h-a, 14h-b) + ROADMAP + CHANGELOG + filosofia + inici ràpid |
+| JSON Schema | ✅ `01-cores/okf-core.schema.json` (validació en viu) |
+| ZIP mini-vault | ✅ `05-exemples-minims/vault-de-3-nodes.zip` |
+| RFC-OKF-03 | ✅ `00-documentacio/10-rfc-okf-03.md` |
+| Especificació del model | ✅ `00-documentacio/09-graf-curricular.md` §10 i §11 |
+| Paquets LLM | 00 (deductiu), 01 (inductiu), 02 (sortida) |
+| Documentació | 12 documents actualitzats |
 | Release | Tag `V1.3`, DOI `10.5281/zenodo.23964880` |
 | CI | Verd |
-| Paquets LLM | **00 (deductiu)**, **01 (inductiu)** i **02 (sortida)** documentats i desats a `04-plantilles/` |
 
-**Prova d'usabilitat en curs:** docent extern (Alícia, mòdul **0056** — *Atenció sanitària especial en situacions d'emergència*, CFGM en Emergències Sanitàries – TES).  
-- **Vault:** `~/.hermes/okf-curs-0056/` — 6 fitxers (`00_MOC.md`, `01_Cataleg_Curricular.md`, `02_Protocol_Avaluacio.md`, `03_Convencio.md`, `04_Handoff.md`, `05_Paquet_LLM-00.md`).  
-- **Catàleg:** 43 CAs, 6 RAs, 43 àncores.  
-- **Estat:** validat amb 0 errors; auditoria: 43 CAs al decret, 43 orfes (esperat, perquè encara no hi ha fitxes).  
-- **Aproximació híbrida:** l'Alícia genera l'AEA amb el seu model d'IA (Paquet LLM-00), nosaltres la validem amb el validador i li tornem el resultat. No se li exigeix instal·lar Python.  
-- **Resultats pendents d'integrar.** És la informació més valuosa que tindrem: on es perd un docent real.
+**Prova d'usabilitat (Alícia, mòdul 0056):**  
+- **Resultat:** Èxit rotund. L'Alícia ha generat una Fitxa AEA completa i vàlida amb el Paquet LLM, en unes 2 hores.
+- **Lliçó apresa:** El format YAML és difícil de llegir per a humans no tècnics. El docent necessita una capa d'abstracció (un agent) que tradueixi el codi a llenguatge planer. Aquesta lliçó és l'origen de l'**OKF Operational Kit**.
 
-**Problemes resolts a F0/F1/F2.5:**
+**Problemes resolts a F0/F1/F2/F2.5/F3:**
 - ~~El badge del README encara diu V1.2.~~ → **Resolt** (F0-a).
 - ~~No hi ha `requirements.txt`.~~ → **Creat** (F0-a).
 - ~~`cataleg_versio` deprecated als exemples.~~ → **Eliminat** (F0-b).
@@ -48,10 +49,6 @@
 - ~~Tests de snapshot fallen sense `.git`.~~ → **Fan `skip`** (F2.5.a).
 - ~~Exemple mínim no portable.~~ → **Portable** (F2.5.b1).
 - ~~MOC absent mal diagnosticat.~~ → **`Y014` global** (F2.5.b2).
-
-**Problemes resolts a la documentació dels Paquets:**
-- ~~Els docents no saben per on començar (corba d'entrada).~~ → **Paquets 00 i 01** (taula de decisió a `04-inici-rapid.md`, secció 9 a `02-filosofia.md`).
-- ~~Crítica: «el docent es perdrà en els YAML».~~ → **Resposta a `02-filosofia.md` §9** («El docent no és un programador»).
 
 ---
 
@@ -91,12 +88,10 @@
 | **F1** | Consolidació semàntica (§3) | 2-3 setmanes | 🔴 P0 | ✅ **Fet** |
 | **F2** | Robustesa del validador (tipus i proves) | 1-2 setmanes | 🔴 P0 | ✅ **Fet** |
 | **F2.5** | Correccions de l'auditoria externa | 1 setmana | 🔴 P0 | ✅ **Fet** |
-| **F3** | Adopció del Starter Kit i reducció de fricció (schema, ZIP, guia, RFC, Paquets 00/01) | 2-3 setmanes | 🟠 P1 | 🟡 **Parcial** |
-| **F4** | Producte (okf-tools o plugin, un a la vegada) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
+| **F3** | Reducció de fricció (schema, ZIP, guia, especificació, Paquets 00/01/02) | 2-3 setmanes | 🟠 P1 | ✅ **Fet (excepte F3.3)** |
+| **F4** | Eines per a desenvolupadors (PyPI, MCP, Obsidian) | 2-3 mesos | 🟠 P1 | ⏳ Pendent |
 | **F5** | Comunitat (Registry, MkDocs) | 6-12 mesos | 🟡 P2 | ⏳ Pendent |
-| **F6** | Integració de la prova d'usabilitat (Alícia) | quan hi hagi resultats | 🟠 P1 | ⏳ Pendent |
-
-**Reclassificació v1.8:** F3 cobreix l'adopció i la reducció de fricció del **Starter Kit**; F4 cobreix les eines que s'hi construeixin (una a la vegada). L'**OKF Operational Kit** és el Programa B, un producte MIAE-3 separat, i no forma part de F4: [repositori OKF Operational Kit](https://github.com/jmonta23-okf/okf-operational-kit). La propera fita del Starter Kit és **F6 (prova d'usabilitat)**; F3/F4 no són prerequisits per començar O1 de l'Operational Kit.
+| **F6** | Lliçons apreses de la prova d'usabilitat (Alícia) | Tancada | 🟠 P1 | ✅ **Fet (reorientada)** |
 
 ### F0 · Correccions immediates ✅ **Fet**
 
@@ -119,8 +114,6 @@
 ### F2 · Robustesa del validador ✅ **Fet**
 
 - [x] Matriu de tipus per a cada camp de `criteris:` i `instruments_avaluacio:` — **F2.1** (`f114437`)
-- [x] Validar que `codi` d'instrument sigui hashable (cobert per la matriu de tipus de F2.1)
-- [x] Validar que `criteris` d'instrument sigui una llista (cobert per la matriu de tipus de F2.1)
 - [x] Proves negatives (cap excepció no controlada) — **F2.2** (`fa4917f`)
 
 ### F2.5 · Correccions de l'auditoria externa ✅ **Fet**
@@ -133,28 +126,27 @@
 - [x] Documentar relació 02/07 i fer portable el mini-vault (`dfd72c2`)
 - [x] MOC absent → `Y014` global (`d87437b`)
 
-### F3 · Reducció de fricció 🟡 **Parcial**
+### F3 · Reducció de fricció ✅ **Fet (excepte F3.3)**
 
 - [x] `01-cores/okf-core.schema.json` (validació en viu a VS Code / Obsidian) (`c0fabe6`)
 - [x] ZIP preconfigurat del `vault-de-3-nodes` (`867c761`)
-- [ ] Guia ràpida per a docents sense Git (`00-documentacio/09-arrencada-rapida.md`)
-- [x] Publicar l'RFC-OKF-03 com a document consultable (`00-documentacio/10-rfc-okf-03.md`)
-- [x] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades
-- [x] **Convertir el Paquet LLM-00 en plantilla oficial** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-00.md`, `f879dc4`)
-- [x] **Documentar l'aproximació inductiva (Paquet 01)** — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-01.md`, `f879dc4`)
-- [x] **Taula de decisió inductiu/deductiu a `04-inici-rapid.md`** — **Fet** (`c610ad0`)
-- [x] **Secció «El docent no és un programador» a `02-filosofia.md`** — **Fet** (`f879dc4`)
-- [x] Documentar les opcions de publicació i distribució a `09-graf-curricular.md` (§11)
+- [ ] **F3.3 · Guia ràpida per a docents sense Git** → ❌ **Transferida a l'Operational Kit** (l'Starter Kit no ha d'ensenyar a un docent sense Git; l'Operational Kit l'ha de fer desaparèixer).
+- [x] Publicar l'RFC-OKF-03 com a document consultable (`18cfdff`)
+- [x] Ampliar `09-graf-curricular.md` amb una secció d'especificació del model de dades (`011b6a6`)
+- [x] Convertir el Paquet LLM-00 en plantilla oficial (`04-plantilles/PLANTILLA-PaquetLLM-00.md`, `f879dc4`)
+- [x] Documentar l'aproximació inductiva (Paquet 01) (`04-plantilles/PLANTILLA-PaquetLLM-01.md`, `f879dc4`)
+- [x] Taula de decisió inductiu/deductiu a `04-inici-rapid.md` (`c610ad0`)
+- [x] Secció «El docent no és un programador» a `02-filosofia.md` (`f879dc4`)
+- [x] Publicació i distribució a `09-graf-curricular.md` §11 (inspirat en l'article de De Haro)
+- [x] Article eDigital actualitzat a V1.3
 
-### F4 · Producte (triar-ne un) ⏳ **Pendent**
+### F4 · Eines per a desenvolupadors (reformulat a la v1.13) ⏳ **Pendent**
 
 - [ ] `okf-tools` a PyPI (`pip install okf-tools`) — **recomanat**
 - [ ] Plugin d'Obsidian per editar YAML visualment
 - [ ] Servidor MCP per a clients d'IA
-- [ ] Generador de vistes derivades institucionals (CSV per a Esfer@/SAGA)
-- [x] Generador de vistes derivades institucionals (Programació Didàctica en HTML/CSS per a Word) — **Fet** (`04-plantilles/PLANTILLA-PaquetLLM-02.md`)
 
-**Nota:** no fer-ne quatre alhora. Triar-ne un, fer-lo bé, i valorar el següent segons l'adopció.
+**Nota:** Aquestes eines són per a **integradors i desenvolupadors**, no per a docents. L'experiència del docent és responsabilitat de l'**Operational Kit**. No fer-ne quatre alhora. Triar-ne un, fer-lo bé.
 
 ### F5 · Comunitat ⏳ **Pendent**
 
@@ -165,14 +157,13 @@
 
 **Nota:** no començar fins que hi hagi almenys 3 docents externs usant el kit.
 
-### F6 · Integració de la prova d'usabilitat (Alícia) ⏳ **Pendent**
+### F6 · Lliçons apreses de la prova d'usabilitat (Alícia) ✅ **Fet (reorientada)**
 
-**Quan arribin els resultats:**
+- [x] **Prova d'usabilitat realitzada:** L'Alícia (mòdul 0056) ha generat una Fitxa AEA completa i vàlida amb el Paquet LLM, en unes 2 hores.
+- [x] **Lliçó apresa:** El format YAML és difícil de llegir per a humans no tècnics. El docent necessita una capa d'abstracció (un agent) que tradueixi el codi a llenguatge planer.
+- [x] **Conseqüència:** Aquesta lliçó és l'origen de l'**OKF Operational Kit** (projecte germà, amb el seu propi ROADMAP O0-O6).
 
-- [ ] Validar l'AEA de l'Alícia
-- [ ] Documentar la prova a `~/.hermes/okf-curs-0056/PROVA-USABILITAT.md`
-- [ ] Integrar els resultats al ROADMAP en la propera revisió
-- [ ] Crear `HANDOFF-11` amb els resultats
+**Criteri de tancament:** la prova s'ha dut a terme, s'ha documentat, i ha generat una acció concreta (l'Operational Kit). ✅ Complert.
 
 ---
 
@@ -188,11 +179,13 @@ La V1.4 no es publica fins que es compleixin:
 | MOC absent | Detectat amb `Y014` | ✅ F2.5.b2 |
 | Text de privacitat honest | Reflecteix el que el codi fa realment | ✅ F2.5.a |
 | Paquets d'onboarding | 00 (deductiu) i 01 (inductiu) documentats | ✅ F3 |
-| Validació de tipus | Completa per als camps nous | ⏳ F2 |
-| Excepcions no controlades | 0 en les proves negatives | ⏳ F2 |
-| Tests | Tots actius; cap `skip` sense justificació | ⏳ F2 |
+| Publicació | Guia de publicació i distribució (10 opcions) | ✅ F3 |
+| Robustesa | 10 tests de robustesa (cap excepció no controlada) | ✅ F2.2 |
+| Validació de tipus | Completa per als camps nous | ✅ F2.1 |
+| Excepcions no controlades | 0 en les proves negatives | ✅ F2.2 |
+| Tests | Tots actius; cap `skip` sense justificació | ✅ F2.2 |
 | Documentació | README, CHANGELOG, CONTRIBUTING i RFC sincronitzats | ✅ F0/F2.5/F3 |
-| Prova d'usabilitat | Resultats integrats (o justificació de per què no) | ⏳ F6 |
+| Prova d'usabilitat | Resultats integrats (o justificació de per què no) | ✅ F6 (reorientada) |
 
 ---
 
@@ -206,8 +199,10 @@ La V1.4 no es publica fins que es compleixin:
 | Basar-se en els errors factuals dels informes | Portaria a implementar camps i tipus que no existeixen |
 | Guardar els informes originals | El full de ruta n'integra les aportacions; els informes es descarten |
 | Canviar els 8 camps universals o els 9 tipus universals | Són la base de la interoperabilitat; no es toquen |
-| Crear un document separat d'especificació del model | Massa sobreenginyeria; per defecte s'amplia `09-graf-curricular.md`. **Excepció:** si el model creix fins al punt que ho justifiqui, es pot crear un document nou. |
+| Crear un document separat d'especificació del model | Massa sobreenginyeria; per defecte s'amplia `09-graf-curricular.md`. |
 | **D3 · Detecció de DNI/NIE en prosa** | **Falsos positius garantits** en un kit de Sanitat (casos clínics ficticis amb DNI inventat). El risc real es cobreix amb els flags de privacitat i la revisió manual, no amb un regex. |
+| **Integració de R al kit** | **Sobreenginyeria.** El kit ja té `--audit` (Python) per a l'anàlisi de cobertura. Afegir R introduiria una segona pila tecnològica i una corba d'aprenentatge que contradiu el principi «el docent no és un programador». **Quarto** es pot implementar a F4 amb eines més lleugeres. |
+| **F3.3 · Guia ràpida per a docents sense Git** | **Transferida a l'Operational Kit.** L'Starter Kit no ha d'ensenyar a un docent sense Git; l'Operational Kit l'ha de fer desaparèixer. |
 
 ---
 
@@ -233,13 +228,14 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-05 | 1.4 | Congelada. Aplicades les dues esmenes finals: `cataleg_versio` mogut de F1 a F0; HANDOFF-11 convertit en tasca explícita a F6. |
 | 2026-11-05 | 1.5 | **F0 i F1 completades.** Commits: F0-a `f75dedc`, F0-b `924223c`, F0-c `68ff50c`, F1.1 `0ff7d39`, F1.2 `0c13e0a`, F1.3 `eacc716`. |
 | 2026-11-05 | 1.6 | **F2.5 completada.** Commits: F2.5.a `3184e0d`, F2.5.b1 `dfd72c2`, F2.5.b2 `d87437b`. 75 tests. D3 descartat (falsos positius en Sanitat). MOC absent → `Y014`. Text de privacitat honest. |
-| 2026-11-05 | 1.7 | **Paquets 00/01 i filosofia.** Commits: `c610ad0` (taula de decisió a `04-inici-rapid.md`), `f879dc4` (secció 9 a `02-filosofia.md` + dos PLANTILLA). Resposta a la crítica «el docent es perdrà en els YAML». F3 parcial (4 tasques fetes). |
-| 2026-11-09 | 1.8 | **F2 és la propera fita.** Reclassificades F3 (adopció/fricció del Starter Kit) i F4 (eines del Starter Kit); l'OKF Operational Kit s'identifica com a Programa B independent, fora de F4. Afegit enllaç al repositori. F3/F4 no bloquegen O1 de l'Operational Kit. |
-| 2026-11-10 | 1.9 | F3.1 (JSON Schema), F3.2 (ZIP mini-vault) i F3.4 (RFC-OKF-03 publicat) completades. |
-| 2026-11-10 | 1.10 | F3.5 (especificació del model de dades a `09-graf-curricular.md`) completada. |
-| 2026-11-10 | 1.11 | F2 (robustesa del validador) completada: F2.1 (matriu de tipus, Y053) i F2.2 (10 tests de robustesa). Tots els blocs P0 del ROADMAP completats. |
-| 2026-11-10 | 1.12 | Afegida la secció de publicació i distribució (inspirada en l'article d'eXeLearning de J.J. de Haro) a 09-graf-curricular.md §11. |
+| 2026-11-06 | 1.7 | **Paquets 00/01 i filosofia.** Commits: `c610ad0` (taula de decisió a `04-inici-rapid.md`), `f879dc4` (secció 9 a `02-filosofia.md` + dos PLANTILLA). Resposta a la crítica «el docent es perdrà en els YAML». F3 parcial (4 tasques fetes). |
+| 2026-11-09 | 1.8 | **Paquet 02 (sortida) afegit a F3.** Commit `540a33d` (Programació Didàctica HTML/CSS) + `867c761` (ZIP mini-vault). R anotat a §7 (descartat). |
+| 2026-11-10 | 1.9 | **F3.1 (JSON Schema), F3.2 (ZIP mini-vault) i F3.4 (RFC-OKF-03 publicat) completades.** |
+| 2026-11-10 | 1.10 | **F3.5 (especificació del model de dades a `09-graf-curricular.md` §10) completada.** |
+| 2026-11-10 | 1.11 | **F2 (robustesa del validador) completada:** F2.1 (matriu de tipus, Y053) i F2.2 (10 tests de robustesa). Tots els blocs P0 del ROADMAP completats. |
+| 2026-11-10 | 1.12 | Afegida la secció de publicació i distribució (inspirada en l'article d'eXeLearning de J.J. de Haro) a `09-graf-curricular.md` §11. |
+| 2026-11-13 | 1.13 | **Redefinició estratègica post-prova d'usabilitat.** L'Starter Kit es redefineix com a infraestructura (estàndard, validador, exemples). L'Operational Kit assumeix el paper de producte per al docent. F3.3 es transfereix a l'Operational Kit. F4 es reformula com a "eines per a desenvolupadors". F6 es reorienta com a "lliçons apreses". S'afegeix el principi 5 (separació de responsabilitats). |
 
 ---
 
-**Fi del ROADMAP v1.8.** F0, F1, F2 i F2.5 completades; Paquets 00/01 documentats. **F6 (prova d'usabilitat) és la propera fita del Starter Kit.** F3/F4 queden delimitades al Starter Kit; l'OKF Operational Kit és un Programa B independent. La propera versió (v1.13) s'actualitzarà quan comenci el següent bloc (F6 o F3.3).
+**Fi del ROADMAP v1.13. F0, F1, F2, F2.5 i F3 completades. F3.3 transferida a l'Operational Kit. F4 reformulada com a eines per a desenvolupadors. F6 reorientada com a lliçons apreses. L'Starter Kit queda com a infraestructura de l'estàndard; l'Operational Kit és el producte per al docent.**
