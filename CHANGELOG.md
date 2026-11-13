@@ -75,6 +75,11 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - CI verd.
 - **Política de retirada:** els formats antics de `criteris:` i `instruments_avaluacio` s'eliminaran a la v1.4. Fins llavors, s'accepten amb warning. El warning de format mixt (alguns elements dict + alguns strings) s'afegirà a la v1.4/v1.5.
 
+### F4 · Conformitat amb OKF
+
+- **F4.1 · Conformitat OKF v0.2** — `index.md` afegit als tres bundles d'exemple; camps `sources`, `generated`, `verified`, `status`, `stale_after` afegits al JSON Schema; mapatge documentat a `09-graf-curricular.md` §10.8.
+- **F4.1-bis · Excloure `index.md`** — `index.md` afegit a les exclusions del validador i del test de schema (els `index.md` no són nodes OKF, sinó fitxers reservats de l'especificació).
+
 ---
 
 ## [V1.3] — 2026-11-04

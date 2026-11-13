@@ -2,7 +2,7 @@
 
 > Document viu. S'actualitza quan arriba un informe nou (intern o extern).
 > Els informes originals no es guarden: les seves aportacions s'integren aquí o es descarten.
-> **Última revisió:** 2026-11-13 · **Versió del document:** 1.15 (F3.7 completada)
+> **Última revisió:** 2026-11-13 · **Versió del document:** 1.17 (F4.1 i F4.1-bis completades)
 
 ---
 
@@ -144,6 +144,8 @@
 
 ### F4 · Eines per a desenvolupadors (reformulat a la v1.13) ⏳ **Pendent**
 
+- [x] F4.1 · Conformitat OKF v0.2: `index.md` als bundles, camps de governança al JSON Schema, mapatge documentat.
+- [x] F4.1-bis · Excloure `index.md` del validador i del test de schema (els `index.md` no són nodes OKF).
 - [ ] `okf-tools` a PyPI (`pip install okf-tools`) — **recomanat**
 - [ ] Plugin d'Obsidian per editar YAML visualment
 - [ ] Servidor MCP per a clients d'IA
@@ -239,7 +241,9 @@ La V1.4 no es publica fins que es compleixin:
 | 2026-11-13 | 1.13 | **Redefinició estratègica post-prova d'usabilitat.** L'Starter Kit es redefineix com a infraestructura (estàndard, validador, exemples). L'Operational Kit assumeix el paper de producte per al docent. F3.3 es transfereix a l'Operational Kit. F4 es reformula com a "eines per a desenvolupadors". F6 es reorienta com a "lliçons apreses". S'afegeix el principi 5 (separació de responsabilitats). |
 | 2026-11-13 | 1.14 | F3.6: cura i dogfooding (README, plantilla, JSON Schema al CI, neteja de detalls). |
 | 2026-11-13 | 1.15 | F3.7: tancar el dogfooding (jsonschema al CI, eliminar importorskip). |
+| 2026-11-13 | 1.16 | F4.1: conformitat OKF v0.2 (index.md als bundles, camps de governança al JSON Schema, mapatge documentat). |
+| 2026-11-13 | 1.17 | F4.1-bis: excloure `index.md` del validador i del test de schema. |
 
 ---
 
-**Fi del ROADMAP v1.15. F0, F1, F2, F2.5 i F3 completades. F3.3 transferida a l'Operational Kit. F4 reformulada com a eines per a desenvolupadors. F6 reorientada com a lliçons apreses. L'Starter Kit queda com a infraestructura de l'estàndard; l'Operational Kit és el producte per al docent.**
+**Fi del ROADMAP v1.17. F0, F1, F2, F2.5 i F3 completades. F3.3 transferida a l'Operational Kit. F4 reformulada com a eines per a desenvolupadors. F6 reorientada com a lliçons apreses. L'Starter Kit queda com a infraestructura de l'estàndard; l'Operational Kit és el producte per al docent.**

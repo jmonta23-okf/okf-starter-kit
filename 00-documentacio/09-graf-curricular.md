@@ -370,6 +370,21 @@ El validador accepta **dos formats** per a `criteris:` i `instruments_avaluacio:
 
 El fitxer [`01-cores/okf-core.schema.json`](../01-cores/okf-core.schema.json) (F3.1) implementa els **8 camps universals** i els **enums bàsics** (`visibilitat`, `estat`) d'aquest model. Els camps de família (`criteris:`, `instruments_avaluacio:`, `modul:`, etc.) **no estan restringits** al JSON Schema (es deixen com a `additionalProperties: true`), però sí que estan documentats en aquesta secció. Per obtenir les restriccions completes de coherència (enllaços, auditories), la font de veritat continua sent el validador (`validar_yaml.py`) i els Cores.
 
+### 10.8 · Mapatge amb OKF v0.2
+
+L'especificació OKF v0.2 de Google va introduir camps opcionals de governança (`sources`, `generated`, `verified`, `status`, `stale_after`). El kit manté els seus camps propis per compatibilitat, però aquest és el mapatge conceptual:
+
+| Camp del kit | Camp OKF v0.2 equivalent | Notes |
+|:---|:---|:---|
+| `estat` | `status` | `vigent` → `stable`, `esborrany` → `draft`, `obsolet`/`arxivat` → `deprecated`. |
+| `authors` | `generated.by` | El camp `authors` és una llista; `generated.by` és un sol actor. |
+| `data_ultima_actualitzacio` | `generated.at` | El camp del kit és una data; el de v0.2 és un timestamp ISO 8601. |
+| (no existeix) | `sources` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
+| (no existeix) | `verified` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
+| (no existeix) | `stale_after` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
+
+**Nota:** el JSON Schema del kit ja accepta aquests camps opcionals. El validador no els valida (encara), però els nodes que els incloguin no seran rebutjats.
+
 ## 11 · Publicació i distribució dels recursos OKF
 
 Un cop el vault OKF està construït i validat, el següent pas natural és **publicar-lo** perquè arribi a l'alumnat o a la comunitat docent. Igual que passa amb les eines d'autoria com eXeLearning, la publicació no ha d'estar lligada a una única plataforma privativa. La filosofia de sobirania del kit també s'aplica aquí: **el docent ha de poder decidir on i com publica el seu coneixement**.

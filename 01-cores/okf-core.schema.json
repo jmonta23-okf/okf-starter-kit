@@ -99,6 +99,62 @@
       "description": "Estat del node. Opcional; si no es declara, s'assumeix 'vigent'. Enum tancat (Cores §4.2).",
       "enum": ["vigent", "esborrany", "obsolet", "arxivat"],
       "default": "vigent"
+    },
+    "sources": {
+      "type": "array",
+      "description": "Fonts de les quals deriva el contingut (OKF v0.2).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "resource": { "type": "string" },
+          "title": { "type": "string" },
+          "author": { "type": "string" }
+        },
+        "required": ["resource"]
+      }
+    },
+    "generated": {
+      "type": "object",
+      "description": "Qui ha generat el contingut i quan (OKF v0.2).",
+      "properties": {
+        "by": { "type": "string" },
+        "at": { "type": "string" }
+      },
+      "required": ["by"]
+    },
+    "verified": {
+      "description": "Qui ha verificat el contingut i quan (OKF v0.2).",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "by": { "type": "string" },
+            "at": { "type": "string" }
+          },
+          "required": ["by"]
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "by": { "type": "string" },
+              "at": { "type": "string" }
+            },
+            "required": ["by"]
+          }
+        }
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Estat del node (OKF v0.2): draft, stable o deprecated.",
+      "enum": ["draft", "stable", "deprecated"]
+    },
+    "stale_after": {
+      "type": "string",
+      "description": "Data a partir de la qual el contingut es considera obsolet (OKF v0.2). Format ISO 8601."
     }
   }
 }

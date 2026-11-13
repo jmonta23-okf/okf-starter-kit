@@ -107,7 +107,7 @@ CARPETES_EXCLUIRE = {
 }
 
 # Fitxers que NO són nodes OKF i s'exclouen de la validació.
-FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md"}
+FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md", "index.md"}
 
 # Patró genèric d'ID segons la Convenció: {CODI}-{ÀMBIT}-{NN}.
 PATRO_ID = r"^[A-Z0-9]+(-[A-Z0-9]+)+-\d{2}$"

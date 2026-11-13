@@ -37,6 +37,10 @@ Igual que un sistema operatiu gestiona els recursos d'una màquina, aquest kit p
 
 Quan el teu coneixement docent està estructurat i validat, pots connectar-hi models de llenguatge mitjançant els **Paquets LLM**: instruccions en text pla que pots auditar, retallar o adaptar. L'objectiu és senzill: que la feina docent deixi de ser un cementiri de fitxers Word oblidats i torni a ser un taller viu.
 
+### Conformitat amb OKF
+
+Aquest kit és un **perfil educatiu** de l'especificació *Open Knowledge Format* (OKF) de Google Cloud. Els bundles d'exemple inclouen un `index.md` (reservat per l'especificació) i accepten els camps de governança opcionals de la v0.2 (`sources`, `generated`, `verified`, `status`, `stale_after`). El kit manté els seus propis camps (`estat`, `authors`, `data_ultima_actualitzacio`) per compatibilitat, amb un mapatge documentat a [`09-graf-curricular.md`](00-documentacio/09-graf-curricular.md) §10.8.
+
 ---
 
 ## D'on surt la idea?

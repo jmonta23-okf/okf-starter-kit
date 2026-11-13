@@ -51,6 +51,9 @@ def find_okf_nodes():
         # Excloure carpetes
         if any(part in EXCLUDED_DIRS for part in p.relative_to(REPO_ROOT).parts):
             continue
+        # Excloure index.md: filtre reservat de l'especificació OKF, no és un node.
+        if p.name == "index.md":
+            continue
         text = p.read_text(encoding="utf-8")
         fm = extract_frontmatter(text)
         if fm:
