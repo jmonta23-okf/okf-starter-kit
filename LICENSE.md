@@ -4,7 +4,7 @@ Aquest projecte té **doble llicència**, segons la naturalesa del contingut.
 
 ## Codi i scripts
 
-Tots els fitxers de la carpeta `03-eines/` (incloent-hi `validar_yaml.py`, `corregir_yaml_massiu.py` i qualsevol altre script) es distribueixen sota la llicència **MIT**:
+Tots els fitxers de la carpeta `03-eines/` (incloent-hi `validar_yaml.py` i qualsevol altre script) es distribueixen sota la llicència **MIT**:
 
 ```
 MIT License

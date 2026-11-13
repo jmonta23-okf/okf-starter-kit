@@ -43,7 +43,7 @@ Quan el teu coneixement docent està estructurat i validat, pots connectar-hi mo
 
 Soc del 74, biòleg de formació i professor de Formació Professional a la xarxa pública des del 2008. Abans treballava en control microbiològic a la indústria farmacèutica, on el que no estava registrat, validat i traçat, senzillament no existia.
 
-El 2015, sent interí, em va tocar el mòdul de Codificació Sanitària. Treballant amb ontologies mèdiques (CIM-10, SNOMED-CT) em va caure la fitxa: **el currículum funciona exactament com una biologia**. Està format per resultats d'aprenentatge, criteris d'avaluació, continguts i activitats que depenen els uns dels altres. CCap concepte no viu aïllat. I tanmateix, el continuem gestionant en documents Word lineals de 15 o 20 pàgines, esquemàtics i pensats per al tràmit, que no recullen la riquesa real de l'aula i queden obsolets cada curs
+El 2015, sent interí, em va tocar el mòdul de Codificació Sanitària. Treballant amb ontologies mèdiques (CIM-10, SNOMED-CT) em va caure la fitxa: **el currículum funciona exactament com una biologia**. Està format per resultats d'aprenentatge, criteris d'avaluació, continguts i activitats que depenen els uns dels altres. Cap concepte no viu aïllat. I tanmateix, el continuem gestionant en documents Word lineals de 15 o 20 pàgines, esquemàtics i pensats per al tràmit, que no recullen la riquesa real de l'aula i queden obsolets cada curs
 
 **La gènesi amb Google OKF (juny de 2026):** Quan Google Cloud va publicar l'especificació *Open Knowledge Format* (un model obert i minimalista per compartir bases de coneixement mitjançant Markdown i capçaleres YAML per a agents d'IA), vaig veure clar que allò que proposaven per a l'àmbit corporatiu era la solució idònia per al currículum. 
 
@@ -121,6 +121,7 @@ version: "V1.0"
 data_ultima_actualitzacio: "2026-11-06"
 authors:
   - "Josep Montañà Piqué"
+llicencia: "CC BY-SA 4.0"
 legal_framework: LOE
 modul: "MP1519"
 criteris_avaluacio: ["1.1", "1.2", "1.3", "1.4"]
@@ -188,7 +189,7 @@ Tots els nodes OKF del vault han passat la validació sense errors.
 
 ### Vols començar sense clonar tot el repositori?
 
-Descarrega el **[mini-vault en ZIP](05-exemples-minims/vault-de-3-nodes.zip)** (5 nodes) i obre'l directament a Obsidian o al teu editor preferit. És la manera més ràpida de veure l'estructura d'un vault OKF sense instal·lar res.
+Descarrega el **[mini-vault en ZIP](05-exemples-minims/vault-de-3-nodes.zip)** (5 nodes) i obre'l directament a Obsidian o al teu editor preferit. És la manera més ràpida de veure l'estructura d'un vault OKF sense instal·lar res. *(Nota: la carpeta es diu `vault-de-3-nodes` per raons històriques, però conté 5 nodes.)*
 
 Pots validar el teu primer mini-graf localment:
 

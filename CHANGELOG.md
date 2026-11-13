@@ -59,6 +59,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **`00-documentacio/10-rfc-okf-03.md`** — Publicació del document de planificació de la V1.3 (RFC-OKF-03 v0.1), en format resumit, amb les 9 accions (6 adoptades, 3 rebutjades), els canvis implementats i una nota sobre errors coneguts del document original.
 - **Especificació del model de dades** a `00-documentacio/09-graf-curricular.md` — 4 blocs: camps/tipus universals, camps de família, invariants (Y040-Y052) i compatibilitat de formats. Complementa el JSON Schema (F3.1).
 - **Publicació i distribució** a `00-documentacio/09-graf-curricular.md` §11 — 10 opcions per publicar el vault OKF (ZIP, Git, Hugo, SCORM, etc.), inspirat en l'article de J.J. de Haro sobre eXeLearning.
+- **F3.6 · Cura i dogfooding** — Arreglat l'exemple del README (Y002/Y007), la plantilla del Paquet 00 (Y007), connectat el JSON Schema al CI (test de schema) i netejat detalls (errata, LICENSE, taula d'estàndards).
 
 ### Descartat
 

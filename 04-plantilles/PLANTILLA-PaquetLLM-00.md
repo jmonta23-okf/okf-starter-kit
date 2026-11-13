@@ -83,7 +83,7 @@ version: "V1.0"
 data_ultima_actualitzacio: "2026-11-05"
 authors: ["[Nom del docent]"]
 llicencia: "CC BY-SA 4.0"
-tags: ["fp", "cataleg"]
+tags: ["okf/cataleg", "fp"]
 estat: vigent
 criteris:
   RA1:
