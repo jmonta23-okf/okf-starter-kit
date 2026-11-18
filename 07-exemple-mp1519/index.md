@@ -1,5 +1,8 @@
 ---
-okf_version: "0.2"
+okf_version: "0.3"
+title: "Exemple MP1519 — Bundle de dues capes"
+description: "Exemple OKF del mòdul MP1519 (CIE-10-ES Diagnòstics) en arquitectura de dues capes: MOC, catàleg de 52 CAs, fitxes AEA, convenció i handoff."
+license: CC-BY-SA-4.0
 ---
 
 # Índex del bundle: MP1519 (arquitectura de dues capes)

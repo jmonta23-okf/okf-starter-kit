@@ -1,5 +1,8 @@
 ---
-okf_version: "0.2"
+okf_version: "0.3"
+title: "Exemple complet MP1519 — Bundle curricular de 14 nodes"
+description: "Exemple complet d'un bundle OKF del mòdul MP1519 (CIE-10-ES Diagnòstics): MOC, catàleg curricular de 52 CAs, protocol d'avaluació, fitxes AEA, paquets i convenció."
+license: CC-BY-SA-4.0
 ---
 
 # Índex del bundle: MP1519

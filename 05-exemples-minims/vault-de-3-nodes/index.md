@@ -1,5 +1,8 @@
 ---
-okf_version: "0.2"
+okf_version: "0.3"
+title: "Exemple mínim — Vault de 3 nodes"
+description: "Exemple mínim d'un vault OKF amb 3 nodes (MOC, unitat didàctica i fitxa d'activitat) per provar el kit ràpidament."
+license: CC-BY-SA-4.0
 ---
 
 # Índex del bundle: vault de 3 nodes (exemple mínim)
