@@ -102,7 +102,7 @@
     },
     "sources": {
       "type": "array",
-      "description": "Fonts de les quals deriva el contingut (OKF v0.2).",
+      "description": "Fonts de les quals deriva el contingut (OKF v0.2 / v0.3).",
       "items": {
         "type": "object",
         "properties": {
@@ -114,23 +114,41 @@
         "required": ["resource"]
       }
     },
+    "okf_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Versió de l'especificació OKF a què es declara conforme el node (OKF v0.3), ex: 0.3.",
+      "examples": ["0.3"]
+    },
     "generated": {
       "type": "object",
-      "description": "Qui ha generat el contingut i quan (OKF v0.2).",
+      "description": "Qui ha generat el contingut i quan (OKF v0.2 / v0.3).",
       "properties": {
         "by": { "type": "string" },
-        "at": { "type": "string" }
+        "at": {
+          "type": "string",
+          "description": "Quan s'ha generat. Timestamp RFC 3339 (YYYY-MM-DDTHH:MM:SSZ o amb offset horari).",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+          "examples": ["2026-11-18T10:30:00Z", "2026-11-18T11:30:00+01:00"]
+        }
       },
       "required": ["by"]
     },
     "verified": {
-      "description": "Qui ha verificat el contingut i quan (OKF v0.2).",
+      "description": "Qui ha verificat el contingut i quan (OKF v0.2 / v0.3).",
       "oneOf": [
         {
           "type": "object",
           "properties": {
             "by": { "type": "string" },
-            "at": { "type": "string" }
+            "at": {
+              "type": "string",
+              "description": "Quan s'ha verificat. Timestamp RFC 3339 (YYYY-MM-DDTHH:MM:SSZ o amb offset horari).",
+              "format": "date-time",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+              "examples": ["2026-11-18T10:30:00Z"]
+            }
           },
           "required": ["by"]
         },
@@ -140,7 +158,13 @@
             "type": "object",
             "properties": {
               "by": { "type": "string" },
-              "at": { "type": "string" }
+              "at": {
+                "type": "string",
+                "description": "Quan s'ha verificat. Timestamp RFC 3339 (YYYY-MM-DDTHH:MM:SSZ o amb offset horari).",
+                "format": "date-time",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
+                "examples": ["2026-11-18T10:30:00Z"]
+              }
             },
             "required": ["by"]
           }
@@ -149,12 +173,35 @@
     },
     "status": {
       "type": "string",
-      "description": "Estat del node (OKF v0.2): draft, stable o deprecated.",
+      "description": "Estat del node (OKF v0.2 / v0.3): draft, stable o deprecated.",
       "enum": ["draft", "stable", "deprecated"]
     },
     "stale_after": {
       "type": "string",
-      "description": "Data a partir de la qual el contingut es considera obsolet (OKF v0.2). Format ISO 8601."
+      "description": "Data a partir de la qual el contingut es considera obsolet (OKF v0.3)."
+    },
+    "superseded_by": {
+      "description": "Camí(s) relatiu(s) al(s) node(s) que substitueixen aquest (OKF v0.3). Es resolen des del directori del fitxer.",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Camí relatiu al node que substitueix aquest."
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Llista de camins relatius als nodes que substitueixen aquest."
+        }
+      ]
+    }
+  },
+  "patternProperties": {
+    "^x-[a-z0-9-]+$": {
+      "description": "Clau d'extensió OKF v0.3 (prefix x-): qualsevol valor, acceptada sense error pel validador."
     }
   }
 }

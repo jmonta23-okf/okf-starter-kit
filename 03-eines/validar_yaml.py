@@ -31,6 +31,16 @@ Comprovacions de graf (el README del kit les promet des del principi):
     l'arrel validada és un vault (té nodes directes). Els repos amb
     subvaults (com el kit sencer) no es consideren un vault únic.
 
+Camps opcionals OKF v0.3 (additius, 100% retrocompatibles):
+  - S'accepten sense error: okf_version, sources, generated, verified,
+    status, stale_after, superseded_by i qualsevol clau d'extensió amb
+    prefix `x-` (`^x-[a-z0-9-]+$`).
+  - `generated.at` / `verified[].at`, si es declaren, han de seguir el
+    format RFC 3339 (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) (Y054).
+  - `superseded_by`, si es declara, ha de resoldre un camí relatiu des
+    del directori del node (mateixa regla que els enllaços relatius) (Y055).
+  - `data_ultima_actualitzacio` manté el format `YYYY-MM-DD` (Y008).
+
 Robustesa:
   - `type` no hashable (llista/diccionari) -> error Y025, sense crash.
   - Ja no hi ha l'heuristica Hermes (`name:` sense `id:`): un node amb
@@ -107,7 +117,24 @@ CARPETES_EXCLUIRE = {
 }
 
 # Fitxers que NO són nodes OKF i s'exclouen de la validació.
+# `index.md` és el fitxer reservat de l'especificació OKF (índex del bundle):
+# s'ignora sempre, a qualsevol nivell (també un futur /index.md a l'arrel),
+# sense exigir-li id:, authors: ni cap camp de node.
 FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md", "index.md"}
+
+# Camps opcionals OKF v0.3 (RFC-OKF-03). S'accepten sense error en qualsevol
+# node; si es declaren, es validen amb les regles específiques de cada camp
+# (RFC 3339 per als timestamps, resolució relativa per a superseded_by).
+CAMPS_V03 = {
+    "okf_version", "sources", "generated", "verified",
+    "status", "stale_after", "superseded_by",
+}
+
+# Claus d'extensió OKF v0.3: prefix `x-` + minúscules, dígits i guions.
+PATRO_X = r"^x-[a-z0-9-]+$"
+
+# Timestamp RFC 3339: YYYY-MM-DDTHH:MM:SSZ o amb offset horari (+01:00).
+PATRO_RFC3339 = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$"
 
 # Patró genèric d'ID segons la Convenció: {CODI}-{ÀMBIT}-{NN}.
 PATRO_ID = r"^[A-Z0-9]+(-[A-Z0-9]+)+-\d{2}$"
@@ -161,6 +188,8 @@ CODIS_ERROR = {
     "Y051": ("Instrument d'avaluació (format nou) sense cap criteri", "🟡 Mitjana"),
     "Y052": ("Criteri de 'criteris_avaluacio' que cap instrument avalua", "🟡 Mitjana"),
     "Y053": ("Tipus incorrecte en un camp de criteris: o instruments_avaluacio:", "🟠 Alta"),
+    "Y054": ("Timestamp RFC 3339 incorrecte en generated.at / verified[].at", "🟡 Mitjana"),
+    "Y055": ("superseded_by no resol un camí relatiu existent", "🟠 Alta"),
     # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
     # Y047 / Y049: lliures.
 }
@@ -524,6 +553,57 @@ def validar_data(data_str):
         return True
     except ValueError:
         return False
+
+
+def validar_timestamp_rfc3339(valor):
+    """
+    True si `valor` és un timestamp RFC 3339 (amb Z o amb offset horari).
+
+    Format acceptat: YYYY-MM-DDTHH:MM:SS(Z|±HH:MM), amb segons fraccionals
+    opcionals (`.f...`, RFC 3339 §5.6). A més del patró, es comprova que la
+    data i l'hora siguin reals (ex: 2026-02-30T25:00:00Z no passa).
+    """
+    if not isinstance(valor, str):
+        return False
+    if not re.match(PATRO_RFC3339, valor):
+        return False
+    try:
+        # 'Z' -> +00:00 perquè fromisoformat l'accepti de manera uniforme.
+        valor_iso = valor[:-1] + "+00:00" if valor.endswith("Z") else valor
+        datetime.datetime.fromisoformat(valor_iso)
+        return True
+    except ValueError:
+        return False
+
+
+def validar_superseded_by(ruta_fitxer, refs_superseded):
+    """
+    Comprova que els camins de `superseded_by` resolguin des del directori
+    del fitxer (mateixa regla que els enllaços relatius, analitzar_enllacos).
+
+    `refs_superseded` pot ser una cadena o una llista de cadenes. Es salten
+    els destins externs (http(s)://, mailto:) i els fragments '#...'. Retorna
+    la llista de (codi, descripció, acció) per als camins que no existeixen.
+    """
+    errors = []
+    refs = refs_superseded if isinstance(refs_superseded, list) else [refs_superseded]
+    directori = os.path.dirname(ruta_fitxer)
+    for ref in refs:
+        if not isinstance(ref, str) or not ref.strip():
+            continue
+        if ref.startswith(("http://", "https://", "mailto:", "#")):
+            continue
+        ruta_desti = ref.split("#", 1)[0]
+        if not ruta_desti:
+            continue
+        p_resolt = os.path.normpath(os.path.join(directori, ruta_desti))
+        if not os.path.exists(p_resolt):
+            errors.append((
+                "Y055",
+                f"superseded_by '{ref}' no resol cap fitxer existent des del directori del node",
+                "Corregir el camí relatiu de superseded_by o crear el node destí",
+            ))
+    return errors
 
 
 def es_buit(v):
@@ -1060,6 +1140,43 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
             f"Versió '{versio}' no segueix el patró 'V<maj>.<min>[.<patch>][-<estat>]'",
             "Corregir la versió (ex: 'V1.0-Esborrany' o 'V1.0')",
         ))
+
+    # ---- Camps opcionals OKF v0.3 (RFC-OKF-03) ---------------------------
+    # S'accepten sense error: okf_version, sources, generated, verified,
+    # status, stale_after, superseded_by i qualsevol clau d'extensió x-*
+    # (CAMPS_V03 / PATRO_X). Només es valida el FORMAT quan el camp es declara:
+    #   - generated.at / verified[].at -> RFC 3339 (Y054)
+    #   - superseded_by -> camí relatiu resoluble des del directori (Y055)
+    generated = yaml_data.get("generated")
+    if isinstance(generated, dict) and generated.get("at") is not None:
+        at = generated.get("at")
+        if not validar_timestamp_rfc3339(at):
+            errors.append((
+                "Y054",
+                f"generated.at '{at}' no és un timestamp RFC 3339 "
+                "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
+                "Corregir generated.at al format RFC 3339 (ex: 2026-11-18T10:30:00Z)",
+            ))
+
+    verified = yaml_data.get("verified")
+    entries_verified = []
+    if isinstance(verified, dict):
+        entries_verified = [verified]
+    elif isinstance(verified, list):
+        entries_verified = [e for e in verified if isinstance(e, dict)]
+    for i, entry in enumerate(entries_verified):
+        at = entry.get("at")
+        if at is not None and not validar_timestamp_rfc3339(at):
+            errors.append((
+                "Y054",
+                f"verified[{i}].at '{at}' no és un timestamp RFC 3339 "
+                "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
+                "Corregir verified[].at al format RFC 3339 (ex: 2026-11-18T10:30:00Z)",
+            ))
+
+    superseded = yaml_data.get("superseded_by")
+    if superseded is not None:
+        errors.extend(validar_superseded_by(ruta_fitxer, superseded))
 
     # ---- Enums del Core §4 (opcionals; si es declaren, tancats) ----------
     visibilitat = yaml_data.get("visibilitat")
