@@ -39,7 +39,7 @@ Quan el teu coneixement docent està estructurat i validat, pots connectar-hi mo
 
 ### Conformitat amb OKF
 
-Aquest kit és un **perfil educatiu** de l'especificació *Open Knowledge Format* (OKF) de Google Cloud. Els bundles d'exemple inclouen un `index.md` (reservat per l'especificació) i accepten els camps de governança opcionals de la v0.2 (`sources`, `generated`, `verified`, `status`, `stale_after`). El kit manté els seus propis camps (`estat`, `authors`, `data_ultima_actualitzacio`) per compatibilitat, amb un mapatge documentat a [`09-graf-curricular.md`](00-documentacio/09-graf-curricular.md) §10.8.
+Aquest kit és un **perfil educatiu** de l'especificació *Open Knowledge Format* (OKF) — vegeu el [repositori oficial de l'especificació](https://github.com/open-knowledge-format/open-knowledge-format). El repo inclou un `/index.md` autodescriptiu a l'arrel (`okf_version: "0.3"`, `title`, `description`, `license`) i els bundles d'exemple en fan un de propi per a cada subvault. Els nodes accepten els camps de governança opcionals de la **v0.3** (`okf_version`, `sources`, `generated`, `verified`, `status`, `stale_after`, `superseded_by`), les extensions `x-*` (kebab-case), i els actors amb prefix `human:`/`process:` (només `human:` atorga `human-reviewed`). El kit manté els seus propis camps (`estat`, `authors`, `data_ultima_actualitzacio`) per compatibilitat, amb un mapatge documentat a [`09-graf-curricular.md`](00-documentacio/09-graf-curricular.md) §10.8. El validador emet els codis **Y054** (timestamps RFC 3339) i **Y055** (`superseded_by` no resolt) sobre aquests camps quan cal.
 
 ---
 
