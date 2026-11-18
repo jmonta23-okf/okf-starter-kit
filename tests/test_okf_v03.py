@@ -1,10 +1,12 @@
 """
-Proves del suport additiu OKF v0.3 (Bloc 1/3) al validador i al JSON Schema.
+Proves del suport additiu OKF v0.3 (Bloc 1/3 + Mini-Brief P0) al validador
+i al JSON Schema.
 
 Cobreix els camps opcionals v0.3 (okf_version, sources, generated, verified,
-status, stale_after, superseded_by), les claus d'extensió `x-*`, els timestamps
-RFC 3339 (Y054) i la resolució relativa de `superseded_by` (Y055), sense trencar
-la retrocompatibilitat (index.md reservat, data YYYY-MM-DD).
+status, stale_after, superseded_by, usage_window), les claus d'extensió `x-*`,
+els timestamps RFC 3339 (Y054), verified complet (Y056), la resolució relativa
+i absoluta de `superseded_by` (Y055) i la seva coherència amb deprecated (Y057),
+sense trencar la retrocompatibilitat (index.md reservat, data YYYY-MM-DD).
 """
 
 import json
@@ -62,27 +64,31 @@ def test_index_md_arrel_ignorat_sense_error(tmp_path, codis_error):
 # (b) Camps opcionals v0.3, claus x-* i timestamps RFC 3339 (Y054)
 # ---------------------------------------------------------------------------
 
+CAMPS_V03_NODE = (
+    "okf_version: \"0.3\"\n"
+    "sources:\n"
+    "  - resource: \"https://exemple.cat/curriculum\"\n"
+    "    last_modified: \"2026-06-01T09:00:00Z\"\n"
+    "generated:\n"
+    "  by: \"Agent de generació\"\n"
+    "  at: \"2026-11-18T10:30:00Z\"\n"
+    "verified:\n"
+    "  - by: \"Equip de revisió\"\n"
+    "    at: \"2026-11-18T12:45:00+01:00\"\n"
+    "status: stable\n"
+    "stale_after: \"2027-11-18T23:59:59Z\"\n"
+    "usage_window:\n"
+    "  from: \"2026-09-01T00:00:00Z\"\n"
+    "  to: \"2027-06-30T23:59:59Z\"\n"
+    "x-miae-1: \"extensió MI-AE\"\n"
+    "x-miae-nivell: 3\n"
+)
+
+
 def _node_v03(nid="EX-GUIA-01", extra=""):
-    """Node base amb els camps opcionals v0.3 i una clau d'extensió x-*."""
+    """Node base amb els camps opcionals v0.3 complerts i una clau x-*."""
     node = NODE_BASE.format(nid=nid, tipus="Guia", titol="Guia v0.3")
-    node = node.replace(
-        "estat: vigent",
-        "okf_version: \"0.3\"\n"
-        "sources:\n"
-        "  - resource: \"https://exemple.cat/curriculum\"\n"
-        "generated:\n"
-        "  by: \"Agent de generació\"\n"
-        "  at: \"2026-11-18T10:30:00Z\"\n"
-        "verified:\n"
-        "  - by: \"Equip de revisió\"\n"
-        "    at: \"2026-11-18T12:45:00+01:00\"\n"
-        "status: stable\n"
-        "stale_after: \"2027-11-18\"\n"
-        "x-miae-1: \"extensió MI-AE\"\n"
-        "x-miae-nivell: 3\n"
-        "estat: vigent\n"
-        + extra,
-    )
+    node = node.replace("estat: vigent", CAMPS_V03_NODE + "estat: vigent\n" + extra)
     return node
 
 
@@ -99,6 +105,10 @@ def test_camps_v03_i_claus_x_acceptats(tmp_path, codis_error):
     assert data["data_ultima_actualitzacio"] == "2026-10-31"
     assert v.validar_timestamp_rfc3339(data["generated"]["at"])
     assert v.validar_timestamp_rfc3339(data["verified"][0]["at"])
+    assert v.validar_timestamp_rfc3339(data["stale_after"])
+    assert v.validar_timestamp_rfc3339(data["sources"][0]["last_modified"])
+    assert v.validar_timestamp_rfc3339(data["usage_window"]["from"])
+    assert v.validar_timestamp_rfc3339(data["usage_window"]["to"])
 
     # També passa la validació en viu del JSON Schema (draft-07).
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
@@ -140,16 +150,90 @@ def test_rfc3339_accepta_z_i_offset():
 
 
 # ---------------------------------------------------------------------------
-# (c) superseded_by: resolució relativa des del directori del node (Y055)
+# Mini-Brief P0: Y054 estès a stale_after / sources[].last_modified /
+# usage_window.from / usage_window.to (mantenint YYYY-MM-DD)
 # ---------------------------------------------------------------------------
+
+def test_stale_after_data_sola_dona_y054(tmp_path, codis_error):
+    """stale_after amb format YYYY-MM-DD (sense hora ni offset) -> Y054.
+    `data_ultima_actualitzacio` continua acceptant YYYY-MM-DD (Y008)."""
+    node = _node_v03()
+    node = node.replace('stale_after: "2027-11-18T23:59:59Z"', 'stale_after: "2027-11-18"')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    assert "Y054" in codis_error(errors)
+    # data_ultima_actualitzacio intacta: cap Y008 addicional.
+    assert "Y008" not in codis_error(errors)
+
+
+def test_last_modified_sense_offset_dona_y054(tmp_path, codis_error):
+    """sources[].last_modified sense offset RFC 3339 -> Y054."""
+    node = _node_v03()
+    node = node.replace('last_modified: "2026-06-01T09:00:00Z"', 'last_modified: "2026-06-01 09:00"')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    assert "Y054" in codis_error(errors)
+
+
+def test_usage_window_sense_rfc3339_dona_y054(tmp_path, codis_error):
+    """usage_window.from / usage_window.to sense RFC 3339 -> Y054 (un per camp)."""
+    node = _node_v03()
+    node = node.replace('from: "2026-09-01T00:00:00Z"', 'from: "01/09/2026"')
+    node = node.replace('to: "2027-06-30T23:59:59Z"', 'to: "30/06/2027"')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    codis = codis_error(errors)
+    assert codis.count("Y054") == 2  # un per cada extrem de la finestra
+
+
+# ---------------------------------------------------------------------------
+# Mini-Brief P0: verified complet (Y056)
+# ---------------------------------------------------------------------------
+
+def test_verified_sense_at_dona_y056(tmp_path, codis_error):
+    """verified[] sense 'at' -> Y056 (🟠 Alta): calen by i at a cada entrada."""
+    node = _node_v03()
+    node = node.replace('    at: "2026-11-18T12:45:00+01:00"\n', "")
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    assert "Y056" in codis_error(errors)
+    assert v.CODIS_ERROR["Y056"][1] == "🟠 Alta"
+
+
+def test_verified_sense_by_dona_y056(tmp_path, codis_error):
+    """verified[] sense 'by' -> Y056."""
+    node = _node_v03()
+    node = node.replace('  - by: "Equip de revisió"\n', "")
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    assert "Y056" in codis_error(errors)
+
+
+def test_verified_incompleta_no_dona_y054(tmp_path, codis_error):
+    """Una entrada sense at no ha de generar Y054 a més de Y056."""
+    node = _node_v03()
+    node = node.replace('    at: "2026-11-18T12:45:00+01:00"\n', "")
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    assert "Y054" not in codis_error(validar_vault(ruta))
+
+
+# ---------------------------------------------------------------------------
+# (c) superseded_by: resolució relativa (Y055), absoluta i coherència (Y057)
+# ---------------------------------------------------------------------------
+
+def _node_superseded(nid="EX-GUIA-01", titol="Guia substituïda", body=""):
+    """Node amb superseded_by i estat: obsolet (coherència Y057 satisfeta)."""
+    node = NODE_BASE.format(nid=nid, tipus="Guia", titol=titol)
+    node = node.replace(
+        "estat: vigent",
+        "estat: obsolet\n" + body,
+    )
+    return node
+
 
 def test_superseded_by_trencat_dona_error(tmp_path, codis_error):
     """superseded_by amb camí que no resol -> Y055 (🟠 Alta)."""
-    node = NODE_BASE.format(nid="EX-GUIA-01", tipus="Guia", titol="Guia substituïda")
-    node = node.replace(
-        "estat: vigent",
-        "superseded_by: \"./no_existeix.md\"\nestat: vigent",
-    )
+    node = _node_superseded(body='superseded_by: "./no_existeix.md"\n')
     ruta = crear_vault(tmp_path, {"03_Guia.md": node})
     errors = validar_vault(ruta)
     assert "Y055" in codis_error(errors)
@@ -160,25 +244,18 @@ def test_superseded_by_valid_passa(tmp_path, codis_error):
     """superseded_by apuntant a un node existent del mateix directori: OK.
 
     També accepta la forma llista (múltiples successors)."""
-    node = NODE_BASE.format(nid="EX-GUIA-01", tipus="Guia", titol="Guia actual")
-    node = node.replace(
-        "estat: vigent",
-        "superseded_by: \"./01_Convencio.md\"\nestat: vigent",
-    )
+    node = _node_superseded(titol="Guia actual", body='superseded_by: "./01_Convencio.md"\n')
     ruta = crear_vault(tmp_path, {"03_Guia.md": node})
     assert codis_error(validar_vault(ruta)) == []
 
 
 def test_superseded_by_llista_detecta_trencat(tmp_path, codis_error):
     """Llista amb un camí trencat: només el trencat dispara Y055."""
-    node = NODE_BASE.format(nid="EX-GUIA-01", tipus="Guia", titol="Guia substituïda")
-    node = node.replace(
-        "estat: vigent",
+    node = _node_superseded(body=(
         "superseded_by:\n"
         "  - \"./01_Convencio.md\"\n"
         "  - \"./fantasma.md\"\n"
-        "estat: vigent",
-    )
+    ))
     ruta = crear_vault(tmp_path, {"03_Guia.md": node})
     errors = validar_vault(ruta)
     codis = codis_error(errors)
@@ -188,13 +265,65 @@ def test_superseded_by_llista_detecta_trencat(tmp_path, codis_error):
 
 def test_superseded_by_extern_no_error(tmp_path, codis_error):
     """Destins externs (URL, mailto:) no es resolen com a camí relatiu."""
+    node = _node_superseded(titol="Guia actual", body='superseded_by: "https://exemple.cat/futur.md"\n')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    assert codis_error(validar_vault(ruta)) == []
+
+
+# ---------------------------------------------------------------------------
+# Mini-Brief P0: camins absoluts / des de l'arrel del bundle (Y055)
+# ---------------------------------------------------------------------------
+
+def test_superseded_by_absolut_resol_des_de_l_arrel(tmp_path, codis_error):
+    """Un camí que comença per '/' es resol des de l'arrel del bundle: si el
+    fitxer hi existeix, no hi ha Y055."""
+    node = _node_superseded(titol="Guia actual", body='superseded_by: "/01_Convencio.md"\n')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    assert "Y055" not in codis_error(validar_vault(ruta))
+
+
+def test_superseded_by_absolut_trencat_dona_error(tmp_path, codis_error):
+    """Un camí '/' que no existeix a l'arrel del bundle -> Y055."""
+    node = _node_superseded(body='superseded_by: "/no-existeix-a-l-arrel.md"\n')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    assert "Y055" in codis_error(validar_vault(ruta))
+
+
+# ---------------------------------------------------------------------------
+# Mini-Brief P0: coherència superseded_by <-> deprecated (Y057)
+# ---------------------------------------------------------------------------
+
+def test_superseded_by_sense_deprecated_dona_y057(tmp_path, codis_error):
+    """superseded_by sense 'status: deprecated' ni 'estat: obsolet' -> Y057
+    (🟡 Mitjana), encara que el camí resolgui."""
     node = NODE_BASE.format(nid="EX-GUIA-01", tipus="Guia", titol="Guia actual")
     node = node.replace(
         "estat: vigent",
-        "superseded_by: \"https://exemple.cat/futur.md\"\nestat: vigent",
+        'superseded_by: "./01_Convencio.md"\nestat: vigent',
     )
     ruta = crear_vault(tmp_path, {"03_Guia.md": node})
-    assert codis_error(validar_vault(ruta)) == []
+    errors = validar_vault(ruta)
+    assert "Y057" in codis_error(errors)
+    assert v.CODIS_ERROR["Y057"][1] == "🟡 Mitjana"
+    assert "Y055" not in codis_error(errors)  # el camí resol: només manca coherència
+
+
+def test_superseded_by_amb_status_deprecated_passa(tmp_path, codis_error):
+    """status: deprecated (OKF) també satisfà la coherència, sense estat: obsolet."""
+    node = NODE_BASE.format(nid="EX-GUIA-01", tipus="Guia", titol="Guia actual")
+    node = node.replace(
+        "estat: vigent",
+        'superseded_by: "./01_Convencio.md"\nstatus: deprecated\nestat: vigent',
+    )
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    assert "Y057" not in codis_error(validar_vault(ruta))
+
+
+def test_superseded_by_amb_estat_obsolet_passa(tmp_path, codis_error):
+    """estat: obsolet (perfil) satisfà la coherència."""
+    node = _node_superseded(titol="Guia actual", body='superseded_by: "./01_Convencio.md"\n')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    assert "Y057" not in codis_error(validar_vault(ruta))
 
 
 # ---------------------------------------------------------------------------
@@ -212,3 +341,5 @@ def test_cli_accepta_node_v03_complet(tmp_path):
     assert proc.returncode == 0, proc.stdout + proc.stderr
     assert "Y054" not in proc.stdout
     assert "Y055" not in proc.stdout
+    assert "Y056" not in proc.stdout
+    assert "Y057" not in proc.stdout

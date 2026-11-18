@@ -127,7 +127,7 @@ FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md"
 # (RFC 3339 per als timestamps, resolució relativa per a superseded_by).
 CAMPS_V03 = {
     "okf_version", "sources", "generated", "verified",
-    "status", "stale_after", "superseded_by",
+    "status", "stale_after", "superseded_by", "usage_window",
 }
 
 # Claus d'extensió OKF v0.3: prefix `x-` + minúscules, dígits i guions.
@@ -190,6 +190,8 @@ CODIS_ERROR = {
     "Y053": ("Tipus incorrecte en un camp de criteris: o instruments_avaluacio:", "🟠 Alta"),
     "Y054": ("Timestamp RFC 3339 incorrecte en generated.at / verified[].at", "🟡 Mitjana"),
     "Y055": ("superseded_by no resol un camí relatiu existent", "🟠 Alta"),
+    "Y056": ("Entrada de 'verified' incompleta (calen 'by' i 'at')", "🟠 Alta"),
+    "Y057": ("superseded_by sense status: deprecated ni estat: obsolet", "🟡 Mitjana"),
     # Y041: retirat de la v1.3 (text canviat) — no s'implementa.
     # Y047 / Y049: lliures.
 }
@@ -576,10 +578,15 @@ def validar_timestamp_rfc3339(valor):
         return False
 
 
-def validar_superseded_by(ruta_fitxer, refs_superseded):
+def validar_superseded_by(ruta_fitxer, refs_superseded, ruta_arrel=None):
     """
     Comprova que els camins de `superseded_by` resolguin des del directori
     del fitxer (mateixa regla que els enllaços relatius, analitzar_enllacos).
+
+    Si el camí comença per `/`, es resol des de l'arrel del bundle (ruta_arrel);
+    si no, des del directori del fitxer. `ruta_arrel` pot ser None (per
+    defecte), en què cas els camins `/` es resolen des del directori del fitxer
+    (comportament retrocompatible).
 
     `refs_superseded` pot ser una cadena o una llista de cadenes. Es salten
     els destins externs (http(s)://, mailto:) i els fragments '#...'. Retorna
@@ -596,7 +603,12 @@ def validar_superseded_by(ruta_fitxer, refs_superseded):
         ruta_desti = ref.split("#", 1)[0]
         if not ruta_desti:
             continue
-        p_resolt = os.path.normpath(os.path.join(directori, ruta_desti))
+        if ruta_desti.startswith("/"):
+            # Camí absolut dins del bundle: resoldre des de l'arrel.
+            base = ruta_arrel if ruta_arrel else directori
+            p_resolt = os.path.normpath(os.path.join(base, ruta_desti.lstrip("/")))
+        else:
+            p_resolt = os.path.normpath(os.path.join(directori, ruta_desti))
         if not os.path.exists(p_resolt):
             errors.append((
                 "Y055",
@@ -896,7 +908,7 @@ def normalitzar_instruments_avaluacio(instruments):
     return norm
 
 
-def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None, warnings=None):
+def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases=None, warnings=None, ruta_arrel=None):
     """
     Valida un node. Retorna la llista d'errors (codi, descripció, acció).
     """
@@ -1143,10 +1155,13 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
 
     # ---- Camps opcionals OKF v0.3 (RFC-OKF-03) ---------------------------
     # S'accepten sense error: okf_version, sources, generated, verified,
-    # status, stale_after, superseded_by i qualsevol clau d'extensió x-*
-    # (CAMPS_V03 / PATRO_X). Només es valida el FORMAT quan el camp es declara:
-    #   - generated.at / verified[].at -> RFC 3339 (Y054)
-    #   - superseded_by -> camí relatiu resoluble des del directori (Y055)
+    # status, stale_after, superseded_by, usage_window i qualsevol clau
+    # d'extensió x-* (CAMPS_V03 / PATRO_X). Només es valida el FORMAT quan
+    # el camp es declara:
+    #   - generated.at / verified[].at / stale_after / sources[].last_modified
+    #     / usage_window.from / usage_window.to -> RFC 3339 (Y054)
+    #   - verified[].by + verified[].at obligatoris per entrada (Y056)
+    #   - superseded_by -> camí resoluble (Y055) + coherència amb deprecated (Y057)
     generated = yaml_data.get("generated")
     if isinstance(generated, dict) and generated.get("at") is not None:
         at = generated.get("at")
@@ -1165,8 +1180,15 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
     elif isinstance(verified, list):
         entries_verified = [e for e in verified if isinstance(e, dict)]
     for i, entry in enumerate(entries_verified):
+        if entry.get("by") is None or entry.get("at") is None:
+            errors.append((
+                "Y056",
+                f"verified[{i}] incompleta: calen els camps 'by' i 'at'",
+                "Afegir 'by' (actor) i 'at' (timestamp RFC 3339) a l'entrada de verified",
+            ))
+            continue
         at = entry.get("at")
-        if at is not None and not validar_timestamp_rfc3339(at):
+        if not validar_timestamp_rfc3339(at):
             errors.append((
                 "Y054",
                 f"verified[{i}].at '{at}' no és un timestamp RFC 3339 "
@@ -1174,9 +1196,57 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
                 "Corregir verified[].at al format RFC 3339 (ex: 2026-11-18T10:30:00Z)",
             ))
 
+    # Y054 també s'aplica als altres camps temporals de v0.3.
+    stale_after = yaml_data.get("stale_after")
+    if isinstance(stale_after, str) and not validar_timestamp_rfc3339(stale_after):
+        errors.append((
+            "Y054",
+            f"stale_after '{stale_after}' no és un timestamp RFC 3339 "
+            "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
+            "Corregir stale_after al format RFC 3339 (ex: 2027-06-30T23:59:59Z)",
+        ))
+
+    sources = yaml_data.get("sources")
+    if isinstance(sources, list):
+        for i, src in enumerate(sources):
+            if isinstance(src, dict) and src.get("last_modified") is not None:
+                lm = src.get("last_modified")
+                if not validar_timestamp_rfc3339(lm):
+                    errors.append((
+                        "Y054",
+                        f"sources[{i}].last_modified '{lm}' no és un timestamp RFC 3339 "
+                        "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
+                        "Corregir sources[].last_modified al format RFC 3339",
+                    ))
+
+    usage_window = yaml_data.get("usage_window")
+    if isinstance(usage_window, dict):
+        for camp_uw in ("from", "to"):
+            valor_uw = usage_window.get(camp_uw)
+            if valor_uw is not None and not validar_timestamp_rfc3339(valor_uw):
+                errors.append((
+                    "Y054",
+                    f"usage_window.{camp_uw} '{valor_uw}' no és un timestamp RFC 3339 "
+                    "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
+                    f"Corregir usage_window.{camp_uw} al format RFC 3339",
+                ))
+
     superseded = yaml_data.get("superseded_by")
     if superseded is not None:
-        errors.extend(validar_superseded_by(ruta_fitxer, superseded))
+        errors.extend(validar_superseded_by(
+            ruta_fitxer, superseded, ruta_arrel=ruta_arrel,
+        ))
+        # Y057: superseded_by sense declaració de deprecated.
+        te_deprecat = (
+            yaml_data.get("status") == "deprecated"
+            or yaml_data.get("estat") == "obsolet"
+        )
+        if not te_deprecat:
+            errors.append((
+                "Y057",
+                "superseded_by present sense 'status: deprecated' ni 'estat: obsolet'",
+                "Declarar 'status: deprecated' (OKF) o 'estat: obsolet' (perfil) al node substitut",
+            ))
 
     # ---- Enums del Core §4 (opcionals; si es declaren, tancats) ----------
     visibilitat = yaml_data.get("visibilitat")
@@ -1681,7 +1751,7 @@ def main():
         errors_enllacos = analitzar_enllacos(ruta)
         errors_node = validar_node(
             ruta, data, ids_vists, tipus_valid, tipus_credit, errors_enllacos, aliases,
-            warnings_totals,
+            warnings_totals, ruta_vault,
         )
         fitxers_amb_errors += 1 if errors_node else 0
         fitxers_valids += 1 if not errors_node else 0

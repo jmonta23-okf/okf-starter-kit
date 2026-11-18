@@ -374,7 +374,7 @@ El fitxer [`01-cores/okf-core.schema.json`](../01-cores/okf-core.schema.json) (F
 
 > **Desambiguació:** aquesta secció mapategia el kit amb l'**especificació externa Google OKF v0.3** (repositori `open-knowledge-format`). No s'ha de confondre amb el document `10-rfc-okf-03.md`, que és l'**RFC intern** del graf curricular de dues capes (V1.3) i no té relació amb l'especificació de Google.
 
-L'especificació OKF v0.3 de Google introdueix camps opcionals de governança (`okf_version`, `sources`, `generated`, `verified`, `status`, `stale_after`, `superseded_by`) i fitxers d'índex autodescriptius (`index.md`). El kit manté els seus camps propis per compatibilitat, però aquest és el mapatge conceptual:
+L'especificació OKF v0.3 de Google introdueix camps opcionals de governança (`okf_version`, `sources`, `generated`, `verified`, `status`, `stale_after`, `superseded_by`, `usage_window`) i fitxers d'índex autodescriptius (`index.md`). El kit manté els seus camps propis per compatibilitat, però aquest és el mapatge conceptual:
 
 | Camp del kit | Camp OKF v0.3 equivalent | Notes |
 |:---|:---|:---|
@@ -384,17 +384,23 @@ L'especificació OKF v0.3 de Google introdueix camps opcionals de governança (`
 | (no existeix) | `sources` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
 | (no existeix) | `verified` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
 | (no existeix) | `stale_after` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
-| `estat: obsolet` | `status: deprecated` + `superseded_by` | Per marcar un node com a substituït cal **`superseded_by`** amb la ruta relativa al node successor (admet string o llista). |
+| (no existeix) | `usage_window` | Finestra temporal d'ús recomanat (`{from, to}`). El kit no té un camp equivalent. |
+| `estat: obsolet` | `status: deprecated` + `superseded_by` | Per marcar un node com a substituït cal **`superseded_by`** amb la ruta relativa al node successor (o llista de rutes). |
 
 **Regles de conformitat amb OKF v0.3 (additives, 100% retrocompatibles):**
 
 - **`index.md` autodescriptiu:** tots els bundles (i l'arrel del repo) declaren `okf_version: "0.3"`, `title`, `description` (una frase clara per al *routing* d'agents) i `license`. Els `index.md` no són nodes: s'ignoren sense exigir `id` ni `authors`.
 - **Actors amb prefix:** `generated.by` i `verified[].by` poden usar `human:<id>`, `process:<id>` o `<producer>/<version>`. Només un actor amb prefix `human:` atorga l'estat `human-reviewed`; la resta són revisions automàtiques o de procés.
 - **Frescor de la verificació:** `verified[].at >= generated.at`. Si un agent edita el node després de la verificació (`generated.at` posterior), la verificació humana caduca fins a una nova confirmació.
-- **Timestamps RFC 3339:** els camps temporals de v0.3 (`generated.at`, `verified[].at`) s'expressen en RFC 3339 (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) — el validador ho exigeix amb **Y054**. El camp del kit `data_ultima_actualitzacio` **manté `YYYY-MM-DD`** (Y008), sense trencar els 41 nodes existents.
-- **`superseded_by`:** ruta relativa al fitxer successor, resolta des del directori del node (mateixa regla que els enllaços relatius); admet string o llista. Un camí que no resol dispara **Y055**.
+- **`verified` complet:** cada entrada de `verified` ha de dur **obligatòriament** `by` i `at` (Y056). Una entrada incompleta es rebutja.
+- **Timestamps RFC 3339:** els camps temporals de v0.3 (`generated.at`, `verified[].at`, `stale_after`, `sources[].last_modified`, `usage_window.from`, `usage_window.to`) s'expressen en RFC 3339 (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) — el validador ho exigeix amb **Y054**. El camp del kit `data_ultima_actualitzacio` **manté `YYYY-MM-DD`** (Y008), sense trencar els 41 nodes existents.
+- **`superseded_by`:** ruta relativa al fitxer successor, resolta des del directori del node (mateixa regla que els enllaços relatius); si el camí comença per `/`, es resol des de l'arrel del bundle. Un camí que no resol dispara **Y055**. El format llista (múltiples successors) és una **extensió pròpia del perfil educatiu** (l'especificació v0.3 declara un únic camí).
+- **Coherència de `superseded_by`:** un node amb `superseded_by` sense `status: deprecated` (OKF) ni `estat: obsolet` (perfil) rep **Y057** (🟡): el camí pot resoldre, però la declaració és incoherent.
+- **`usage_window`:** objecte opcional `{from, to}` amb els dos extrems en RFC 3339 (Y054 si no ho són). És una finestra d'ús recomanat, no una data de caducitat forçada.
 - **Espai d'extensions `x-*`:** qualsevol clau d'extensió ha de ser kebab-case (`^x-[a-z0-9-]+$`). Les claus desconegudes que no comencin per `x-` es **preserven obligatòriament** sense error (el validador mai les elimina ni les rebutja a nivell de node).
 - **Conformitat per omissió:** els `.md` sense `type:` (`README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `HANDOFF-*.md`, manuals, índexs) s'ignoren netament pels consumidors OKF v0.3 — no són nodes i no han de complir cap frontmatter.
+
+**Sobre `.okfignore` (no normatiu):** el `.okfignore` de l'arrel del repo és una **convenció comunitària** perquè les eines externes sàpiguen quines carpetes internes saltar-se (03-eines, 04-plantilles, tests, _staging, .github). **L'especificació v0.3 no el defineix**: la seva regla d'exclusió per defecte és ignorar els directoris i fitxers que comencen per `.` i els `.md` sense `type:`.
 
 ## 11 · Publicació i distribució dels recursos OKF
 

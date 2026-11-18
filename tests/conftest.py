@@ -118,7 +118,8 @@ def validar_vault(ruta_vault):
         if data is None:
             continue
         enllacos = v.analitzar_enllacos(r)
-        for e in v.validar_node(r, data, ids_vists, tipus_valid, tipus_credit, enllacos):
+        for e in v.validar_node(r, data, ids_vists, tipus_valid, tipus_credit, enllacos,
+                                ruta_arrel=ruta_vault):
             errors.append((r, e[0], e[1], e[2]))
 
     for e in v.comprovacions_estructurals(ruta_vault, fitxers, yaml_per_ruta):
