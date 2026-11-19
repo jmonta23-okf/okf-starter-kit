@@ -35,6 +35,7 @@ Tria la ruta que millor s'adapti al teu temps i a les teves necessitats actuals:
 | **`07-com-compartir.md`** | **[Com compartir](./07-com-compartir.md)** | Guia per publicar el teu vault, aplicar llicències lliures i col·laborar amb la comunitat educativa. | 10 min |
 | **`08-relacio-amb-estandards.md`** | **[Relació amb estàndards](./08-relacio-amb-estandards.md)** | Com es posiciona el kit respecte a OKF (Google), CASE, LRMI, Schema.org, OOAPI i Esfer@/SAGA. | 15 min |
 | **`10-rfc-okf-03.md`** | **[RFC-OKF-03](10-rfc-okf-03.md)** | Document de planificació de la V1.3 (format nou de criteris, instruments, codis Y040-Y052). | 15 min |
+| **`11-conformitat-okf-v03.md`** | **[Conformitat OKF v0.3](./11-conformitat-okf-v03.md)** | Guia divulgativa: el segell de revisió humana, el cicle de vida dels nodes, la privacitat verificable i què canviarà a la v1.4. | 10 min |
 | **`ROADMAP.md`** | **[Full de ruta](./ROADMAP.md)** | Document intern de planificació del projecte. | 10 min |
 ---
 
