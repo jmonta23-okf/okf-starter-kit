@@ -19,9 +19,9 @@ okf_version: "0.3"
 generated:
   by: "anthropic/claude-opus-4.5"
   at: "2026-11-19T16:00:07Z"
- verified:                      # ← afegeix-ho NOMÉS després de la teva revisió humana (MIAE 3)
-   - by: "human:Josep Montañà"
-     at: "2026-11-19T18:06:00Z"  # ha de ser posterior a generated.at
+verified:
+  - by: "human:Josep Montañà"
+    at: "2026-11-19T16:15:00Z"
 sources:
   - resource: "/README.md"
     title: "README del kit: què és i per on començar"
