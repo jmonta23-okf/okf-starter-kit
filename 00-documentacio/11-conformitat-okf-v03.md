@@ -11,7 +11,7 @@ tags:
   - okf/doc
   - okf/conformitat
   - okf/governanca
-estat: esborrany
+estat: vigent
 visibilitat: publica
 dades_personals: false
 anonimitzat: true
@@ -19,13 +19,9 @@ okf_version: "0.3"
 generated:
   by: "anthropic/claude-opus-4.5"
   at: "2026-11-20T09:15:00Z"
-# verified:
-#   - by: "human:Josep Montañà"
-#     at: "2026-11-19T16:15:00Z"
-# Nota de frescor (verified[].at >= generated.at): en actualitzar generated.at a
-# 2026-11-20, el segell humà del 2026-11-19 caduca. En Josep ha de re-segellar:
-# afegir una entrada verified amb `by: human:` i `at >= 2026-11-20` i tornar
-# `estat` a `vigent`.
+verified:
+  - by: "human:Josep Montañà"
+    at: "2026-11-20T09:26:00Z"
 sources:
   - resource: "/README.md"
     title: "README del kit: què és i per on començar"
