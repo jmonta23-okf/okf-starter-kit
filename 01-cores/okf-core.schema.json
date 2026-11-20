@@ -112,10 +112,27 @@
           "author": { "type": "string" },
           "last_modified": {
             "type": "string",
-            "description": "Quan es va modificar per darrera vegada la font (OKF v0.3). Timestamp RFC 3339.",
-            "format": "date-time",
-            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-            "examples": ["2026-11-18T10:30:00Z"]
+            "description": "Quan es va modificar per darrera vegada la font (OKF v0.3). Timestamp RFC 3339 complet o data YYYY-MM-DD vàlida.",
+            "$ref": "#/definitions/timestamp_v03",
+            "examples": ["2026-11-18T10:30:00Z", "2026-11-18"]
+          },
+          "usage_window": {
+            "type": "object",
+            "description": "Finestra d'ús de la font (compatibilitat OKF v0.2). A nivell de node (arrel) el camp és diferit de v0.3: la finestra d'ús pedagògic es declara amb l'extensió x-okfedu-usage-window.",
+            "properties": {
+              "from": {
+                "type": "string",
+                "description": "Inici de la finestra d'ús. RFC 3339 complet o data YYYY-MM-DD.",
+                "$ref": "#/definitions/timestamp_v03",
+                "examples": ["2026-09-01T00:00:00Z", "2026-09-01"]
+              },
+              "to": {
+                "type": "string",
+                "description": "Fi de la finestra d'ús. RFC 3339 complet o data YYYY-MM-DD.",
+                "$ref": "#/definitions/timestamp_v03",
+                "examples": ["2027-06-30T23:59:59Z", "2027-06-30"]
+              }
+            }
           }
         },
         "required": ["resource"]
@@ -134,10 +151,9 @@
         "by": { "type": "string" },
         "at": {
           "type": "string",
-          "description": "Quan s'ha generat. Timestamp RFC 3339 (YYYY-MM-DDTHH:MM:SSZ o amb offset horari).",
-          "format": "date-time",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-          "examples": ["2026-11-18T10:30:00Z", "2026-11-18T11:30:00+01:00"]
+          "description": "Quan s'ha generat. RFC 3339 complet (YYYY-MM-DDTHH:MM:SSZ o amb offset horari) o data YYYY-MM-DD vàlida (equivalent a 00:00:00Z).",
+          "$ref": "#/definitions/timestamp_v03",
+          "examples": ["2026-11-18T10:30:00Z", "2026-11-18T11:30:00+01:00", "2026-11-18"]
         }
       },
       "required": ["by"]
@@ -167,10 +183,9 @@
               "by": { "type": "string", "minLength": 1 },
               "at": {
                 "type": "string",
-                "description": "Quan s'ha verificat. Timestamp RFC 3339 (YYYY-MM-DDTHH:MM:SSZ o amb offset horari).",
-                "format": "date-time",
-                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-                "examples": ["2026-11-18T10:30:00Z"]
+                "description": "Quan s'ha verificat. RFC 3339 complet o data YYYY-MM-DD vàlida.",
+                "$ref": "#/definitions/timestamp_v03",
+                "examples": ["2026-11-18T10:30:00Z", "2026-11-18"]
               }
             },
             "required": ["by", "at"]
@@ -185,30 +200,9 @@
     },
     "stale_after": {
       "type": "string",
-      "description": "Moment a partir del qual el contingut es considera obsolet (OKF v0.3). Timestamp RFC 3339 (YYYY-MM-DDTHH:MM:SSZ o amb offset horari).",
-      "format": "date-time",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-      "examples": ["2027-06-30T23:59:59Z"]
-    },
-    "usage_window": {
-      "type": "object",
-      "description": "Finestra temporal d'ús recomanat del node (OKF v0.3).",
-      "properties": {
-        "from": {
-          "type": "string",
-          "description": "Inici de la finestra d'ús. Timestamp RFC 3339.",
-          "format": "date-time",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-          "examples": ["2026-09-01T00:00:00Z"]
-        },
-        "to": {
-          "type": "string",
-          "description": "Fi de la finestra d'ús. Timestamp RFC 3339.",
-          "format": "date-time",
-          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$",
-          "examples": ["2027-06-30T23:59:59Z"]
-        }
-      }
+      "description": "Moment a partir del qual el contingut es considera obsolet (OKF v0.3). RFC 3339 complet o data YYYY-MM-DD vàlida.",
+      "$ref": "#/definitions/timestamp_v03",
+      "examples": ["2027-06-30T23:59:59Z", "2027-06-30"]
     },
     "superseded_by": {
       "description": "Camí(s) al(s) node(s) que substitueixen aquest (OKF v0.3). Camí relatiu al directori del fitxer, o absolut al bundle si comença per '/' (extensió del perfil educatiu: en OKF v0.3 base és un únic camí; la forma llista és pròpia del perfil).",
@@ -231,7 +225,24 @@
   },
   "patternProperties": {
     "^x-[a-z0-9-]+$": {
-      "description": "Clau d'extensió OKF v0.3 (prefix x-): qualsevol valor, acceptada sense error pel validador."
+      "description": "Clau d'extensió OKF v0.3 (prefix x-): qualsevol valor, acceptada sense error pel validador. La finestra d'ús pedagògic a nivell de node es declara amb l'extensió x-okfedu-usage-window: {from, to} (camps diferits de v0.3)."
+    }
+  },
+  "definitions": {
+    "timestamp_v03": {
+      "description": "Camp temporal d'OKF v0.3: timestamp RFC 3339 complet (YYYY-MM-DDTHH:MM:SSZ o amb offset horari) o data sola YYYY-MM-DD vàlida (equivalent a 00:00:00Z).",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$"
+        },
+        {
+          "type": "string",
+          "format": "date",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      ]
     }
   }
 }

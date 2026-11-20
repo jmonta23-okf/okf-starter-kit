@@ -7,7 +7,21 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ---
 
-## [No publicat] — propera versió
+## [V1.3.1] — 2026-11-20
+
+Release de consolidació post-V1.3 i conformitat additiva amb la versió final
+d'OKF v0.3. Aplega tota la feina no publicada des de la V1.3 (F0-F4) i el
+tancament de precisió del suport v0.3.
+
+### Tancament de precisió OKF v0.3
+
+- **Dates soles `YYYY-MM-DD` als camps temporals de v0.3** — `validar_timestamp_rfc3339` torna a admetre la data de calendari `YYYY-MM-DD` (equivalent a `00:00:00Z`) a `generated.at`, `verified[].at`, `stale_after` i `sources[].last_modified`; se segueixen rebutjant el `date-time` sense zona horària (`2026-11-19T10:00:00`) i les dates irreals (`2026-02-30`). El JSON Schema declara els camps temporals amb `definitions.timestamp_v03` (`oneOf`: RFC 3339 complet / data sola).
+- **`usage_window` reclassificat com a extensió `x-okfedu-usage-window`** — el camp `usage_window` a nivell d'arrel de node queda **diferit** fora del nucli normatiu de v0.3; la finestra d'ús pedagògic es declara amb l'extensió `x-okfedu-usage-window: {from, to}` (coberta per `PATRO_X`). Només `sources[].usage_window` es manté validat en RFC 3339/date-only per compatibilitat v0.2.
+- **Actor `team:<id>`** — afegit al costat de `human:<id>`, `process:<id>` i `<producer>/<version>` (README, `09-graf-curricular.md` §10.8, `11-conformitat-okf-v03.md` §4); **només `human:` atorga `human-reviewed`**.
+- **Conformitat estricta v0.3 com a test permanent** — nou `tests/test_conformitat_v03.py` que verifica el repo real (respectant `/.okfignore`): `index.md` conformes, nodes amb `type:` parsejables i sense enllaços/superseded_by trencats, `.md` sense `type:` omesos sense error, i `sources[].resource` resolts.
+- **ROADMAP** — el *Plugin d'Obsidian per editar YAML visualment* es descarta (P3) per la tesi *agent-first*: ni docents ni integradors editen YAML a mà.
+- **43 codis d'error** (`Y001–Y057`; `Y041`/`Y047`/`Y049` lliures, `Y010`/`Y011` reservats).
+- **DOI de versió V1.3.1:** **pendent** d'etiquetar a Zenodo (concept DOI `10.5281/zenodo.23823818` inalterat).
 
 ### F0 · Neteja i coherència inicial
 
@@ -55,7 +69,7 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **Secció «El docent no és un programador»** a `00-documentacio/02-filosofia.md` (§9): respon a la crítica que el docent mitjà es perdrà en els YAML. El kit no pretén que els docents es converteixin en programadors, sinó que entenguin l'estructura del coneixement curricular i sàpiguen guiar una IA. Commit `f879dc4`.
 - **`PLANTILLA-PaquetLLM-00.md`** (Paquet deductiu): parteix del currículum oficial i baixa cap a la pràctica. Útil per a mòduls nous o per a docents que volen repensar la programació des de zero. Commit `f879dc4`.
 - **`PLANTILLA-PaquetLLM-01.md`** (Paquet inductiu): parteix de la programació existent del docent i puja cap al currículum. Útil per a docents que ja tenen una programació feta i no volen reescriure-la. Commit `f879dc4`.
-- **`PLANTILLA-PaquetLLM-02.md`** (Paquet de sortida): genera el document oficial de Programació Didàctica en HTML/CSS a partir dels nodes del vault (MOC, Catàleg, Protocol, Fitxes AEA). Inclou l'exemple complet `exemples/Programacio_Didactica_MP1519.html`. Commit `[pendent]`.
+- **`PLANTILLA-PaquetLLM-02.md`** (Paquet de sortida): genera el document oficial de Programació Didàctica en HTML/CSS a partir dels nodes del vault (MOC, Catàleg, Protocol, Fitxes AEA). Inclou l'exemple complet `exemples/Programacio_Didactica_MP1519.html`. Commit `540a33d`.
 - **`00-documentacio/10-rfc-okf-03.md`** — Publicació del document de planificació de la V1.3 (RFC-OKF-03 v0.1), en format resumit, amb les 9 accions (6 adoptades, 3 rebutjades), els canvis implementats i una nota sobre errors coneguts del document original.
 - **Especificació del model de dades** a `00-documentacio/09-graf-curricular.md` — 4 blocs: camps/tipus universals, camps de família, invariants (Y040-Y052) i compatibilitat de formats. Complementa el JSON Schema (F3.1).
 - **Publicació i distribució** a `00-documentacio/09-graf-curricular.md` §11 — 10 opcions per publicar el vault OKF (ZIP, Git, Hugo, SCORM, etc.), inspirat en l'article de J.J. de Haro sobre eXeLearning.
@@ -68,11 +82,13 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 
 ### Estat
 
-- Validador v1.3.0, **39 codis** (Y001-Y053), 0 errors.
+- Validador v1.3.0, **43 codis** (`Y001–Y057`; `Y041`/`Y047`/`Y049` lliures, `Y010`/`Y011` reservats), 0 errors.
+- Conformitat additiva amb **OKF v0.3 (final)**: dates soles `YYYY-MM-DD` als camps temporals, `usage_window` → extensió `x-okfedu-usage-window`, actor `team:`, `index.md` autodescriptius, `.okfignore`.
 - `--audit` per catàleg: 2 catàlegs coberts, 52/52/0/0.
-- **88 tests passed, 1 skipped.**
-- **Tots els blocs P0 del ROADMAP completats** (F0, F1, F2, F2.5).
-- CI verd.
+- **116 tests passed, 1 skipped** (inclou `tests/test_conformitat_v03.py`).
+- **41+ nodes OKF** a `--ruta .`, 0 errors.
+- **Tots els blocs P0 del ROADMAP completats** (F0, F1, F2, F2.5, F3, F4).
+- CI verd (pytest + validador + snapshot + conformitat v0.3 a cada push/PR).
 - **Política de retirada:** els formats antics de `criteris:` i `instruments_avaluacio` s'eliminaran a la v1.4. Fins llavors, s'accepten amb warning. El warning de format mixt (alguns elements dict + alguns strings) s'afegirà a la v1.4/v1.5.
 
 ### F4 · Conformitat amb OKF
@@ -81,7 +97,9 @@ i aquest projecte segueix [Versionat Semàntic](https://semver.org/lang/ca/).
 - **F4.1-bis · Excloure `index.md`** — `index.md` afegit a les exclusions del validador i del test de schema (els `index.md` no són nodes OKF, sinó fitxers reservats de l'especificació).
 - **F4.2 · Suport additiu OKF v0.3 (Bloc 1/3)** — validador i JSON Schema additivament conforme amb OKF v0.3 sense trencar els 39 codis existents: camps v0.3 (`okf_version`, `sources`, `generated`, `verified`, `status`, `stale_after`, `superseded_by`) acceptats sense error, extensions `x-*` (`^x-[a-z0-9-]+$`), **Y054** (timestamps RFC 3339 a `generated.at`/`verified[].at`) i **Y055** (`superseded_by` com a camí relatiu). `data_ultima_actualitzacio` manté `YYYY-MM-DD`. 9 tests nous (`tests/test_okf_v03.py`). Commit `c932ff3`.
 - **F4.3 · `index.md` autodescriptius i `.okfignore` (Bloc 2/3)** — `/index.md` nou a l'arrel del repo amb frontmatter v0.3 (`okf_version`, `title`, `description`, `license`) i enllaços CommonMark cap a la documentació, els Cores i els sub-bundles; els 3 `index.md` d'exemple passen de v0.2 a v0.3 autodescriptius; `.okfignore` a l'arrel (03-eines/, 04-plantilles/, tests/, _staging/, .github/); ZIP del mini-vault regenerat (7 entrades, inclòs l'`index.md` v0.3). Commit `3b33e11`.
-- **F4.4 · Documentació de mapatge OKF v0.3 (Bloc 3/3)** — `09-graf-curricular.md` §10.8 actualitzat de v0.2 a v0.3 (index.md autodescriptiu, actors amb prefix `human:`/`process:`/`<producer>/<version>` i estat `human-reviewed`, frescor `verified[].at >= generated.at`, RFC 3339, `estat: obsolet` → `status: deprecated` + `superseded_by`, espai `x-*`, conformitat per omissió dels `.md` sense `type:`); README actualitzat a v0.3 amb l'enllaç oficial de l'especificació; comprovació estricta OKF v0.3 de tot el repo respectant `.okfignore`. Commit `[pendent]`.
+- **F4.4 · Documentació de mapatge OKF v0.3 (Bloc 3/3)** — `09-graf-curricular.md` §10.8 actualitzat de v0.2 a v0.3 (index.md autodescriptiu, actors amb prefix `human:`/`process:`/`<producer>/<version>` i estat `human-reviewed`, frescor `verified[].at >= generated.at`, RFC 3339, `estat: obsolet` → `status: deprecated` + `superseded_by`, espai `x-*`, conformitat per omissió dels `.md` sense `type:`); README actualitzat a v0.3 amb l'enllaç oficial de l'especificació; comprovació estricta OKF v0.3 de tot el repo respectant `.okfignore`. Commit `badf290`.
+- **F4.5 · P0 tancament de precisió OKF v0.3** — `verified` complet (cada entrada exigeix `by` i `at`; nou **Y056** 🟠), coherència de `superseded_by` amb `status: deprecated`/`estat: obsolet` (**Y057** 🟡), Y054 estès a `stale_after` / `sources[].last_modified` / `usage_window.from|to`, i resolució dels camins `/` de `superseded_by` des de l'arrel del bundle. Schema: `required: [by, at]` a les entrades de `verified`. Commit `8d58235`.
+- **F4.6 · Guia de conformitat OKF v0.3 (`11-conformitat-okf-v03.md`)** — guia divulgativa de la capa de governança v0.3 (segell humà, frescor, cicle de vida, privacitat) i pont amb `09-graf-curricular.md` §10.8. Commit `1d4d7a0` (+ fix de sagnat del frontmatter `18de598`).
 
 ---
 

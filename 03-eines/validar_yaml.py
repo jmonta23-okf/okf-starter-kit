@@ -35,11 +35,18 @@ Camps opcionals OKF v0.3 (additius, 100% retrocompatibles):
   - S'accepten sense error: okf_version, sources, generated, verified,
     status, stale_after, superseded_by i qualsevol clau d'extensió amb
     prefix `x-` (`^x-[a-z0-9-]+$`).
-  - `generated.at` / `verified[].at`, si es declaren, han de seguir el
-    format RFC 3339 (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) (Y054).
+  - `generated.at` / `verified[].at` / `stale_after` /
+    `sources[].last_modified` / `sources[].usage_window.from|to`, si es
+    declaren, han de ser un timestamp RFC 3339 complet
+    (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) o una data sola
+    `YYYY-MM-DD` vàlida (equivalent a `00:00:00Z`) (Y054). Un date-time
+    sense zona horària o una data irreal es rebutgen.
   - `superseded_by`, si es declara, ha de resoldre un camí relatiu des
     del directori del node (mateixa regla que els enllaços relatius) (Y055).
   - `data_ultima_actualitzacio` manté el format `YYYY-MM-DD` (Y008).
+  - La finestra d'ús recomanat a nivell de concepte es declara amb
+    l'extensió `x-okfedu-usage-window: {from, to}` (coberta per `x-*`);
+    `sources[].usage_window` només es manté per compatibilitat v0.2.
 
 Robustesa:
   - `type` no hashable (llista/diccionari) -> error Y025, sense crash.
@@ -127,13 +134,20 @@ FITXERS_EXCLUIRE = {"README.md", "LICENSE.md", "CHANGELOG.md", "CONTRIBUTING.md"
 # (RFC 3339 per als timestamps, resolució relativa per a superseded_by).
 CAMPS_V03 = {
     "okf_version", "sources", "generated", "verified",
-    "status", "stale_after", "superseded_by", "usage_window",
+    "status", "stale_after", "superseded_by",
 }
+# Nota: `usage_window` a nivell d'arrel de node queda DIFERIT fora del nucli
+# normatiu de v0.3: la finestra d'ús pedagògic es declara amb l'extensió
+# `x-okfedu-usage-window: {from, to}` (coberta per PATRO_X). Només es manté
+# `sources[].usage_window` (dins d'una font) validat en RFC 3339/date-only
+# per compatibilitat amb v0.2.
 
 # Claus d'extensió OKF v0.3: prefix `x-` + minúscules, dígits i guions.
 PATRO_X = r"^x-[a-z0-9-]+$"
 
-# Timestamp RFC 3339: YYYY-MM-DDTHH:MM:SSZ o amb offset horari (+01:00).
+# Timestamp RFC 3339 complet: YYYY-MM-DDTHH:MM:SSZ o amb offset horari (+01:00).
+# La data sola YYYY-MM-DD no hi encaixa: la valida validar_timestamp_rfc3339()
+# com a equivalent a 00:00:00Z amb validar_data() (data de calendari real).
 PATRO_RFC3339 = r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$"
 
 # Patró genèric d'ID segons la Convenció: {CODI}-{ÀMBIT}-{NN}.
@@ -188,7 +202,7 @@ CODIS_ERROR = {
     "Y051": ("Instrument d'avaluació (format nou) sense cap criteri", "🟡 Mitjana"),
     "Y052": ("Criteri de 'criteris_avaluacio' que cap instrument avalua", "🟡 Mitjana"),
     "Y053": ("Tipus incorrecte en un camp de criteris: o instruments_avaluacio:", "🟠 Alta"),
-    "Y054": ("Timestamp RFC 3339 incorrecte en generated.at / verified[].at", "🟡 Mitjana"),
+    "Y054": ("Timestamp RFC 3339 (o data YYYY-MM-DD) incorrecte en un camp temporal de v0.3", "🟡 Mitjana"),
     "Y055": ("superseded_by no resol un camí relatiu existent", "🟠 Alta"),
     "Y056": ("Entrada de 'verified' incompleta (calen 'by' i 'at')", "🟠 Alta"),
     "Y057": ("superseded_by sense status: deprecated ni estat: obsolet", "🟡 Mitjana"),
@@ -559,23 +573,33 @@ def validar_data(data_str):
 
 def validar_timestamp_rfc3339(valor):
     """
-    True si `valor` és un timestamp RFC 3339 (amb Z o amb offset horari).
+    True si `valor` és un timestamp RFC 3339 (amb Z o amb offset horari)
+    o una data sola `YYYY-MM-DD` vàlida (de calendari).
 
-    Format acceptat: YYYY-MM-DDTHH:MM:SS(Z|±HH:MM), amb segons fraccionals
-    opcionals (`.f...`, RFC 3339 §5.6). A més del patró, es comprova que la
-    data i l'hora siguin reals (ex: 2026-02-30T25:00:00Z no passa).
+    Format complet acceptat: YYYY-MM-DDTHH:MM:SS(Z|±HH:MM), amb segons
+    fraccionals opcionals (`.f...`, RFC 3339 §5.6). A més del patró, es
+    comprova que la data i l'hora siguin reals (ex: 2026-02-30T25:00:00Z
+    no passa).
+
+    Segons la versió final d'OKF v0.3, els valors només de data
+    (YYYY-MM-DD, ex: "2027-09-01") tornen a ser vàlids i equivalen a
+    00:00:00Z UTC. El que continua sent invàlid és un date-time sense
+    zona horària (ex: 2027-09-01T10:00:00) o una data irreal
+    (ex: 2026-02-30).
     """
     if not isinstance(valor, str):
         return False
-    if not re.match(PATRO_RFC3339, valor):
-        return False
-    try:
-        # 'Z' -> +00:00 perquè fromisoformat l'accepti de manera uniforme.
-        valor_iso = valor[:-1] + "+00:00" if valor.endswith("Z") else valor
-        datetime.datetime.fromisoformat(valor_iso)
-        return True
-    except ValueError:
-        return False
+    if re.match(PATRO_RFC3339, valor):
+        try:
+            # 'Z' -> +00:00 perquè fromisoformat l'accepti de manera uniforme.
+            valor_iso = valor[:-1] + "+00:00" if valor.endswith("Z") else valor
+            datetime.datetime.fromisoformat(valor_iso)
+            return True
+        except ValueError:
+            return False
+    # Data sola YYYY-MM-DD: vàlida si és una data de calendari real
+    # (validar_data rebutja 2026-02-30).
+    return validar_data(valor)
 
 
 def validar_superseded_by(ruta_fitxer, refs_superseded, ruta_arrel=None):
@@ -1155,11 +1179,13 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
 
     # ---- Camps opcionals OKF v0.3 (RFC-OKF-03) ---------------------------
     # S'accepten sense error: okf_version, sources, generated, verified,
-    # status, stale_after, superseded_by, usage_window i qualsevol clau
-    # d'extensió x-* (CAMPS_V03 / PATRO_X). Només es valida el FORMAT quan
-    # el camp es declara:
+    # status, stale_after, superseded_by i qualsevol clau d'extensió x-*
+    # (CAMPS_V03 / PATRO_X). Només es valida el FORMAT quan el camp es
+    # declara. El `usage_window` a nivell d'arrel és un camp DIFERIT de v0.3:
+    # es declara amb l'extensió `x-okfedu-usage-window` i no es valida aquí
+    # (les claus desconegudes es preserven sense error).
     #   - generated.at / verified[].at / stale_after / sources[].last_modified
-    #     / usage_window.from / usage_window.to -> RFC 3339 (Y054)
+    #     / sources[].usage_window.from|to -> RFC 3339 complet o data YYYY-MM-DD (Y054)
     #   - verified[].by + verified[].at obligatoris per entrada (Y056)
     #   - superseded_by -> camí resoluble (Y055) + coherència amb deprecated (Y057)
     generated = yaml_data.get("generated")
@@ -1168,9 +1194,9 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
         if not validar_timestamp_rfc3339(at):
             errors.append((
                 "Y054",
-                f"generated.at '{at}' no és un timestamp RFC 3339 "
-                "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
-                "Corregir generated.at al format RFC 3339 (ex: 2026-11-18T10:30:00Z)",
+                f"generated.at '{at}' no és un timestamp RFC 3339 complet "
+                "(esperat YYYY-MM-DDTHH:MM:SSZ/±HH:MM o data sola YYYY-MM-DD)",
+                "Corregir generated.at (ex: 2026-11-18T10:30:00Z o 2026-11-18)",
             ))
 
     verified = yaml_data.get("verified")
@@ -1191,9 +1217,9 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
         if not validar_timestamp_rfc3339(at):
             errors.append((
                 "Y054",
-                f"verified[{i}].at '{at}' no és un timestamp RFC 3339 "
-                "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
-                "Corregir verified[].at al format RFC 3339 (ex: 2026-11-18T10:30:00Z)",
+                f"verified[{i}].at '{at}' no és un timestamp RFC 3339 complet "
+                "(esperat YYYY-MM-DDTHH:MM:SSZ/±HH:MM o data sola YYYY-MM-DD)",
+                "Corregir verified[].at (ex: 2026-11-18T10:30:00Z o 2026-11-18)",
             ))
 
     # Y054 també s'aplica als altres camps temporals de v0.3.
@@ -1201,9 +1227,9 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
     if isinstance(stale_after, str) and not validar_timestamp_rfc3339(stale_after):
         errors.append((
             "Y054",
-            f"stale_after '{stale_after}' no és un timestamp RFC 3339 "
-            "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
-            "Corregir stale_after al format RFC 3339 (ex: 2027-06-30T23:59:59Z)",
+            f"stale_after '{stale_after}' no és un timestamp RFC 3339 complet "
+            "(esperat YYYY-MM-DDTHH:MM:SSZ/±HH:MM o data sola YYYY-MM-DD)",
+            "Corregir stale_after (ex: 2027-06-30T23:59:59Z o 2027-06-30)",
         ))
 
     sources = yaml_data.get("sources")
@@ -1214,22 +1240,25 @@ def validar_node(ruta_fitxer, yaml_data, ids_vists, tipus_valid, tipus_credit, e
                 if not validar_timestamp_rfc3339(lm):
                     errors.append((
                         "Y054",
-                        f"sources[{i}].last_modified '{lm}' no és un timestamp RFC 3339 "
-                        "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
-                        "Corregir sources[].last_modified al format RFC 3339",
+                        f"sources[{i}].last_modified '{lm}' no és un timestamp RFC 3339 complet "
+                        "(esperat YYYY-MM-DDTHH:MM:SSZ/±HH:MM o data sola YYYY-MM-DD)",
+                        "Corregir sources[].last_modified (ex: 2026-06-01T09:00:00Z o 2026-06-01)",
                     ))
 
-    usage_window = yaml_data.get("usage_window")
-    if isinstance(usage_window, dict):
-        for camp_uw in ("from", "to"):
-            valor_uw = usage_window.get(camp_uw)
-            if valor_uw is not None and not validar_timestamp_rfc3339(valor_uw):
-                errors.append((
-                    "Y054",
-                    f"usage_window.{camp_uw} '{valor_uw}' no és un timestamp RFC 3339 "
-                    "(esperat YYYY-MM-DDTHH:MM:SSZ o amb offset horari)",
-                    f"Corregir usage_window.{camp_uw} al format RFC 3339",
-                ))
+            # `sources[].usage_window` es manté validat en RFC 3339/date-only
+            # per compatibilitat amb OKF v0.2 (a nivell d'arrel de node el camp
+            # és diferit de v0.3 i es declara amb l'extensió x-okfedu-usage-window).
+            src_uw = src.get("usage_window") if isinstance(src, dict) else None
+            if isinstance(src_uw, dict):
+                for camp_uw in ("from", "to"):
+                    valor_uw = src_uw.get(camp_uw)
+                    if valor_uw is not None and not validar_timestamp_rfc3339(valor_uw):
+                        errors.append((
+                            "Y054",
+                            f"sources[{i}].usage_window.{camp_uw} '{valor_uw}' no és un timestamp RFC 3339 complet "
+                            "(esperat YYYY-MM-DDTHH:MM:SSZ/±HH:MM o data sola YYYY-MM-DD)",
+                            f"Corregir sources[{i}].usage_window.{camp_uw} (ex: 2026-09-01T00:00:00Z o 2026-09-01)",
+                        ))
 
     superseded = yaml_data.get("superseded_by")
     if superseded is not None:

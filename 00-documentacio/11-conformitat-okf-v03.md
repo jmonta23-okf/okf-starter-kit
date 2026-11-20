@@ -3,7 +3,7 @@ id: "OKF-DOC-11"
 type: Guia
 title: "El teu vault parla OKF: conformitat v0.3 i governança del coneixement docent"
 version: "V1.0"
-data_ultima_actualitzacio: "2026-11-19"
+data_ultima_actualitzacio: "2026-11-20"
 authors:
   - "Josep Montañà Piqué"
 llicencia: "CC BY-SA 4.0"
@@ -11,17 +11,21 @@ tags:
   - okf/doc
   - okf/conformitat
   - okf/governanca
-estat: vigent
+estat: esborrany
 visibilitat: publica
 dades_personals: false
 anonimitzat: true
 okf_version: "0.3"
 generated:
   by: "anthropic/claude-opus-4.5"
-  at: "2026-11-19T16:00:07Z"
-verified:
-  - by: "human:Josep Montañà"
-    at: "2026-11-19T16:15:00Z"
+  at: "2026-11-20T09:15:00Z"
+# verified:
+#   - by: "human:Josep Montañà"
+#     at: "2026-11-19T16:15:00Z"
+# Nota de frescor (verified[].at >= generated.at): en actualitzar generated.at a
+# 2026-11-20, el segell humà del 2026-11-19 caduca. En Josep ha de re-segellar:
+# afegir una entrada verified amb `by: human:` i `at >= 2026-11-20` i tornar
+# `estat` a `vigent`.
 sources:
   - resource: "/README.md"
     title: "README del kit: què és i per on començar"
@@ -137,9 +141,10 @@ El kit aplica aquest rigor al coneixement docent amb dos camps:
 - **`generated`** — qui ha produït l'esborrany i quan: `{by, at}`.
 - **`verified`** — qui l'ha revisat i quan: una llista d'entrades `{by, at}`.
 
-Els actors porten prefix: `human:<id>`, `process:<id>` o `<producer>/<version>`.
-**Només un actor amb prefix `human:` atorga l'estat `human-reviewed`.** La resta són
-revisions automàtiques. És la traducció formal del marc **MIAE** (Model d'Integració d'IA
+Els actors porten prefix: `human:<id>`, `process:<id>`, `team:<id>` o
+`<producer>/<version>`. **Només un actor amb prefix `human:` atorga l'estat `human-reviewed`.**
+La resta són revisions automàtiques o de procés (un `team:` no equival a una revisió
+humana individual). És la traducció formal del marc **MIAE** (Model d'Integració d'IA
 en Educació, de Juan José de Haro): la IA proposa, el docent disposa.
 
 Dues regles que el validador exigeix de debò:
@@ -179,8 +184,11 @@ El kit manté els seus camps propis per compatibilitat, i els mapeja amb l'està
 I tres mecanismes de temps i relleu:
 
 - **`stale_after`** — data límit *recomanada* per revisar la vigència del contingut.
-- **`usage_window: {from, to}`** — finestra d'ús recomanat (per exemple, un trimestre).
-  No és una caducitat forçada.
+- **Finestra d'ús pedagògic** — a nivell de concepte es declara amb l'extensió
+  **`x-okfedu-usage-window: {from, to}`** (per exemple, un trimestre). És una finestra
+  d'ús recomanat, no una caducitat forçada. El camp `usage_window` a nivell d'arrel de
+  node és un camp **diferit** de v0.3 i es preserva sense validar; només
+  `sources[].usage_window` es manté per compatibilitat v0.2.
 - **`superseded_by`** — la **cadena de relleu**: camí relatiu al node successor. Si comença
   per `/`, es resol des de l'arrel del vault. Declarar-lo exigeix marcar el node com a
   `status: deprecated` o `estat: obsolet`. (El format llista, per a múltiples successors,
@@ -190,7 +198,7 @@ Què t'avisa el validador, en planer:
 
 | Codi | Què ha passat | Què has de fer |
 |:---:|:---|:---|
-| **Y054** 🟡 | Una data de v0.3 no és RFC 3339 (`generated.at`, `verified[].at`, `stale_after`, `sources[].last_modified`, `usage_window.from/to`). | Escriu-la com `2026-11-19T12:00:00Z`. La data del kit (`data_ultima_actualitzacio`) segueix sent `YYYY-MM-DD`. |
+| **Y054** 🟡 | Una data de v0.3 no és un timestamp RFC 3339 complet ni una data vàlida `YYYY-MM-DD` (`generated.at`, `verified[].at`, `stale_after`, `sources[].last_modified`, i `sources[].usage_window.from/to` per compatibilitat v0.2). | Escriu-la com `2026-11-19T12:00:00Z`, `2026-11-19T12:00:00+01:00` o la data sola `2026-11-19`. No valen el `date-time` sense zona horària (`2026-11-19T12:00:00`) ni una data irreal (`2026-02-30`). La data del kit (`data_ultima_actualitzacio`) segueix sent `YYYY-MM-DD`. |
 | **Y055** 🟠 | Un `superseded_by` apunta a un fitxer que no existeix. | Corregir el camí relatiu. |
 | **Y056** 🟠 | Una entrada de `verified` no té `by` o `at`. | Completar actor i timestamp. |
 | **Y057** 🟡 | Hi ha `superseded_by` però el node no es declara obsolet/deprecated. | Declarar el relleu explícitament. |

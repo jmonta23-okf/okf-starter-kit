@@ -3,10 +3,13 @@ Proves del suport additiu OKF v0.3 (Bloc 1/3 + Mini-Brief P0) al validador
 i al JSON Schema.
 
 Cobreix els camps opcionals v0.3 (okf_version, sources, generated, verified,
-status, stale_after, superseded_by, usage_window), les claus d'extensió `x-*`,
-els timestamps RFC 3339 (Y054), verified complet (Y056), la resolució relativa
-i absoluta de `superseded_by` (Y055) i la seva coherència amb deprecated (Y057),
-sense trencar la retrocompatibilitat (index.md reservat, data YYYY-MM-DD).
+status, stale_after, superseded_by), les claus d'extensió `x-*` (inclosa
+l'extensió `x-okfedu-usage-window` per a la finestra d'ús de concepte, camp
+diferit de v0.3), els timestamps RFC 3339 complets O dates soles YYYY-MM-DD
+(Y054), verified complet (Y056), la resolució relativa i absoluta de
+`superseded_by` (Y055) i la seva coherència amb deprecated (Y057), sense trencar
+la retrocompatibilitat (index.md reservat, data YYYY-MM-DD, sources[].usage_window
+per compatibilitat v0.2).
 """
 
 import json
@@ -69,6 +72,9 @@ CAMPS_V03_NODE = (
     "sources:\n"
     "  - resource: \"https://exemple.cat/curriculum\"\n"
     "    last_modified: \"2026-06-01T09:00:00Z\"\n"
+    "    usage_window:\n"
+    "      from: \"2026-09-01T00:00:00Z\"\n"
+    "      to: \"2027-06-30T23:59:59Z\"\n"
     "generated:\n"
     "  by: \"Agent de generació\"\n"
     "  at: \"2026-11-18T10:30:00Z\"\n"
@@ -77,7 +83,7 @@ CAMPS_V03_NODE = (
     "    at: \"2026-11-18T12:45:00+01:00\"\n"
     "status: stable\n"
     "stale_after: \"2027-11-18T23:59:59Z\"\n"
-    "usage_window:\n"
+    "x-okfedu-usage-window:\n"
     "  from: \"2026-09-01T00:00:00Z\"\n"
     "  to: \"2027-06-30T23:59:59Z\"\n"
     "x-miae-1: \"extensió MI-AE\"\n"
@@ -107,8 +113,13 @@ def test_camps_v03_i_claus_x_acceptats(tmp_path, codis_error):
     assert v.validar_timestamp_rfc3339(data["verified"][0]["at"])
     assert v.validar_timestamp_rfc3339(data["stale_after"])
     assert v.validar_timestamp_rfc3339(data["sources"][0]["last_modified"])
-    assert v.validar_timestamp_rfc3339(data["usage_window"]["from"])
-    assert v.validar_timestamp_rfc3339(data["usage_window"]["to"])
+    assert v.validar_timestamp_rfc3339(data["sources"][0]["usage_window"]["from"])
+    assert v.validar_timestamp_rfc3339(data["sources"][0]["usage_window"]["to"])
+
+    # La finestra d'ús a nivell de node es declara amb l'extensió
+    # x-okfedu-usage-window (camps diferits de v0.3), no amb usage_window.
+    assert data["x-okfedu-usage-window"]["from"] == "2026-09-01T00:00:00Z"
+    assert "usage_window" not in data  # ja no és un camp normatiu d'arrel
 
     # També passa la validació en viu del JSON Schema (draft-07).
     schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
@@ -143,10 +154,14 @@ def test_rfc3339_accepta_z_i_offset():
     assert v.validar_timestamp_rfc3339("2026-11-18T10:30:00Z")
     assert v.validar_timestamp_rfc3339("2026-11-18T10:30:00+01:00")
     assert v.validar_timestamp_rfc3339("2026-11-18T10:30:00.123Z")
+    # La versió final d'OKF v0.3 torna a admetre la data sola YYYY-MM-DD
+    # (equivalent a 00:00:00Z UTC).
+    assert v.validar_timestamp_rfc3339("2026-11-18")
+    # Segueixen sent invàlids: date-time sense zona horària i dates irreals.
     assert not v.validar_timestamp_rfc3339("2026-11-18T10:30:00")
-    assert not v.validar_timestamp_rfc3339("2026-11-18")
     assert not v.validar_timestamp_rfc3339("2026-11-18 10:30:00Z")
     assert not v.validar_timestamp_rfc3339("2026-02-30T10:30:00Z")
+    assert not v.validar_timestamp_rfc3339("2026-02-30")
 
 
 # ---------------------------------------------------------------------------
@@ -154,16 +169,34 @@ def test_rfc3339_accepta_z_i_offset():
 # usage_window.from / usage_window.to (mantenint YYYY-MM-DD)
 # ---------------------------------------------------------------------------
 
-def test_stale_after_data_sola_dona_y054(tmp_path, codis_error):
-    """stale_after amb format YYYY-MM-DD (sense hora ni offset) -> Y054.
-    `data_ultima_actualitzacio` continua acceptant YYYY-MM-DD (Y008)."""
+def test_stale_after_data_sola_valida(tmp_path, codis_error):
+    """stale_after amb data sola YYYY-MM-DD (ex: 2027-09-01) és vàlid: a la
+    versió final d'OKF v0.3 la data sola equival a 00:00:00Z i NO dispara
+    Y054. `data_ultima_actualitzacio` continua acceptant YYYY-MM-DD (Y008)."""
     node = _node_v03()
-    node = node.replace('stale_after: "2027-11-18T23:59:59Z"', 'stale_after: "2027-11-18"')
+    node = node.replace('stale_after: "2027-11-18T23:59:59Z"', 'stale_after: "2027-09-01"')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    assert "Y054" not in codis_error(errors)
+    assert "Y008" not in codis_error(errors)
+
+
+def test_stale_after_datetime_sense_offset_dona_y054(tmp_path, codis_error):
+    """stale_after amb date-time sense zona horària (2027-11-18T10:00:00) -> Y054."""
+    node = _node_v03()
+    node = node.replace('stale_after: "2027-11-18T23:59:59Z"', 'stale_after: "2027-11-18T10:00:00"')
     ruta = crear_vault(tmp_path, {"03_Guia.md": node})
     errors = validar_vault(ruta)
     assert "Y054" in codis_error(errors)
-    # data_ultima_actualitzacio intacta: cap Y008 addicional.
-    assert "Y008" not in codis_error(errors)
+
+
+def test_stale_after_data_irreal_dona_y054(tmp_path, codis_error):
+    """stale_after amb una data de calendari inexistent (2026-02-30) -> Y054."""
+    node = _node_v03()
+    node = node.replace('stale_after: "2027-11-18T23:59:59Z"', 'stale_after: "2026-02-30"')
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    assert "Y054" in codis_error(errors)
 
 
 def test_last_modified_sense_offset_dona_y054(tmp_path, codis_error):
@@ -175,15 +208,39 @@ def test_last_modified_sense_offset_dona_y054(tmp_path, codis_error):
     assert "Y054" in codis_error(errors)
 
 
-def test_usage_window_sense_rfc3339_dona_y054(tmp_path, codis_error):
-    """usage_window.from / usage_window.to sense RFC 3339 -> Y054 (un per camp)."""
+def test_usage_window_arrel_diferit_no_dona_y054(tmp_path, codis_error):
+    """usage_window a nivell d'arrel de node és un camp DIFERIT de v0.3:
+    la finestra d'ús es declara amb l'extensió x-okfedu-usage-window i el
+    camp llegat `usage_window` es preserva sense validar (cap Y054)."""
     node = _node_v03()
-    node = node.replace('from: "2026-09-01T00:00:00Z"', 'from: "01/09/2026"')
-    node = node.replace('to: "2027-06-30T23:59:59Z"', 'to: "30/06/2027"')
+    node = node.replace(
+        "status: stable\n",
+        "status: stable\n"
+        "usage_window:\n"
+        '  from: "01/09/2026"\n'
+        '  to: "30/06/2027"\n',
+    )
     ruta = crear_vault(tmp_path, {"03_Guia.md": node})
     errors = validar_vault(ruta)
     codis = codis_error(errors)
-    assert codis.count("Y054") == 2  # un per cada extrem de la finestra
+    assert "Y054" not in codis
+    assert "Y008" not in codis
+
+
+def test_sources_usage_window_sense_rfc3339_dona_y054(tmp_path, codis_error):
+    """sources[].usage_window.from / .to sense RFC 3339/date-only -> Y054
+    (compatibilitat v0.2; un per extrem de la finestra de la font)."""
+    node = _node_v03()
+    node = node.replace(
+        '      from: "2026-09-01T00:00:00Z"\n'
+        '      to: "2027-06-30T23:59:59Z"\n',
+        '      from: "01/09/2026"\n'
+        '      to: "30/06/2027"\n',
+    )
+    ruta = crear_vault(tmp_path, {"03_Guia.md": node})
+    errors = validar_vault(ruta)
+    codis = codis_error(errors)
+    assert codis.count("Y054") == 2  # un per cada extrem de la finestra de la font
 
 
 # ---------------------------------------------------------------------------

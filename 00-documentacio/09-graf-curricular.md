@@ -374,7 +374,7 @@ El fitxer [`01-cores/okf-core.schema.json`](../01-cores/okf-core.schema.json) (F
 
 > **Desambiguació:** aquesta secció mapategia el kit amb l'**especificació externa Google OKF v0.3** (repositori `open-knowledge-format`). No s'ha de confondre amb el document `10-rfc-okf-03.md`, que és l'**RFC intern** del graf curricular de dues capes (V1.3) i no té relació amb l'especificació de Google.
 
-L'especificació OKF v0.3 de Google introdueix camps opcionals de governança (`okf_version`, `sources`, `generated`, `verified`, `status`, `stale_after`, `superseded_by`, `usage_window`) i fitxers d'índex autodescriptius (`index.md`). El kit manté els seus camps propis per compatibilitat, però aquest és el mapatge conceptual:
+L'especificació OKF v0.3 de Google introdueix camps opcionals de governança (`okf_version`, `sources`, `generated`, `verified`, `status`, `stale_after`, `superseded_by`) i fitxers d'índex autodescriptius (`index.md`). La finestra d'ús pedagògic a nivell de concepte (que a v0.2 vivia a `usage_window` dins de `sources`) queda **diferida** fora del nucli normatiu de v0.3: es declara amb l'extensió `x-okfedu-usage-window: {from, to}` (coberta per `PATRO_X`). El kit manté els seus camps propis per compatibilitat, però aquest és el mapatge conceptual:
 
 | Camp del kit | Camp OKF v0.3 equivalent | Notes |
 |:---|:---|:---|
@@ -384,19 +384,19 @@ L'especificació OKF v0.3 de Google introdueix camps opcionals de governança (`
 | (no existeix) | `sources` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
 | (no existeix) | `verified` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
 | (no existeix) | `stale_after` | El kit no té un camp equivalent. Es pot afegir opcionalment. |
-| (no existeix) | `usage_window` | Finestra temporal d'ús recomanat (`{from, to}`). El kit no té un camp equivalent. |
+| (diferit) | `usage_window` (concepte) | Diferit fora del nucli normatiu de v0.3: la finestra d'ús pedagògic es declara amb l'extensió `x-okfedu-usage-window: {from, to}` (coberta per `x-*`). `sources[].usage_window` només es manté per compatibilitat v0.2. |
 | `estat: obsolet` | `status: deprecated` + `superseded_by` | Per marcar un node com a substituït cal **`superseded_by`** amb la ruta relativa al node successor (o llista de rutes). |
 
 **Regles de conformitat amb OKF v0.3 (additives, 100% retrocompatibles):**
 
 - **`index.md` autodescriptiu:** tots els bundles (i l'arrel del repo) declaren `okf_version: "0.3"`, `title`, `description` (una frase clara per al *routing* d'agents) i `license`. Els `index.md` no són nodes: s'ignoren sense exigir `id` ni `authors`.
-- **Actors amb prefix:** `generated.by` i `verified[].by` poden usar `human:<id>`, `process:<id>` o `<producer>/<version>`. Només un actor amb prefix `human:` atorga l'estat `human-reviewed`; la resta són revisions automàtiques o de procés.
+- **Actors amb prefix:** `generated.by` i `verified[].by` poden usar `human:<id>`, `process:<id>`, `team:<id>` o `<producer>/<version>`. **Només un actor amb prefix `human:` atorga l'estat `human-reviewed`**; la resta són revisions automàtiques o de procés (un `team:` no equival a una revisió humana individual).
 - **Frescor de la verificació:** `verified[].at >= generated.at`. Si un agent edita el node després de la verificació (`generated.at` posterior), la verificació humana caduca fins a una nova confirmació.
 - **`verified` complet:** cada entrada de `verified` ha de dur **obligatòriament** `by` i `at` (Y056). Una entrada incompleta es rebutja.
-- **Timestamps RFC 3339:** els camps temporals de v0.3 (`generated.at`, `verified[].at`, `stale_after`, `sources[].last_modified`, `usage_window.from`, `usage_window.to`) s'expressen en RFC 3339 (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) — el validador ho exigeix amb **Y054**. El camp del kit `data_ultima_actualitzacio` **manté `YYYY-MM-DD`** (Y008), sense trencar els 41 nodes existents.
+- **Timestamps RFC 3339:** els camps temporals de v0.3 (`generated.at`, `verified[].at`, `stale_after`, `sources[].last_modified`) s'expressen com a timestamp RFC 3339 complet (`YYYY-MM-DDTHH:MM:SSZ` o amb offset horari) **o** data sola `YYYY-MM-DD` vàlida (equivalent a `00:00:00Z`) — el validador ho exigeix amb **Y054** i rebutja els date-time sense zona horària i les dates irreals. `sources[].usage_window.from|to` manté la mateixa validació per compatibilitat v0.2. El camp del kit `data_ultima_actualitzacio` **manté `YYYY-MM-DD`** (Y008), sense trencar els 41 nodes existents.
 - **`superseded_by`:** ruta relativa al fitxer successor, resolta des del directori del node (mateixa regla que els enllaços relatius); si el camí comença per `/`, es resol des de l'arrel del bundle. Un camí que no resol dispara **Y055**. El format llista (múltiples successors) és una **extensió pròpia del perfil educatiu** (l'especificació v0.3 declara un únic camí).
 - **Coherència de `superseded_by`:** un node amb `superseded_by` sense `status: deprecated` (OKF) ni `estat: obsolet` (perfil) rep **Y057** (🟡): el camí pot resoldre, però la declaració és incoherent.
-- **`usage_window`:** objecte opcional `{from, to}` amb els dos extrems en RFC 3339 (Y054 si no ho són). És una finestra d'ús recomanat, no una data de caducitat forçada.
+- **Finestra d'ús pedagògic (`x-okfedu-usage-window`):** a nivell de concepte, la finestra d'ús recomanat (per exemple, un trimestre) es declara amb l'extensió **`x-okfedu-usage-window: {from, to}`** (coberta automàticament per `PATRO_X`; no és una caducitat forçada). `usage_window` a nivell d'arrel de node és un camp **diferit** de v0.3 i es preserva sense validar; només `sources[].usage_window` es manté validat en RFC 3339/date-only per compatibilitat v0.2 (Y054 si els extrems no són vàlids).
 - **Espai d'extensions `x-*`:** qualsevol clau d'extensió ha de ser kebab-case (`^x-[a-z0-9-]+$`). Les claus desconegudes que no comencin per `x-` es **preserven obligatòriament** sense error (el validador mai les elimina ni les rebutja a nivell de node).
 - **Conformitat per omissió:** els `.md` sense `type:` (`README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `HANDOFF-*.md`, manuals, índexs) s'ignoren netament pels consumidors OKF v0.3 — no són nodes i no han de complir cap frontmatter.
 

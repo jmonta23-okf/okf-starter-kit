@@ -147,8 +147,8 @@
 - [x] F4.1 · Conformitat OKF v0.2: `index.md` als bundles, camps de governança al JSON Schema, mapatge documentat.
 - [x] F4.1-bis · Excloure `index.md` del validador i del test de schema (els `index.md` no són nodes OKF).
 - [ ] `okf-tools` a PyPI (`pip install okf-tools`) — **recomanat**
-- [ ] Plugin d'Obsidian per editar YAML visualment
 - [ ] Servidor MCP per a clients d'IA
+- [x] ~~Plugin d'Obsidian per editar YAML visualment~~ → **Descartat** (vegeu §7): contradiu la tesi *agent-first*.
 
 **Nota:** Aquestes eines són per a **integradors i desenvolupadors**, no per a docents. L'experiència del docent és responsabilitat de l'**Operational Kit**. No fer-ne quatre alhora. Triar-ne un, fer-lo bé.
 
@@ -207,6 +207,7 @@ La V1.4 no es publica fins que es compleixin:
 | **D3 · Detecció de DNI/NIE en prosa** | **Falsos positius garantits** en un kit de Sanitat (casos clínics ficticis amb DNI inventat). El risc real es cobreix amb els flags de privacitat i la revisió manual, no amb un regex. |
 | **Integració de R al kit** | **Sobreenginyeria.** El kit ja té `--audit` (Python) per a l'anàlisi de cobertura. Afegir R introduiria una segona pila tecnològica i una corba d'aprenentatge que contradiu el principi «el docent no és un programador». **Quarto** es pot implementar a F4 amb eines més lleugeres. |
 | **F3.3 · Guia ràpida per a docents sense Git** | **Transferida a l'Operational Kit.** L'Starter Kit no ha d'ensenyar a un docent sense Git; l'Operational Kit l'ha de fer desaparèixer. |
+| **Plugin d'Obsidian per editar YAML visualment (F4)** | **Contradiu la tesi *agent-first*:** ni docents ni integradors editen YAML a mà — és l'agent (Operational Kit) qui escriu el YAML. Si es vol validació en viu, el JSON Schema (`01-cores/okf-core.schema.json`) ja la cobreix a VS Code/Obsidian. **Descartat (P3).** |
 
 ---
 
