@@ -21,7 +21,7 @@ tancament de precisió del suport v0.3.
 - **Conformitat estricta v0.3 com a test permanent** — nou `tests/test_conformitat_v03.py` que verifica el repo real (respectant `/.okfignore`): `index.md` conformes, nodes amb `type:` parsejables i sense enllaços/superseded_by trencats, `.md` sense `type:` omesos sense error, i `sources[].resource` resolts.
 - **ROADMAP** — el *Plugin d'Obsidian per editar YAML visualment* es descarta (P3) per la tesi *agent-first*: ni docents ni integradors editen YAML a mà.
 - **43 codis d'error** (`Y001–Y057`; `Y041`/`Y047`/`Y049` lliures, `Y010`/`Y011` reservats).
-- **DOI de versió V1.3.1:** **pendent** d'etiquetar a Zenodo (concept DOI `10.5281/zenodo.23823818` inalterat).
+- **DOI de versió V1.3.1:** `10.5281/zenodo.24392765` (concept DOI `10.5281/zenodo.23823818` inalterat).
 
 ### F0 · Neteja i coherència inicial
 
@@ -341,6 +341,6 @@ instruments d'avaluació estructurats).
 ## Notes sobre el versionat
 
 - **Concept DOI:** [10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818) — sempre apunta a l'última versió del projecte. **Recomanat per a citacions generals**, per a headers de documents i per al badge del README.
-- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`; V1.3 = `10.5281/zenodo.23964880`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
+- **DOI de versió:** cada release a GitHub genera un DOI de versió nou (V1.1 = `10.5281/zenodo.23823819`; V1.2 = `10.5281/zenodo.23888081`; V1.3 = `10.5281/zenodo.23964880`; V1.3.1 = `10.5281/zenodo.24392765`). **Recomanat per a citacions que hagin de ser reproduïbles en una versió concreta.**
 - **Política del kit:** els headers i peus dels documents fan servir el **concept DOI** (descriuen el projecte, no una versió). Les **citacions APA/BibTeX de versió** (README, CONTRIBUTING, 00-index, article d'eDigital) fan servir el **DOI de versió** corresponent.
 - **Format del badge Zenodo:** `https://zenodo.org/badge/DOI/10.5281/zenodo.<id>.svg`. El format `https://zenodo.org/badge/<id>.svg` **no és vàlid** (retorna 404).

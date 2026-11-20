@@ -245,7 +245,7 @@ Un projecte públic ha de ser transparent amb les seves febleses. L'OKF Starter 
 * **Plantilles, documentació i exemples curriculars:** **Creative Commons Reconeixement-CompartirIgual 4.0 (CC BY-SA 4.0)**.
 
 **Com citar el projecte (APA 7a edició):**
-> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.3) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.23964880
+> Montañà Piqué, J. (2026). *OKF Starter Kit: una proposta de sistema operatiu per al coneixement curricular docent* (V1.3.1) [Programari]. Zenodo. https://doi.org/10.5281/zenodo.24392765
 
 *(Per citar el concepte global del projecte de manera independent de la versió: [https://doi.org/10.5281/zenodo.23823818](https://doi.org/10.5281/zenodo.23823818)).*
 
